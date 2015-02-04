@@ -1,4 +1,4 @@
-package com.example.mathieu.mapsters;
+package delta.soen390.mapsters;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;

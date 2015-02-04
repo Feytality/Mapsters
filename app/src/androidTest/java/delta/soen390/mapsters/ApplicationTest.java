@@ -1,4 +1,4 @@
-package com.example.mathieu.mapsters;
+package delta.soen390.mapsters;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
