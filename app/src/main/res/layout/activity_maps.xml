@@ -1,47 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ViewSwitcher
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/mapSwitcher" >
-        <!-- 45.458565,-73.640064 LOY -->
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:map="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-            android:layout_height="match_parent" android:id="@+id/map"
-            tools:context="delta.soen390.mapsters.MapsActivity"
-            map:cameraTargetLat="45.458565"
-            map:cameraTargetLng="-73.640064"
-            map:cameraZoom="17"
-            android:name="com.google.android.gms.maps.SupportMapFragment" />
+        android:gravity="bottom"
+        >
 
-        <!--45.497174,-73.578835,17z SGW-->
-        <fragment
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:map="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ViewSwitcher
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/mapSwitcher" >
+                <!-- 45.458565,-73.640064 LOY -->
+                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/map"
+                    tools:context="delta.soen390.mapsters.MapsActivity"
+                    map:cameraTargetLat="45.458565"
+                    map:cameraTargetLng="-73.640064"
+                    map:cameraZoom="17"
+                    android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+                <!--45.497174,-73.578835,17z SGW-->
+                <fragment
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    map:cameraTargetLat="45.497174"
+                    map:cameraTargetLng="-73.578835"
+                    map:cameraZoom="17"
+                    tools:context="delta.soen390.mapsters.SgwMapsActivity"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:id="@+id/fragment" />
+            </ViewSwitcher>
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/campusSwitch"
+                android:checked="false"
+                android:textOn="SGW"
+                android:textOff="LOY"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="47dp"
+                android:padding="10dp" />
+
+        </RelativeLayout>
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            map:cameraTargetLat="45.497174"
-            map:cameraTargetLng="-73.578835"
-            map:cameraZoom="17"
-            tools:context="delta.soen390.mapsters.SgwMapsActivity"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:id="@+id/fragment" />
-    </ViewSwitcher>
-
-    <Switch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/campusSwitch"
-        android:checked="false"
-        android:textOn="SGW"
-        android:textOff="LOY"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp"
-        android:padding="10dp" />
-
+            android:gravity="center|top"
+            android:text="The Awesome Sliding Up Panel, HOLY SHIT!"
+            android:textSize="16sp" />
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </RelativeLayout>
