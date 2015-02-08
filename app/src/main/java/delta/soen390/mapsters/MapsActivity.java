@@ -1,22 +1,55 @@
 package delta.soen390.mapsters;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private ViewSwitcher _mapSwitcher;
+    private Switch _campusSwitch;
+    Animation _slide_in_left, _slide_out_right;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+
+        //hook up UI
+        _campusSwitch = (Switch)findViewById(R.id.campusSwitch);
+        _mapSwitcher = (ViewSwitcher) findViewById(R.id.mapSwitcher);
+        _slide_in_left = AnimationUtils.loadAnimation(this,
+                android.R.anim.slide_in_left);
+        _slide_out_right = AnimationUtils.loadAnimation(this,
+                android.R.anim.slide_out_right);
+        _mapSwitcher.setInAnimation(_slide_in_left);
+        _mapSwitcher.setOutAnimation(_slide_out_right);
+
+        if (_campusSwitch != null) {
+            _campusSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        Toast.makeText(MapsActivity.this, "Show SGW Map", Toast.LENGTH_SHORT).show();
+                        _mapSwitcher.showNext();
+                    } else {
+                        Toast.makeText(MapsActivity.this, "Show Loyola Map", Toast.LENGTH_SHORT).show();
+                        _mapSwitcher.showPrevious();
+                    }
+                }
+            });
+        }
+
     }
 
     @Override
@@ -60,6 +93,7 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        // leaving comment here for reference. pls don't shoot me.
+        //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
     }
 }
