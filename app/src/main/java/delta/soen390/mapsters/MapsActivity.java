@@ -1,12 +1,24 @@
 package delta.soen390.mapsters;
 
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import android.support.v4.app.FragmentActivity;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -14,16 +26,31 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
-public class MapsActivity extends FragmentActivity {
+public class MapsActivity extends FragmentActivity implements LocationListener, LocationSource {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private ViewSwitcher mMapSwitcher;
+    private Switch mCampusSwitch;
+    private Animation slideInLeft, slideOutRight;
+
+    private OnLocationChangedListener mListener;
+    private LocationManager locationManager;
+
+    private boolean debug = false;
+
     private SlidingUpPanelLayout mLayout;
     private static final String TAG = "DemoActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps);
+
+        determineGpsEnabled();
+
         setContentView(R.layout.slide);
         setUpMapIfNeeded();
+
+        hookUpSwitch();
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setAnchorPoint(0.50f);
@@ -84,10 +111,84 @@ public class MapsActivity extends FragmentActivity {
 
     }
 
+    /**
+     * Responsible for determining if the GPS functionality is disabled on the device.
+     */
+    public void determineGpsEnabled() {
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        if(locationManager != null) {
+            boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            boolean networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            if(gpsEnabled) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000L, 10F, this);
+            }
+            else if(networkEnabled) {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000L, 10F, this);
+            }
+            else {
+                Toast.makeText(MapsActivity.this, "GPS is disabled on this device.", Toast.LENGTH_SHORT).show();
+                mMapSwitcher.showNext();
+            }
+        }
+        else {
+            Toast.makeText(MapsActivity.this, "Location Manager is null.", Toast.LENGTH_SHORT).show();
+            mMapSwitcher.showNext();
+        }
+
+    }
+
+    /**
+     * Responsible for adding the switch of both campuses (SGW and Loyola), and the functionality
+     * of viewing these campuses on the map.
+     */
+    private void hookUpSwitch() {
+        mCampusSwitch = (Switch)findViewById(R.id.campusSwitch);
+        mMapSwitcher = (ViewSwitcher) findViewById(R.id.mapSwitcher);
+
+        slideInLeft = AnimationUtils.loadAnimation(this,
+                android.R.anim.slide_in_left);
+        slideOutRight = AnimationUtils.loadAnimation(this,
+                android.R.anim.slide_out_right);
+
+        mMapSwitcher.setInAnimation(slideInLeft);
+        mMapSwitcher.setOutAnimation(slideOutRight);
+
+        if (mCampusSwitch != null) {
+            mCampusSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        Toast.makeText(MapsActivity.this, "Show SGW Map", Toast.LENGTH_SHORT).show();
+                        mMapSwitcher.showNext();
+                    } else {
+                        Toast.makeText(MapsActivity.this, "Show Loyola Map", Toast.LENGTH_SHORT).show();
+                        mMapSwitcher.showPrevious();
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onPause()
+    {
+        if(locationManager != null) {
+            locationManager.removeUpdates(this);
+        }
+
+        super.onPause();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+
+        if(locationManager != null)  {
+            mMap.setMyLocationEnabled(true);
+        }
     }
 
     /**
@@ -114,6 +215,7 @@ public class MapsActivity extends FragmentActivity {
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
+                mMap.setLocationSource(this);
             }
         }
     }
@@ -125,7 +227,43 @@ public class MapsActivity extends FragmentActivity {
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        // leaving comment here for reference. pls don't shoot me. *shoots george*
+        //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        mMap.setMyLocationEnabled(true); // Shows location button on top right.
+    }
 
+    @Override
+    public void onLocationChanged(Location location)
+    {
+        if( mListener != null ) {
+            mListener.onLocationChanged(location);
+            // Moves the camera to where the user is positioned.
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+       if(debug) Toast.makeText(this, "Status changed.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        if(debug) Toast.makeText(this, "Provider enabled.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        if(debug) Toast.makeText(this, "Provider disabled.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void activate(OnLocationChangedListener listener) {
+        mListener = listener;
+    }
+
+    @Override
+    public void deactivate() {
+        mListener = null;
     }
 }
