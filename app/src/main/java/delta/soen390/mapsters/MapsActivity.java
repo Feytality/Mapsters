@@ -61,6 +61,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
         hookUpSwitch();
 
+        setBuilding();
+
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setAnchorPoint(0.50f);
         mLayout.setPanelSlideListener(new PanelSlideListener() {
@@ -106,16 +108,56 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
             public void onMapClick(LatLng point) {
                 Log.i(TAG, mLayout.getPanelState().toString());
                 mLayout.setPanelState(PanelState.ANCHORED);
-
-
-
             }
         });
+    }
+
+    public void setBuilding() {
+        //Hall
+        BuildingPolygon hall = new BuildingPolygon(mMap,
+                new LatLng(45.4967893,-73.5788298),
+                new LatLng(45.49737590000001,-73.5782182),
+                new LatLng(45.4980001,-73.5794628),
+                new LatLng(45.4973383,-73.580085),
+                new LatLng(45.4967893, -73.5788298));
+        hall.setVisibility(true);
+        hall.setFillColor(Color.TRANSPARENT);
 
 
+        BuildingPolygon EV = new BuildingPolygon(mMap,
+                new LatLng(45.4951574,-73.5778749),
+                new LatLng(45.4957966,-73.577199),
+                new LatLng(45.496029799999995,-73.5777247),
+                new LatLng(45.495744,-73.57803580000001) ,
+                new LatLng(45.4961426, -73.5789478),
+                new LatLng(45.495728899999996, -73.5792589),
+                new LatLng(45.4951574,-73.5778749));
+        EV.setVisibility(true);
+        EV.setFillColor(Color.TRANSPARENT);
 
 
+        BuildingPolygon LB = new BuildingPolygon(mMap,
+                new LatLng(45.4973571,-73.5781056),
+                new LatLng(45.4967028,-73.5787332),
+                new LatLng(45.4961952, -73.5777193),
+                new LatLng(45.496868299999996, -73.5770649),
+                new LatLng(45.4973571, -73.5781056));
 
+        LB.setVisibility(true);
+        LB.setFillColor(Color.TRANSPARENT);
+
+
+        BuildingPolygon CBuilding = new BuildingPolygon(mMap,
+                new LatLng(45.458445,-73.6407191),
+                new LatLng(45.458302,-73.6408424),
+                new LatLng(45.4580009, -73.6400592),
+                new LatLng(45.4581364, -73.6399519),
+                new LatLng(45.458445,-73.6407191  ));
+
+        CBuilding.setVisibility(true);
+        CBuilding.setFillColor(Color.TRANSPARENT);
+
+        Log.i(TAG,"This is the building method");
 
     }
 
