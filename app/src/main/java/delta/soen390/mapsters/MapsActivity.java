@@ -48,7 +48,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         hookUpSwitch();
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        mLayout.setAnchorPoint(0.50f);
+        mLayout.setAnchorPoint(0.65f);
+        mLayout.setPanelState(PanelState.ANCHORED);
+        mLayout.setPanelHeight(270);
+
         mLayout.setPanelSlideListener(new PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {

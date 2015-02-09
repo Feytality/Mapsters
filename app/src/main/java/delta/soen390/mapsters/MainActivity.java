@@ -38,7 +38,7 @@ private TextView textPointer;
         textPointer= (TextView) findViewById(R.id.campus);
         textPointer.setText("");//
         textPointer= (TextView) findViewById(R.id.building_name);
-        textPointer.setText("");//
+        textPointer.setText("");//poifect
     }
 
 
