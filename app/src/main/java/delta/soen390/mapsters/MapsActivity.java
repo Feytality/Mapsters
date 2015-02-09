@@ -28,11 +28,10 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 public class MapsActivity extends FragmentActivity implements LocationListener, LocationSource {
 
 
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private GoogleMap mMap;// Might be null if Google Play services APK is not available.
     private ViewSwitcher mMapSwitcher;
     private Switch mCampusSwitch;
     private Animation slideInLeft, slideOutRight;
-
     private OnLocationChangedListener mListener;
     private LocationManager locationManager;
 
@@ -44,7 +43,14 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        BuildingInfoRepository.getInstance();
+        BuildingInfoRepository bir = BuildingInfoRepository.getInstance();
+//        BuildingInfo CCINFO = bir.getBuildingInfo("EV");
+//        if (bir.getBuildingInfo("EV") == null) {
+//            Log.e("CCINFO", "FAKKK");
+//        }  else {
+//            Log.e("CCINFO", bir.getBuildingInfo("EV").getBuildingName());
+//        }
+
         determineGpsEnabled();
         setUpMapIfNeeded();
 
@@ -157,7 +163,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        Toast.makeText(MapsActivity.this, "Show SGW Map", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MapsActivity.this, "Show SGW Map", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MapsActivity.this, CCINFO.getCampus() , Toast.LENGTH_SHORT).show();
                         mMapSwitcher.showNext();
                     } else {
                         Toast.makeText(MapsActivity.this, "Show Loyola Map", Toast.LENGTH_SHORT).show();
@@ -185,6 +192,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
         if(locationManager != null)  {
             mMap.setMyLocationEnabled(true);
+
         }
     }
 
