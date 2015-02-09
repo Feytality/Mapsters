@@ -15,9 +15,8 @@ public class BuildingPolygonManager {
 
     private BuildingPolygonManager()
     {
-
+        initialize();
     }
-
 
     public static BuildingPolygonManager getInstance()
     {
@@ -25,18 +24,36 @@ public class BuildingPolygonManager {
     }
     //</editor-fold>
 
-    private ArrayList<BuildingPolygon> mPolygons;
+    private ArrayList<BuildingPolygon> mBuildingPolygons;
 
     public void initialize()
     {
-        //mPolygons = new ArrayList<BuildingPolygon>();
+        mBuildingPolygons  = new ArrayList<BuildingPolygon>();
 
 
     }
 
-    //TODO implement getClickedPolygon
     public BuildingPolygon getClickedPolygon(LatLng point)
     {
+
+        for(int i = 0; i < mBuildingPolygons.size(); ++i)
+        {
+            BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+            if(buildingPolygon.isPointInsidePolygon(point))
+                return buildingPolygon;
+        }
+
+        return null;
+    }
+
+    public BuildingPolygon getBuildingPolygon(String buildingCode)
+    {
+        for(int i = 0; i < mBuildingPolygons.size(); ++i)
+        {
+            BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+            if(buildingPolygon.getBuildingInfo().getBuildingCode().compareTo(buildingCode) == 0)
+                return buildingPolygon;
+        }
         return null;
     }
 
