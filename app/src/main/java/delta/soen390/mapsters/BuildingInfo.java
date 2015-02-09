@@ -6,16 +6,18 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by georgevalergas on 15-02-08.
  */
 public class BuildingInfo {
-    public enum Campus { LOY, SGW }
+//    public enum Campus { LOY, SGW }
     private String mBuildingCode;
     private String mBuildingName;
-    private Campus mCampus;
+    private String mCampus;
 //    TODO Create BuildingServices Class
 //    TODO Create Image member
     private String[] mBuildingServices;
     private LatLng mCoordinates;
 
-    public BuildingInfo(String mBuildingCode, String mBuildingName, Campus mCampus,
+    public BuildingInfo() {}
+
+    public BuildingInfo(String mBuildingCode, String mBuildingName, String mCampus,
                         String[] mBuildingServices, LatLng mCoordinates) {
         this.mBuildingCode = mBuildingCode;
         this.mBuildingName = mBuildingName;
@@ -40,11 +42,11 @@ public class BuildingInfo {
         this.mBuildingName = mBuildingName;
     }
 
-    public Campus getCampus() {
+    public String getCampus() {
         return mCampus;
     }
 
-    public void setCampus(Campus mCampus) {
+    public void setCampus(String mCampus) {
         this.mCampus = mCampus;
     }
 
