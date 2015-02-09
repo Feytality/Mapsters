@@ -7,39 +7,34 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
-
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.internal.IGoogleMapDelegate;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-
-import java.util.ArrayList;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
+
+;
 
 
 public class MapsActivity extends FragmentActivity implements LocationListener, LocationSource {
 
+    private TextView textPointer;
 
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    private GoogleMap mMapLoyola; // Might be null if Google Play services APK is not available.
+    private GoogleMap mMapSgw;
     private ViewSwitcher mMapSwitcher;
     private Switch mCampusSwitch;
     private Animation slideInLeft, slideOutRight;
@@ -48,76 +43,124 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     private LocationManager locationManager;
 
     private boolean debug = false;
-
+    private BuildingInfoRepository bir;
     private SlidingUpPanelLayout mLayout;
     private static final String TAG = "DemoActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
+        bir = BuildingInfoRepository.getInstance();
         determineGpsEnabled();
         setUpMapIfNeeded();
-
         hookUpSwitch();
+        wantSumPoly();
+        canHazMapClick(mMapLoyola);
+        canHazMapClick(mMapSgw);
+
+        setBuilding(mMapLoyola);
+        setBuilding(mMapSgw);
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setAnchorPoint(0.50f);
-        mLayout.setPanelSlideListener(new PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
-                Log.i(TAG, mLayout.getPanelState().toString());
+//        mLayout.setPanelSlideListener(new PanelSlideListener() {
+//            @Override
+//            public void onPanelSlide(View panel, float slideOffset) {
+//                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelExpanded(View panel) {
+//                Log.i(TAG, "onPanelExpanded");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelCollapsed(View panel) {
+//                Log.i(TAG, "onPanelCollapsed");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelAnchored(View panel) {
+//                Log.i(TAG, "onPanelAnchored");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelHidden(View panel) {
+//                Log.i(TAG, "onPanelHidden");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//        });
+//
+//        mMapLoyola.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//
+//            @Override
+//            public void onMapClick(LatLng point) {
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//                mLayout.setPanelState(PanelState.ANCHORED);
+//            }
+//        });
+    }
 
-            }
-
-            @Override
-            public void onPanelExpanded(View panel) {
-                Log.i(TAG, "onPanelExpanded");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelCollapsed(View panel) {
-                Log.i(TAG, "onPanelCollapsed");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelAnchored(View panel) {
-                Log.i(TAG, "onPanelAnchored");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelHidden(View panel) {
-                Log.i(TAG, "onPanelHidden");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-        });
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
-            @Override
-            public void onMapClick(LatLng point) {
-                Log.i(TAG, mLayout.getPanelState().toString());
-                mLayout.setPanelState(PanelState.ANCHORED);
+    public void setBuilding(GoogleMap map) {
+        //Hall
+        BuildingPolygon hall = new BuildingPolygon(map,
+                new LatLng(45.4967893,-73.5788298),
+                new LatLng(45.49737590000001,-73.5782182),
+                new LatLng(45.4980001,-73.5794628),
+                new LatLng(45.4973383,-73.580085),
+                new LatLng(45.4967893, -73.5788298));
+        hall.setVisibility(true);
+        hall.setFillColor(Color.TRANSPARENT);
 
 
 
-            }
-        });
+        BuildingPolygon EV = new BuildingPolygon(map,
+                new LatLng(45.4951574,-73.5778749),
+                new LatLng(45.4957966,-73.577199),
+                new LatLng(45.496029799999995,-73.5777247),
+                new LatLng(45.495744,-73.57803580000001) ,
+                new LatLng(45.4961426, -73.5789478),
+                new LatLng(45.495728899999996, -73.5792589),
+                new LatLng(45.4951574,-73.5778749));
+        EV.setVisibility(true);
+        EV.setFillColor(Color.TRANSPARENT);
 
 
 
+        BuildingPolygon LB = new BuildingPolygon(map,
+                new LatLng(45.4973571,-73.5781056),
+                new LatLng(45.4967028,-73.5787332),
+                new LatLng(45.4961952, -73.5777193),
+                new LatLng(45.496868299999996, -73.5770649),
+                new LatLng(45.4973571, -73.5781056));
+
+        LB.setVisibility(true);
+        LB.setFillColor(Color.TRANSPARENT);
 
 
+        BuildingPolygon CBuilding = new BuildingPolygon(map,
+                new LatLng(45.458445,-73.6407191),
+                new LatLng(45.458302,-73.6408424),
+                new LatLng(45.4580009, -73.6400592),
+                new LatLng(45.4581364, -73.6399519),
+                new LatLng(45.458445,-73.6407191  ));
+
+        CBuilding.setVisibility(true);
+        CBuilding.setFillColor(Color.TRANSPARENT);
+
+        Log.i(TAG,"This is the building method");
 
     }
+
 
     /**
      * Responsible for determining if the GPS functionality is disabled on the device.
@@ -195,14 +238,15 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         setUpMapIfNeeded();
 
         if(locationManager != null)  {
-            mMap.setMyLocationEnabled(true);
+            mMapLoyola.setMyLocationEnabled(true);
+
         }
     }
 
     /**
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMap} is not null.
+     * call {@link #setUpMap()} once when {@link #mMapLoyola} is not null.
      * <p/>
      * If it isn't installed {@link SupportMapFragment} (and
      * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
@@ -216,14 +260,17 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
      */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
+        if (mMapLoyola == null || mMapSgw == null) {
             // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+            mMapLoyola = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_loy))
+                    .getMap();
+            mMapSgw = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_sgw))
                     .getMap();
             // Check if we were successful in obtaining the map.
-            if (mMap != null) {
+            if (mMapLoyola != null || mMapSgw == null) {
                 setUpMap();
-                mMap.setLocationSource(this);
+                mMapLoyola.setLocationSource(this);
+                mMapSgw.setLocationSource(this);
             }
         }
     }
@@ -232,12 +279,13 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
      * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
+     * This should only be called once and when we are sure that {@link #mMapLoyola} is not null.
      */
     private void setUpMap() {
-        // leaving comment here for reference. pls don't shoot me. *shoots george*
-        //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-        mMap.setMyLocationEnabled(true); // Shows location button on top right.
+        // leaving comment here for reference. pls don't shoot me. *shoots george* <-lel
+        //        mMapLoyola.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        mMapLoyola.setMyLocationEnabled(true); // Shows location button on top right.
+        mMapSgw.setMyLocationEnabled(true);
     }
 
     @Override
@@ -246,7 +294,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         if( mListener != null ) {
             mListener.onLocationChanged(location);
             // Moves the camera to where the user is positioned.
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+            mMapLoyola.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+            mMapSgw.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
         }
     }
 
@@ -274,5 +323,86 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     public void deactivate() {
         mListener = null;
     }
+
+
+    private void wantSumPoly(){
+        PolygonOptions rectOptions = new PolygonOptions()
+                .add(new LatLng(45.4973721,-73.5783416),
+                        new LatLng(45.4976993,-73.5790229),
+                        new LatLng(45.4971691,-73.5795432),
+                        new LatLng(45.4968344,-73.5788566),
+                        new LatLng(45.4973721,-73.5783416));
+
+// Get back the mutable Polygon
+        Polygon polygon = mMapLoyola.addPolygon(rectOptions);
+        mMapSgw.addPolygon(rectOptions);
+        //EV
+        PolygonOptions rectOptions2 = new PolygonOptions().fillColor(Color.argb(255,145,30,53))
+                .add(new LatLng(45.49557480000001, -73.5788512),
+                        new LatLng(45.4951912, -73.5779071),
+                        new LatLng(45.4954319, -73.5776603),
+                        new LatLng(45.49584930000001, -73.5785776),
+                        new LatLng(45.49557480000001, -73.5788512));
+
+// Get back the mutable Polygon
+        Polygon polygon2 = mMapLoyola.addPolygon(rectOptions2);
+        mMapSgw.addPolygon(rectOptions2);
+
+
+
+    }
+
+    private void canHazMapClick(GoogleMap map){
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng point) {
+                Log.d("Map", point.toString());
+                Toast.makeText(getApplicationContext(), isConU(point),
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
+    private String isConU(LatLng point){
+        boolean isEV = (point.latitude < 45.49584930000001 && point.latitude > 45.4951912
+                && point.longitude > -73.5788512 && point.longitude < -73.5776603);
+        boolean isH = (point.latitude < 45.4976993 && point.latitude > 45.4968344
+                && point.longitude > -73.5795432 && point.longitude < -73.5783416);
+        if (isEV) {
+            loadBuildingInfo(bir.getBuildingInfo("EV"));
+        }
+        if (isH) {
+            loadBuildingInfo(bir.getBuildingInfo("H"));
+        }
+        return point.toString();
+    }
+
+    public void loadBuildingInfo(BuildingInfo buildingInfo){//uses building info
+        loadHeadings(buildingInfo);
+        loadServices();
+
+    }
+    //TODO pass in Service object
+    private void loadServices(){
+
+        //for(int i=0;i<buildinginfo.length;i++) {
+        textPointer = (TextView) findViewById(R.id.t1);
+        textPointer.setText(getResources().getText(R.string.t1));
+        textPointer.setMovementMethod(LinkMovementMethod.getInstance());
+
+        //}
+    }
+    private void loadHeadings(BuildingInfo buildingInfo){
+        textPointer= (TextView) findViewById(R.id.building_code);
+        textPointer.setText(buildingInfo.getBuildingCode());//
+        textPointer= (TextView) findViewById(R.id.campus);
+        textPointer.setText(buildingInfo.getCampus());//
+        textPointer= (TextView) findViewById(R.id.building_name);
+        textPointer.setText(buildingInfo.getBuildingName());//poifect
+    }
+
 }
 
