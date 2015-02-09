@@ -1,11 +1,7 @@
 package delta.soen390.mapsters;
 
-import android.graphics.Point;
-import android.view.MotionEvent;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
@@ -16,7 +12,7 @@ import java.util.ArrayList;
  */
 public class BuildingPolygon {
 
-
+    private BuildingInfo mBuildingInfo;
 
 	//Contains the 4 rectangle corner of the Building Rectangle
 	private ArrayList<LatLng> _vertices;
@@ -94,6 +90,9 @@ public class BuildingPolygon {
 					point.longitude));
 	}
 
+    public BuildingInfo getBuildingInfo() {
+        return mBuildingInfo;
+    }
 
 
 }
