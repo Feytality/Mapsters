@@ -5,7 +5,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
-    <string name="building">MB</string>
-    <string name="t1"><a href="http://www.google.com">Google</a></string>
-    <string name="t2"><a href="http://www.lifehacker.com">Cuntz</a></string>
+
+
 </resources>
