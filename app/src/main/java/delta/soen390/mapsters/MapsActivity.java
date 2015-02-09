@@ -7,37 +7,32 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
-
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.internal.IGoogleMapDelegate;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-
-import java.util.ArrayList;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
+
+;
 
 
 public class MapsActivity extends FragmentActivity implements LocationListener, LocationSource {
 
+    private TextView textPointer;
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private ViewSwitcher mMapSwitcher;
@@ -60,67 +55,90 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         setUpMapIfNeeded();
 
         hookUpSwitch();
+        //
+ wantSumPoly();
+        canHazMapClick();
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setAnchorPoint(0.65f);
         mLayout.setPanelState(PanelState.ANCHORED);
         mLayout.setPanelHeight(270);
+        
+//        mLayout.setPanelSlideListener(new PanelSlideListener() {
+//            @Override
+//            public void onPanelSlide(View panel, float slideOffset) {
+//                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelExpanded(View panel) {
+//                Log.i(TAG, "onPanelExpanded");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelCollapsed(View panel) {
+//                Log.i(TAG, "onPanelCollapsed");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelAnchored(View panel) {
+//                Log.i(TAG, "onPanelAnchored");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelHidden(View panel) {
+//                Log.i(TAG, "onPanelHidden");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//        });
+//
+  BuildingPolygon LB = new BuildingPolygon(mMap,
+                new LatLng(45.4973571,-73.5781056),
+                new LatLng(45.4967028,-73.5787332),
+                new LatLng(45.4961952, -73.5777193),
+                new LatLng(45.496868299999996, -73.5770649),
+                new LatLng(45.4973571, -73.5781056));
 
-        mLayout.setPanelSlideListener(new PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelExpanded(View panel) {
-                Log.i(TAG, "onPanelExpanded");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelCollapsed(View panel) {
-                Log.i(TAG, "onPanelCollapsed");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelAnchored(View panel) {
-                Log.i(TAG, "onPanelAnchored");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelHidden(View panel) {
-                Log.i(TAG, "onPanelHidden");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-        });
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
-            @Override
-            public void onMapClick(LatLng point) {
-                Log.i(TAG, mLayout.getPanelState().toString());
-                mLayout.setPanelState(PanelState.ANCHORED);
-
-
-
-            }
-        });
+        LB.setVisibility(true);
+        LB.setFillColor(Color.TRANSPARENT);
 
 
+        BuildingPolygon CBuilding = new BuildingPolygon(mMap,
+                new LatLng(45.458445,-73.6407191),
+                new LatLng(45.458302,-73.6408424),
+                new LatLng(45.4580009, -73.6400592),
+                new LatLng(45.4581364, -73.6399519),
+                new LatLng(45.458445,-73.6407191  ));
 
+        CBuilding.setVisibility(true);
+        CBuilding.setFillColor(Color.TRANSPARENT);
 
-
+        Log.i(TAG,"This is the building method");
 
     }
+
+    public void setBuilding() {
+        //Hall
+        BuildingPolygon hall = new BuildingPolygon(mMap,
+                new LatLng(45.4967893,-73.5788298),
+                new LatLng(45.49737590000001,-73.5782182),
+                new LatLng(45.4980001,-73.5794628),
+                new LatLng(45.4973383,-73.580085),
+                new LatLng(45.4967893, -73.5788298));
+        hall.setVisibility(true);
+        hall.setFillColor(Color.TRANSPARENT);
+
+    }
+
 
     /**
      * Responsible for determining if the GPS functionality is disabled on the device.
@@ -199,6 +217,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
         if(locationManager != null)  {
             mMap.setMyLocationEnabled(true);
+
         }
     }
 
@@ -277,5 +296,79 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     public void deactivate() {
         mListener = null;
     }
+
+
+    private void wantSumPoly(){
+        PolygonOptions rectOptions = new PolygonOptions()
+                .add(new LatLng(45.4973721,-73.5783416),
+                        new LatLng(45.4976993,-73.5790229),
+                        new LatLng(45.4971691,-73.5795432),
+                        new LatLng(45.4968344,-73.5788566),
+                        new LatLng(45.4973721,-73.5783416));
+
+// Get back the mutable Polygon
+        Polygon polygon = mMap.addPolygon(rectOptions);
+        //EV
+        PolygonOptions rectOptions2 = new PolygonOptions().fillColor(Color.argb(255,145,30,53))
+                .add(new LatLng(45.49557480000001, -73.5788512),
+                        new LatLng(45.4951912, -73.5779071),
+                        new LatLng(45.4954319, -73.5776603),
+                        new LatLng(45.49584930000001, -73.5785776),
+                        new LatLng(45.49557480000001, -73.5788512));
+
+// Get back the mutable Polygon
+        Polygon polygon2 = mMap.addPolygon(rectOptions2);
+
+
+
+    }
+
+    private void canHazMapClick(){
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+            @Override
+            public void onMapClick(LatLng point) {
+                Log.d("Map", point.toString());
+                Toast.makeText(getApplicationContext(), isConU(point),
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
+    private String isConU(LatLng point){
+        if (point.latitude<45.49584930000001&&point.latitude>45.4951912
+                && point.longitude>-73.5788512 && point.longitude<-73.5776603){
+            return "This is EV Bitch!";
+        }
+
+        return "You...uh.. missed";
+    }
+
+    public void loadBuildingInfo(){//uses building info
+        loadHeadings();
+        loadServices();
+
+    }
+
+    private void loadServices(){
+
+        //for(int i=0;i<buildinginfo.length;i++) {
+        textPointer = (TextView) findViewById(R.id.t1);
+        textPointer.setText(getResources().getText(R.string.t1));
+        textPointer.setMovementMethod(LinkMovementMethod.getInstance());
+
+        //}
+    }
+    private void loadHeadings(){
+        textPointer= (TextView) findViewById(R.id.building_code);
+        textPointer.setText("");//
+        textPointer= (TextView) findViewById(R.id.campus);
+        textPointer.setText("");//
+        textPointer= (TextView) findViewById(R.id.building_name);
+        textPointer.setText("");//poifect
+    }
+
 }
 
