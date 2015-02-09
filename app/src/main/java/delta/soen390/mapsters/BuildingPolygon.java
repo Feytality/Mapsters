@@ -81,7 +81,7 @@ public class BuildingPolygon {
 	}
 
 
-	public boolean isPointInsideRectangle(LatLng point)
+	public boolean isPointInsidePolygon(LatLng point)
 	{
 		//Test if point is inside box
 		return _boundingBox2D.isPointInsideBoundingBox(
