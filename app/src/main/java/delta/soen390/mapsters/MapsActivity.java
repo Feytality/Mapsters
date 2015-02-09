@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
@@ -16,6 +17,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
+
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,6 +52,8 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        BuildingInfoRepository bir = BuildingInfoRepository.getInstance();
+
 
         determineGpsEnabled();
         setUpMapIfNeeded();
@@ -59,11 +63,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
  wantSumPoly();
         canHazMapClick();
 
+        setBuilding();
+
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        mLayout.setAnchorPoint(0.65f);
-        mLayout.setPanelState(PanelState.ANCHORED);
-        mLayout.setPanelHeight(270);
-        
+        mLayout.setAnchorPoint(0.50f);
 //        mLayout.setPanelSlideListener(new PanelSlideListener() {
 //            @Override
 //            public void onPanelSlide(View panel, float slideOffset) {
@@ -101,7 +104,49 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 //            }
 //        });
 //
-  BuildingPolygon LB = new BuildingPolygon(mMap,
+//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//
+//            @Override
+//            public void onMapClick(LatLng point) {
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//                mLayout.setPanelState(PanelState.ANCHORED);
+//            }
+//        });
+    }
+
+    public void setBuilding() {
+        //Hall
+        BuildingPolygon hall = new BuildingPolygon(mMap,
+                new LatLng(45.4967893,-73.5788298),
+                new LatLng(45.49737590000001,-73.5782182),
+                new LatLng(45.4980001,-73.5794628),
+                new LatLng(45.4973383,-73.580085),
+                new LatLng(45.4967893, -73.5788298));
+        hall.setVisibility(true);
+        hall.setFillColor(Color.TRANSPARENT);
+
+            @Override
+            public void onPanelExpanded(View panel) {
+                Log.i(TAG, "onPanelExpanded");
+                Log.i(TAG, mLayout.getPanelState().toString());
+
+        BuildingPolygon EV = new BuildingPolygon(mMap,
+                new LatLng(45.4951574,-73.5778749),
+                new LatLng(45.4957966,-73.577199),
+                new LatLng(45.496029799999995,-73.5777247),
+                new LatLng(45.495744,-73.57803580000001) ,
+                new LatLng(45.4961426, -73.5789478),
+                new LatLng(45.495728899999996, -73.5792589),
+                new LatLng(45.4951574,-73.5778749));
+        EV.setVisibility(true);
+        EV.setFillColor(Color.TRANSPARENT);
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                Log.i(TAG, "onPanelCollapsed");
+                Log.i(TAG, mLayout.getPanelState().toString());
+
+        BuildingPolygon LB = new BuildingPolygon(mMap,
                 new LatLng(45.4973571,-73.5781056),
                 new LatLng(45.4967028,-73.5787332),
                 new LatLng(45.4961952, -73.5777193),
@@ -123,19 +168,6 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         CBuilding.setFillColor(Color.TRANSPARENT);
 
         Log.i(TAG,"This is the building method");
-
-    }
-
-    public void setBuilding() {
-        //Hall
-        BuildingPolygon hall = new BuildingPolygon(mMap,
-                new LatLng(45.4967893,-73.5788298),
-                new LatLng(45.49737590000001,-73.5782182),
-                new LatLng(45.4980001,-73.5794628),
-                new LatLng(45.4973383,-73.580085),
-                new LatLng(45.4967893, -73.5788298));
-        hall.setVisibility(true);
-        hall.setFillColor(Color.TRANSPARENT);
 
     }
 
