@@ -1,13 +1,13 @@
 package delta.soen390.mapsters;
 
 
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
@@ -21,8 +21,6 @@ import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
 
 public class MapsActivity extends FragmentActivity implements LocationListener, LocationSource {
@@ -44,12 +42,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         BuildingInfoRepository bir = BuildingInfoRepository.getInstance();
-//        BuildingInfo CCINFO = bir.getBuildingInfo("EV");
-//        if (bir.getBuildingInfo("EV") == null) {
-//            Log.e("CCINFO", "FAKKK");
-//        }  else {
-//            Log.e("CCINFO", bir.getBuildingInfo("EV").getBuildingName());
-//        }
+
 
         determineGpsEnabled();
         setUpMapIfNeeded();
@@ -60,51 +53,51 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setAnchorPoint(0.50f);
-        mLayout.setPanelSlideListener(new PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelExpanded(View panel) {
-                Log.i(TAG, "onPanelExpanded");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelCollapsed(View panel) {
-                Log.i(TAG, "onPanelCollapsed");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelAnchored(View panel) {
-                Log.i(TAG, "onPanelAnchored");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelHidden(View panel) {
-                Log.i(TAG, "onPanelHidden");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-        });
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
-            @Override
-            public void onMapClick(LatLng point) {
-                Log.i(TAG, mLayout.getPanelState().toString());
-                mLayout.setPanelState(PanelState.ANCHORED);
-            }
-        });
+//        mLayout.setPanelSlideListener(new PanelSlideListener() {
+//            @Override
+//            public void onPanelSlide(View panel, float slideOffset) {
+//                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelExpanded(View panel) {
+//                Log.i(TAG, "onPanelExpanded");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelCollapsed(View panel) {
+//                Log.i(TAG, "onPanelCollapsed");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelAnchored(View panel) {
+//                Log.i(TAG, "onPanelAnchored");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelHidden(View panel) {
+//                Log.i(TAG, "onPanelHidden");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//        });
+//
+//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//
+//            @Override
+//            public void onMapClick(LatLng point) {
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//                mLayout.setPanelState(PanelState.ANCHORED);
+//            }
+//        });
     }
 
     public void setBuilding() {
@@ -205,8 +198,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-//                        Toast.makeText(MapsActivity.this, "Show SGW Map", Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(MapsActivity.this, CCINFO.getCampus() , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MapsActivity.this, "Show SGW Map", Toast.LENGTH_SHORT).show();
                         mMapSwitcher.showNext();
                     } else {
                         Toast.makeText(MapsActivity.this, "Show Loyola Map", Toast.LENGTH_SHORT).show();
