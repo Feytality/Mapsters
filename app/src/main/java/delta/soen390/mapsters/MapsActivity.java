@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
@@ -16,6 +17,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
+
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
 ;
 
@@ -33,8 +36,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
     private TextView textPointer;
 
-    private GoogleMap mMapLoyola; // Might be null if Google Play services APK is not available.
-    private GoogleMap mMapSgw;
+    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private ViewSwitcher mMapSwitcher;
     private Switch mCampusSwitch;
     private Animation slideInLeft, slideOutRight;
@@ -43,23 +45,25 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     private LocationManager locationManager;
 
     private boolean debug = false;
-    private BuildingInfoRepository bir;
+
     private SlidingUpPanelLayout mLayout;
     private static final String TAG = "DemoActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        bir = BuildingInfoRepository.getInstance();
+        BuildingInfoRepository bir = BuildingInfoRepository.getInstance();
+
+
         determineGpsEnabled();
         setUpMapIfNeeded();
-        hookUpSwitch();
-        wantSumPoly();
-        canHazMapClick(mMapLoyola);
-        canHazMapClick(mMapSgw);
 
-        setBuilding(mMapLoyola);
-        setBuilding(mMapSgw);
+        hookUpSwitch();
+        //
+ wantSumPoly();
+        canHazMapClick();
+
+        setBuilding();
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setAnchorPoint(0.50f);
@@ -100,7 +104,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 //            }
 //        });
 //
-//        mMapLoyola.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 //
 //            @Override
 //            public void onMapClick(LatLng point) {
@@ -110,9 +114,9 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 //        });
     }
 
-    public void setBuilding(GoogleMap map) {
+    public void setBuilding() {
         //Hall
-        BuildingPolygon hall = new BuildingPolygon(map,
+        BuildingPolygon hall = new BuildingPolygon(mMap,
                 new LatLng(45.4967893,-73.5788298),
                 new LatLng(45.49737590000001,-73.5782182),
                 new LatLng(45.4980001,-73.5794628),
@@ -121,9 +125,12 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         hall.setVisibility(true);
         hall.setFillColor(Color.TRANSPARENT);
 
+            @Override
+            public void onPanelExpanded(View panel) {
+                Log.i(TAG, "onPanelExpanded");
+                Log.i(TAG, mLayout.getPanelState().toString());
 
-
-        BuildingPolygon EV = new BuildingPolygon(map,
+        BuildingPolygon EV = new BuildingPolygon(mMap,
                 new LatLng(45.4951574,-73.5778749),
                 new LatLng(45.4957966,-73.577199),
                 new LatLng(45.496029799999995,-73.5777247),
@@ -134,9 +141,12 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         EV.setVisibility(true);
         EV.setFillColor(Color.TRANSPARENT);
 
+            @Override
+            public void onPanelCollapsed(View panel) {
+                Log.i(TAG, "onPanelCollapsed");
+                Log.i(TAG, mLayout.getPanelState().toString());
 
-
-        BuildingPolygon LB = new BuildingPolygon(map,
+        BuildingPolygon LB = new BuildingPolygon(mMap,
                 new LatLng(45.4973571,-73.5781056),
                 new LatLng(45.4967028,-73.5787332),
                 new LatLng(45.4961952, -73.5777193),
@@ -147,7 +157,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         LB.setFillColor(Color.TRANSPARENT);
 
 
-        BuildingPolygon CBuilding = new BuildingPolygon(map,
+        BuildingPolygon CBuilding = new BuildingPolygon(mMap,
                 new LatLng(45.458445,-73.6407191),
                 new LatLng(45.458302,-73.6408424),
                 new LatLng(45.4580009, -73.6400592),
@@ -238,7 +248,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         setUpMapIfNeeded();
 
         if(locationManager != null)  {
-            mMapLoyola.setMyLocationEnabled(true);
+            mMap.setMyLocationEnabled(true);
 
         }
     }
@@ -246,7 +256,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     /**
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
      * installed) and the map has not already been instantiated.. This will ensure that we only ever
-     * call {@link #setUpMap()} once when {@link #mMapLoyola} is not null.
+     * call {@link #setUpMap()} once when {@link #mMap} is not null.
      * <p/>
      * If it isn't installed {@link SupportMapFragment} (and
      * {@link com.google.android.gms.maps.MapView MapView}) will show a prompt for the user to
@@ -260,17 +270,14 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
      */
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
-        if (mMapLoyola == null || mMapSgw == null) {
+        if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
-            mMapLoyola = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_loy))
-                    .getMap();
-            mMapSgw = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_sgw))
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
             // Check if we were successful in obtaining the map.
-            if (mMapLoyola != null || mMapSgw == null) {
+            if (mMap != null) {
                 setUpMap();
-                mMapLoyola.setLocationSource(this);
-                mMapSgw.setLocationSource(this);
+                mMap.setLocationSource(this);
             }
         }
     }
@@ -279,13 +286,12 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
      * <p/>
-     * This should only be called once and when we are sure that {@link #mMapLoyola} is not null.
+     * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
     private void setUpMap() {
-        // leaving comment here for reference. pls don't shoot me. *shoots george* <-lel
-        //        mMapLoyola.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-        mMapLoyola.setMyLocationEnabled(true); // Shows location button on top right.
-        mMapSgw.setMyLocationEnabled(true);
+        // leaving comment here for reference. pls don't shoot me. *shoots george*
+        //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        mMap.setMyLocationEnabled(true); // Shows location button on top right.
     }
 
     @Override
@@ -294,8 +300,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         if( mListener != null ) {
             mListener.onLocationChanged(location);
             // Moves the camera to where the user is positioned.
-            mMapLoyola.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
-            mMapSgw.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
         }
     }
 
@@ -334,8 +339,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
                         new LatLng(45.4973721,-73.5783416));
 
 // Get back the mutable Polygon
-        Polygon polygon = mMapLoyola.addPolygon(rectOptions);
-        mMapSgw.addPolygon(rectOptions);
+        Polygon polygon = mMap.addPolygon(rectOptions);
         //EV
         PolygonOptions rectOptions2 = new PolygonOptions().fillColor(Color.argb(255,145,30,53))
                 .add(new LatLng(45.49557480000001, -73.5788512),
@@ -345,15 +349,14 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
                         new LatLng(45.49557480000001, -73.5788512));
 
 // Get back the mutable Polygon
-        Polygon polygon2 = mMapLoyola.addPolygon(rectOptions2);
-        mMapSgw.addPolygon(rectOptions2);
+        Polygon polygon2 = mMap.addPolygon(rectOptions2);
 
 
 
     }
 
-    private void canHazMapClick(GoogleMap map){
-        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+    private void canHazMapClick(){
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
             public void onMapClick(LatLng point) {
@@ -367,25 +370,20 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     }
 
     private String isConU(LatLng point){
-        boolean isEV = (point.latitude < 45.49584930000001 && point.latitude > 45.4951912
-                && point.longitude > -73.5788512 && point.longitude < -73.5776603);
-        boolean isH = (point.latitude < 45.4976993 && point.latitude > 45.4968344
-                && point.longitude > -73.5795432 && point.longitude < -73.5783416);
-        if (isEV) {
-            loadBuildingInfo(bir.getBuildingInfo("EV"));
+        if (point.latitude<45.49584930000001&&point.latitude>45.4951912
+                && point.longitude>-73.5788512 && point.longitude<-73.5776603){
+            return "This is EV Bitch!";
         }
-        if (isH) {
-            loadBuildingInfo(bir.getBuildingInfo("H"));
-        }
-        return point.toString();
+
+        return "You...uh.. missed";
     }
 
-    public void loadBuildingInfo(BuildingInfo buildingInfo){//uses building info
-        loadHeadings(buildingInfo);
+    public void loadBuildingInfo(){//uses building info
+        loadHeadings();
         loadServices();
 
     }
-    //TODO pass in Service object
+
     private void loadServices(){
 
         //for(int i=0;i<buildinginfo.length;i++) {
@@ -395,13 +393,13 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
         //}
     }
-    private void loadHeadings(BuildingInfo buildingInfo){
+    private void loadHeadings(){
         textPointer= (TextView) findViewById(R.id.building_code);
-        textPointer.setText(buildingInfo.getBuildingCode());//
+        textPointer.setText("");//
         textPointer= (TextView) findViewById(R.id.campus);
-        textPointer.setText(buildingInfo.getCampus());//
+        textPointer.setText("");//
         textPointer= (TextView) findViewById(R.id.building_name);
-        textPointer.setText(buildingInfo.getBuildingName());//poifect
+        textPointer.setText("");//poifect
     }
 
 }
