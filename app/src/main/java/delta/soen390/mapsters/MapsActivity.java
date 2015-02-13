@@ -1,6 +1,7 @@
 package delta.soen390.mapsters;
 
 
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -15,6 +16,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
@@ -29,13 +31,13 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
 
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private ViewSwitcher mMapSwitcher;
-    private Switch mCampusSwitch;
-    private Animation slideInLeft, slideOutRight;
 
     private OnLocationChangedListener mListener;
     private LocationManager locationManager;
-
+	
+    private CampusSwitch mCampusSwitch;
+    private CampusViewSwitcher mCampusViewSwitcher;
+	
     private boolean debug = false;
 
     private SlidingUpPanelLayout mLayout;
@@ -168,12 +170,10 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
             }
             else {
                 Toast.makeText(MapsActivity.this, "GPS is disabled on this device.", Toast.LENGTH_SHORT).show();
-                mMapSwitcher.showNext();
             }
         }
         else {
             Toast.makeText(MapsActivity.this, "Location Manager is null.", Toast.LENGTH_SHORT).show();
-            mMapSwitcher.showNext();
         }
 
     }
@@ -183,31 +183,9 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
      * of viewing these campuses on the map.
      */
     private void hookUpSwitch() {
-        mCampusSwitch = (Switch)findViewById(R.id.campusSwitch);
-        mMapSwitcher = (ViewSwitcher) findViewById(R.id.mapSwitcher);
+        mCampusViewSwitcher = new CampusViewSwitcher(this,mMap);
+        mCampusSwitch = new CampusSwitch(this,mCampusViewSwitcher);
 
-        slideInLeft = AnimationUtils.loadAnimation(this,
-                android.R.anim.slide_in_left);
-        slideOutRight = AnimationUtils.loadAnimation(this,
-                android.R.anim.slide_out_right);
-
-        mMapSwitcher.setInAnimation(slideInLeft);
-        mMapSwitcher.setOutAnimation(slideOutRight);
-
-        if (mCampusSwitch != null) {
-            mCampusSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        Toast.makeText(MapsActivity.this, "Show SGW Map", Toast.LENGTH_SHORT).show();
-                        mMapSwitcher.showNext();
-                    } else {
-                        Toast.makeText(MapsActivity.this, "Show Loyola Map", Toast.LENGTH_SHORT).show();
-                        mMapSwitcher.showPrevious();
-                    }
-                }
-            });
-        }
     }
 
     @Override
@@ -249,7 +227,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment))
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {

@@ -23,27 +23,19 @@
                 <!-- 45.458565,-73.640064 LOY -->
                 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:map="http://schemas.android.com/apk/res-auto"
-                    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:id="@+id/map"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     tools:context="delta.soen390.mapsters.MapsActivity"
                     map:cameraTargetLat="45.458565"
                     map:cameraTargetLng="-73.640064"
                     map:cameraZoom="17"
-                    android:name="com.google.android.gms.maps.SupportMapFragment" />
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:id="@+id/map_fragment"
+                    />
 
                 <!--45.497174,-73.578835,17z SGW-->
-                <fragment
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:map="http://schemas.android.com/apk/res-auto"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    map:cameraTargetLat="45.497174"
-                    map:cameraTargetLng="-73.578835"
-                    map:cameraZoom="17"
-                    tools:context="delta.soen390.mapsters.SgwMapsActivity"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:id="@+id/fragment" />
+
             </ViewSwitcher>
 
             <Switch
