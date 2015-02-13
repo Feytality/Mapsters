@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
@@ -22,6 +23,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
@@ -29,6 +32,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
 
 public class MapsActivity extends FragmentActivity {
 
+    private TextView textPointer;
     // Might be null if Google Play services APK is not available.
     private GoogleMap mMap;
 
@@ -38,6 +42,8 @@ public class MapsActivity extends FragmentActivity {
     private CampusSwitch mCampusSwitch;
     private CampusViewSwitcher mCampusViewSwitcher;
 
+    private BuildingInfoRepository bir;
+    private boolean debug = false;
 
     private SlidingUpPanelLayout mLayout;
     private static final String TAG = "DemoActivity";
@@ -45,7 +51,7 @@ public class MapsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        BuildingInfoRepository.getInstance();
+        bir = BuildingInfoRepository.getInstance();
 
         // Setting up for focus button.
         mFocusMapUI = new FocusMapUI(mMap, this);
@@ -55,60 +61,61 @@ public class MapsActivity extends FragmentActivity {
 
         hookUpSwitch();
 
-        setBuilding();
+
+        //setBuilding();
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setAnchorPoint(0.50f);
-        mLayout.setPanelSlideListener(new PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelExpanded(View panel) {
-                Log.i(TAG, "onPanelExpanded");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelCollapsed(View panel) {
-                Log.i(TAG, "onPanelCollapsed");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelAnchored(View panel) {
-                Log.i(TAG, "onPanelAnchored");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-
-            @Override
-            public void onPanelHidden(View panel) {
-                Log.i(TAG, "onPanelHidden");
-                Log.i(TAG, mLayout.getPanelState().toString());
-
-            }
-        });
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
-            @Override
-            public void onMapClick(LatLng point) {
-                Log.i(TAG, mLayout.getPanelState().toString());
-                mLayout.setPanelState(PanelState.ANCHORED);
-            }
-        });
+//        mLayout.setPanelSlideListener(new PanelSlideListener() {
+//            @Override
+//            public void onPanelSlide(View panel, float slideOffset) {
+//                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelExpanded(View panel) {
+//                Log.i(TAG, "onPanelExpanded");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelCollapsed(View panel) {
+//                Log.i(TAG, "onPanelCollapsed");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelAnchored(View panel) {
+//                Log.i(TAG, "onPanelAnchored");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//
+//            @Override
+//            public void onPanelHidden(View panel) {
+//                Log.i(TAG, "onPanelHidden");
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//
+//            }
+//        });
+//
+//        mMapLoyola.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//
+//            @Override
+//            public void onMapClick(LatLng point) {
+//                Log.i(TAG, mLayout.getPanelState().toString());
+//                mLayout.setPanelState(PanelState.ANCHORED);
+//            }
+//        });
     }
 
-    public void setBuilding() {
+    public void setBuilding(GoogleMap map) {
         //Hall
-        BuildingPolygon hall = new BuildingPolygon(mMap,
+        BuildingPolygon hall = new BuildingPolygon(map,
                 new LatLng(45.4967893,-73.5788298),
                 new LatLng(45.49737590000001,-73.5782182),
                 new LatLng(45.4980001,-73.5794628),
@@ -118,7 +125,8 @@ public class MapsActivity extends FragmentActivity {
         hall.setFillColor(Color.TRANSPARENT);
 
 
-        BuildingPolygon EV = new BuildingPolygon(mMap,
+
+        BuildingPolygon EV = new BuildingPolygon(map,
                 new LatLng(45.4951574,-73.5778749),
                 new LatLng(45.4957966,-73.577199),
                 new LatLng(45.496029799999995,-73.5777247),
@@ -130,7 +138,8 @@ public class MapsActivity extends FragmentActivity {
         EV.setFillColor(Color.TRANSPARENT);
 
 
-        BuildingPolygon LB = new BuildingPolygon(mMap,
+
+        BuildingPolygon LB = new BuildingPolygon(map,
                 new LatLng(45.4973571,-73.5781056),
                 new LatLng(45.4967028,-73.5787332),
                 new LatLng(45.4961952, -73.5777193),
@@ -152,6 +161,33 @@ public class MapsActivity extends FragmentActivity {
         CBuilding.setFillColor(Color.TRANSPARENT);
 
         Log.i(TAG,"This is the building method");
+
+    }
+
+    /**
+     * Responsible for determining if the GPS functionality is disabled on the device.
+     */
+    public void determineGpsEnabled() {
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        if(locationManager != null) {
+            boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            boolean networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+            if(gpsEnabled) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000L, 10F, this);
+            }
+            else if(networkEnabled) {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000L, 10F, this);
+            }
+            else {
+                Toast.makeText(MapsActivity.this, "GPS is disabled on this device.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            Toast.makeText(MapsActivity.this, "Location Manager is null.", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     /**
@@ -221,7 +257,6 @@ public class MapsActivity extends FragmentActivity {
     private void setUpMap() {
         // leaving comment here for reference. pls don't shoot me. *shoots george*
         //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-
         mMap.setMyLocationEnabled(true); // Shows location button on top right.
     }
 

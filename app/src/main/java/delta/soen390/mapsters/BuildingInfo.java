@@ -12,7 +12,7 @@ public class BuildingInfo {
     private String mCampus;
 //    TODO Create BuildingServices Class
 //    TODO Create Image member
-    private String[] mBuildingServices;
+//    private String[] mBuildingServices;
     private LatLng mCoordinates;
 
     public BuildingInfo() {}
@@ -22,7 +22,7 @@ public class BuildingInfo {
         this.mBuildingCode = mBuildingCode;
         this.mBuildingName = mBuildingName;
         this.mCampus = mCampus;
-        this.mBuildingServices = mBuildingServices;
+//        this.mBuildingServices = mBuildingServices;
         this. mCoordinates = mCoordinates;
     }
 
@@ -50,13 +50,13 @@ public class BuildingInfo {
         this.mCampus = mCampus;
     }
 
-    public String[] getBuildingServices() {
-        return mBuildingServices;
-    }
-
-    public void setBuildingServices(String[] mBuildingServices) {
-        this.mBuildingServices = this.mBuildingServices;
-    }
+//    public String[] getBuildingServices() {
+//        return mBuildingServices;
+//    }
+//
+//    public void setBuildingServices(String[] mBuildingServices) {
+//        this.mBuildingServices = this.mBuildingServices;
+//    }
 
     public LatLng getCoordinates() {
         return mCoordinates;
