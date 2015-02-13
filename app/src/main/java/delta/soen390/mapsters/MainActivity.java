@@ -2,16 +2,43 @@ package delta.soen390.mapsters;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
-
+private TextView textPointer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.info_pane);
+        loadBuildingInfo();
+    }
+
+    public void loadBuildingInfo(){//uses building info
+        loadHeadings();
+        loadServices();
+
+    }
+
+    private void loadServices(){
+
+        //for(int i=0;i<buildinginfo.length;i++) {
+            textPointer = (TextView) findViewById(R.id.t1);
+            textPointer.setText(getResources().getText(R.string.t1));
+            textPointer.setMovementMethod(LinkMovementMethod.getInstance());
+
+        //}
+    }
+    private void loadHeadings(){
+        textPointer= (TextView) findViewById(R.id.building_code);
+        textPointer.setText("");//
+        textPointer= (TextView) findViewById(R.id.campus);
+        textPointer.setText("");//
+        textPointer= (TextView) findViewById(R.id.building_name);
+        textPointer.setText("");//poifect
     }
 
 
