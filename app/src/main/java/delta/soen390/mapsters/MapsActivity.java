@@ -7,7 +7,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -38,18 +37,18 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
     private ViewSwitcher mMapSwitcher;
     private Switch mCampusSwitch;
     private Animation slideInLeft, slideOutRight;
-
     private OnLocationChangedListener mListener;
     private LocationManager locationManager;
-
-    private boolean debug = false;
     private BuildingInfoRepository bir;
+    private boolean debug = false;
+
     private SlidingUpPanelLayout mLayout;
     private static final String TAG = "DemoActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         bir = BuildingInfoRepository.getInstance();
         determineGpsEnabled();
         setUpMapIfNeeded();
@@ -371,38 +370,21 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
                 && point.longitude > -73.5788512 && point.longitude < -73.5776603);
         boolean isH = (point.latitude < 45.4976993 && point.latitude > 45.4968344
                 && point.longitude > -73.5795432 && point.longitude < -73.5783416);
+        BuildingInfo info=null;
         if (isEV) {
-            loadBuildingInfo(bir.getBuildingInfo("EV"));
+           info = bir.getBuildingInfo("EV");
         }
         if (isH) {
-            loadBuildingInfo(bir.getBuildingInfo("H"));
+             info = bir.getBuildingInfo("H");
+        }
+
+        if (info!=null) {
+            UIMapper ui = new UIMapper(MapsActivity.this);
+            ui.loadBuildingInfo(info);
         }
         return point.toString();
     }
 
-    public void loadBuildingInfo(BuildingInfo buildingInfo){//uses building info
-        loadHeadings(buildingInfo);
-        loadServices();
-
-    }
-    //TODO pass in Service object
-    private void loadServices(){
-
-        //for(int i=0;i<buildinginfo.length;i++) {
-        textPointer = (TextView) findViewById(R.id.t1);
-        textPointer.setText(getResources().getText(R.string.t1));
-        textPointer.setMovementMethod(LinkMovementMethod.getInstance());
-
-        //}
-    }
-    private void loadHeadings(BuildingInfo buildingInfo){
-        textPointer= (TextView) findViewById(R.id.building_code);
-        textPointer.setText(buildingInfo.getBuildingCode());//
-        textPointer= (TextView) findViewById(R.id.campus);
-        textPointer.setText(buildingInfo.getCampus());//
-        textPointer= (TextView) findViewById(R.id.building_name);
-        textPointer.setText(buildingInfo.getBuildingName());//poifect
-    }
 
 }
 
