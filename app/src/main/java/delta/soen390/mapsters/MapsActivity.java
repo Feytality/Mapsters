@@ -344,7 +344,7 @@ public class MapsActivity extends FragmentActivity implements LocationListener, 
                         new LatLng(45.49557480000001, -73.5788512));
 
 // Get back the mutable Polygon
-        Polygon polygon2 = mMapLoyola.addPolygon(rectOptions2);
+        Polygon polygon1 = mMapLoyola.addPolygon(rectOptions2);
         mMapSgw.addPolygon(rectOptions2);
 
 
