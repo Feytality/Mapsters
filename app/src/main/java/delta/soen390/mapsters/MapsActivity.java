@@ -51,154 +51,33 @@ public class MapsActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        bir = BuildingInfoRepository.getInstance();
 
-        // Setting up for focus button.
-        mFocusMapUI = new FocusMapUI(mMap, this);
-        mFocusMapUI.determineGpsEnabled();
-
-        setUpMapIfNeeded();
-
-        hookUpSwitch();
-
-
-        //setBuilding();
-
-        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        mLayout.setAnchorPoint(0.50f);
-//        mLayout.setPanelSlideListener(new PanelSlideListener() {
-//            @Override
-//            public void onPanelSlide(View panel, float slideOffset) {
-//                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
-//                Log.i(TAG, mLayout.getPanelState().toString());
-//
-//            }
-//
-//            @Override
-//            public void onPanelExpanded(View panel) {
-//                Log.i(TAG, "onPanelExpanded");
-//                Log.i(TAG, mLayout.getPanelState().toString());
-//
-//            }
-//
-//            @Override
-//            public void onPanelCollapsed(View panel) {
-//                Log.i(TAG, "onPanelCollapsed");
-//                Log.i(TAG, mLayout.getPanelState().toString());
-//
-//            }
-//
-//            @Override
-//            public void onPanelAnchored(View panel) {
-//                Log.i(TAG, "onPanelAnchored");
-//                Log.i(TAG, mLayout.getPanelState().toString());
-//
-//            }
-//
-//            @Override
-//            public void onPanelHidden(View panel) {
-//                Log.i(TAG, "onPanelHidden");
-//                Log.i(TAG, mLayout.getPanelState().toString());
-//
-//            }
-//        });
-//
-//        mMapLoyola.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-//
-//            @Override
-//            public void onMapClick(LatLng point) {
-//                Log.i(TAG, mLayout.getPanelState().toString());
-//                mLayout.setPanelState(PanelState.ANCHORED);
-//            }
-//        });
-    }
-
-    public void setBuilding(GoogleMap map) {
-        //Hall
-        BuildingPolygon hall = new BuildingPolygon(map,
-                new LatLng(45.4967893,-73.5788298),
-                new LatLng(45.49737590000001,-73.5782182),
-                new LatLng(45.4980001,-73.5794628),
-                new LatLng(45.4973383,-73.580085),
-                new LatLng(45.4967893, -73.5788298));
-        hall.setVisibility(true);
-        hall.setFillColor(Color.TRANSPARENT);
-
-
-
-        BuildingPolygon EV = new BuildingPolygon(map,
-                new LatLng(45.4951574,-73.5778749),
-                new LatLng(45.4957966,-73.577199),
-                new LatLng(45.496029799999995,-73.5777247),
-                new LatLng(45.495744,-73.57803580000001) ,
-                new LatLng(45.4961426, -73.5789478),
-                new LatLng(45.495728899999996, -73.5792589),
-                new LatLng(45.4951574,-73.5778749));
-        EV.setVisibility(true);
-        EV.setFillColor(Color.TRANSPARENT);
-
-
-
-        BuildingPolygon LB = new BuildingPolygon(map,
-                new LatLng(45.4973571,-73.5781056),
-                new LatLng(45.4967028,-73.5787332),
-                new LatLng(45.4961952, -73.5777193),
-                new LatLng(45.496868299999996, -73.5770649),
-                new LatLng(45.4973571, -73.5781056));
-
-        LB.setVisibility(true);
-        LB.setFillColor(Color.TRANSPARENT);
-
-
-        BuildingPolygon CBuilding = new BuildingPolygon(mMap,
-                new LatLng(45.458445,-73.6407191),
-                new LatLng(45.458302,-73.6408424),
-                new LatLng(45.4580009, -73.6400592),
-                new LatLng(45.4581364, -73.6399519),
-                new LatLng(45.458445,-73.6407191  ));
-
-        CBuilding.setVisibility(true);
-        CBuilding.setFillColor(Color.TRANSPARENT);
-
-        Log.i(TAG,"This is the building method");
+        initialize();
 
     }
 
-    /**
-     * Responsible for determining if the GPS functionality is disabled on the device.
-     */
-    public void determineGpsEnabled() {
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+    private void initialize()
+    {
+        //Setup the google map
+        initializeMap();
 
-        if(locationManager != null) {
-            boolean gpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            boolean networkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-            if(gpsEnabled) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000L, 10F, this);
-            }
-            else if(networkEnabled) {
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000L, 10F, this);
-            }
-            else {
-                Toast.makeText(MapsActivity.this, "GPS is disabled on this device.", Toast.LENGTH_SHORT).show();
-            }
-        }
-        else {
-            Toast.makeText(MapsActivity.this, "Location Manager is null.", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    /**
-     * Responsible for adding the switch of both campuses (SGW and Loyola), and the functionality
-     * of viewing these campuses on the map.
-     */
-    private void hookUpSwitch() {
+        //Initialize the Campus Switch
         mCampusViewSwitcher = new CampusViewSwitcher(this,mMap);
         mCampusSwitch = new CampusSwitch(this,mCampusViewSwitcher);
 
+        //Initialize the focus current location button
+        mFocusMapUI = new FocusMapUI(mMap, this);
+        mFocusMapUI.determineGpsEnabled();
+
+        //Initialize the building info repository
+        //TODO remove BuildingInfoRepository
+        bir = BuildingInfoRepository.getInstance();
+
+        //Initialize the SlidingUpPanel
+        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        mLayout.setAnchorPoint(0.50f);
     }
+
 
     @Override
     public void onPause()
@@ -233,12 +112,18 @@ public class MapsActivity extends FragmentActivity {
      * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
      * method in {@link #onResume()} to guarantee that it will be called.
      */
+
+    private void initializeMap()
+    {
+        mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment))
+                .getMap();
+    }
+
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment))
-                    .getMap();
+           initializeMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
@@ -256,7 +141,6 @@ public class MapsActivity extends FragmentActivity {
      */
     private void setUpMap() {
         // leaving comment here for reference. pls don't shoot me. *shoots george*
-        //        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
         mMap.setMyLocationEnabled(true); // Shows location button on top right.
     }
 
