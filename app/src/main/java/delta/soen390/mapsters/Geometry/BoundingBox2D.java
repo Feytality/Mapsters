@@ -1,11 +1,9 @@
-package delta.soen390.mapsters;
+package delta.soen390.mapsters.Geometry;
 
-import android.graphics.Rect;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**

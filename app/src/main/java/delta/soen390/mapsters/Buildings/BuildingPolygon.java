@@ -1,4 +1,4 @@
-package delta.soen390.mapsters;
+package delta.soen390.mapsters.Buildings;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -6,6 +6,9 @@ import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.ArrayList;
+
+import delta.soen390.mapsters.Geometry.BoundingBox2D;
+import delta.soen390.mapsters.Geometry.Vector2D;
 
 /**
  * Created by Niofire on 2/7/2015.

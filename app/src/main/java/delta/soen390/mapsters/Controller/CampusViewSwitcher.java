@@ -1,18 +1,15 @@
-package delta.soen390.mapsters;
+package delta.soen390.mapsters.Controller;
 
-import android.app.Fragment;
-import android.content.res.Resources;
-import android.os.Debug;
-import android.util.Log;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+
+import delta.soen390.mapsters.Activities.MapsActivity;
+import delta.soen390.mapsters.R;
 
 /**
  * Created by Mathieu on 2/11/2015.

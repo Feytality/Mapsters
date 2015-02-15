@@ -1,11 +1,11 @@
-package delta.soen390.mapsters;
+package delta.soen390.mapsters.Controller;
 
 import android.app.Activity;
-import android.content.Context;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
+
+import delta.soen390.mapsters.Buildings.BuildingInfo;
+import delta.soen390.mapsters.R;
 
 /**
  * Created by Cat on 2/12/2015.

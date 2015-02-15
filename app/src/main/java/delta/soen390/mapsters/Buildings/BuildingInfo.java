@@ -1,4 +1,4 @@
-package delta.soen390.mapsters;
+package delta.soen390.mapsters.Buildings;
 
 import com.google.android.gms.maps.model.LatLng;
 

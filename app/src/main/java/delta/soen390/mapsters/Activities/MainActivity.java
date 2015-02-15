@@ -1,4 +1,4 @@
-package delta.soen390.mapsters;
+package delta.soen390.mapsters.Activities;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import delta.soen390.mapsters.R;
 
 
 public class MainActivity extends ActionBarActivity {

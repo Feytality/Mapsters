@@ -1,33 +1,19 @@
-package delta.soen390.mapsters;
+package delta.soen390.mapsters.Activities;
 
 
-import android.graphics.Color;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelSlideListener;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState;
+
+import delta.soen390.mapsters.Buildings.BuildingInfoRepository;
+import delta.soen390.mapsters.Controller.CampusViewSwitcher;
+import delta.soen390.mapsters.ViewComponents.FocusMapUI;
+import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
 
 public class MapsActivity extends FragmentActivity {
@@ -39,7 +25,7 @@ public class MapsActivity extends FragmentActivity {
     // For focus on my location button in top right corner.
     private FocusMapUI mFocusMapUI;
 	
-    private CampusSwitch mCampusSwitch;
+    private CampusSwitchUI mCampusSwitchUI;
     private CampusViewSwitcher mCampusViewSwitcher;
 
     private BuildingInfoRepository bir;
@@ -63,7 +49,7 @@ public class MapsActivity extends FragmentActivity {
 
         //Initialize the Campus Switch
         mCampusViewSwitcher = new CampusViewSwitcher(this,mMap);
-        mCampusSwitch = new CampusSwitch(this,mCampusViewSwitcher);
+        mCampusSwitchUI = new CampusSwitchUI(this,mCampusViewSwitcher);
 
         //Initialize the focus current location button
         mFocusMapUI = new FocusMapUI(mMap, this);

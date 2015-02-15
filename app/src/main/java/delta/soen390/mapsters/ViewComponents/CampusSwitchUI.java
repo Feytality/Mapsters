@@ -1,21 +1,22 @@
-package delta.soen390.mapsters;
+package delta.soen390.mapsters.ViewComponents;
 
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
+import delta.soen390.mapsters.Controller.CampusViewSwitcher;
+import delta.soen390.mapsters.Activities.MapsActivity;
+import delta.soen390.mapsters.R;
 
 /**
  * Created by Mathieu on 2/11/2015.
  */
-public class CampusSwitch {
+public class CampusSwitchUI {
     private Switch mCampusSwitch;
     private MapsActivity mActivity;
     private CampusViewSwitcher mCampusViewSwitcher;
 
-    public CampusSwitch(MapsActivity activity, CampusViewSwitcher viewSwitcher)
+    public CampusSwitchUI(MapsActivity activity, CampusViewSwitcher viewSwitcher)
     {
         mActivity = activity;
         mCampusViewSwitcher = viewSwitcher;

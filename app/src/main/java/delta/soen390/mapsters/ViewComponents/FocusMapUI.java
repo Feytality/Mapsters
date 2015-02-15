@@ -1,4 +1,4 @@
-package delta.soen390.mapsters;
+package delta.soen390.mapsters.ViewComponents;
 
 import android.location.Location;
 import android.location.LocationListener;
@@ -10,6 +10,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.model.LatLng;
+
+import delta.soen390.mapsters.Activities.MapsActivity;
 
 /**
  * Created by Felicia on 2015-02-13.

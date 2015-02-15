@@ -27,7 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
-                    tools:context="delta.soen390.mapsters.MapsActivity"
+                    tools:context="delta.soen390.mapsters.Activities.MapsActivity"
                     map:cameraTargetLat="45.458565"
                     map:cameraTargetLng="-73.640064"
                     map:cameraZoom="17"
