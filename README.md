@@ -10,3 +10,5 @@ DanielCatz      = Daniel Caterson
 GeorgeValergas  = George Valergas
 
 scottgoldwater  = Scott Goldwater
+
+superpatricko   = Patrick Nguyen
