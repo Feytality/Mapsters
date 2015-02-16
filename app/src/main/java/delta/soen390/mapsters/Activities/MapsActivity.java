@@ -9,7 +9,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import delta.soen390.mapsters.Buildings.BuildingInfoRepository;
+import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.ViewComponents.FocusMapUI;
 import delta.soen390.mapsters.R;
@@ -28,7 +28,6 @@ public class MapsActivity extends FragmentActivity {
     private CampusSwitchUI mCampusSwitchUI;
     private CampusViewSwitcher mCampusViewSwitcher;
 
-    private BuildingInfoRepository bir;
     private boolean debug = false;
 
     private SlidingUpPanelLayout mLayout;
@@ -55,13 +54,11 @@ public class MapsActivity extends FragmentActivity {
         mFocusMapUI = new FocusMapUI(mMap, this);
         mFocusMapUI.determineGpsEnabled();
 
-        //Initialize the building info repository
-        //TODO remove BuildingInfoRepository
-        bir = BuildingInfoRepository.getInstance();
-
         //Initialize the SlidingUpPanel
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setAnchorPoint(0.50f);
+
+	    //BuildingPolygonManager.getInstance().loadResources(this);
     }
 
 
@@ -78,7 +75,7 @@ public class MapsActivity extends FragmentActivity {
         super.onResume();
         setUpMapIfNeeded();
 
-        if(mFocusMapUI.getmLocationManager() != null)  {
+        if(mFocusMapUI.getLocationManager() != null)  {
             mMap.setMyLocationEnabled(true);
         }
     }
@@ -113,7 +110,7 @@ public class MapsActivity extends FragmentActivity {
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
-                mFocusMapUI.setmMap(mMap);
+                mFocusMapUI.setMap(mMap);
                 mFocusMapUI.setLocationSource();
             }
         }

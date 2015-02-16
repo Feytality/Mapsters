@@ -17,85 +17,70 @@ public class BuildingPolygon {
 
     private BuildingInfo mBuildingInfo;
 
-	//Contains the 4 rectangle corner of the Building Rectangle
-	private ArrayList<LatLng> _vertices;
-
 	//UI Polygon displayed on the gmap isntance
-	private Polygon _polygon;
+	private Polygon mPolygon;
 
 	//Used to test for touch input
-	private BoundingBox2D _boundingBox2D;
+	private BoundingBox2D mBoundingBox2D;
+	private GoogleMap mGoogleMap;
 
-
-	public BuildingPolygon(ArrayList<LatLng> vertices, GoogleMap googleMap)
+	public BuildingPolygon(GoogleMap googleMap, BuildingInfo buildingInfo)
 	{
-		_vertices = vertices;
+		mGoogleMap      = googleMap;
+		mBuildingInfo   = buildingInfo;
 
-		createPolygon(googleMap);
+		createPolygon();
 	}
 
-	public BuildingPolygon(GoogleMap googleMap, LatLng... points)
+	private void createPolygon()
 	{
-		_vertices = new ArrayList<LatLng>();
-		for (LatLng latLng : points)
-		{
-			_vertices.add(latLng);
-		}
-
-		createPolygon(googleMap);
-	}
-
-	private void createPolygon(GoogleMap googleMap)
-	{
+		ArrayList<LatLng> vertices = mBuildingInfo.getBoundingCoordinates();
 		//if no vertices, no polygon!
-		if(_vertices.size() <= 0)
+		if(vertices.size() <= 0) {
 			return;
+		}
 
 		//Create the Polygon Options which will be used to instantiate the actual google map Polygon UI element
 		PolygonOptions polygonOptions = new PolygonOptions();
 
-		//Load in the vertices! yayy
-		for(int i = 0; i < _vertices.size(); ++i)
+		//Load in the vertices!
+		for(int i = 0; i < vertices.size(); ++i)
 		{
-			LatLng point = _vertices.get(i);
+			LatLng point = vertices.get(i);
 
-			polygonOptions.add(_vertices.get(i));
+			polygonOptions.add(vertices.get(i));
 		}
 
 
-		//add first vertice at the end in order to create a complete polygon loop
-		if(_vertices.size() > 0)
-			polygonOptions.add(_vertices.get(0));
+		//add first vertex at the end in order to create a complete polygon loop
+		if(vertices.size() > 0) {
+			polygonOptions.add(vertices.get(0));
+		}
 
 
-		_boundingBox2D = new BoundingBox2D(_vertices);
+		mBoundingBox2D = new BoundingBox2D(vertices);
 
-		_polygon = googleMap.addPolygon(polygonOptions);
+		mPolygon = mGoogleMap.addPolygon(polygonOptions);
 
 	}
 
 	public void setFillColor(int color)
 	{
-		_polygon.setFillColor(color);
-	}
-	public void setVisibility(boolean isVisible)
-	{
-		_polygon.setVisible(isVisible);
+		mPolygon.setFillColor(color);
 	}
 
+	public void setVisibility(boolean isVisible)
+	{
+		mPolygon.setVisible(isVisible);
+	}
 
 	public boolean isPointInsidePolygon(LatLng point)
 	{
 		//Test if point is inside box
-		return _boundingBox2D.isPointInsideBoundingBox(
-				new Vector2D(
-					point.latitude,
-					point.longitude));
+		return mBoundingBox2D.isPointInsideBoundingBox(new Vector2D(point.latitude, point.longitude));
 	}
 
     public BuildingInfo getBuildingInfo() {
         return mBuildingInfo;
     }
-
-
 }

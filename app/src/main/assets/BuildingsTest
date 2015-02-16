@@ -1,0 +1,106 @@
+{
+  "EV": {
+    "path": "/content/concordia/en/maps/buildings/ev",
+    "pageTitle": "Computer Science, Engineering and Visual Arts Integrated Complex (EV Building)",
+    "image": "/content/concordia/en/maps/buildings/ev.img.png/1422384545147.jpg",
+    "campus": "SGW",
+    "buildingcode": "EV",
+    "buildingname": "Computer Science, Engineering and Visual Arts Integrated Complex",
+    "civicaddress": "1515 St. Catherine W.",
+    "longitude": "-73.5783",
+    "latitude": "45.4955",
+    "year": "2005",
+    "map": true,
+    "maplink": "http://www.concordia.ca/about/contact/campus-map/?markers=maps/markers.php&referer=www.concordia.ca&api=maps.canvas&centermap=EV",
+    "rental": true,
+    "parkinglot": false,
+    "accessibility": true,
+    "atm": true,
+    "bikerack": false,
+    "infokiosk": true,
+    "foursquarelink": "https://foursquare.com/v/ev-building/4be06ac5cb81c9b60bca658b",
+    "directionlink": "https://maps.google.com/maps?daddr=1515+St.+Catherine+W.,+Montreal,+QC,+Canada",
+    "moreinfo": false,
+    "serviceslinks": [
+      "{\"linkText\":\"LeGym\",\"linkPath\":\"/content/concordia/en/campus-life/recreation/facilities/le-gym.html\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"FOFA Gallery\",\"linkPath\":\"/content/concordia/en/finearts/facilities/fofa-gallery.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
+    ],
+    "departmentslinks": [
+      "{\"linkText\":\"Engineering and Computer Science\",\"linkPath\":\"/content/concordia/en/encs.html\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Electrical and Computer Engineering\",\"linkPath\":\"http://www.ece.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Building, Civil and Environmental Engineering\",\"linkPath\":\"http://www.bcee.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Computer Science and Software Engineering\",\"linkPath\":\"http://www.cs.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Mechanical and Industrial Engineering\",\"linkPath\":\"http://www.me.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Design and Computation Arts\",\"linkPath\":\"http://design.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Faculty of Fine Arts\",\"linkPath\":\"/content/concordia/en/finearts.html\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Studio Arts\",\"linkPath\":\"/content/concordia/en/finearts/studio-arts.html\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Art Education\",\"linkPath\":\"http://art-education.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Art History\",\"linkPath\":\"/content/concordia/en/finearts/art-history\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Comtemporary Dance\",\"linkPath\":\"http://dance.concordia.ca/en/\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Recreation and Athletics\",\"linkPath\":\"http://athletics.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Zero Energy Building Studies, Centre for\",\"linkPath\":\"/content/concordia/en/research/zero-energy-building\",\"linkTarget\":false,\"itemClass\":\"\"}"
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5778749,45.4951574,0.0 -73.577199,45.4957966,0.0 -73.5777247,45.496029799999995,0.0 -73.57803580000001,45.495744,0.0 -73.5789478,45.4961426,0.0 -73.5792589,45.495728899999996,0.0 -73.5778749,45.4951574,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
+  },
+  "H": {
+    "path": "/content/concordia/en/maps/buildings/h",
+    "pageTitle": "Henry F. Hall Building",
+    "image": "/content/concordia/en/maps/buildings/h.img.png/1423170042212.jpg",
+    "campus": "SGW",
+    "buildingcode": "H",
+    "buildingname": "Henry F. Hall Building",
+    "civicaddress": "1455 De Maisonneuve W.",
+    "longitude": "-73.579",
+    "latitude": "45.4973",
+    "year": "1966",
+    "map": true,
+    "maplink": "http://www.concordia.ca/about/contact/campus-map/?markers=maps/markers.php&referer=www.concordia.ca&api=maps.canvas&centermap=H",
+    "rental": true,
+    "parkinglot": false,
+    "accessibility": true,
+    "atm": true,
+    "bikerack": true,
+    "infokiosk": true,
+    "foursquarelink": "https://foursquare.com/v/hall-building/4ad8b91af964a520051421e3",
+    "directionlink": "https://maps.google.com/maps?daddr=1455+De+Maisonneuve+W.,+Montreal,+QC,+Canada ",
+    "moreinfo": false,
+    "serviceslinks": [
+      "{\"linkText\":\"D. B. Clarke Theatre\",\"linkPath\":\"/content/concordia/en/arts/venues/db-clarke-theatre\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Dean of Students\",\"linkPath\":\"/content/concordia/en/offices/dean-students\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Aboriginal Student Resource Centre\",\"linkPath\":\"/content/concordia/en/offices/asrc\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Computer Store\",\"linkPath\":\"http://retail.concordia.ca/ccs/\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Concordia Student Union\",\"linkPath\":\"http://csu.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"International Students Office\",\"linkPath\":\"/content/concordia/en/offices/iso\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"IT Service Desk\",\"linkPath\":\"/content/concordia/en/it\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Security Office\",\"linkPath\":\"/content/concordia/en/campus-life/security\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Counselling and Development\",\"linkPath\":\"/content/concordia/en/offices/cdev.html\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Mail Services\",\"linkPath\":\"/content/concordia/en/offices/facilities.html\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Archives\",\"linkPath\":\"http://archives.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Access Centre for Students with Disabilities\",\"linkPath\":\"/content/concordia/en/offices/acsd\",\"linkTarget\":true,\"itemClass\":\"\"}"
+    ],
+    "departmentslinks": [
+      "{\"linkText\":\"Classics, Modern Languages and Linguistics\",\"linkPath\":\"/content/concordia/en/artsci/cmll\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Geography, Planning and Environment\",\"linkPath\":\"http://gpe.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
+      "{\"linkText\":\"Political Science, Sociology and Anthropology, Economics\",\"linkPath\":\"/content/concordia/en/artsci/academics/departments.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5788298,45.4967893,0.0 -73.5782182,45.49737590000001,0.0 -73.5794628,45.4980001,0.0 -73.580085,45.4973383,0.0 -73.5788298,45.4967893,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
+  }
+}

@@ -35,19 +35,19 @@ public class FocusMapUI implements LocationListener, LocationSource {
         determineGpsEnabled();
     }
 
-    public GoogleMap getmMap() {
+    public GoogleMap getMap() {
         return mMap;
     }
 
-    public void setmMap(GoogleMap map) {
+    public void setMap(GoogleMap map) {
         mMap = map;
     }
 
-    public MapsActivity getmMapsActivity() {
+    public MapsActivity getMapsActivity() {
         return mMapsActivity;
     }
 
-    public LocationManager getmLocationManager() {
+    public LocationManager getLocationManager() {
         return mLocationManager;
     }
 
