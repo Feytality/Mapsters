@@ -34,7 +34,17 @@
     ],
     "departmentslinks": [
       "{\"linkText\":\"Faculty of Arts & Science\",\"linkPath\":\"/content/concordia/en/artsci.html\",\"linkTarget\":false,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6399801,45.4580809,0.0 -73.6400029,45.4580508,0.0 -73.6399519,45.458030099999995,0.0 -73.6399667,45.4580094,0.0 -73.6399452,45.4580009,0.0 -73.6400485,45.45786640000001,0.0 -73.6401223,45.4578984,0.0 -73.6401732,45.4578335,0.0 -73.6398768,45.4577159,0.0 -73.6398272,45.4577789,0.0 -73.6399224,45.4578137,0.0 -73.6398245,45.4579398,0.0 -73.6398078,45.4579332,0.0 -73.6397541,45.4580005,0.0 -73.6397722,45.4580057,0.0 -73.63966030000002,45.4581505,0.0 -73.6395684,45.4581119,0.0 -73.6395282,45.4581665,0.0 -73.6398152,45.4582756,0.0 -73.6398661,45.4582154,0.0 -73.63979370000001,45.458191,0.0 -73.6398909,45.4580753,0.0 -73.6399151,45.4580833,0.0 -73.6399305,45.458064900000004,0.0 -73.6399801,45.4580809,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "B": {
     "path": "/content/concordia/en/maps/buildings/b",
@@ -88,7 +98,17 @@
     "serviceslinks": [
       "{\"linkText\":\"CPE Les P'tits Profs Daycare\",\"linkPath\":\"http://lesptitsprofs.wordpress.com/\",\"linkTarget\":\"true\",\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6394222,45.4598259,0.0 -73.6393337,45.459792,0.0 -73.6392693,45.45985780000001,0.0 -73.6393578,45.4598945,0.0 -73.6394222,45.4598259,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "CC": {
     "path": "/content/concordia/en/maps/buildings/cc",
@@ -115,7 +135,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Concordia Student Union\",\"linkPath\":\"http://csu.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6399432,45.4581425,0.0 -73.6401813,45.4582338,0.0 -73.6401772,45.4582408,0.0 -73.640717,45.45844970000001,0.0 -73.6408411,45.458294,0.0 -73.6403006,45.458085600000004,0.0 -73.6402966,45.4580936,0.0 -73.6400539,45.457997600000006,0.0 -73.6399432,45.4581425,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "CI": {
     "path": "/content/concordia/en/maps/buildings/ci",
@@ -142,7 +172,17 @@
     "serviceslinks": [],
     "departmentslinks": [
       "{\"linkText\":\"School of Community and Public Affairs\",\"linkPath\":\"http://scpa-eapc.concordia.ca/en/\",\"linkTarget\":\"true\",\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5800489,45.4974107,0.0 -73.57995830000002,45.4973683,0.0 -73.5798484,45.4974788,0.0 -73.5799368,45.497522599999996,0.0 -73.5800489,45.4974107,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "CL": {
     "path": "/content/concordia/en/maps/buildings/cl",
@@ -169,7 +209,17 @@
     "serviceslinks": [
       "{\"linkText\":\"The Centre for Continuing Education\",\"linkPath\":\"http://cce.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.579267,45.49447860000001,0.0 -73.5796505,45.4941628,0.0 -73.5793126,45.4939804,0.0 -73.578921,45.49427180000001,0.0 -73.579267,45.49447860000001,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "D": {
     "path": "/content/concordia/en/maps/buildings/d",
@@ -196,7 +246,17 @@
     "serviceslinks": [],
     "departmentslinks": [
       "{\"linkText\":\"Theological Studies\",\"linkPath\":\"/content/concordia/en/artsci/theology.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.579432,45.4976495,0.0 -73.5792737,45.4978159,0.0 -73.579334,45.4978459,0.0 -73.5794956,45.49768000000001,0.0 -73.579432,45.4976495,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "DO": {
     "path": "/content/concordia/en/maps/buildings/do",
@@ -221,7 +281,17 @@
     "directionlink": "https://maps.google.com/maps?daddr=7141+Sherbrooke+W.,+Montreal,+QC,+Canada",
     "moreinfo": false,
     "serviceslinks": [],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6370927,45.457382,0.0 -73.6363578,45.4569606,0.0 -73.6352393,45.4579314,0.0 -73.6359608,45.4583491,0.0 -73.6370927,45.457382,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "EN": {
     "path": "/content/concordia/en/maps/buildings/en",
@@ -251,7 +321,17 @@
     ],
     "departmentslinks": [
       "{\"linkText\":\"Education\",\"linkPath\":\"http://doe.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5798195,45.4966995,0.0 -73.5797659,45.49667459999999,0.0 -73.5796324,45.4968048,0.0 -73.5796143,45.4967954,0.0 -73.5795144,45.49689409999999,0.0 -73.5795459,45.4969082,0.0 -73.5795379,45.4969181,0.0 -73.5795788,45.4969374,0.0 -73.5798195,45.4966995,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "FA": {
     "path": "/content/concordia/en/maps/buildings/fa",
@@ -278,7 +358,17 @@
     "serviceslinks": [],
     "departmentslinks": [
       "{\"linkText\":\"Religion\",\"linkPath\":\"http://religion.concordia.ca/\",\"linkTarget\":\"true\",\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.579446,45.4968283,0.0 -73.5795191,45.4968655,0.0 -73.5796049,45.4967827,0.0 -73.5795292,45.4967437,0.0 -73.579446,45.4968283,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "FB": {
     "path": "/content/concordia/en/maps/buildings/fb",
@@ -309,7 +399,17 @@
     ],
     "departmentslinks": [
       "{\"linkText\":\"Cinema\",\"linkPath\":\"http://cinema.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5780466,45.49469489999999,0.0 -73.5775208,45.4944053,0.0 -73.5772365,45.494661,0.0 -73.5777837,45.4949092,0.0 -73.5780466,45.49469489999999,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "FC": {
     "path": "/content/concordia/en/maps/buildings/fc",
@@ -338,7 +438,17 @@
       "{\"linkText\":\"Cazalet Theater\",\"linkPath\":\"/content/concordia/en/arts/venues/cazalet\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Concordia Multi-Faith Chaplaincy\",\"linkPath\":\"/content/concordia/en/students/multifaith\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6391567,45.45851170000001,0.0 -73.6394235,45.45862089999999,0.0 -73.6394303,45.4586096,0.0 -73.6395094,45.458648100000005,0.0 -73.6395174,45.4586359,0.0 -73.6395764,45.4586594,0.0 -73.6396274,45.4586557,0.0 -73.6396945,45.4585654,0.0 -73.639681,45.458538999999995,0.0 -73.6396073,45.45851360000001,0.0 -73.6396194,45.4584986,0.0 -73.6394987,45.4584506,0.0 -73.6395241,45.4584205,0.0 -73.6394517,45.4583913,0.0 -73.6394289,45.4584252,0.0 -73.6392546,45.45836119999999,0.0 -73.639264,45.458349,0.0 -73.6392331,45.4583396,0.0 -73.63922510000002,45.4583499,0.0 -73.6391835,45.458333,0.0 -73.6390722,45.4584845,0.0 -73.6390708,45.4585023,0.0 -73.6390802,45.458517400000005,0.0 -73.6391111,45.4585296,0.0 -73.6391366,45.4585277,0.0 -73.6391567,45.45851170000001,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "FG": {
     "path": "/content/concordia/en/maps/buildings/fg",
@@ -365,7 +475,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Classrooms\",\"linkPath\":\"\",\"linkTarget\":\"true\",\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.57904970000001,45.49382620000001,0.0 -73.5787386,45.4936269,0.0 -73.5784757,45.493845,0.0 -73.5784274,45.4938149,0.0 -73.5783738,45.4938563,0.0 -73.5784221,45.49388259999999,0.0 -73.5783792,45.493924,0.0 -73.5783148,45.4939052,0.0 -73.5780948,45.4940857,0.0 -73.5781431,45.49411200000001,0.0 -73.57803580000001,45.4941985,0.0 -73.5779929,45.4941797,0.0 -73.5777569,45.4943564,0.0 -73.5778213,45.494382800000004,0.0 -73.5777783,45.494424099999996,0.0 -73.5776711,45.494379,0.0 -73.5776013,45.494442899999996,0.0 -73.5780466,45.49469489999999,0.0 -73.5784274,45.4943489,0.0 -73.578465,45.4943602,0.0 -73.5785455,45.4943113,0.0 -73.5784972,45.4942963,0.0 -73.57904970000001,45.49382620000001,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "GN": {
     "path": "/content/concordia/en/maps/buildings/gn",
@@ -395,7 +515,17 @@
       "{\"linkText\":\"Daycare Centre\",\"linkPath\":\"/content/concordia/en/campus-life/daycares.html\",\"linkTarget\":false,\"itemClass\":\"\"}",
       "{\"linkText\":\"Summer Accommodation\",\"linkPath\":\"/content/concordia/en/campus-life/summer-accommodations.html/greynunsresidence/\",\"linkTarget\":false,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5776979,45.4929839,0.0 -73.576625,45.4923634,0.0 -73.5752088,45.49383,0.0 -73.5771507,45.49466850000001,0.0 -73.5774833,45.4943752,0.0 -73.5776067,45.49427750000001,0.0 -73.5775477,45.4942399,0.0 -73.577891,45.4939052,0.0 -73.5772473,45.4935743,0.0 -73.5772097,45.4936156,0.0 -73.5771507,45.493589300000004,0.0 -73.5772151,45.493529099999996,0.0 -73.5770649,45.4934351,0.0 -73.5770273,45.4934765,0.0 -73.5769254,45.49343890000001,0.0 -73.5770166,45.4933411,0.0 -73.5770595,45.4933637,0.0 -73.5772258,45.49321700000001,0.0 -73.5771829,45.4931945,0.0 -73.5772794,45.4931042,0.0 -73.57746720000002,45.4931982,0.0 -73.5776979,45.4929839,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "HA": {
     "path": "/content/concordia/en/maps/buildings/ha",
@@ -422,7 +552,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Student Residence\",\"linkPath\":\"/content/concordia/en/campus-life/residences/hingston-hall.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.641576,45.45942660000001,0.0 -73.6415177,45.459404,0.0 -73.6415271,45.4593894,0.0 -73.6411764,45.4592549,0.0 -73.6411663,45.4592718,0.0 -73.641106,45.4592459,0.0 -73.6410892,45.4592713,0.0 -73.6410771,45.4592666,0.0 -73.6409263,45.459460400000005,0.0 -73.640935,45.4594646,0.0 -73.6409175,45.4594863,0.0 -73.6409765,45.4595098,0.0 -73.6409645,45.4595249,0.0 -73.6413138,45.4596575,0.0 -73.6413232,45.4596462,0.0 -73.6413856,45.459669700000006,0.0 -73.641576,45.45942660000001,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "HB": {
     "path": "/content/concordia/en/maps/buildings/hb",
@@ -450,7 +590,17 @@
       "{\"linkText\":\"Student Residence\",\"linkPath\":\"/content/concordia/en/campus-life/residences/hingston-hall.html\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"CUFA\",\"linkPath\":\"http://www.cufa.net/\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6415546,45.4594167,0.0 -73.641572,45.4593875,0.0 -73.6419944,45.45955210000001,0.0 -73.6420159,45.45952960000001,0.0 -73.6419556,45.459506,0.0 -73.642083,45.4593395,0.0 -73.6420991,45.459348,0.0 -73.6421151,45.4593207,0.0 -73.6421742,45.4593461,0.0 -73.6423378,45.4591458,0.0 -73.6422734,45.459126000000005,0.0 -73.6422895,45.4591025,0.0 -73.6422761,45.45909780000001,0.0 -73.6422908,45.4590818,0.0 -73.6419395,45.458947300000005,0.0 -73.6419328,45.458959500000006,0.0 -73.641914,45.4589539,0.0 -73.6418979,45.4589736,0.0 -73.6418402,45.45895290000001,0.0 -73.6415157,45.45936400000001,0.0 -73.6415398,45.4593743,0.0 -73.6415177,45.459404,0.0 -73.6415546,45.4594167,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "HC": {
     "path": "/content/concordia/en/maps/buildings/hc",
@@ -477,7 +627,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Student Residence\",\"linkPath\":\"/content/concordia/en/campus-life/residences/hingston-hall.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6422821,45.45961560000001,0.0 -73.642032,45.4595169,0.0 -73.6418939,45.4596923,0.0 -73.6419301,45.45970590000001,0.0 -73.6418409,45.4598188,0.0 -73.6420206,45.45988750000001,0.0 -73.6421111,45.4597746,0.0 -73.6421433,45.4597878,0.0 -73.6422821,45.45961560000001,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "JR": {
     "path": "/content/concordia/en/maps/buildings/jr",
@@ -504,7 +664,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Student Residence\",\"linkPath\":\"/content/concordia/en/campus-life/residences/jesuit-residence.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6433811,45.45854,0.0 -73.6434361,45.4584713,0.0 -73.6434187,45.4584647,0.0 -73.6434764,45.4584017,0.0 -73.6433972,45.4583706,0.0 -73.6434147,45.4583556,0.0 -73.6433154,45.458312299999996,0.0 -73.6432993,45.458333,0.0 -73.6432229,45.4583048,0.0 -73.6431679,45.45837349999999,0.0 -73.6431988,45.458381,0.0 -73.643188,45.458396,0.0 -73.6431706,45.4583885,0.0 -73.6431304,45.458444,0.0 -73.6432055,45.4584741,0.0 -73.6431934,45.4584873,0.0 -73.643294,45.4585268,0.0 -73.6433087,45.458507999999995,0.0 -73.6433811,45.45854,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "K": {
     "path": "/content/concordia/en/maps/buildings/k",
@@ -531,7 +701,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Theological Studies\",\"linkPath\":\"/content/concordia/en/artsci/theology.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5795881,45.497713399999995,0.0 -73.5794225,45.4978854,0.0 -73.5794943,45.49792399999999,0.0 -73.5796599,45.49775,0.0 -73.5795881,45.497713399999995,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "MB": {
     "path": "/content/concordia/en/maps/buildings/mb",
@@ -604,7 +784,17 @@
       "{\"linkText\":\"CUPEU\",\"linkPath\":\"http://www.concordia.ca/hr/dept/employee-labour-relations/labour-agreements.html#cupeu\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"CUCEPTFU\",\"linkPath\":\"\",\"linkTarget\":true,\"itemClass\":\"http://www.concordia.ca/hr/dept/employee-labour-relations/labour-agreements.html#cuceptfu\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.579334,45.4976006,0.0 -73.5791751,45.4977679,0.0 -73.5792683,45.497813,0.0 -73.5794266,45.49764480000001,0.0 -73.579334,45.4976006,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "MT": {
     "path": "/content/concordia/en/maps/buildings/mt",
@@ -631,7 +821,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Conference services\",\"linkPath\":\"/content/concordia/en/hospitality.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5762012,45.4945557,0.0 -73.57606310000001,45.4947193,0.0 -73.5761368,45.4947494,0.0 -73.5761207,45.4947654,0.0 -73.5761757,45.4947879,0.0 -73.5762468,45.49469669999999,0.0 -73.57630180000001,45.494713700000005,0.0 -73.5762736,45.49474,0.0 -73.5763004,45.4947494,0.0 -73.5762092,45.494849,0.0 -73.5762575,45.4948697,0.0 -73.5764413,45.494662,0.0 -73.5762012,45.4945557,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "PT": {
     "path": "/content/concordia/en/maps/buildings/pt",
@@ -660,7 +860,17 @@
     ],
     "departmentslinks": [
       "{\"linkText\":\"Oscar Peterson Concert Hall\",\"linkPath\":\"/content/concordia/en/arts/venues/oscar-peterson.html\",\"linkTarget\":false,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6392385,45.4593047,0.0 -73.6389555,45.4591975,0.0 -73.638977,45.4591749,0.0 -73.6389247,45.4591505,0.0 -73.6389542,45.4591063,0.0 -73.6388402,45.4590611,0.0 -73.6387677,45.45914950000001,0.0 -73.638804,45.4591636,0.0 -73.6386833,45.4593151,0.0 -73.6386994,45.459321700000004,0.0 -73.6387074,45.459309399999995,0.0 -73.6390668,45.459447700000005,0.0 -73.6390534,45.45946369999999,0.0 -73.6391339,45.4594919,0.0 -73.6392358,45.459363100000004,0.0 -73.6392023,45.4593508,0.0 -73.6392385,45.4593047,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "PY": {
     "path": "/content/concordia/en/maps/buildings/py",
@@ -715,7 +925,17 @@
       "{\"linkText\":\"Environmental Health and Safety\",\"linkPath\":\"/content/concordia/en/campus-life/safety\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Facilities Management\",\"linkPath\":\"/content/concordia/en/offices/facilities\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6403328,45.4597017,0.0 -73.6401531,45.4596358,0.0 -73.6401853,45.4596076,0.0 -73.6396703,45.4594101,0.0 -73.6396489,45.459444,0.0 -73.6395416,45.4594044,0.0 -73.6396006,45.4593311,0.0 -73.6394584,45.4592728,0.0 -73.6392224,45.45957000000001,0.0 -73.6393645,45.4596152,0.0 -73.6393243,45.459666,0.0 -73.6400673,45.4599481,0.0 -73.6401477,45.459824,0.0 -73.6402175,45.4598503,0.0 -73.6403328,45.4597017,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "PR": {
     "path": "/content/concordia/en/maps/buildings/pr",
@@ -743,7 +963,17 @@
     "departmentslinks": [
       "{\"linkText\":\"Philosophy\",\"linkPath\":\"/content/concordia/en/artsci/philosophy\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Liberal Arts College\",\"linkPath\":\"http://liberalartscollege.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5799737,45.496797300000004,0.0 -73.5797826,45.496989600000006,0.0 -73.5798691,45.4970314,0.0 -73.5800622,45.4968382,0.0 -73.5799737,45.496797300000004,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "Q": {
     "path": "/content/concordia/en/maps/buildings/q",
@@ -770,7 +1000,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Ethnic Students' Association\",\"linkPath\":\"http://www.ieacconcordia.ca/about-us.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5791134,45.49668309999999,0.0 -73.5792153,45.49657690000001,0.0 -73.5791576,45.4965496,0.0 -73.5790524,45.4966539,0.0 -73.5791134,45.49668309999999,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "QA": {
     "path": "/content/concordia/en/maps/buildings/quadrangle",
@@ -822,7 +1062,17 @@
     "serviceslinks": [],
     "departmentslinks": [
       "{\"linkText\":\"Religion\",\"linkPath\":\"http://religion.concordia.ca/\",\"linkTarget\":\"true\",\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5793595,45.4967865,0.0 -73.5794406,45.4968265,0.0 -73.5795305,45.4967381,0.0 -73.5794473,45.496697700000006,0.0 -73.5793595,45.4967865,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "RA": {
     "path": "/content/concordia/en/maps/buildings/ra",
@@ -852,7 +1102,17 @@
       "{\"linkText\":\"Indoor running track\",\"linkPath\":\"http://athletics.concordia.ca/campus/facilities.shtml\",\"linkTarget\":\"true\",\"itemClass\":\"\"}",
       "{\"linkText\":\"CafÃ©\",\"linkPath\":\"\",\"linkTarget\":\"true\",\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.637377,45.4563867,0.0 -73.6371142,45.4567272,0.0 -73.637884,45.4570283,0.0 -73.6379296,45.45695680000001,0.0 -73.6380637,45.4570038,0.0 -73.6381951,45.456845799999996,0.0 -73.6380637,45.4567968,0.0 -73.6381522,45.4566896,0.0 -73.637377,45.4563867,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "RF": {
     "path": "/content/concordia/en/maps/buildings/rf",
@@ -880,7 +1140,17 @@
       "{\"linkText\":\"Loyola Jesuit Hall and Conference Centre\",\"linkPath\":\"/content/concordia/en/hospitality/hospitality-venues/loyola-jesuit-hall-conference-centre.html\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Conference services\",\"linkPath\":\"/content/concordia/en/hospitality.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6407492,45.4584172,0.0 -73.6407901,45.4584341,0.0 -73.6407727,45.4584562,0.0 -73.6409377,45.4585221,0.0 -73.6408672,45.458611,0.0 -73.6409839,45.45865710000001,0.0 -73.641047,45.4585766,0.0 -73.6411268,45.4586068,0.0 -73.6411522,45.4585705,0.0 -73.641175,45.4585795,0.0 -73.6411965,45.4585513,0.0 -73.6412729,45.4585828,0.0 -73.641399,45.4584219,0.0 -73.6413313,45.4583946,0.0 -73.6412857,45.45845250000001,0.0 -73.6411951,45.458416299999996,0.0 -73.6412488,45.458353200000005,0.0 -73.641112,45.4582996,0.0 -73.64102620000001,45.4584111,0.0 -73.6409571,45.45838620000001,0.0 -73.6409752,45.458365,0.0 -73.640878,45.458329199999994,0.0 -73.6408431,45.4583753,0.0 -73.6407962,45.458357,0.0 -73.6407492,45.4584172,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "SB": {
     "path": "/content/concordia/en/maps/buildings/sb",
@@ -907,7 +1177,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Arts and Science Research Groups\",\"linkPath\":\"/content/concordia/en/artsci/research/centres.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5862474,45.4965158,0.0 -73.5863239,45.4965111,0.0 -73.5863172,45.4964462,0.0 -73.58584910000002,45.4964772,0.0 -73.5858518,45.4965064,0.0 -73.5859081,45.4965186,0.0 -73.5858987,45.4965618,0.0 -73.5859497,45.4965825,0.0 -73.585943,45.4965919,0.0 -73.5861187,45.4966756,0.0 -73.5861361,45.4966634,0.0 -73.5862032,45.4967,0.0 -73.5863252,45.4965506,0.0 -73.5862783,45.49653270000001,0.0 -73.5862488,45.4965364,0.0 -73.5862474,45.4965158,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "SC": {
     "path": "/content/concordia/en/maps/buildings/sc",
@@ -937,7 +1217,17 @@
       "{\"linkText\":\"Cafeteria\",\"linkPath\":\"\",\"linkTarget\":false,\"itemClass\":\"\"}",
       "{\"linkText\":\"CafÃ©\",\"linkPath\":\"\",\"linkTarget\":false,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6391996,45.4592812,0.0 -73.639217,45.45925389999999,0.0 -73.6393216,45.4592963,0.0 -73.6393712,45.459237900000005,0.0 -73.6393136,45.4592173,0.0 -73.6394088,45.4591034,0.0 -73.6391285,45.458995300000005,0.0 -73.6390534,45.4590921,0.0 -73.6390011,45.4590752,0.0 -73.6389636,45.4591326,0.0 -73.6390051,45.4591505,0.0 -73.6389716,45.4591909,0.0 -73.6391996,45.4592812,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "SH": {
     "path": "/content/concordia/en/maps/buildings/sh",
@@ -962,7 +1252,17 @@
     "directionlink": "https://maps.google.com/maps?daddr=7141+Sherbrooke+West,+Montreal,+QC,+Canada",
     "moreinfo": false,
     "serviceslinks": [],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6425054,45.4596641,0.0 -73.6425483,45.45959630000001,0.0 -73.6424464,45.4595587,0.0 -73.642382,45.459633999999994,0.0 -73.6425054,45.4596641,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "SI": {
     "path": "/content/concordia/en/maps/buildings/si",
@@ -987,7 +1287,17 @@
     "directionlink": "https://maps.google.com/maps?daddr=4455+Broadway,+Montreal,+QC,+Canada",
     "moreinfo": false,
     "serviceslinks": [],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.642547,45.458152,0.0 -73.6427093,45.457952,0.0 -73.6425785,45.457903599999995,0.0 -73.6425651,45.4579224,0.0 -73.6424759,45.45788759999999,0.0 -73.6425189,45.4578335,0.0 -73.6424926,45.4578222,0.0 -73.6425295,45.45777520000001,0.0 -73.6425067,45.4577639,0.0 -73.6425456,45.4577187,0.0 -73.6425241,45.4577089,0.0 -73.6425966,45.4576153,0.0 -73.6424706,45.4575711,0.0 -73.6424008,45.4576604,0.0 -73.6423203,45.4576266,0.0 -73.6422801,45.4576773,0.0 -73.6422533,45.4576661,0.0 -73.6422117,45.4577206,0.0 -73.6421869,45.4577117,0.0 -73.6421386,45.4577676,0.0 -73.6421091,45.4577545,0.0 -73.6420628,45.4578199,0.0 -73.6420374,45.457809,0.0 -73.6420086,45.4578438,0.0 -73.6420736,45.4578693,0.0 -73.6420273,45.457927999999995,0.0 -73.6421011,45.4579587,0.0 -73.6421011,45.457984,0.0 -73.6422506,45.45804420000001,0.0 -73.6422781,45.4580282,0.0 -73.6424304,45.458085600000004,0.0 -73.6424142,45.4581063,0.0 -73.642547,45.458152,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "T": {
     "path": "/content/concordia/en/maps/buildings/t",
@@ -1014,7 +1324,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Graduate Students Association\",\"linkPath\":\"http://gsaconcordia.ca/\",\"linkTarget\":\"true\",\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5792924,45.4966243,0.0 -73.5792187,45.4966977,0.0 -73.5792831,45.49672960000001,0.0 -73.5793575,45.4966563,0.0 -73.5792924,45.4966243,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "TA": {
     "path": "/content/concordia/en/maps/buildings/ta",
@@ -1039,7 +1359,17 @@
     "directionlink": "https://maps.google.com/maps?daddr=7079+Terrebonne,+Montreal,+QC,+Canada",
     "moreinfo": false,
     "serviceslinks": [],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6408921,45.4599303,0.0 -73.6408022,45.4600432,0.0 -73.6409108,45.4600827,0.0 -73.6410007,45.4599726,0.0 -73.6408921,45.4599303,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "TD": {
     "path": "/content/concordia/en/maps/buildings/td",
@@ -1066,7 +1396,17 @@
     "serviceslinks": [
       "{\"linkText\":\"CUSP\",\"linkPath\":\"/content/concordia/en/offices/cusp.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5788244,45.4948359,0.0 -73.5789585,45.494713700000005,0.0 -73.5786474,45.49454070000001,0.0 -73.5785079,45.4946573,0.0 -73.5788244,45.4948359,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "V": {
     "path": "/content/concordia/en/maps/buildings/v",
@@ -1094,7 +1434,17 @@
       "{\"linkText\":\"CUTV\",\"linkPath\":\"\",\"linkTarget\":\"true\",\"itemClass\":\"\"}",
       "{\"linkText\":\"Centre 2110\",\"linkPath\":\"http://www.centre2110.org/\",\"linkTarget\":\"true\",\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.579961,45.4969449,0.0 -73.57987310000001,45.4970309,0.0 -73.5798792,45.497035600000004,0.0 -73.5798604,45.4970478,0.0 -73.5799409,45.4970878,0.0 -73.5800441,45.4969863,0.0 -73.579961,45.4969449,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "VA": {
     "path": "/content/concordia/en/maps/buildings/va",
@@ -1127,7 +1477,17 @@
       "{\"linkText\":\"Art History\",\"linkPath\":\"/content/concordia/en/finearts/art-history.html\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Art Education\",\"linkPath\":\"/content/concordia/en/finearts/art-education\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Creative Arts Therapies\",\"linkPath\":\"/content/concordia/en/finearts/creative-arts-therapies\",\"linkTarget\":true,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5737497,45.4954356,0.0 -73.5734814,45.4956989,0.0 -73.5737765,45.4958493,0.0 -73.5735351,45.4960937,0.0 -73.5737979,45.4962103,0.0 -73.5742968,45.4957177,0.0 -73.5737497,45.4954356,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "VE": {
     "path": "/content/concordia/en/maps/buildings/ve",
@@ -1156,7 +1516,17 @@
     ],
     "departmentslinks": [
       "{\"linkText\":\"Applied Human Sciences\",\"linkPath\":\"http://ahsc.concordia.ca/\",\"linkTarget\":\"true\",\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6382528,45.45886360000001,0.0 -73.6387946,45.45907239999999,0.0 -73.6388402,45.459015,0.0 -73.6388724,45.459027199999994,0.0 -73.6388911,45.4590065,0.0 -73.6389193,45.4590188,0.0 -73.6390118,45.4589021,0.0 -73.638985,45.45888899999999,0.0 -73.6390172,45.4588485,0.0 -73.63899040000001,45.4588363,0.0 -73.6390024,45.458820300000006,0.0 -73.6384942,45.458618,0.0 -73.63844990000001,45.4586792,0.0 -73.6384003,45.4586594,0.0 -73.6383761,45.458691400000006,0.0 -73.6383922,45.4586942,0.0 -73.6383171,45.458790199999996,0.0 -73.63829840000001,45.4587836,0.0 -73.6382756,45.4588137,0.0 -73.6382917,45.4588184,0.0 -73.6382528,45.45886360000001,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "VL": {
     "path": "/content/concordia/en/maps/buildings/vl",
@@ -1183,7 +1553,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Library\",\"linkPath\":\"/content/concordia/en/library\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.638804,45.4590827,0.0 -73.6382058,45.4588523,0.0 -73.6381871,45.4588739,0.0 -73.6381428,45.458856,0.0 -73.6381173,45.45888990000001,0.0 -73.6380757,45.4588701,0.0 -73.6379068,45.4590893,0.0 -73.6378759,45.45907619999999,0.0 -73.6378585,45.4591015,0.0 -73.6379229,45.4591279,0.0 -73.6379322,45.45911660000001,0.0 -73.6379604,45.4591279,0.0 -73.6379497,45.459140100000006,0.0 -73.6381589,45.4592182,0.0 -73.6382286,45.4591251,0.0 -73.6382581,45.4591364,0.0 -73.6382447,45.4591514,0.0 -73.6385384,45.4592643,0.0 -73.6385451,45.45925580000001,0.0 -73.6385947,45.4592746,0.0 -73.6385854,45.4592822,0.0 -73.6386725,45.45931230000001,0.0 -73.6387879,45.4591655,0.0 -73.63875170000001,45.45914950000001,0.0 -73.638804,45.4590827,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "Z": {
     "path": "/content/concordia/en/maps/buildings/z",
@@ -1211,7 +1591,17 @@
       "{\"linkText\":\"Multi-Faith Chaplaincy\",\"linkPath\":\"/content/concordia/en/offices/chaplaincy.html\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Sustainable Concordia\",\"linkPath\":\"http://sustainableconcordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5797813,45.4968598,0.0 -73.5796914,45.4969477,0.0 -73.5797759,45.4969891,0.0 -73.5798658,45.4969002,0.0 -73.5797813,45.4968598,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "OS": {
     "path": "/content/concordia/en/maps/buildings/os",
@@ -1236,7 +1626,17 @@
     "directionlink": "https://maps.google.com/maps?daddr=1191+De+la+Montagne,+Montreal,+QC,+Canada ",
     "moreinfo": false,
     "serviceslinks": [],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5731971,45.4972838,0.0 -73.5732964,45.4971898,0.0 -73.5731301,45.4971052,0.0 -73.5730255,45.4972029,0.0 -73.5731971,45.4972838,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "CB": {
     "path": "/content/concordia/en/maps/buildings/cb",
@@ -1261,7 +1661,17 @@
     "directionlink": "https://maps.google.com/maps?daddr=1425+Ren%C3%A9+L%C3%A9vesque+W.,+Montreal,+QC,+Canada ",
     "moreinfo": false,
     "serviceslinks": [],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5746294,45.4950859,0.0 -73.5745865,45.4950483,0.0 -73.5745382,45.49508590000001,0.0 -73.57427,45.4949543,0.0 -73.5741949,45.4950258,0.0 -73.5742593,45.4950596,0.0 -73.5742217,45.49511230000001,0.0 -73.5741413,45.4950859,0.0 -73.5740823,45.4951611,0.0 -73.5741627,45.49518369999999,0.0 -73.5740876,45.4952627,0.0 -73.5739911,45.4952251,0.0 -73.5739321,45.495304,0.0 -73.57427,45.4954657,0.0 -73.5746294,45.4950859,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "P": {
     "path": "/content/concordia/en/maps/buildings/p",
@@ -1286,7 +1696,17 @@
     "directionlink": "https://maps.google.com/maps?daddr=2020+Mackay,+Montreal,+QC,+Canada ",
     "moreinfo": false,
     "serviceslinks": [],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5791932,45.4967169,0.0 -73.5792898,45.496618700000006,0.0 -73.5792167,45.496583,0.0 -73.5791194,45.49668119999999,0.0 -73.5791932,45.4967169,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "X": {
     "path": "/content/concordia/en/maps/buildings/x",
@@ -1313,7 +1733,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Concordia International\",\"linkPath\":\"/content/concordia/en/offices/ci.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5797766,45.49685980000001,0.0 -73.5797001,45.4968236,0.0 -73.5796157,45.49690640000001,0.0 -73.5796908,45.4969426,0.0 -73.5797766,45.49685980000001,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "PC": {
     "path": "/content/concordia/en/maps/buildings/pc",
@@ -1340,7 +1770,17 @@
     "serviceslinks": [
       "{\"linkText\":\"PERFORM Centre\",\"linkPath\":\"/content/concordia/en/research/perform.html\",\"linkTarget\":false,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6371946,45.45701129999999,0.0 -73.6370739,45.4569587,0.0 -73.6369988,45.457033900000006,0.0 -73.6371115,45.4570941,0.0 -73.6371946,45.45701129999999,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "BH": {
     "path": "/content/concordia/en/maps/buildings/bh",
@@ -1367,7 +1807,17 @@
     "serviceslinks": [
       "{\"linkText\":\"CPE Les P'tits Profs Daycare\",\"linkPath\":\"http://lesptitsprofs.wordpress.com/\",\"linkTarget\":\"true\",\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6392653,45.4597262,0.0 -73.639107,45.4596584,0.0 -73.6390293,45.4597581,0.0 -73.6391822,45.4598183,0.0 -73.6392653,45.4597262,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "RR": {
     "path": "/content/concordia/en/maps/buildings/rr",
@@ -1394,7 +1844,17 @@
     "serviceslinks": [],
     "departmentslinks": [
       "{\"linkText\":\"Liberal Arts College\",\"linkPath\":\"/content/concordia/en/artsci/liberal-arts-college\",\"linkTarget\":false,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5794078,45.49661309999999,0.0 -73.5792764,45.4967442,0.0 -73.5793561,45.4967827,0.0 -73.5794876,45.496653,0.0 -73.5794078,45.49661309999999,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "SP": {
     "path": "/content/concordia/en/maps/buildings/sp",
@@ -1434,7 +1894,17 @@
       "{\"linkText\":\"Centre for Biological Applications of Mass Spectrometry\",\"linkPath\":\"/content/concordia/en/research/mass-spec\",\"linkTarget\":false,\"itemClass\":\"\"}",
       "{\"linkText\":\"Centre for NanoScience Research\",\"linkPath\":\"/content/concordia/en/research/nanoscience\",\"linkTarget\":false,\"itemClass\":\"\"}",
       "{\"linkText\":\"Center for Studies in Behavioral Neurobiology\",\"linkPath\":\"/content/concordia/en/research/neuroscience\",\"linkTarget\":false,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.642036,45.4574403,0.0 -73.6414433,45.4572108,0.0 -73.6414661,45.457182100000004,0.0 -73.6414272,45.4571651,0.0 -73.6414191,45.4571774,0.0 -73.6413594,45.457152,0.0 -73.6413514,45.4571614,0.0 -73.6410322,45.4570381,0.0 -73.6410537,45.457014599999994,0.0 -73.6409926,45.4569906,0.0 -73.6409718,45.45702070000001,0.0 -73.6408532,45.4569718,0.0 -73.6407191,45.4571355,0.0 -73.6408619,45.457191,0.0 -73.6408216,45.45724270000001,0.0 -73.6412562,45.457412100000006,0.0 -73.6412501,45.457421499999995,0.0 -73.6415076,45.4575231,0.0 -73.6412635,45.457839099999994,0.0 -73.6413386,45.4578693,0.0 -73.641285,45.4579351,0.0 -73.641169,45.4578904,0.0 -73.6411026,45.4579784,0.0 -73.6412374,45.4580287,0.0 -73.6411891,45.4580913,0.0 -73.6412146,45.45810250000001,0.0 -73.6411348,45.4582023,0.0 -73.64126090000002,45.45824929999999,0.0 -73.6413239,45.45817170000001,0.0 -73.641403,45.458204099999996,0.0 -73.6413407,45.458282600000004,0.0 -73.6414486,45.4583231,0.0 -73.6415532,45.4581966,0.0 -73.6415808,45.4582084,0.0 -73.6417356,45.458010400000006,0.0 -73.6417047,45.45799530000001,0.0 -73.6419636,45.4576698,0.0 -73.6419864,45.4576774,0.0 -73.6420548,45.45759079999999,0.0 -73.6419475,45.4575513,0.0 -73.642036,45.4574403,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "LB": {
     "path": "/content/concordia/en/maps/buildings/lb",
@@ -1475,7 +1945,17 @@
       "{\"linkText\":\"Ã‰tudes franÃ§aises\",\"linkPath\":\"/content/concordia/en/artsci/francais\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Mathematics and Statistics\",\"linkPath\":\"http://www.mathstat.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Education\",\"linkPath\":\"http://doe.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.578068,45.4972556,0.0 -73.5786152,45.4966991,0.0 -73.5777079,45.4962465,0.0 -73.5774739,45.4964881,0.0 -73.5776389,45.4965637,0.0 -73.5774619,45.4967169,0.0 -73.5773063,45.4968796,0.0 -73.578068,45.4972556,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "M": {
     "path": "/content/concordia/en/maps/buildings/m",
@@ -1500,7 +1980,17 @@
     "directionlink": "https://maps.google.com/maps?daddr=2135+Mackay,+Montreal,+QC,+Canada ",
     "moreinfo": false,
     "serviceslinks": [],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.57987310000001,45.497327,0.0 -73.5797961,45.4972861,0.0 -73.5796874,45.4973957,0.0 -73.5797639,45.49743380000001,0.0 -73.57987310000001,45.497327,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "S": {
     "path": "/content/concordia/en/maps/buildings/s",
@@ -1525,7 +2015,17 @@
     "directionlink": "https://maps.google.com/maps?daddr=2145+Mackay,+Montreal,+QC,+Canada ",
     "moreinfo": false,
     "serviceslinks": [],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5799536,45.4973656,0.0 -73.5798919,45.4973345,0.0 -73.57976980000001,45.49745680000001,0.0 -73.5798336,45.4974877,0.0 -73.5799536,45.4973656,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "GM": {
     "path": "/content/concordia/en/maps/buildings/gm",
@@ -1567,7 +2067,17 @@
       "{\"linkText\":\"Contemporary Dance\",\"linkPath\":\"/content/concordia/en/finearts/dance\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Graduate Studies\",\"linkPath\":\"/content/concordia/en/offices/sgs.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5785213,45.4959489,0.0 -73.5788807,45.4961144,0.0 -73.5791945,45.4957891,0.0 -73.5788485,45.495633100000006,0.0 -73.5785213,45.4959489,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "CJ": {
     "path": "/content/concordia/en/maps/buildings/cj",
@@ -1597,7 +2107,17 @@
     "departmentslinks": [
       "{\"linkText\":\"Communication Studies\",\"linkPath\":\"http://coms.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Journalism\",\"linkPath\":\"http://journalism.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6404884,45.4578344,0.0 -73.6406359,45.4576529,0.0 -73.6405662,45.4576218,0.0 -73.6406252,45.4575466,0.0 -73.640593,45.4575315,0.0 -73.6407593,45.4573302,0.0 -73.6406909,45.4573039,0.0 -73.6407137,45.4572794,0.0 -73.6404388,45.4571731,0.0 -73.6402456,45.4574234,0.0 -73.6401129,45.457371599999995,0.0 -73.6400753,45.457306700000004,0.0 -73.6400954,45.4572982,0.0 -73.6400566,45.4572315,0.0 -73.6399694,45.457223,0.0 -73.6399117,45.4572315,0.0 -73.6398607,45.4572484,0.0 -73.6398232,45.4572747,0.0 -73.639795,45.4573133,0.0 -73.6397803,45.4573773,0.0 -73.6397816,45.4573942,0.0 -73.6398272,45.4574648,0.0 -73.63985,45.457472300000006,0.0 -73.6399708,45.4574582,0.0 -73.639962,45.457442699999994,0.0 -73.6400713,45.45743650000001,0.0 -73.6401907,45.4574854,0.0 -73.6400861,45.4576218,0.0 -73.6403275,45.45771400000001,0.0 -73.6402953,45.4577582,0.0 -73.6404884,45.4578344,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "GE": {
     "path": "/content/concordia/en/maps/buildings/ge",
@@ -1623,7 +2143,17 @@
     "serviceslinks": [
       "{\"linkText\":\"Genomic Centre\",\"linkPath\":\"/content/concordia/en/research/genomics\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.6405903,45.45688620000001,0.0 -73.6404012,45.4568147,0.0 -73.6402832,45.4569182,0.0 -73.640479,45.457001000000005,0.0 -73.6405903,45.45688620000001,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "EV": {
     "path": "/content/concordia/en/maps/buildings/ev",
@@ -1665,7 +2195,17 @@
       "{\"linkText\":\"Comtemporary Dance\",\"linkPath\":\"http://dance.concordia.ca/en/\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Recreation and Athletics\",\"linkPath\":\"http://athletics.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Zero Energy Building Studies, Centre for\",\"linkPath\":\"/content/concordia/en/research/zero-energy-building\",\"linkTarget\":false,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5785347,45.4959104,0.0 -73.57859440000001,45.495853,0.0 -73.5786742,45.495772200000005,0.0 -73.5788096,45.495630199999994,0.0 -73.5784435,45.495457300000005,0.0 -73.57806,45.4953548,0.0 -73.5778977,45.4952786,0.0 -73.5776536,45.4955212,0.0 -73.5777985,45.4955917,0.0 -73.5778816,45.4955926,0.0 -73.5785347,45.4959104,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "H": {
     "path": "/content/concordia/en/maps/buildings/h",
@@ -1707,7 +2247,17 @@
       "{\"linkText\":\"Classics, Modern Languages and Linguistics\",\"linkPath\":\"/content/concordia/en/artsci/cmll\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Geography, Planning and Environment\",\"linkPath\":\"http://gpe.concordia.ca/\",\"linkTarget\":true,\"itemClass\":\"\"}",
       "{\"linkText\":\"Political Science, Sociology and Anthropology, Economics\",\"linkPath\":\"/content/concordia/en/artsci/academics/departments.html\",\"linkTarget\":true,\"itemClass\":\"\"}"
-    ]
+    ],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5790323,45.4977096,0.0 -73.5795432,45.4971653,0.0 -73.5788485,45.4968297,0.0 -73.5783389,45.49737400000001,0.0 -73.5790323,45.4977096,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   },
   "MU": {
     "path": "/content/concordia/en/maps/buildings/mu",
@@ -1734,6 +2284,16 @@
     "serviceslinks": [
       "{\"linkText\":\"Simone de Beauvoir Institute\",\"linkPath\":\"/content/concordia/en/artsci/sdbi\",\"linkTarget\":true,\"itemClass\":\"\"}"
     ],
-    "departmentslinks": []
+    "departmentslinks": [],
+    "Polygon": {
+      "outerBoundaryIs": {
+        "LinearRing": {
+          "tessellate": "1",
+          "coordinates": "-73.5796646,45.4977533,0.0 -73.5794956,45.4979277,0.0 -73.57957010000001,45.49796250000001,0.0 -73.5797404,45.4977876,0.0 -73.5796646,45.4977533,0.0"
+        }
+      }
+    },
+    "ExtendedData": "",
+    "styleUrl": "#poly-000000-1-76"
   }
 }
