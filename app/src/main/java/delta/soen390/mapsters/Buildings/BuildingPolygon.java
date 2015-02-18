@@ -77,6 +77,8 @@ public class BuildingPolygon {
 	public boolean isPointInsidePolygon(LatLng point)
 	{
 		//Test if point is inside box
+        if(mBoundingBox2D == null)
+            return false;
 		return mBoundingBox2D.isPointInsideBoundingBox(new Vector2D(point.latitude, point.longitude));
 	}
 

@@ -58,7 +58,7 @@ public class MapsActivity extends FragmentActivity {
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setAnchorPoint(0.50f);
 
-	    //BuildingPolygonManager.getInstance().loadResources(this);
+	    BuildingPolygonManager.getInstance().loadResources(mMap,this);
     }
 
 
