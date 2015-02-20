@@ -59,7 +59,7 @@ public class MapsActivity extends FragmentActivity {
         mFocusMapUI.determineGpsEnabled();
 
         //Initialize the SlidingUpPanel
-        splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f);
+        splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f, mFocusMapUI, this);
 
 	    BuildingPolygonManager.getInstance().loadResources(mMap,splitPane,this);
     }
