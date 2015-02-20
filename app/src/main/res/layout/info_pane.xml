@@ -16,7 +16,7 @@
             android:src="@drawable/loy"
             android:layout_width="177dp"
             android:layout_height="177dp"
-            android:id="@+id/imageView"
+            android:id="@+id/building_image"
             android:layout_gravity="center_vertical|top" />
 
         <LinearLayout
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Services"
-                android:id="@+id/textView"
+                android:id="@+id/building_services"
                 android:layout_gravity="center_horizontal" />
 
             <TextView

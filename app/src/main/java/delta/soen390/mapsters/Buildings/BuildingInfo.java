@@ -8,25 +8,28 @@ import java.util.ArrayList;
  * Created by georgevalergas on 15-02-08.
  */
 public class BuildingInfo {
-//    TODO Create BuildingServices Class
+    //    TODO Create BuildingServices Class
 //    TODO Create Image member
 //    private String[] mBuildingServices;
-	private String mBuildingCode;
-	private String mBuildingName;
-	private String mCampus;
+    private String mBuildingCode;
+    private String mBuildingName;
+    private String mCampus;
+    private String mImageUrl;
     private LatLng mCoordinates;
-	private ArrayList<LatLng> mBoundingCoordinates;
+    private ArrayList<LatLng> mBoundingCoordinates;
 
-    public BuildingInfo() {}
+    public BuildingInfo() {
+    }
 
-    public BuildingInfo(String buildingCode, String buildingName, String campus,
+    public BuildingInfo(String buildingCode, String buildingName, String campus, String imageUrl,
                         String[] buildingServices, LatLng coordinates, ArrayList<LatLng> boundingCoordinates) {
 
-	    mBuildingCode           = buildingCode;
-        mBuildingName           = buildingName;
-        mCampus                 = campus;
-        mCoordinates            = coordinates;
-	    mBoundingCoordinates    = boundingCoordinates;
+        mImageUrl = imageUrl;
+        mBuildingCode = buildingCode;
+        mBuildingName = buildingName;
+        mCampus = campus;
+        mCoordinates = coordinates;
+        mBoundingCoordinates = boundingCoordinates;
     }
 
 
@@ -38,13 +41,19 @@ public class BuildingInfo {
         return mBuildingName;
     }
 
-	public String getCampus() {
+    public String getCampus() {
         return mCampus;
+    }
+
+    public String getImageUrl() {
+        return mImageUrl;
     }
 
     public LatLng getCoordinates() {
         return mCoordinates;
     }
 
-	public ArrayList<LatLng> getBoundingCoordinates() { return mBoundingCoordinates;}
+    public ArrayList<LatLng> getBoundingCoordinates() {
+        return mBoundingCoordinates;
+    }
 }
