@@ -70,11 +70,11 @@ public class SplitPane {
         {
             Log.i("Direction Button", "Clicked!");
 
-            LatLng latLng = new LatLng(focusMapUI.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude(),
-                    focusMapUI.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
+            //LatLng latLng = new LatLng(focusMapUI.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude(),
+            //        focusMapUI.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
 
             Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                    Uri.parse("http://maps.google.com/maps?saddr="+latLng.latitude+","+latLng.longitude+"&daddr="+currentBuilding.getCoordinates().latitude+","+currentBuilding.getCoordinates().longitude));
+                    Uri.parse("http://maps.google.com/maps?saddr="+45.50312+","+-73.56938200000002+"&daddr="+currentBuilding.getCoordinates().latitude+","+currentBuilding.getCoordinates().longitude));
 
             mContext.startActivity(intent);
         }
