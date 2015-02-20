@@ -10,6 +10,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
+import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.ViewComponents.FocusMapUI;
 import delta.soen390.mapsters.R;
@@ -28,6 +29,8 @@ public class MapsActivity extends FragmentActivity {
     private CampusSwitchUI mCampusSwitchUI;
     private CampusViewSwitcher mCampusViewSwitcher;
 
+
+    private CalendarEventManager mCalendarEventManager;
     private boolean debug = false;
 
     private SlidingUpPanelLayout mLayout;
@@ -59,6 +62,11 @@ public class MapsActivity extends FragmentActivity {
         mLayout.setAnchorPoint(0.50f);
 
 	    BuildingPolygonManager.getInstance().loadResources(mMap,this);
+
+
+        //Initialize CalendarEventManager
+        mCalendarEventManager = new CalendarEventManager(this);
+        mCalendarEventManager.updateEventQueue();
     }
 
 

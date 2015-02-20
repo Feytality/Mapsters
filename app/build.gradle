@@ -26,5 +26,7 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.0.0'
     compile 'com.android.support:cardview-v7:21.0.+'
     compile 'com.android.support:recyclerview-v7:21.0.+'
+    compile 'com.google.http-client:google-http-client-jackson:1.15.0-rc'
+    compile 'com.google.apis:google-api-services-calendar:v3-rev117-1.19.1'
 
 }
