@@ -1,6 +1,8 @@
 package delta.soen390.mapsters.Controller;
 
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ public class SplitPane {
     private TextView campus;
     private TextView buildingServices;
     private ImageView buildingPictureView;
+    private ImageButton directionButton;
 
     public SplitPane(View view, float anchorPoint){
         mLayout = (SlidingUpPanelLayout) view;
@@ -33,9 +36,15 @@ public class SplitPane {
         campus = (TextView) mLayout.findViewById(R.id.campus);
         buildingServices = (TextView) mLayout.findViewById(R.id.building_services);
         buildingPictureView = (ImageView) mLayout.findViewById(R.id.building_image);
+        directionButton = (ImageButton) mLayout.findViewById(R.id.direction_button);
+        directionButton.setOnClickListener(directionBtnListener);
     }
 
     public void updateContent(BuildingInfo buildingInfo) {
+        if (currentBuilding==null) {
+            directionButton.setVisibility(View.VISIBLE);
+        }
+
         currentBuilding = buildingInfo;
 
         buildingName.setText(buildingInfo.getBuildingName());
@@ -45,6 +54,12 @@ public class SplitPane {
         ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), buildingPictureView);
     }
 
+    private View.OnClickListener directionBtnListener = new View.OnClickListener()
+    {
+        public void onClick(View v)
+        {
+            Log.i("Direction Button", "Clicked!");
+        }
 
-
+    };
 }
