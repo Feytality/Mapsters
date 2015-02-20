@@ -7,13 +7,13 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
-import delta.soen390.mapsters.ViewComponents.FocusMapUI;
+import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
+import delta.soen390.mapsters.ViewComponents.FocusMapUI;
 
 
 public class MapsActivity extends FragmentActivity {
@@ -30,7 +30,7 @@ public class MapsActivity extends FragmentActivity {
 
     private boolean debug = false;
 
-    private SlidingUpPanelLayout mLayout;
+    private SplitPane splitPane;
     private static final String TAG = "DemoActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +55,9 @@ public class MapsActivity extends FragmentActivity {
         mFocusMapUI.determineGpsEnabled();
 
         //Initialize the SlidingUpPanel
-        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        mLayout.setAnchorPoint(0.50f);
+        splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f);
 
-	    BuildingPolygonManager.getInstance().loadResources(mMap,this);
+	    BuildingPolygonManager.getInstance().loadResources(mMap,splitPane,this);
     }
 
 

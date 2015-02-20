@@ -9,9 +9,8 @@ import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import delta.soen390.mapsters.Activities.MapsActivity;
+import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.Data.JsonReader;
 
 /**
@@ -58,7 +57,7 @@ public class BuildingPolygonManager {
         return null;
     }
 
-	public void loadResources(GoogleMap gMap,Activity activity)
+	public void loadResources(GoogleMap gMap, final SplitPane splitPane,Activity activity)
 	{
 
 		JSONObject jsonBuildingPolygons = JsonReader.ReadJsonFromFile(activity.getApplicationContext(),"buildingJson.json");
@@ -73,8 +72,12 @@ public class BuildingPolygonManager {
             @Override
             public void onMapClick(LatLng point) {
                BuildingPolygon polygon = getClickedPolygon(point);
-                if(polygon != null)
-                    Log.i(polygon.getBuildingInfo().getBuildingCode(), "Inside!" );
+                if(polygon != null) {
+                    BuildingInfo buildingInfo = polygon.getBuildingInfo();
+                    Log.i(buildingInfo.getBuildingCode(), "Inside!");
+                    splitPane.updateContent(buildingInfo);
+                }
+
             }
         });
 
