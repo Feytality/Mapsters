@@ -7,13 +7,16 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
-import delta.soen390.mapsters.ViewComponents.FocusMapUI;
+import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
+import delta.soen390.mapsters.ViewComponents.FocusMapUI;
 
 
 public class MapsActivity extends FragmentActivity {
@@ -30,7 +33,7 @@ public class MapsActivity extends FragmentActivity {
 
     private boolean debug = false;
 
-    private SlidingUpPanelLayout mLayout;
+    private SplitPane splitPane;
     private static final String TAG = "DemoActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class MapsActivity extends FragmentActivity {
     {
         //Setup the google map
         initializeMap();
+        setImageOptions();
 
         //Initialize the Campus Switch
         mCampusViewSwitcher = new CampusViewSwitcher(this,mMap);
@@ -55,10 +59,22 @@ public class MapsActivity extends FragmentActivity {
         mFocusMapUI.determineGpsEnabled();
 
         //Initialize the SlidingUpPanel
-        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        mLayout.setAnchorPoint(0.50f);
+        splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f, mFocusMapUI, this);
 
-	    BuildingPolygonManager.getInstance().loadResources(mMap,this);
+	    BuildingPolygonManager.getInstance().loadResources(mMap,splitPane,this);
+    }
+
+    public void setImageOptions(){
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+                .defaultDisplayImageOptions(options)
+                .build();
+
+        ImageLoader.getInstance().init(config);
     }
 
 
