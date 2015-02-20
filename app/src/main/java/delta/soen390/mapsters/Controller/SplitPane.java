@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
@@ -19,7 +20,7 @@ public class SplitPane {
     private TextView buildingCode;
     private TextView campus;
     private TextView buildingServices;
-    private ImageView buildingPicture;
+    private ImageView buildingPictureView;
 
     public SplitPane(View view, float anchorPoint){
         mLayout = (SlidingUpPanelLayout) view;
@@ -31,7 +32,7 @@ public class SplitPane {
         buildingCode = (TextView) mLayout.findViewById(R.id.building_code);
         campus = (TextView) mLayout.findViewById(R.id.campus);
         buildingServices = (TextView) mLayout.findViewById(R.id.building_services);
-        buildingPicture = (ImageView) mLayout.findViewById(R.id.building_image);
+        buildingPictureView = (ImageView) mLayout.findViewById(R.id.building_image);
     }
 
     public void updateContent(BuildingInfo buildingInfo) {
@@ -41,7 +42,7 @@ public class SplitPane {
         buildingCode.setText(buildingInfo.getBuildingCode());
         campus.setText(buildingInfo.getCampus());
 
-        //TODO add more later
+        ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), buildingPictureView);
     }
 
 
