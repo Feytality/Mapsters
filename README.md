@@ -12,3 +12,5 @@ GeorgeValergas  = George Valergas
 scottgoldwater  = Scott Goldwater
 
 superpatricko   = Patrick Nguyen
+
+ajuneau91       = Amanda Juneau
