@@ -2,6 +2,7 @@ package delta.soen390.mapsters.Calendar;
 
 import android.app.Activity;
 import android.content.ContentUris;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
@@ -28,8 +29,6 @@ public class CalendarEventSerializer {
 
     public ArrayList<CalendarEvent> getUpcomingEvents(int numberOfEvents) {
         ArrayList<CalendarEvent> upcomingEvents = new ArrayList<CalendarEvent>();
-
-
 
         //Builds a Uri, I think it's like query type, but not 100% sure.
 
@@ -103,9 +102,9 @@ public class CalendarEventSerializer {
 
 
 
-    public CalendarEventSerializer(Activity activity)
+    public CalendarEventSerializer(Context context)
     {
-        mImporter = new CalendarEventImporter(activity);
+        mImporter = new CalendarEventImporter(context);
     }
 
 

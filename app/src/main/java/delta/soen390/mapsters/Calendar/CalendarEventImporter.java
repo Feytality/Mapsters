@@ -2,6 +2,7 @@ package delta.soen390.mapsters.Calendar;
 
 import android.app.Activity;
 import android.content.ContentUris;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
@@ -18,11 +19,11 @@ public class CalendarEventImporter {
 
     private String[] mCalendarProjections;
     private String[] mCalendarEventProjections;
-    private Activity mActivity;
+    private Context mContext;
 
-    public CalendarEventImporter(Activity activity)
+    public CalendarEventImporter(Context context)
     {
-        mActivity = activity;
+        mContext = context;
         mCalendarProjections = new String[]
                 {
                         CalendarContract.Calendars._ID,
@@ -54,7 +55,7 @@ public class CalendarEventImporter {
 
         //Emits the db query, returns array of calendar which fits the query.
         //Each calendars contains columns passed in the projection String array.
-        Cursor calCursor = mActivity.getContentResolver().query(
+        Cursor calCursor = mContext.getContentResolver().query(
                 CalendarContract.Calendars.CONTENT_URI,
                 projection,
                 null,
@@ -68,7 +69,7 @@ public class CalendarEventImporter {
         //This will give the me the id column!
         int idColumnIndex = calCursor.getColumnIndex("_id");
 
-        String mapsterCalendarName = mActivity.getResources().getString(R.string.mapsters_calendar_name);
+        String mapsterCalendarName = mContext.getResources().getString(R.string.mapsters_calendar_name);
         //Iterate through all of the received calendar values
         if (calCursor.moveToFirst()) {
             do {
@@ -106,7 +107,7 @@ public class CalendarEventImporter {
         ContentUris.appendId(builder, now + DateUtils.DAY_IN_MILLIS * 7);
 
         //do the query!
-        Cursor eventCursor = mActivity.getContentResolver().query(builder.build(),
+        Cursor eventCursor = mContext.getContentResolver().query(builder.build(),
                 mCalendarEventProjections, "Calendar_id=" + calendarId,
                 null, "startDay ASC, startMinute ASC");
 

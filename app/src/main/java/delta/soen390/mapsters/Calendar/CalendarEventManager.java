@@ -1,11 +1,9 @@
 package delta.soen390.mapsters.Calendar;
 
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
 
+import android.content.Context;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Created by Mathieu on 2/20/2015.
@@ -16,10 +14,11 @@ public class CalendarEventManager {
     private LinkedList<CalendarEvent> mCalendarEventQueue;
 
     private int mQueueSize = 5;
-    public CalendarEventManager(Activity activity)
+
+    public CalendarEventManager(Context context)
     {
         mCalendarEventQueue = new LinkedList<CalendarEvent>();
-        mSerializer = new CalendarEventSerializer(activity);
+        mSerializer = new CalendarEventSerializer(context);
     }
 
 

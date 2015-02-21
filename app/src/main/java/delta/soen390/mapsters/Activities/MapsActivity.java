@@ -15,6 +15,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
+import delta.soen390.mapsters.Calendar.CalendarIntent;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.R;
@@ -31,7 +32,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationService mLocationService;
     private SplitPane splitPane;
     private static final String TAG = "DemoActivity";
-
+    private CalendarEventManager mCalendarEventManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +51,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Initialize the SlidingUpPanel
         splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f, mLocationService, getApplicationContext());
+
+        //Initialize the CalendarEventManager
+        mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
+        mCalendarEventManager.updateEventQueue();
+
     }
 
     public void setImageOptions() {
@@ -81,7 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
      * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
+     * This should only be called once and when we are sure that {@link } is not null.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
