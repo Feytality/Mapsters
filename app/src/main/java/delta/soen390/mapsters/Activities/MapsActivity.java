@@ -3,6 +3,8 @@ package delta.soen390.mapsters.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -29,13 +31,24 @@ public class MapsActivity extends FragmentActivity {
     private CampusViewSwitcher mCampusViewSwitcher;
 
     private boolean debug = false;
+    private DrawerLayout mDrawerLayout;
+    private NavigationDrawerFragment mNavigationDrawerFragment;
 
     private SlidingUpPanelLayout mLayout;
     private static final String TAG = "DemoActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+//        mNavigationDrawerFragment = (NavigationDrawerFragment)
+//                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+//
+//        // Set up the drawer.
+//        mNavigationDrawerFragment.setUp(
+//                R.id.navigation_drawer,
+//                (DrawerLayout) findViewById(R.id.drawer_layout));
 
         initialize();
 
@@ -58,7 +71,9 @@ public class MapsActivity extends FragmentActivity {
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setAnchorPoint(0.50f);
 
-	    BuildingPolygonManager.getInstance().loadResources(mMap,this);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        BuildingPolygonManager.getInstance().loadResources(mMap,this);
     }
 
 
