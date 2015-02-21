@@ -2,7 +2,6 @@ package delta.soen390.mapsters.Controller;
 
 import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
@@ -10,71 +9,76 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.R;
-import delta.soen390.mapsters.ViewComponents.FocusMapUI;
+import delta.soen390.mapsters.Services.LocationService;
 
 
 public class SplitPane {
     private SlidingUpPanelLayout mLayout;
-    private BuildingInfo currentBuilding;
-    private FocusMapUI focusMapUI;
+    private BuildingInfo mCurrentBuilding;
+    private LocationService mLocationService;
     private Context mContext;
 
     //View Components
-    private TextView buildingName;
-    private TextView buildingCode;
-    private TextView campus;
-    private TextView buildingServices;
-    private ImageView buildingPictureView;
-    private ImageButton directionButton;
+    private TextView mBuildingName;
+    private TextView mBuildingCode;
+    private TextView mCampus;
+    private TextView mBuildingServices;
+    private ImageView mBuildingPictureView;
+    private ImageButton mDirectionButton;
 
-    public SplitPane(View view, float anchorPoint, FocusMapUI mFocusMapUI, Context context){
+    public SplitPane(View view, float anchorPoint, LocationService locationService, Context context) {
         mContext = context;
         mLayout = (SlidingUpPanelLayout) view;
         mLayout.setAnchorPoint(anchorPoint);
-        currentBuilding = null;
-        focusMapUI = mFocusMapUI;
+        mCurrentBuilding = null;
+        mLocationService = locationService;
 
         //initializing components
-        buildingName = (TextView) mLayout.findViewById(R.id.building_name);
-        buildingCode = (TextView) mLayout.findViewById(R.id.building_code);
-        campus = (TextView) mLayout.findViewById(R.id.campus);
-        buildingServices = (TextView) mLayout.findViewById(R.id.building_services);
-        buildingPictureView = (ImageView) mLayout.findViewById(R.id.building_image);
-        directionButton = (ImageButton) mLayout.findViewById(R.id.direction_button);
-        directionButton.setOnClickListener(directionBtnListener);
+        mBuildingName = (TextView) mLayout.findViewById(R.id.building_name);
+        mBuildingCode = (TextView) mLayout.findViewById(R.id.building_code);
+        mCampus = (TextView) mLayout.findViewById(R.id.campus);
+        mBuildingServices = (TextView) mLayout.findViewById(R.id.building_services);
+        mBuildingPictureView = (ImageView) mLayout.findViewById(R.id.building_image);
+        mDirectionButton = (ImageButton) mLayout.findViewById(R.id.direction_button);
+        mDirectionButton.setOnClickListener(directionBtnListener);
     }
 
     public void updateContent(BuildingInfo buildingInfo) {
-        if (currentBuilding==null) {
-            directionButton.setVisibility(View.VISIBLE);
+        if (mCurrentBuilding == null) {
+            mDirectionButton.setVisibility(View.VISIBLE);
         }
 
-        currentBuilding = buildingInfo;
+        mCurrentBuilding = buildingInfo;
 
-        buildingName.setText(buildingInfo.getBuildingName());
-        buildingCode.setText(buildingInfo.getBuildingCode());
-        campus.setText(buildingInfo.getCampus());
+        mBuildingName.setText(buildingInfo.getBuildingName());
+        mBuildingCode.setText(buildingInfo.getBuildingCode());
+        mCampus.setText(buildingInfo.getCampus());
 
-        ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), buildingPictureView);
+        ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), mBuildingPictureView);
     }
 
-    private View.OnClickListener directionBtnListener = new View.OnClickListener()
-    {
-        public void onClick(View v)
-        {
+    private View.OnClickListener directionBtnListener = new View.OnClickListener() {
+        public void onClick(View v) {
             Log.i("Direction Button", "Clicked!");
 
-            //LatLng latLng = new LatLng(focusMapUI.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER).getLatitude(),
-            //        focusMapUI.getLocationManager().getLastKnownLocation(LocationManager.GPS_PROVIDER).getLongitude());
+            if (mLocationService.getLastLocation() == null) {
+                Log.i("last direction", "null");
+            } else {
+                Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
+            }
 
             Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                    Uri.parse("http://maps.google.com/maps?saddr="+45.50312+","+-73.56938200000002+"&daddr="+currentBuilding.getCoordinates().latitude+","+currentBuilding.getCoordinates().longitude));
+                    Uri.parse("http://maps.google.com/maps?saddr=" + mLocationService.getLastLocation().getLatitude() + "," +
+                            mLocationService.getLastLocation().getLongitude() +
+                            "&daddr=" + mCurrentBuilding.getCoordinates().latitude + "," +
+                            mCurrentBuilding.getCoordinates().longitude));
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             mContext.startActivity(intent);
         }
