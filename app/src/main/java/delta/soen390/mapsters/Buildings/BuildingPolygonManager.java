@@ -1,6 +1,7 @@
 package delta.soen390.mapsters.Buildings;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -57,10 +58,10 @@ public class BuildingPolygonManager {
         return null;
     }
 
-	public void loadResources(GoogleMap gMap, final SplitPane splitPane,Activity activity)
+	public void loadResources(GoogleMap gMap, final SplitPane splitPane,Context context)
 	{
 
-		JSONObject jsonBuildingPolygons = JsonReader.ReadJsonFromFile(activity.getApplicationContext(),"buildingJson.json");
+		JSONObject jsonBuildingPolygons = JsonReader.ReadJsonFromFile(context,"buildingJson.json");
         PolygonSerializer polygonSerializer = new PolygonSerializer(gMap);
 
         mBuildingPolygons = polygonSerializer.CreatePolygonArray(jsonBuildingPolygons);
