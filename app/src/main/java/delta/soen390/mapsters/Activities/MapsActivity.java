@@ -89,7 +89,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googleMap.setOnMyLocationButtonClickListener(this);
 
         //Initialize the Campus Switch
-        mCampusViewSwitcher = new CampusViewSwitcher(this, googleMap);
+        mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap));
+        //Initialize the Building Polygons
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
     }
 
