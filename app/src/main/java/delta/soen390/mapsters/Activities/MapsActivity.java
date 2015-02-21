@@ -5,7 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -18,7 +24,7 @@ import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
 
-public class MapsActivity extends FragmentActivity {
+public class MapsActivity extends FragmentActivity implements AdapterView.OnItemClickListener {
 
     private TextView textPointer;
     // Might be null if Google Play services APK is not available.
@@ -36,22 +42,14 @@ public class MapsActivity extends FragmentActivity {
 
     private SlidingUpPanelLayout mLayout;
     private static final String TAG = "DemoActivity";
+    private ListView mListView;
+    private Button mNavBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
-//        mNavigationDrawerFragment = (NavigationDrawerFragment)
-//                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-//
-//        // Set up the drawer.
-//        mNavigationDrawerFragment.setUp(
-//                R.id.navigation_drawer,
-//                (DrawerLayout) findViewById(R.id.drawer_layout));
-
         initialize();
-
     }
 
     private void initialize()
@@ -62,7 +60,7 @@ public class MapsActivity extends FragmentActivity {
         //Initialize the Campus Switch
         mCampusViewSwitcher = new CampusViewSwitcher(this,mMap);
         mCampusSwitchUI = new CampusSwitchUI(this,mCampusViewSwitcher);
-
+        mMap.setBuildingsEnabled(false);
         //Initialize the focus current location button
         mFocusMapUI = new FocusMapUI(mMap, this);
         mFocusMapUI.determineGpsEnabled();
@@ -70,13 +68,39 @@ public class MapsActivity extends FragmentActivity {
         //Initialize the SlidingUpPanel
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setAnchorPoint(0.50f);
+        //Initialize the Navigation drawer
+        initializeNavDrawer();
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //initialize hamburger btn
+        mNavBtn = (Button)findViewById(R.id.btn_nav_drawer);
+        mNavBtn.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+             mDrawerLayout.openDrawer(Gravity.LEFT);
+        }
+    });
+
+
 
         BuildingPolygonManager.getInstance().loadResources(mMap,this);
     }
 
+private void initializeNavDrawer(){
+    String[] menuItems = new String[]{
+            getString(R.string.title_section1),
+            getString(R.string.title_section2),
+            getString(R.string.title_section3),
+    };
+    mListView = (ListView) findViewById(R.id.left_drawer);
+    mListView.setAdapter(new ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_list_item_activated_1,
+            android.R.id.text1, menuItems
+    ));
+    mListView.setOnItemClickListener(this);
+    mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+}
     @Override
     public void onPause()
     {
@@ -142,5 +166,10 @@ public class MapsActivity extends FragmentActivity {
         mMap.setMyLocationEnabled(true); // Shows location button on top right.
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(this,"Fuckin "+position,Toast.LENGTH_SHORT).show();
+    mDrawerLayout.closeDrawer(Gravity.LEFT);
+    }
 }
 

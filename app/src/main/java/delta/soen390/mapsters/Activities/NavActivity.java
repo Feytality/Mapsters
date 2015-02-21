@@ -18,7 +18,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
+import delta.soen390.mapsters.ViewComponents.FocusMapUI;
 
 public class NavActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -76,6 +82,7 @@ public class NavActivity extends ActionBarActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
+
     }
 
 
@@ -135,6 +142,10 @@ public class NavActivity extends ActionBarActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
+
+
+
             View rootView = inflater.inflate(R.layout.fragment_nav, container, false);
             return rootView;
         }

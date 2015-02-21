@@ -65,6 +65,25 @@
                 android:layout_marginTop="47dp"
                 android:padding="10dp" />
 
+            <TableRow
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_weight="1"
+
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:layout_width="0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/apptheme_ic_navigation_drawer"
+                    android:id="@+id/btn_nav_drawer"
+                    android:clickable="false" />
+            </TableRow>
+
         </RelativeLayout>
 
 
@@ -253,17 +272,22 @@
         </RelativeLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </RelativeLayout>
+    <!--
+        <fragment android:id="@+id/navigation_drawer"
+            android:layout_width="@dimen/navigation_drawer_width" android:layout_height="match_parent"
+            android:layout_gravity="start"
+            class="delta.soen390.mapsters.Activities.NavigationDrawerFragment"
+            tools:layout="@layout/fragment_navigatrawer" />
 
+        working portion -->
+        <ListView android:id="@+id/left_drawer"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:background="@color/concordia_grey"
+            />
 
-
-    <!-- working portion
-    <ListView android:id="@+id/left_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:background="#111"/>
--->
     </android.support.v4.widget.DrawerLayout>
