@@ -15,6 +15,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
+import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.LocationService;
@@ -28,7 +29,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private CampusSwitchUI mCampusSwitchUI;
     private CampusViewSwitcher mCampusViewSwitcher;
     private LocationService mLocationService;
-
+    private NavigationDrawer mDrawer;
     private SplitPane splitPane;
     private static final String TAG = "DemoActivity";
 
@@ -49,6 +50,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Initialize the SlidingUpPanel
         splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f, mLocationService, getApplicationContext());
+        mDrawer = new NavigationDrawer(this);
+
     }
 
     public void setImageOptions() {
