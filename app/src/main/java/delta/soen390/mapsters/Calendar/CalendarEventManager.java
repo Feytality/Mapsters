@@ -1,6 +1,5 @@
 package delta.soen390.mapsters.Calendar;
 
-
 import android.content.Context;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -17,27 +16,29 @@ public class CalendarEventManager {
 
     public CalendarEventManager(Context context)
     {
-        mCalendarEventQueue = new LinkedList<CalendarEvent>();
+        mCalendarEventQueue = new LinkedList<>();
         mSerializer = new CalendarEventSerializer(context);
     }
-
 
     public void updateEventQueue()
     {
         mCalendarEventQueue.clear();
         ArrayList<CalendarEvent> calendarEvents = mSerializer.getUpcomingEvents(mQueueSize);
-        if(calendarEvents == null)
+        if(calendarEvents == null) {
             return;
+        }
         mCalendarEventQueue.addAll(calendarEvents);
-
     }
 
     public void setQueueSize(int queueSize)
     {
-        if(mQueueSize == queueSize)
+        if(mQueueSize == queueSize) {
             return;
-        mQueueSize = queueSize;
-        updateEventQueue();
+        }
+        if (mQueueSize > 0) {
+            mQueueSize = queueSize;
+            updateEventQueue();
+        }
     }
 
     public int getQueueSize()

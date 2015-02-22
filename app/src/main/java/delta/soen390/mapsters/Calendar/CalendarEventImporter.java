@@ -13,6 +13,9 @@ import java.util.Date;
 import delta.soen390.mapsters.R;
 
 /**
+ *  The purpose of this class is to import the calendar named "School" from the user's Android
+ *  calendar.
+ *
  * Created by Mathieu on 2/20/2015.
  */
 public class CalendarEventImporter {
@@ -41,6 +44,11 @@ public class CalendarEventImporter {
                 };
     }
 
+    /**
+     *  Retrieves the calendar ID of the user's calendar named "School"
+     *
+     *  @return ID of school calendar
+     */
     private long getCalendarId()
     {
         //Projection are basically the columns that you are fetching from the calendar database.
@@ -70,6 +78,7 @@ public class CalendarEventImporter {
         int idColumnIndex = calCursor.getColumnIndex("_id");
 
         String mapsterCalendarName = mContext.getResources().getString(R.string.mapsters_calendar_name);
+
         //Iterate through all of the received calendar values
         if (calCursor.moveToFirst()) {
             do {
@@ -89,8 +98,14 @@ public class CalendarEventImporter {
         return -1;
     }
 
-    //TODO Create a query which returns the next @numberOfEvents calendar events
-    public Cursor GetEventCursor(int numberOfEvents)
+    /**
+     * Retrieves the object which can later be queried for information about the next calendar
+     * events.
+     *
+     * @param numberOfEvents
+     * @return
+     */
+    public Cursor getEventCursor(int numberOfEvents)
     {
         long calendarId = getCalendarId();
         if(calendarId == -1)
@@ -98,19 +113,22 @@ public class CalendarEventImporter {
 
         Uri.Builder builder = Uri.parse("content://com.android.calendar/instances/when").buildUpon();
 
-
         //the current time, in milliseconds
         long now = new Date().getTime();
 
-        //
         ContentUris.appendId(builder, now);
         ContentUris.appendId(builder, now + DateUtils.DAY_IN_MILLIS * 7);
 
-        //do the query!
         Cursor eventCursor = mContext.getContentResolver().query(builder.build(),
                 mCalendarEventProjections, "Calendar_id=" + calendarId,
-                null, "startDay ASC, startMinute ASC");
+                null, "startDay ASC, startMinute ASC limit " + numberOfEvents);
 
+        if (eventCursor.moveToFirst()) {
+            do {
+                String data = eventCursor.getString(0);
+                System.out.print(data);
+            } while(eventCursor.moveToNext());
+        }
         return eventCursor;
     }
 }

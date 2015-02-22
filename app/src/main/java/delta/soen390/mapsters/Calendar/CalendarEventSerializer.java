@@ -1,38 +1,43 @@
 package delta.soen390.mapsters.Calendar;
 
-import android.app.Activity;
-import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.provider.CalendarContract;
-import android.text.format.DateUtils;
-import android.util.Log;
 
 import com.google.api.client.util.DateTime;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import delta.soen390.mapsters.R;
 
 /**
+ * The purpose of this class is to persist events from the user's Android calendar.
+ *
  * Created by Mathieu on 2/20/2015.
  */
 public class CalendarEventSerializer {
     private CalendarEventImporter mImporter;
 
+    /**
+     * Constructor accepting the current context of the application
+     *
+     * @param   context
+     */
+    public CalendarEventSerializer(Context context)
+    {
+        mImporter = new CalendarEventImporter(context);
+    }
+
+    /**
+     * Obtains a CalendarEvent list of events. The number of next events will be specified by
+     * user through their preferences.
+     *
+     * @param   numberOfEvents    number of next events to retrieve from calendar
+     * @return  List of calendar events
+     */
     public ArrayList<CalendarEvent> getUpcomingEvents(int numberOfEvents) {
-        ArrayList<CalendarEvent> upcomingEvents = new ArrayList<CalendarEvent>();
+        ArrayList<CalendarEvent> upcomingEvents = new ArrayList<>();
 
-        //Builds a Uri, I think it's like query type, but not 100% sure.
-
-        Cursor eventCursor = mImporter.GetEventCursor(numberOfEvents);
+        //Builds a cursor which can be queried to obtain information about the events.
+        Cursor eventCursor = mImporter.getEventCursor(numberOfEvents);
 
         //iterate through events
         if (eventCursor.moveToFirst()) {
@@ -43,37 +48,44 @@ public class CalendarEventSerializer {
             int titleIndex = eventCursor.getColumnIndex(CalendarContract.Events.TITLE);
 
             do {
-
                     CalendarEvent calendarEvent = createCalendarEvent(
                             eventCursor.getString(titleIndex),
                             eventCursor.getString(locationIndex),
                             eventCursor.getString(startDateTimeIndex),
-                            eventCursor.getString(endDatetimeIndex));
+                            eventCursor.getString(endDatetimeIndex)
+                    );
 
                     if(calendarEvent != null) {
                         upcomingEvents.add(calendarEvent);
-
-                }
+                    }
             } while (eventCursor.moveToNext());
         }
 
         return upcomingEvents;
-
     }
 
-    private CalendarEvent createCalendarEvent(String title, String fullLocation,String startDateTime, String endDateTime)
+    /**
+     * Creates a calendar event object based on the specified title, location, start and end date.
+     *
+     * @param   title
+     * @param   fullLocation
+     * @param   startDateTime
+     * @param   endDateTime
+     * @return  Calendar event object.
+     */
+    private CalendarEvent createCalendarEvent(String title, String fullLocation, String startDateTime, String endDateTime)
     {
-
         //Parse the building code out of the given full location
         String buildingCode = "";
 
         //Full location is invalid if it does not contain at least 1 characters
-        if(fullLocation.length() < 1)
+        if (fullLocation.length() < 1) {
             return null;
+        }
 
         //Extract the building code from the full location
         int maximumCycles = (fullLocation.length() > 1 ? 2 : 1);
-        for(int i = 0; i < maximumCycles ; ++i)
+        for(int i = 0; i < maximumCycles; ++i)
         {
             char letter = fullLocation.charAt(i);
             if(Character.isLetter(letter)){
@@ -85,28 +97,21 @@ public class CalendarEventSerializer {
         DateTime endDt      = millisToDateTime(endDateTime);
 
 
-        return new CalendarEvent(buildingCode,fullLocation,title,startDt,endDt);
-
-
+        return new CalendarEvent(buildingCode, fullLocation, title, startDt, endDt);
     }
 
+    /**
+     * Converts millisecond to a DateTime object. Might belong in a utility class instead.
+     *
+     * @param   millisString
+     * @return  DateTime object represented by the accepted string.
+     */
     private DateTime millisToDateTime(String millisString)
     {
-        if(millisString == null)
+        if(millisString == null) {
             return null;
+        }
         long millis = Long.parseLong(millisString);
         return new DateTime(millis);
-
     }
-
-
-
-
-    public CalendarEventSerializer(Context context)
-    {
-        mImporter = new CalendarEventImporter(context);
-    }
-
-
-
 }
