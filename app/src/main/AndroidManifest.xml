@@ -38,8 +38,11 @@
         <activity
             android:name=".Activities.NavActivity"
             android:exported="true"
-
             android:label="@string/title_activity_nav" >
+        </activity>
+        <activity
+            android:name=".Activities.SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 

@@ -2,6 +2,7 @@ package delta.soen390.mapsters.Controller;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import delta.soen390.mapsters.Activities.SettingsActivity;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.LocationService;
 
@@ -55,7 +57,30 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(mContext, "Fuckin " + position, Toast.LENGTH_SHORT).show();
         mDrawerLayout.closeDrawer(Gravity.LEFT);
+        String msg="";
+        switch(position) {
+            default:
+            case 0://Schedule
+                msg = "Show schedule";
+                break;
+            case 1://Buildings
+                msg = "Show Buildings activity/fragment";
+                break;
+            case 2://Services
+                msg = "Show Services activity/fragment";
+                break;
+            case 3://Departments
+                msg = "Show department activity/fragment";
+                break;
+            case 4://Settings
+                msg = "Show settings activity/fragment";
+                Intent intent = new Intent(mContext, SettingsActivity.class);
+                mContext.startActivity(intent);
+                break;
+        }
+
+
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 }
