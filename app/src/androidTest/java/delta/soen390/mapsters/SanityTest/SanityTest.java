@@ -1,10 +1,10 @@
-package delta.soen390.mapsters;
+package delta.soen390.mapsters.SanityTest;
 
 import android.test.InstrumentationTestCase;
 
 /**
  * Created by Patrick on 15-02-21.
- * First test case to see if Android Studio complains about anything
+ * Sanity Test
  */
 
 public class SanityTest extends InstrumentationTestCase {
