@@ -48,7 +48,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mCampusSwitchUI = new CampusSwitchUI(this, mCampusViewSwitcher);
 
         //Initialize the SlidingUpPanel
-        splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f, mLocationService, getApplicationContext());
+        splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f, mLocationService, this);
     }
 
     public void setImageOptions() {
