@@ -39,6 +39,8 @@ public class CalendarEventSerializer {
         //Builds a cursor which can be queried to obtain information about the events.
         Cursor eventCursor = mImporter.getEventCursor(numberOfEvents);
 
+        if(eventCursor == null)
+            return upcomingEvents;
         //iterate through events
         if (eventCursor.moveToFirst()) {
 
