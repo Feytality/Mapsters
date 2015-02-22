@@ -3,6 +3,7 @@ package delta.soen390.mapsters.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -15,6 +16,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
+import delta.soen390.mapsters.Calendar.CalendarEventNotification;
 import delta.soen390.mapsters.Calendar.CalendarIntent;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.SplitPane;
@@ -33,6 +35,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private SplitPane splitPane;
     private static final String TAG = "DemoActivity";
     private CalendarEventManager mCalendarEventManager;
+    private CalendarEventNotification mCalendarEventNotif;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Initialize the CalendarEventManager
         mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
         mCalendarEventManager.updateEventQueue();
+
+
 
     }
 
@@ -99,10 +104,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap));
         //Initialize the Building Polygons
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
+        mCalendarEventNotif = new CalendarEventNotification(this.getApplicationContext());
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
+
         return false;
     }
 
@@ -114,6 +121,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void deactivate() {
         mLocationService.setLocationListener(null);
+    }
+
+    public void showNotificationClicked(View v) {
+        // Create notification
+
     }
 }
 
