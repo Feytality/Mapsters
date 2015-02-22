@@ -7,8 +7,8 @@ import android.test.InstrumentationTestCase;
  * First test case to see if Android Studio complains about anything
  */
 
-public class ExampleTest extends InstrumentationTestCase {
-    public void testSnapbackToReality() throws Exception {
+public class SanityTest extends InstrumentationTestCase {
+    public void testSanity() throws Exception {
         final int expected = 1;
         final int reality = 1;
         assertEquals(expected,reality);
