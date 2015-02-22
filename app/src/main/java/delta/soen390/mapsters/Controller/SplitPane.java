@@ -1,6 +1,10 @@
 package delta.soen390.mapsters.Controller;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -39,6 +43,7 @@ public class SplitPane {
     private TextView mBuildingServices;
     private ImageView mBuildingPictureView;
     private ImageButton mDirectionButton;
+    private AlertDialog mAlertDialog;
 
     public SplitPane(View view, float anchorPoint, LocationService locationService, Context context) {
         mContext = context;
@@ -55,6 +60,27 @@ public class SplitPane {
         mBuildingPictureView = (ImageView) mLayout.findViewById(R.id.building_image);
         mDirectionButton = (ImageButton) mLayout.findViewById(R.id.direction_button);
         mDirectionButton.setOnClickListener(directionBtnListener);
+        initDialog();
+
+    }
+
+    public void initDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage("Would you be interested taking the Shuttle Bus?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i("Dialog","YES");
+
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i("Dialog","No");
+                    }
+                });
+        mAlertDialog = builder.create();
     }
 
     public void updateContent(BuildingInfo buildingInfo) {
@@ -86,7 +112,10 @@ public class SplitPane {
                 currentLocation = new LatLng(currentLat,currentLng);
                 Log.i("Current Coords", currentLat + " " + currentLng);
             }
-            ShuttleWins(currentLocation,mCurrentBuilding.getBuildingCode());
+
+            //if(ShuttleWins(currentLocation,mCurrentBuilding.getBuildingCode())){
+                mAlertDialog.show();
+            //}
             //Check if Shuttle would be better
                 //getDuration from current location to shuttle start
                 //find out when next shuttle would come
@@ -100,15 +129,15 @@ public class SplitPane {
 //                //popup
 //            }
 
-//            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-//                    Uri.parse("http://maps.google.com/maps?saddr=" + currentLat + "," +
-//                            currentLng +
-//                            "&daddr=" + mCurrentBuilding.getCoordinates().latitude + "," +
-//                            mCurrentBuilding.getCoordinates().longitude));
-//
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//            mContext.startActivity(intent);
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                    Uri.parse("http://maps.google.com/maps?saddr=" + currentLat + "," +
+                            currentLng +
+                            "&daddr=" + mCurrentBuilding.getCoordinates().latitude + "," +
+                            mCurrentBuilding.getCoordinates().longitude));
+
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            mContext.startActivity(intent);
         }
 
     };
