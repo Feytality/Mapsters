@@ -3,21 +3,21 @@ package delta.soen390.mapsters.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.api.client.util.DateTime;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
+import delta.soen390.mapsters.Calendar.CalendarEvent;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarEventNotification;
-import delta.soen390.mapsters.Calendar.CalendarIntent;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.R;
@@ -35,7 +35,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private SplitPane splitPane;
     private static final String TAG = "DemoActivity";
     private CalendarEventManager mCalendarEventManager;
-    private CalendarEventNotification mCalendarEventNotif;
+    private CalendarEventNotification mCalendarEventNotification;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +60,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
         mCalendarEventManager.updateEventQueue();
 
+        // Uncomment the following code to TEST the notifications.
+         /*mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this,
+                              new CalendarEvent("EV", "H431", "SOEN 390", new DateTime(1424702700),new DateTime(1424707200)));
+         mCalendarEventNotification.createNotification();*/
 
 
     }
@@ -104,7 +109,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap));
         //Initialize the Building Polygons
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
-        mCalendarEventNotif = new CalendarEventNotification(this.getApplicationContext());
+
+
     }
 
     @Override
@@ -123,9 +129,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationService.setLocationListener(null);
     }
 
-    public void showNotificationClicked(View v) {
-        // Create notification
-
-    }
 }
 

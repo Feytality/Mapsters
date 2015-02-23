@@ -10,8 +10,6 @@
     <string name="t2"><a href="http://www.lifehacker.com">Cuntz</a></string>
     <string name="mapsters_calendar_name">School</string>
     <string name="project_id">1061445694320</string>
-    <string name="collapsed_image">Would you like to know directions?</string>
-    <string name="expanded_image">Would you like to know MOREEEEEEEEEEE directions?</string>
-    <string name="expanded">I\'m the expanded notification.\nCollapse me!</string>
-    <string name="collapsed">I\'m the collapsed notification.\nCreated at: %s</string>
+    <string name="expanded">Your next class is %s! Would you like Concordia Mapsters to show you the way?</string>
+    <string name="collapsed">Your next class is %s.</string>
 </resources>
