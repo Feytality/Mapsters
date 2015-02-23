@@ -1,6 +1,5 @@
 package delta.soen390.mapsters.Calendar;
 
-import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -89,8 +88,8 @@ public class CalendarEventImporter {
                 //Fetch the name of the calendar pointed to by the calendar cursor
                 String calendarName = calCursor.getString(nameColumnIndex);
 
-                //I wanna fetch TestCalendar here, so I just hardcoded this right in!
-                if(calendarName.compareTo(mapsterCalendarName) == 0) {
+                //I wanna fnetch TestCalendar here, so I just hardcoded this right in!
+                if(calendarName != null && calendarName.compareTo(mapsterCalendarName) == 0) {
                     return id;
                 }
             } while (calCursor.moveToNext());
