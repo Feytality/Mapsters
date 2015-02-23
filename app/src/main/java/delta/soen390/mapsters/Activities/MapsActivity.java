@@ -15,6 +15,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
+import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.LocationService;
@@ -28,7 +29,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private CampusSwitchUI mCampusSwitchUI;
     private CampusViewSwitcher mCampusViewSwitcher;
     private LocationService mLocationService;
-
+    private NavigationDrawer mDrawer;
     private SplitPane splitPane;
     private static final String TAG = "DemoActivity";
 
@@ -49,6 +50,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Initialize the SlidingUpPanel
         splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f, mLocationService, getApplicationContext());
+        //Initialize Navigation Drawer
+        mDrawer = new NavigationDrawer(this);
+
+
     }
 
     public void setImageOptions() {
@@ -80,13 +85,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
      * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
+     * This should only be called once and when we are sure that map is not null.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap.setLocationSource(this);
         googleMap.setMyLocationEnabled(true);
         googleMap.setOnMyLocationButtonClickListener(this);
+        googleMap.setBuildingsEnabled(false);
 
         //Initialize the Campus Switch
         mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap));

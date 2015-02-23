@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <!-- The navigation drawer -->
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -42,6 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/campusSwitch"
+                android:showText="true"
+                android:splitTrack="true"
                 android:checked="false"
                 android:textOn="SGW"
                 android:textOff="LOY"
@@ -49,6 +64,25 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="47dp"
                 android:padding="10dp" />
+
+            <TableRow
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_weight="1"
+
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:layout_width="0dip"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/apptheme_ic_navigation_drawer"
+                    android:id="@+id/btn_nav_drawer"
+                    android:clickable="false" />
+            </TableRow>
 
         </RelativeLayout>
 
@@ -250,3 +284,22 @@
         </RelativeLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </RelativeLayout>
+    <!--
+        <fragment android:id="@+id/navigation_drawer"
+            android:layout_width="@dimen/navigation_drawer_width" android:layout_height="match_parent"
+            android:layout_gravity="start"
+            class="delta.soen390.mapsters.Activities.NavigationDrawerFragment"
+            tools:layout="@layout/fragment_navigatrawer" />
+
+        working portion -->
+        <ListView android:id="@+id/left_drawer"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:background="@color/concordia_grey"
+            />
+
+    </android.support.v4.widget.DrawerLayout>
