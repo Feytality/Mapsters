@@ -3,6 +3,8 @@ package delta.soen390.mapsters.Controller;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.provider.CalendarContract;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
@@ -63,6 +65,7 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
             default:
             case 0://Schedule
                 msg = "Show schedule";
+                mContext.startActivity (new Intent(Intent.ACTION_VIEW, Uri.parse("content://com.android.calendar/time/")));
                 break;
             case 1://Buildings
                 msg = "Show Buildings activity/fragment";
@@ -75,11 +78,9 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
                 break;
             case 4://Settings
                 msg = "Show settings activity/fragment";
-                Intent intent = new Intent(mContext, SettingsActivity.class);
-                mContext.startActivity(intent);
+                mContext.startActivity(new Intent(mContext, SettingsActivity.class));
                 break;
         }
-
 
         Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
