@@ -9,11 +9,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.api.client.util.DateTime;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
+import delta.soen390.mapsters.Calendar.CalendarEvent;
+import delta.soen390.mapsters.Calendar.CalendarEventManager;
+import delta.soen390.mapsters.Calendar.CalendarEventNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.SplitPane;
@@ -32,6 +36,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private NavigationDrawer mDrawer;
     private SplitPane splitPane;
     private static final String TAG = "DemoActivity";
+    private CalendarEventManager mCalendarEventManager;
+    private CalendarEventNotification mCalendarEventNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +54,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mCampusSwitchUI = new CampusSwitchUI(this, mCampusViewSwitcher);
 
+
         //Initialize the SlidingUpPanel
         splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f, mLocationService, getApplicationContext());
+
+        //Initialize the CalendarEventManager
+        mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
+        mCalendarEventManager.updateEventQueue();
+
+        // Uncomment the following code to TEST the notifications.
+         /*mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this,
+                              new CalendarEvent("EV", "H431", "SOEN 390", new DateTime(1424702700),new DateTime(1424707200)));
+         mCalendarEventNotification.createNotification();*/
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);
-
-
     }
 
     public void setImageOptions() {
@@ -85,6 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
      * <p/>
+
      * This should only be called once and when we are sure that map is not null.
      */
     @Override
@@ -98,10 +113,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap));
         //Initialize the Building Polygons
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
+
+
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
+
         return false;
     }
 
@@ -114,5 +132,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void deactivate() {
         mLocationService.setLocationListener(null);
     }
+
 }
 
