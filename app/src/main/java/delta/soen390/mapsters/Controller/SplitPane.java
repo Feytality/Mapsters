@@ -61,7 +61,6 @@ public class SplitPane {
         mDirectionButton = (ImageButton) mLayout.findViewById(R.id.direction_button);
         mDirectionButton.setOnClickListener(directionBtnListener);
         initDialog();
-
     }
 
     public void initDialog(){
@@ -100,38 +99,18 @@ public class SplitPane {
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
             Log.i("Direction Button", "Clicked!");
-            //Get Current Location
-            double currentLat = 45, currentLng = -73; //instead of 0,0...at least now it's near MTL
-            LatLng currentLocation = null;
+
             if (mLocationService.getLastLocation() == null) {
                 Log.i("last direction", "null");
-                //TODO Throw error so new intent below doesn't cause crash
             } else {
-                currentLat = mLocationService.getLastLocation().getLatitude();
-                currentLng = mLocationService.getLastLocation().getLongitude();
-                currentLocation = new LatLng(currentLat,currentLng);
-                Log.i("Current Coords", currentLat + " " + currentLng);
+                Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
             }
 
-            //if(ShuttleWins(currentLocation,mCurrentBuilding.getBuildingCode())){
-                mAlertDialog.show();
-            //}
-            //Check if Shuttle would be better
-                //getDuration from current location to shuttle start
-                //find out when next shuttle would come
-                //getDuration for shuttle trip
-                //getDuration from shuttle end to destination building
-                //get Duration of super easy stm trip
-                //compare
-            //IFF shuttle is better Ask user if they want to take the shuttle
-                // route them from shuttle Destination to their destination building
-//            if(ShuttleWins(currentLocation,mCurrentBuilding.getBuildingCode())) {
-//                //popup
-//            }
+            mAlertDialog.show();
 
             Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                    Uri.parse("http://maps.google.com/maps?saddr=" + currentLat + "," +
-                            currentLng +
+                    Uri.parse("http://maps.google.com/maps?saddr=" + mLocationService.getLastLocation().getLatitude() + "," +
+                            mLocationService.getLastLocation().getLongitude() +
                             "&daddr=" + mCurrentBuilding.getCoordinates().latitude + "," +
                             mCurrentBuilding.getCoordinates().longitude));
 
@@ -141,45 +120,4 @@ public class SplitPane {
         }
 
     };
-    //determines whether shuttle bus is better
-    private boolean ShuttleWins(LatLng currentLocation, String destinationBuildingCode) {
-        ShuttleBusService.ShuttleLocation nearestShuttle = ShuttleBusService.getNearestShuttle(destinationBuildingCode);
-        BuildingInfo destinationBuilding = BuildingPolygonManager.getInstance().getBuildingPolygon(destinationBuildingCode).getBuildingInfo();
-
-
-        //find out how long it takes to get to shuttlebus
-        long getToShuttleTime = getDuration(currentLocation, nearestShuttle.getCoordinates(), TravelMode.WALKING);
-        long shuttleRideTime =  getDuration(nearestShuttle.getCoordinates(), nearestShuttle.getCoordinates(),TravelMode.DRIVING);
-        long fromShuttleToDest = getDuration(nearestShuttle.getDestination().getCoordinates(), destinationBuilding.getCoordinates(), TravelMode.WALKING);
-        long totalShuttleTime = getToShuttleTime + shuttleRideTime + fromShuttleToDest;
-        Log.e("get2shuttle",String.valueOf(getToShuttleTime));
-        //add these, compare to stm
-        long stmTime = getDuration(currentLocation, destinationBuilding.getCoordinates(),TravelMode.TRANSIT);
-        if (totalShuttleTime < stmTime) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /*
-    *
-    *   TRAVELMODE.DRIVING is reserved for shuttle (Since we're not giving driving directions)
-    *   TRAVELMODE.WALKING is used for everything that's not shuttle and not STM
-    * */
-    private long getDuration(LatLng start, LatLng end, TravelMode travelMode) {
-        GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCDsbX2OWOnFJRJ_oHMls-HRtncbpMc_qI");
-        com.google.maps.model.LatLng startLatLng = new com.google.maps.model.LatLng(start.latitude,start.latitude);
-        com.google.maps.model.LatLng endLatLng = new com.google.maps.model.LatLng(end.latitude,end.latitude);
-        DirectionsApiRequest dar = DirectionsApi.newRequest(context)
-                .origin(startLatLng)
-                .destination(endLatLng)
-                .mode(travelMode);
-        if (travelMode.equals(travelMode.DRIVING)) {
-            //if they're taking the shuttle
-            dar.departureTime(new DateTime(ShuttleBusService.getNextBusLoy(new Date(),mContext)));
-        }
-        return dar.awaitIgnoreError()[0].legs[0].duration.inSeconds;
-    }
-
 }

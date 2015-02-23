@@ -5,75 +5,165 @@ import android.content.res.Resources;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.DirectionsApi;
+import com.google.maps.DirectionsApiRequest;
+import com.google.maps.GeoApiContext;
+import com.google.maps.model.TravelMode;
+
+import org.joda.time.DateTime;
 
 import java.util.Calendar;
 import java.util.Date;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
+import delta.soen390.mapsters.Data.Campus;
+import delta.soen390.mapsters.Data.CampusEnum;
+import delta.soen390.mapsters.Data.ShuttleResponseObject;
 import delta.soen390.mapsters.R;
-
+//}
+//Check if Shuttle would be better
+//getDuration from current location to shuttle start
+//find out when next shuttle would come
+//getDuration for shuttle trip
+//getDuration from shuttle end to destination building
+//get Duration of super easy stm trip
+//compare
+//IFF shuttle is better Ask user if they want to take the shuttle
+// route them from shuttle Destination to their destination building
+//            if(ShuttleWins(currentLocation,mCurrentBuilding.getBuildingCode())) {
+//                //popup
+//            }
 public class ShuttleBusService {
 
-    static String[] mon_thu,fri;
-    public static Date getNextBusLoy(Date date,Context con)
+    private final LatLng sgwShuttle;
+    private final LatLng loyShuttle;
+    private final Campus mLoyolaCampus;
+    private final Campus mSGWCampus;
+    private Context mContext;
+
+    String[] mon_thuArrayTimes, friArrayTimes;
+
+    //TODO change to singleton but too lazy now
+    public ShuttleBusService (Context context){
+        sgwShuttle  = new LatLng(45.4971514,-73.5787977);
+        loyShuttle = new LatLng(45.458949,-73.6383713);
+
+
+        mLoyolaCampus = new Campus(CampusEnum.LOY, loyShuttle);
+        mSGWCampus = new Campus(CampusEnum.SGW, sgwShuttle);
+
+        mContext = context;
+    }
+
+    public ShuttleResponseObject ShuttleBusWins (LatLng currentLocation) {
+        CampusEnum currentCampus = null;
+        if (mLoyolaCampus.isClose(currentLocation)) {
+            currentCampus = CampusEnum.LOY;
+        } else if (mSGWCampus.isClose(currentLocation)){
+            currentCampus = CampusEnum.SGW;
+        } else {
+            return null;
+        }
+
+        BuildingInfo destinationBuilding = BuildingPolygonManager.getInstance().getBuildingPolygon(destinationBuildingCode).getBuildingInfo();
+
+
+        //find out how long it takes to get to shuttlebus
+        long getToShuttleTime = getDuration(currentLocation, nearestShuttle.getCoordinates(), TravelMode.WALKING);
+        long shuttleRideTime =  getDuration(nearestShuttle.getCoordinates(), nearestShuttle.getCoordinates(),TravelMode.DRIVING);
+        long fromShuttleToDest = getDuration(nearestShuttle.getDestination().getCoordinates(), destinationBuilding.getCoordinates(), TravelMode.WALKING);
+
+        long totalShuttleTime = getToShuttleTime + shuttleRideTime + fromShuttleToDest;
+        Log.e("get2shuttle",String.valueOf(getToShuttleTime));
+        //add these, compare to stm
+        long stmTime = getDuration(currentLocation, destinationBuilding.getCoordinates(),TravelMode.TRANSIT);
+        if (totalShuttleTime < stmTime) {
+            return true;
+        } else {
+            return false;
+        }
+        return null;
+    }
+
+    /*
+    *
+    *   TRAVELMODE.DRIVING is reserved for shuttle (Since we're not giving driving directions)
+    *   TRAVELMODE.WALKING is used for everything that's not shuttle and not STM
+    * */
+    private long getDuration(LatLng start, LatLng end, TravelMode travelMode) {
+        GeoApiContext context = new GeoApiContext().setApiKey("AIzaSyCDsbX2OWOnFJRJ_oHMls-HRtncbpMc_qI");
+        com.google.maps.model.LatLng startLatLng = new com.google.maps.model.LatLng(start.latitude,start.latitude);
+        com.google.maps.model.LatLng endLatLng = new com.google.maps.model.LatLng(end.latitude,end.latitude);
+        DirectionsApiRequest dar = DirectionsApi.newRequest(context)
+                .origin(startLatLng)
+                .destination(endLatLng)
+                .mode(travelMode);
+        if (travelMode.equals(travelMode.DRIVING)) {
+            //if they're taking the shuttle
+            dar.departureTime(new DateTime(getNextBusLoy(new Date())));
+        }
+        return dar.awaitIgnoreError()[0].legs[0].duration.inSeconds;
+    }
+
+    private Date getNextBusLoy(Date date)
     {
-        Resources res = con.getResources();
-        mon_thu = res.getStringArray(R.array.Loyola_MonToThu);
-        fri = res.getStringArray(R.array.Loyola_Fri);
+        Resources res = mContext.getResources();
+        mon_thuArrayTimes = res.getStringArray(R.array.Loyola_MonToThu);
+        friArrayTimes = res.getStringArray(R.array.Loyola_Fri);
         return getNextBus(date);
     }
 
-    public static Date getNextBusSgw(Date date,Context con)
+    private Date getNextBusSgw(Date date)
     {
-        Resources res = con.getResources();
-        mon_thu = res.getStringArray(R.array.SGW_MonToThu);
-        fri = res.getStringArray(R.array.SGW_Fri);
+        Resources res = mContext.getResources();
+        mon_thuArrayTimes = res.getStringArray(R.array.SGW_MonToThu);
+        friArrayTimes = res.getStringArray(R.array.SGW_Fri);
         return getNextBus(date);
     }
 
-    private static Date getNextBus(Date date)
+    private Date getNextBus(Date date)
     {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
 
         if(cal.get(Calendar.DAY_OF_WEEK) >= Calendar.MONDAY && cal.get(Calendar.DAY_OF_WEEK) <= Calendar.THURSDAY)
         {
-            if(isBefore(cal, mon_thu[mon_thu.length -1]))
+            if(isBefore(cal, mon_thuArrayTimes[mon_thuArrayTimes.length -1]))
             {
-                setTime(cal, findNext(cal,mon_thu));
+                setTime(cal, findNext(cal, mon_thuArrayTimes));
             }
             else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY)
             {
-                setTime(cal, fri[0]);
+                setTime(cal, friArrayTimes[0]);
                 cal.add(Calendar.DAY_OF_YEAR, 1);
             }
             else
             {
-                setTime(cal, mon_thu[0]);
+                setTime(cal, mon_thuArrayTimes[0]);
                 cal.add(Calendar.DAY_OF_YEAR, 1);
             }
         }else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)
         {
-            if(isBefore(cal, fri[fri.length -1]))
+            if(isBefore(cal, friArrayTimes[friArrayTimes.length -1]))
             {
-                setTime(cal, findNext(cal,fri));
+                setTime(cal, findNext(cal, friArrayTimes));
             }
             else
             {
-                setTime(cal, mon_thu[0]);
+                setTime(cal, mon_thuArrayTimes[0]);
                 cal.add(Calendar.DAY_OF_YEAR, 3);
             }
         }
         else
         {
-            setTime(cal, mon_thu[0]);
+            setTime(cal, mon_thuArrayTimes[0]);
             cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         }
         return cal.getTime();
     }
 
-    private static String findNext(Calendar cal, String[] arr)
+    private String findNext(Calendar cal, String[] arr)
     {
         for(String s: arr)
         {
@@ -86,7 +176,7 @@ public class ShuttleBusService {
         return null;
     }
 
-    private static void setTime(Calendar date,String time)
+    private void setTime(Calendar date,String time)
     {
         try{
             String[] arr = time.split(":");
@@ -100,7 +190,7 @@ public class ShuttleBusService {
             Log.e("Utils.java setTime","The supplied times are not properly formatted. Verify that your schedule times follow the hh:mm pattern");
         }
     }
-    private static boolean isBefore(Calendar date,String time)
+    private boolean isBefore(Calendar date,String time)
     {
         try{
             String[] arr = time.split(":");
@@ -114,48 +204,4 @@ public class ShuttleBusService {
             return true;
         }
     }
-
-
-    //returns the location of the shuttle bus to take, depending on the destination
-    public static ShuttleLocation getNearestShuttle(String destinationBuildingCode) {
-        LatLng sgwShuttle = new LatLng(45.4971514,-73.5787977);
-        LatLng loyShuttle = new LatLng(45.458949,-73.6383713);
-        BuildingInfo destinationBuilding = BuildingPolygonManager
-                .getInstance().getBuildingPolygon(destinationBuildingCode).getBuildingInfo();
-
-        if (destinationBuilding.getCampus() == "LOY") {
-            return new ShuttleLocation("SGW");
-        }
-        else {
-            return new ShuttleLocation("LOY");
-        }
-    }
-
-
-    public static class ShuttleLocation {
-        private String mCampus;
-        private LatLng mCoordinates;
-        private ShuttleLocation destination;
-        private static LatLng SGW_SHUTTLE_COORDS = new LatLng(45.4971514,-73.5787977);
-        private static LatLng LOY_SHUTTLE_COORDS = new LatLng(45.458949,-73.6383713);
-
-        public ShuttleLocation(String campus) {
-            this.mCampus = campus;
-            if(mCampus == "LOY") {
-                this.mCoordinates = LOY_SHUTTLE_COORDS ;
-                if (this.destination != null) {
-                    this.destination = new ShuttleLocation("SGW");
-                }
-            } else {
-                this.mCoordinates = SGW_SHUTTLE_COORDS;
-                if (this.destination != null) {
-                    this.destination = new ShuttleLocation("LOY");
-                }
-            }
-        }
-        public String getCampus() {return mCampus;}
-        public LatLng getCoordinates() {return mCoordinates;}
-        public ShuttleLocation getDestination() {return destination;}
-    }
-
 }
