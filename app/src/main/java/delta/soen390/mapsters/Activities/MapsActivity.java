@@ -1,6 +1,7 @@
 package delta.soen390.mapsters.Activities;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startActivity(new Intent(this,SplashActivity.class));
         setContentView(R.layout.activity_maps);
 
         //Setup the google map

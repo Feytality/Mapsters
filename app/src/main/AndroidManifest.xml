@@ -28,7 +28,7 @@
         <activity
             android:name=".Activities.MapsActivity"
             android:exported="true"
-            android:label="@string/title_activity_maps" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,13 +36,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.NavActivity"
-            android:exported="true"
-            android:label="@string/title_activity_nav" >
-        </activity>
-        <activity
             android:name=".Activities.SettingsActivity"
             android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name=".Activities.SplashActivity"
+            android:label="@string/title_activity_splash" >
+        </activity>
+        <activity
+            android:name=".Activities.BuildingsActivity"
+            android:label="@string/title_activity_buildings" >
         </activity>
     </application>
 
