@@ -48,14 +48,17 @@
         </activity>
         <activity
             android:name=".Activities.SettingsActivity"
+            android:exported="true"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
             android:name=".Activities.SplashActivity"
+            android:exported="true"
             android:label="@string/title_activity_splash" >
         </activity>
         <activity
-            android:name=".Activities.BuildingsActivity"
+            android:name=".Activities.DirectoryActivity"
+            android:exported="true"
             android:label="@string/title_activity_buildings" >
         </activity>
     </application>

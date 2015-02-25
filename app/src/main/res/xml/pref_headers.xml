@@ -4,11 +4,11 @@
 
     <header
         android:fragment="delta.soen390.mapsters.Activities.SettingsActivity$GeneralPreferenceFragment"
-        android:title="@string/pref_header_general" />
+        android:title="@string/pref_header_account" />
 
     <header
         android:fragment="delta.soen390.mapsters.Activities.SettingsActivity$NotificationPreferenceFragment"
-        android:title="@string/pref_header_notifications" />
+        android:title="@string/pref_header_map_settings" />
 
     <header
         android:fragment="delta.soen390.mapsters.Activities.SettingsActivity$DataSyncPreferenceFragment"
