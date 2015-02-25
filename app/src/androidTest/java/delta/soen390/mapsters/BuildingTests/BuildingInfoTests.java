@@ -22,7 +22,7 @@ public class BuildingInfoTests extends InstrumentationTestCase {
     private LatLng mCoordinates;
     private ArrayList<LatLng> mBoundingCoordinates;
 
-    public void setUp() throws Exception {
+    public BuildingInfoTests() {
         mBuildingCode = "YYZ";
         mBuildingName = "Airport terminal";
         mCampus = "SGW";
@@ -34,27 +34,33 @@ public class BuildingInfoTests extends InstrumentationTestCase {
     }
 
     public void testGetBuildingCode() throws Exception {
-        assertEquals(mBuildingInfo.getBuildingCode(), mBuildingCode);
+        BuildingInfoTests p = new BuildingInfoTests();
+        assertEquals(p.mBuildingInfo.getBuildingCode(), p.mBuildingCode);
     }
 
     public void testGetBuildingName() throws Exception {
-        assertEquals(mBuildingInfo.getBuildingName(), mBuildingName);
+        BuildingInfoTests p = new BuildingInfoTests();
+        assertEquals(p.mBuildingInfo.getBuildingName(), p.mBuildingName);
     }
 
     public void testGetCampus() throws Exception {
-        assertEquals(mBuildingInfo.getCampus(), mCampus);
+        BuildingInfoTests p = new BuildingInfoTests();
+        assertEquals(p.mBuildingInfo.getCampus(), p.mCampus);
     }
 
     public void testGetImageUrl() throws Exception {
-        assertEquals(mBuildingInfo.getImageUrl(), mImageUrl);
+        BuildingInfoTests p = new BuildingInfoTests();
+        assertEquals(p.mBuildingInfo.getImageUrl(), p.mImageUrl);
     }
 
     public void testGetCoordinates() throws Exception {
-        assertEquals(mBuildingInfo.getCoordinates(), mCoordinates);
+        BuildingInfoTests p = new BuildingInfoTests();
+        assertEquals(p.mBuildingInfo.getCoordinates(), p.mCoordinates);
     }
 
     public void testGetBoundingCoordinates() throws Exception {
-        assertEquals(mBuildingInfo.getBoundingCoordinates(), mBoundingCoordinates);
+        BuildingInfoTests p = new BuildingInfoTests();
+        assertEquals(p.mBuildingInfo.getBoundingCoordinates(), p.mBoundingCoordinates);
     }
 
 }

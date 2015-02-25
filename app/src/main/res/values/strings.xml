@@ -8,6 +8,10 @@
     <string name="building">MB</string>
     <string name="t1"><a href="http://www.google.com">Google</a></string>
     <string name="t2"><a href="http://www.lifehacker.com">Cuntz</a></string>
+    <string name="mapsters_calendar_name">School</string>
+    <string name="project_id">1061445694320</string>
+    <string name="expanded">Your next class is %s! Would you like Concordia Mapsters to show you the way?</string>
+    <string name="collapsed">Your next class is %s.</string>
     <string name="title_activity_nav">NavActivity</string>
     <string name="nav_str_schedule">Schedule</string>
     <string name="nav_str_buildings">Campus Buildings</string>

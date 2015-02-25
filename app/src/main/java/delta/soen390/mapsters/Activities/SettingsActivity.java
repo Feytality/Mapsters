@@ -17,9 +17,9 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
 
-import delta.soen390.mapsters.R;
-
 import java.util.List;
+
+import delta.soen390.mapsters.R;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -129,7 +129,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     /**
      * A preference value change listener that updates the preference's summary
-     * to reflect its new value.
+     * to reflect its new convalue.
      */
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override

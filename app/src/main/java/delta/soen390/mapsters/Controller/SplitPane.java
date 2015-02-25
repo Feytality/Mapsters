@@ -2,6 +2,7 @@ package delta.soen390.mapsters.Controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -72,11 +74,16 @@ public class SplitPane {
                 Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
             }
 
+            //TODO handle null last location value properly
+            Location lastLocation = mLocationService.getLastLocation();
+            LatLng currentBuildingCoordinates = mCurrentBuilding.getCoordinates();
+            if(lastLocation == null || currentBuildingCoordinates == null)
+                return;
             Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                    Uri.parse("http://maps.google.com/maps?saddr=" + mLocationService.getLastLocation().getLatitude() + "," +
-                            mLocationService.getLastLocation().getLongitude() +
-                            "&daddr=" + mCurrentBuilding.getCoordinates().latitude + "," +
-                            mCurrentBuilding.getCoordinates().longitude));
+                    Uri.parse("http://maps.google.com/maps?saddr=" + lastLocation.getLatitude() + "," +
+                            lastLocation.getLongitude() +
+                            "&daddr=" + currentBuildingCoordinates.latitude + "," +
+                            currentBuildingCoordinates.longitude));
 
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
