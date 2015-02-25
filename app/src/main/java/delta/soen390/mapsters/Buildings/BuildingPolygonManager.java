@@ -1,6 +1,5 @@
 package delta.soen390.mapsters.Buildings;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -25,13 +24,15 @@ public class BuildingPolygonManager {
 
     private BuildingPolygonManager()
     {
+
         initialize();
     }
 
     public static BuildingPolygonManager getInstance()
     {
-	    if(sBuildingPolygonManager == null)
-		    sBuildingPolygonManager = new BuildingPolygonManager();
+	    if(sBuildingPolygonManager == null) {
+            sBuildingPolygonManager = new BuildingPolygonManager();
+        }
         return sBuildingPolygonManager;
     }
     //</editor-fold>
@@ -40,18 +41,17 @@ public class BuildingPolygonManager {
 
     public void initialize()
     {
-        mBuildingPolygons  = new ArrayList<BuildingPolygon>();
-
+        mBuildingPolygons  = new ArrayList<>();
     }
 
     public BuildingPolygon getClickedPolygon(LatLng point)
     {
-
-        for(int i = 0; i < mBuildingPolygons.size(); ++i)
-        {
-            BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
-            if(buildingPolygon.isPointInsidePolygon(point)) {
-	            return buildingPolygon;
+        if(point != null) {
+            for (int i = 0; i < mBuildingPolygons.size(); ++i) {
+                BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+                if (buildingPolygon.isPointInsidePolygon(point)) {
+                    return buildingPolygon;
+                }
             }
         }
 
@@ -64,7 +64,7 @@ public class BuildingPolygonManager {
 		JSONObject jsonBuildingPolygons = JsonReader.ReadJsonFromFile(context,"buildingJson.json");
         PolygonSerializer polygonSerializer = new PolygonSerializer(gMap);
 
-        mBuildingPolygons = polygonSerializer.CreatePolygonArray(jsonBuildingPolygons);
+        mBuildingPolygons = polygonSerializer.createPolygonArray(jsonBuildingPolygons);
 
         //Set the listener
 
@@ -86,15 +86,16 @@ public class BuildingPolygonManager {
 
     public BuildingPolygon getBuildingPolygon(String buildingCode)
     {
-        for(int i = 0; i < mBuildingPolygons.size(); ++i)
-        {
-            BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
-            if(buildingPolygon.getBuildingInfo().getBuildingCode().compareTo(buildingCode) == 0) {
-	            return buildingPolygon;
+        if (buildingCode != null && !buildingCode.equals("")) {
+            for (int i = 0; i < mBuildingPolygons.size(); ++i) {
+                BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+                if (buildingPolygon.getBuildingInfo().getBuildingCode().compareTo(buildingCode) == 0) {
+                    return buildingPolygon;
+                }
             }
         }
 
         return null;
     }
 
-};
+}

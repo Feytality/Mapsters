@@ -3,7 +3,6 @@ package delta.soen390.mapsters.Buildings;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -20,9 +19,10 @@ public class PolygonSerializer {
         mGoogleMap = googleMap;
     }
 
-    public BuildingPolygon CreatePolygon(JSONObject object) {
-        if (object == null)
+    public BuildingPolygon createPolygon(JSONObject object) {
+        if (object == null) {
             return null;
+        }
 
         String buildingCode = "";
         String buildingName = "";
@@ -30,7 +30,6 @@ public class PolygonSerializer {
         String buildingImageUrl = "http://www.concordia.ca";
         LatLng coordinates = new LatLng(0, 0);
         ArrayList<LatLng> boundingCoordinates = new ArrayList<LatLng>();
-
 
         try {
             buildingCode = object.getString("buildingcode");
@@ -44,8 +43,6 @@ public class PolygonSerializer {
             coordinates = new LatLng(object.getDouble("latitude"), object.getDouble("longitude"));
 
             boundingCoordinates = extractBoundaryCoordinates(object.getJSONObject("Polygon"));
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,7 +52,7 @@ public class PolygonSerializer {
         return new BuildingPolygon(mGoogleMap, buildingInfo);
     }
 
-    public BuildingPolygon CreatePolygon(String jsonString) {
+    public BuildingPolygon createPolygon(String jsonString) {
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(jsonString);
@@ -63,11 +60,15 @@ public class PolygonSerializer {
             e.printStackTrace();
             return null;
         }
-        return CreatePolygon(jsonObject);
+        return createPolygon(jsonObject);
     }
 
     private ArrayList<LatLng> extractBoundaryCoordinates(JSONObject object) {
-        ArrayList<LatLng> boundaryCoordinates = new ArrayList<LatLng>();
+        if(object == null) {
+            return null;
+        }
+
+        ArrayList<LatLng> boundaryCoordinates = new ArrayList<>();
 
         try {
             JSONObject outerBoundaryObj = object.getJSONObject("outerBoundaryIs");
@@ -82,19 +83,20 @@ public class PolygonSerializer {
 
                 boundaryCoordinates.add(new LatLng(lng, lat));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return boundaryCoordinates;
     }
 
-    public ArrayList<BuildingPolygon> CreatePolygonArray(JSONObject object) {
+    public ArrayList<BuildingPolygon> createPolygonArray(JSONObject object) {
 
-        ArrayList<BuildingPolygon> buildingPolygons = new ArrayList<BuildingPolygon>();
+        if (object == null) {
+            return null;
+        }
+        ArrayList<BuildingPolygon> buildingPolygons = new ArrayList<>();
 
         try {
-
             Iterator<?> keys = object.keys();
 
             while (keys.hasNext()) {
@@ -102,11 +104,10 @@ public class PolygonSerializer {
                 JSONObject polygonObject = object.getJSONObject(key);
 
                 if (object.get(key) instanceof JSONObject) {
-                    BuildingPolygon polygon = CreatePolygon(polygonObject);
+                    BuildingPolygon polygon = createPolygon(polygonObject);
                     if (polygon != null) {
                         buildingPolygons.add(polygon);
                     }
-
                 }
             }
         } catch (Exception exception) {

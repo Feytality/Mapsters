@@ -22,7 +22,9 @@ public class BuildingInfoTests extends InstrumentationTestCase {
     private LatLng mCoordinates;
     private ArrayList<LatLng> mBoundingCoordinates;
 
-    public BuildingInfoTests() {
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
         mBuildingCode = "YYZ";
         mBuildingName = "Airport terminal";
         mCampus = "SGW";
@@ -33,34 +35,33 @@ public class BuildingInfoTests extends InstrumentationTestCase {
         mBuildingInfo = new BuildingInfo(mBuildingCode, mBuildingName, mCampus, mImageUrl, mBuildingServices,mCoordinates, mBoundingCoordinates);
     }
 
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+    }
+
     public void testGetBuildingCode() throws Exception {
-        BuildingInfoTests p = new BuildingInfoTests();
-        assertEquals(p.mBuildingInfo.getBuildingCode(), p.mBuildingCode);
+        assertEquals(mBuildingInfo.getBuildingCode(), mBuildingCode);
     }
 
     public void testGetBuildingName() throws Exception {
-        BuildingInfoTests p = new BuildingInfoTests();
-        assertEquals(p.mBuildingInfo.getBuildingName(), p.mBuildingName);
+        assertEquals(mBuildingInfo.getBuildingName(), mBuildingName);
     }
 
     public void testGetCampus() throws Exception {
         BuildingInfoTests p = new BuildingInfoTests();
-        assertEquals(p.mBuildingInfo.getCampus(), p.mCampus);
+        assertEquals(mBuildingInfo.getCampus(), mCampus);
     }
 
     public void testGetImageUrl() throws Exception {
-        BuildingInfoTests p = new BuildingInfoTests();
-        assertEquals(p.mBuildingInfo.getImageUrl(), p.mImageUrl);
+        assertEquals(mBuildingInfo.getImageUrl(), mImageUrl);
     }
 
     public void testGetCoordinates() throws Exception {
-        BuildingInfoTests p = new BuildingInfoTests();
-        assertEquals(p.mBuildingInfo.getCoordinates(), p.mCoordinates);
+        assertEquals(mBuildingInfo.getCoordinates(), mCoordinates);
     }
 
     public void testGetBoundingCoordinates() throws Exception {
-        BuildingInfoTests p = new BuildingInfoTests();
-        assertEquals(p.mBuildingInfo.getBoundingCoordinates(), p.mBoundingCoordinates);
+        assertEquals(mBuildingInfo.getBoundingCoordinates(), mBoundingCoordinates);
     }
-
 }
