@@ -80,7 +80,7 @@ public class CampusViewSwitcher {
         //SGW Campus
         //45.497174,-73.578835,17z
         mSgwCampusView = new CampusView(new LatLng(45.497174, -73.578835), zoomLevel);
-
+        //TODO Cat:This maps to a setting
         //Set default starting view to Loyola
         mLoyolaCampusView.LoadView(mMap);
         mIsLoyolaDisplayed = true;
