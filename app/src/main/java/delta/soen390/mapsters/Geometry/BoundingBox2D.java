@@ -11,147 +11,113 @@ import java.util.ArrayList;
  */
 public class BoundingBox2D {
 
+	private Vector2D mMinimumPoint;
+	private Vector2D mMaximumPoint;
 
-	private class LineSegment
-	{
-		private Vector2D _point1;
-		private Vector2D _point2;
-		private boolean _isUpWinding;
-
-		LineSegment(Vector2D point1,Vector2D point2)
-		{
-			_point1 = point1;
-			_point2 = point2;
-
-			//Check if leftWinding
-			if(_point1.x < _point2.x)
-				_isUpWinding = true;
-			else
-				_isUpWinding = false;
-
-
-		}
-
-		public Vector2D getPoint1()
-		{
-			return _point1;
-		}
-		public Vector2D getPoint2()
-		{
-			return _point2;
-		}
-
-		public boolean isUpWinding()
-		{
-			return _isUpWinding;
-		}
-	};
-
-	private Vector2D _minimumPoint;
-	private Vector2D _maximumPoint;
-
-
-	private ArrayList<LineSegment> _lineSegments;
+	private ArrayList<LineSegment> mLineSegments;
 
 	public BoundingBox2D(ArrayList<LatLng> boundingPoints)
 	{
 		//Need at least 2 points to have a boundingBox
-		if(boundingPoints.size() <  3)
-			return;
+		if(boundingPoints.size() < 3) {
+            return;
+        }
 
-		_lineSegments = new ArrayList<LineSegment>();
+		mLineSegments = new ArrayList<>();
 
 		double initialLatitude = boundingPoints.get(0).latitude;
 		double initialLongitude = boundingPoints.get(0).longitude;
-		_minimumPoint = new Vector2D(initialLatitude,initialLongitude);
-		_maximumPoint = new Vector2D(initialLatitude,initialLongitude);
+		mMinimumPoint = new Vector2D(initialLatitude,initialLongitude);
+		mMaximumPoint = new Vector2D(initialLatitude,initialLongitude);
 
-
-		//Construct and load line segments
-		for(int i =0 ; i< boundingPoints.size(); ++i)
-		{
-			Vector2D point1 = new Vector2D(
-					boundingPoints.get(i).latitude,
-					boundingPoints.get(i).longitude);
-			Vector2D point2 = new Vector2D(
-					boundingPoints.get((i + 1) % boundingPoints.size()).latitude,
-					boundingPoints.get((i + 1) % boundingPoints.size()).longitude);
-
-			//Get maximum in minimum point for optimized Hit Testing
-			if(_minimumPoint.x > point1.x)
-				_minimumPoint.x = point1.x;
-			else if(_maximumPoint.x < point1.x)
-				_maximumPoint.x = point1.x;
-			if(_minimumPoint.y > point1.y)
-				_minimumPoint.y = point1.y;
-			else if(_maximumPoint.y < point1.y)
-				_maximumPoint.y = point1.y;
-
-			_lineSegments.add(
-					new LineSegment(point1,point2));
-		}
+		constructLineSegments(boundingPoints);
 	}
+
+    private void constructLineSegments(ArrayList<LatLng> boundingPoints) {
+        for(int i = 0 ; i< boundingPoints.size(); ++i) {
+            Vector2D point1 = new Vector2D(
+                    boundingPoints.get(i).latitude,
+                    boundingPoints.get(i).longitude);
+            Vector2D point2 = new Vector2D(
+                    boundingPoints.get((i + 1) % boundingPoints.size()).latitude,
+                    boundingPoints.get((i + 1) % boundingPoints.size()).longitude);
+
+            //Get maximum in minimum point for optimized Hit Testing
+            if(mMinimumPoint.x > point1.x) {
+                mMinimumPoint.x = point1.x;
+            } else if(mMaximumPoint.x < point1.x) {
+                mMaximumPoint.x = point1.x;
+            }
+
+            if(mMinimumPoint.y > point1.y) {
+                mMinimumPoint.y = point1.y;
+            } else if(mMaximumPoint.y < point1.y) {
+                mMaximumPoint.y = point1.y;
+            }
+
+            mLineSegments.add(
+                    new LineSegment(point1, point2));
+        }
+    }
 
 	public boolean isPointInsideBoundingBox(Vector2D point)
 	{
 		Log.i("Pos",point.x + " " + point.y);
 		//Check if point is within the polygon bounds
-		if(!isPointWithinBound(point))
-			return false;
+		if(!isPointWithinBound(point)) {
+            return false;
+        }
 
 		int winding = 0;
 
+		for(int i =0 ; i < mLineSegments.size(); ++i) {
+			LineSegment lineSegment = mLineSegments.get(i);
+			Vector2D point1 = mLineSegments.get(i).getPoint1();
+			Vector2D point2 = mLineSegments.get(i).getPoint2();
 
-		for(int i =0 ; i < _lineSegments.size(); ++i)
-		{
-			LineSegment lineSegment = _lineSegments.get(i);
-			Vector2D point1 = _lineSegments.get(i).getPoint1();
-			Vector2D point2 = _lineSegments.get(i).getPoint2();
-
-			if(point1.y <= point.y)
-			{
-				if(point2.y > point.y)
-				{
-					if(isLeft(lineSegment,point) > 0)
-						winding++;
+			if(point1.y <= point.y) {
+				if(point2.y > point.y) {
+					if(isLeft(lineSegment,point) > 0) {
+                        winding++;
+                    }
 				}
 			}
-			else
-			{
-				if( point2.y <= point.y)
-					if(isLeft(lineSegment,point) < 0)
-						winding--;
+			else {
+				if( point2.y <= point.y) {
+                    if (isLeft(lineSegment, point) < 0) {
+                        winding--;
+                    }
+                }
 			}
 		}
 
 		return winding != 0;
-
 	}
+
 	private boolean isPointWithinBound(Vector2D point)
 	{
-		return      point.x < _maximumPoint.x
-				&&  point.x > _minimumPoint.x
-				&&  (point.y > _minimumPoint.y
-				&&  point.y < _maximumPoint.y);
+		return  point.x < mMaximumPoint.x
+			    &&  point.x > mMinimumPoint.x
+				&&  (point.y > mMinimumPoint.y &&  point.y < mMaximumPoint.y);
 	}
+
 	private boolean isLineIntersect(LineSegment segment,  Vector2D point)
 	{
-
 		double lowerBound = segment.getPoint1().x;
 		double upperBound = segment.getPoint2().x;
 
 		//upwinding means point1 is lower than point 2, hence swap if not upwinding
-		if (!segment.isUpWinding())
-		{
+		if(!segment.isUpWinding()) {
 			lowerBound = segment.getPoint2().x;
 			upperBound = segment.getPoint1().x;
 		}
-		return  lowerBound < point.x
+
+		return lowerBound < point.x
 				&& upperBound > point.x;
 	}
 
 	//Returns whether passed point is on left of segment
-	private double  isLeft(LineSegment segment, Vector2D point)
+	private double isLeft(LineSegment segment, Vector2D point)
 	{
 		Vector2D point1 = segment.getPoint1();
 		Vector2D point2 = segment.getPoint2();
@@ -161,13 +127,41 @@ public class BoundingBox2D {
 
 		Vector2D P1 = segment.getPoint2();
 
-
 		return (v1.x  * v2.y) - (v1.y * v2.x);
 	}
 
+    private class LineSegment
+    {
+        private Vector2D mPoint1;
+        private Vector2D mPoint2;
+        private boolean mIsUpWinding;
 
+        LineSegment(Vector2D point1, Vector2D point2)
+        {
+            mPoint1 = point1;
+            mPoint2 = point2;
 
+            //Check if leftWinding
+            if (mPoint1.x < mPoint2.x) {
+                mIsUpWinding = true;
+            } else {
+                mIsUpWinding = false;
+            }
+        }
 
+        public Vector2D getPoint1()
+        {
+            return mPoint1;
+        }
 
+        public Vector2D getPoint2()
+        {
+            return mPoint2;
+        }
 
+        public boolean isUpWinding()
+        {
+            return mIsUpWinding;
+        }
+    }
 }

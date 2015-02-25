@@ -20,12 +20,11 @@ public class PolygonSerializerTests extends InstrumentationTestCase {
     private PolygonSerializer mPolygonSerializer;
     private GoogleMap mGoogleMap;
 
-
     @Override
     protected void setUp() throws Exception {
         mPolygonSerializer = new PolygonSerializer(mGoogleMap);
-
     }
+
     public void testPolygonSerializer() throws Exception {
         // Although mGoogleMap might be null, mPolygonSerializer is not
         assertNotNull(mPolygonSerializer);

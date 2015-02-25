@@ -47,9 +47,13 @@ public class CalendarEventNotification {
     }
 
     public void createNotification() {
+        if(mContext == null) {
+            return;
+        }
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
 
-        Intent i = new Intent(mContext, MapsActivity.class);
+        Intent i = new Intent(mContext, mContext.getClass());
         i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, i,
                 PendingIntent.FLAG_UPDATE_CURRENT);

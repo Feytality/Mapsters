@@ -48,6 +48,10 @@ public class CalendarEventManager {
 
     public CalendarEvent getNextEvent()
     {
-        return mCalendarEventQueue.getFirst();
+        if(mCalendarEventQueue.size() > 0) {
+            return mCalendarEventQueue.getFirst();
+        } else {
+            return null;
+        }
     }
 }
