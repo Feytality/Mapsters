@@ -14,14 +14,12 @@ public class CalendarEventManager {
 
     private int mQueueSize = 5;
 
-    public CalendarEventManager(Context context)
-    {
+    public CalendarEventManager(Context context) {
         mCalendarEventQueue = new LinkedList<>();
         mSerializer = new CalendarEventSerializer(context);
     }
 
-    public void updateEventQueue()
-    {
+    public void updateEventQueue() {
         mCalendarEventQueue.clear();
         ArrayList<CalendarEvent> calendarEvents = mSerializer.getUpcomingEvents(mQueueSize);
         if(calendarEvents == null) {
@@ -30,8 +28,7 @@ public class CalendarEventManager {
         mCalendarEventQueue.addAll(calendarEvents);
     }
 
-    public void setQueueSize(int queueSize)
-    {
+    public void setQueueSize(int queueSize) {
         if(mQueueSize == queueSize) {
             return;
         }
@@ -46,12 +43,15 @@ public class CalendarEventManager {
         return mCalendarEventQueue.size();
     }
 
-    public CalendarEvent getNextEvent()
-    {
+    public CalendarEvent getNextEvent() {
         if(mCalendarEventQueue.size() > 0) {
             return mCalendarEventQueue.getFirst();
         } else {
             return null;
         }
+    }
+
+    public LinkedList<CalendarEvent> getCalendarEventQueue() {
+        return mCalendarEventQueue;
     }
 }

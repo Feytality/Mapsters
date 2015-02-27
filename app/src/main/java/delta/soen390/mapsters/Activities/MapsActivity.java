@@ -1,6 +1,8 @@
 package delta.soen390.mapsters.Activities;
 
-
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
@@ -9,20 +11,23 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.api.client.util.DateTime;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import java.util.Calendar;
 
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Calendar.CalendarEvent;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarEventNotification;
+import delta.soen390.mapsters.Calendar.CalendarEventReceiver;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.LocationService;
+import delta.soen390.mapsters.Utils.TimeUtil;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
 
@@ -132,6 +137,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void deactivate() {
         mLocationService.setLocationListener(null);
     }
+
+    /**
+     * Hooks up the very next notification that is in the user's event queue.
+     */
+    private void handleNotifications() {
+        Intent alarmIntent = new Intent(this , CalendarEventReceiver.class);
+
+        // Create alarm manager to enable notification to fire at later time.
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        // not sure which one will work better
+        //PendingIntent pendingIntent = PendingIntent.getService(mContext, 0, alarmIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Get the next event in the event queue.
+        Calendar calendar = Calendar.getInstance();
+        CalendarEvent ce = mCalendarEventManager.getNextEvent();
+
+        calendar.setTime(TimeUtil.subtractDates(ce.getStartTime(), ce.getBeforeEventNotification()));
+
+        // Fire notification at this time. This will be caught in the receiver.
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+    }
+
+
 
 }
 

@@ -32,7 +32,10 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-
+        <receiver
+            android:name="delta.soen390.mapsters.Calendar.CalendarEventReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:process=":remote" />
         <activity
             android:name=".Activities.MapsActivity"
             android:exported="true"

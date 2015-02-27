@@ -16,6 +16,7 @@ import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.R;
 
 /**
+ * Creates a notification for every single calendar event imported from the users Google calendar.
  * Created by Felicia on 2015-02-22.
  */
 public class CalendarEventNotification {
@@ -23,6 +24,10 @@ public class CalendarEventNotification {
     private Context mContext;
     private CalendarEvent mCalendarEvent;
     private MapsActivity mMapsActivity;
+
+    // incharge of popping the queue
+
+    //update query to get events to get now + notificationbefofre
 
     public CalendarEventNotification(Context context, MapsActivity mapsActivity, CalendarEvent calendarEvent) {
         mContext = context;
@@ -32,10 +37,13 @@ public class CalendarEventNotification {
 
     // TODO make time aware , need to add notification list to CalendarEvent objects.
     private void makeTimeAware() {
-        Intent alarmIntent = new Intent(mContext , CalendarEventNotification.class);
+        Intent alarmIntent = new Intent(mContext , CalendarEventReceiver.class);
         // Create alarm manager to enable notification to fire at later time.
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
-        PendingIntent pendingIntent = PendingIntent.getService(mContext, 0, alarmIntent, 0);
+
+        // not sure which one will work better
+        //PendingIntent pendingIntent = PendingIntent.getService(mContext, 0, alarmIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR, 12); // To be something like CalendarEvent.getNotification.
@@ -44,6 +52,10 @@ public class CalendarEventNotification {
 
         // Fire notification at this time.
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+
+
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 5000, pendingIntent);
     }
 
     public void createNotification() {
@@ -51,6 +63,18 @@ public class CalendarEventNotification {
             return;
         }
 
+        // Build how the notification will look
+        Notification calEventNotif = buildNotification();
+
+
+        // To show the notification - move to reciever.
+        NotificationManager nm = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
+        nm.notify(0, calEventNotif);
+
+        makeTimeAware();
+    }
+
+    private Notification buildNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
 
         Intent i = new Intent(mContext, mContext.getClass());
@@ -86,9 +110,7 @@ public class CalendarEventNotification {
             notification.bigContentView = expandedView;
         }
 
-        // To show the notification
-        NotificationManager nm = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
-        nm.notify(0, notification);
+        return notification;
     }
 
     // TODO

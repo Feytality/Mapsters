@@ -3,10 +3,11 @@ package delta.soen390.mapsters.Calendar;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.CalendarContract;
-
 import com.google.api.client.util.DateTime;
 
 import java.util.ArrayList;
+
+import delta.soen390.mapsters.Utils.TimeUtil;
 
 /**
  * The purpose of this class is to persist events from the user's Android calendar.
@@ -15,6 +16,7 @@ import java.util.ArrayList;
  */
 public class CalendarEventSerializer {
     private CalendarEventImporter mImporter;
+    private String TIME_BEFORE_EVENT = "900000"; // 15 minutes in milliseconds
 
     /**
      * Constructor accepting the current context of the application
@@ -54,7 +56,8 @@ public class CalendarEventSerializer {
                             eventCursor.getString(titleIndex),
                             eventCursor.getString(locationIndex),
                             eventCursor.getString(startDateTimeIndex),
-                            eventCursor.getString(endDatetimeIndex)
+                            eventCursor.getString(endDatetimeIndex),
+                            TIME_BEFORE_EVENT
                     );
 
                     if(calendarEvent != null) {
@@ -75,7 +78,7 @@ public class CalendarEventSerializer {
      * @param   endDateTime
      * @return  Calendar event object.
      */
-    private CalendarEvent createCalendarEvent(String title, String fullLocation, String startDateTime, String endDateTime)
+    private CalendarEvent createCalendarEvent(String title, String fullLocation, String startDateTime, String endDateTime, String beforeEventEventNotification)
     {
         //Parse the building code out of the given full location
         String buildingCode = "";
@@ -95,25 +98,12 @@ public class CalendarEventSerializer {
             }
         }
 
-        DateTime startDt    = millisToDateTime(startDateTime);
-        DateTime endDt      = millisToDateTime(endDateTime);
+        DateTime startDt    = TimeUtil.millisToDateTime(startDateTime);
+        DateTime endDt      = TimeUtil.millisToDateTime(endDateTime);
+        DateTime beforeDt       = TimeUtil.millisToDateTime(beforeEventEventNotification);
 
-
-        return new CalendarEvent(buildingCode, fullLocation, title, startDt, endDt);
+        return new CalendarEvent(buildingCode, fullLocation, title, startDt, endDt, beforeDt);
     }
 
-    /**
-     * Converts millisecond to a DateTime object. Might belong in a utility class instead.
-     *
-     * @param   millisString
-     * @return  DateTime object represented by the accepted string.
-     */
-    private DateTime millisToDateTime(String millisString)
-    {
-        if(millisString == null) {
-            return null;
-        }
-        long millis = Long.parseLong(millisString);
-        return new DateTime(millis);
-    }
+
 }
