@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.Data.JsonReader;
+import delta.soen390.mapsters.R;
 
 /**
  * Created by Mathieu on 2/8/2015.
@@ -22,6 +23,12 @@ public class BuildingPolygonManager {
 
     //<editor-fold desc="Singleton Definition">
     private static BuildingPolygonManager sBuildingPolygonManager;
+    private int mBuildingFocusFillColor;
+    private int mBuildingStandardFillColor;
+
+    //Whenever the user clicks a building, that building is focused.
+    //Only one building can be focused at a time
+    private BuildingPolygon mCurrentlyFocusedBuilding;
 
     private BuildingPolygonManager()
     {
@@ -64,8 +71,19 @@ public class BuildingPolygonManager {
 		JSONObject jsonBuildingPolygons = JsonReader.ReadJsonFromFile(context,"buildingJson.json");
         PolygonSerializer polygonSerializer = new PolygonSerializer(gMap);
 
-        mBuildingPolygons = polygonSerializer.CreatePolygonArray(jsonBuildingPolygons);
+        mBuildingPolygons       = polygonSerializer.CreatePolygonArray(jsonBuildingPolygons);
+        //TODO load from values
+        float   borderWidth     = 4.0f;//context.getResources().getDimension(R.dimen.polygon_border_width);
+        mBuildingStandardFillColor      = context.getResources().getColor(R.color.concordia_dark);
+        mBuildingFocusFillColor         = context.getResources().getColor(R.color.concordia_light);
 
+        for(int i = 0; i < mBuildingPolygons.size(); ++i)
+        {
+            BuildingPolygon polygon = mBuildingPolygons.get(i);
+            polygon.setBorderWidth(borderWidth);
+
+            unfocusBuildingPolygon(polygon);
+        }
         //Set the listener
 
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
@@ -75,13 +93,32 @@ public class BuildingPolygonManager {
                BuildingPolygon polygon = getClickedPolygon(point);
                 if(polygon != null) {
                     BuildingInfo buildingInfo = polygon.getBuildingInfo();
-                    Log.i(buildingInfo.getBuildingCode(), "Inside!");
+
+                    //Focus the selected building
+                    focusBuildingPolygon(polygon);
                     splitPane.updateContent(buildingInfo);
                 }
 
             }
         });
 
+    }
+
+    //Will create a focus effect on the passed BuildingPolygon
+    public void focusBuildingPolygon(BuildingPolygon polygon)
+    {
+        if(mCurrentlyFocusedBuilding != null) {
+            unfocusBuildingPolygon(mCurrentlyFocusedBuilding);
+        }
+        mCurrentlyFocusedBuilding = polygon;
+        mCurrentlyFocusedBuilding.setFillColor(mBuildingFocusFillColor);
+    }
+
+    //Remove all focus effects of the BuildingPolygon
+    //mainly resets color
+    public void unfocusBuildingPolygon(BuildingPolygon polygon)
+    {
+        polygon.setFillColor(mBuildingStandardFillColor);
     }
 
     public BuildingPolygon getBuildingPolygon(String buildingCode)
@@ -96,5 +133,7 @@ public class BuildingPolygonManager {
 
         return null;
     }
+
+
 
 };
