@@ -66,7 +66,9 @@ public class BuildingPolygon {
 
 	public void setFillColor(int color)
 	{
-		mPolygon.setFillColor(color);
+        if(mPolygon != null) {
+            mPolygon.setFillColor(color);
+        }
 	}
 
 	public void setVisibility(boolean isVisible)
@@ -81,6 +83,12 @@ public class BuildingPolygon {
             return false;
 		return mBoundingBox2D.isPointInsideBoundingBox(new Vector2D(point.latitude, point.longitude));
 	}
+    public void setBorderWidth(float width)
+    {
+        if(mPolygon != null) {
+            mPolygon.setStrokeWidth(width);
+        }
+    }
 
     public BuildingInfo getBuildingInfo() {
         return mBuildingInfo;
