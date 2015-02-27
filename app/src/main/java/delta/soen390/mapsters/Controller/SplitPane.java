@@ -67,18 +67,20 @@ public class SplitPane {
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
             Log.i("Direction Button", "Clicked!");
-
-            if (mLocationService.getLastLocation() == null) {
+            Location lastLocation = mLocationService.getLastLocation();
+            if (lastLocation == null) {
                 Log.i("last direction", "null");
+                return;
             } else {
                 Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
             }
 
-            //TODO handle null last location value properly
-            Location lastLocation = mLocationService.getLastLocation();
             LatLng currentBuildingCoordinates = mCurrentBuilding.getCoordinates();
-            if(lastLocation == null || currentBuildingCoordinates == null)
+            if(currentBuildingCoordinates == null)
                 return;
+
+            //Create Path here
+
             Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
                     Uri.parse("http://maps.google.com/maps?saddr=" + lastLocation.getLatitude() + "," +
                             lastLocation.getLongitude() +
