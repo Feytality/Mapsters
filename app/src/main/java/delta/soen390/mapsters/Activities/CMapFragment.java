@@ -1,8 +1,9 @@
 package delta.soen390.mapsters.Activities;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarEventNotification;
@@ -21,7 +23,9 @@ import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource {
+
+
+public class CMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource {
 
     private TextView textPointer;
 
@@ -33,9 +37,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private static final String TAG = "DemoActivity";
     private CalendarEventManager mCalendarEventManager;
     private CalendarEventNotification mCalendarEventNotification;
-
-    public static MapFragment newInstance(String param1, String param2) {
-        MapFragment fragment = new MapFragment();
+    private SupportMapFragment fragment;
+    public static CMapFragment newInstance(String param1, String param2) {
+        CMapFragment fragment = new CMapFragment();
         Bundle args = new Bundle();
 
 
@@ -44,8 +48,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         return fragment;
     }
 
-    public MapFragment() {
-
+    public CMapFragment() {
     }
 
     @Override
@@ -59,6 +62,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                              Bundle savedInstanceState) {
 
 
+        FragmentManager fm = getChildFragmentManager();
+        fragment = (SupportMapFragment) fm.findFragmentById(R.id.map_container);
+        if (fragment == null) {
+            fragment = SupportMapFragment.newInstance();
+            fm.beginTransaction().replace(R.id.map_container, fragment).commit();
+        }
 
 
 

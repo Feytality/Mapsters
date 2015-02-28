@@ -1,14 +1,18 @@
 package delta.soen390.mapsters.Activities;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.R;
 
-public class LaunchActivity extends Activity {
+
+
+public class LaunchActivity extends FragmentActivity {
 
     private NavigationDrawer mDrawer;
 
@@ -19,14 +23,13 @@ public class LaunchActivity extends Activity {
         getActionBar().hide();
         mDrawer = new NavigationDrawer(this);
 
+        Fragment fragment = new CMapFragment();
 
-//        Fragment fragment = new MapFragment();
-//
-////Insert the fragment by replacing any existing fragment
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction()
-//                .replace(R.id.m_container, fragment)
-//                .commit();
+//Insert the DEFAULT fragment by replacing any existing fragment
+        FragmentManager fragmentManager =getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.m_container, fragment)
+                .commit();
 
     }
 

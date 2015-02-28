@@ -19,26 +19,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/mapSwitcher" >
-                <!-- 45.458565,-73.640064 LOY
-                <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:map="http://schemas.android.com/apk/res-auto"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                <!-- 45.458565,-73.640064 LOY-->
+                <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+                    <!--xmlns:map="http://schemas.android.com/apk/res-auto"-->
+                    <!--xmlns:tools="http://schemas.android.com/tools"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
 
-                    tools:context="delta.soen390.mapsters.Activities.MapsActivity"
-                    map:cameraTargetLat="45.458565"
-                    map:cameraTargetLng="-73.640064"
-                    map:cameraZoom="17"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
-                    android:id="@+id/map_fragment"
-                    />-->
+                    <!--tools:context="delta.soen390.mapsters.Activities.MapsActivity"-->
+                    <!--map:cameraTargetLat="45.458565"-->
+                    <!--map:cameraTargetLng="-73.640064"-->
+                    <!--map:cameraZoom="17"-->
+                    <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
+                    <!--android:id="@+id/map_fragment"-->
+                    <!--/>-->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/map_container">
 
-                    <!-- The map fragments will go here -->
+                     The map fragments will go here
                 </RelativeLayout>
 
 
