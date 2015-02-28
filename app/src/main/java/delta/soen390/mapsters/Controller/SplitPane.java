@@ -21,10 +21,12 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.joda.time.DateTime;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
+import delta.soen390.mapsters.Data.ShuttleResponseObject;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.Services.ShuttleBusService;
@@ -34,6 +36,7 @@ public class SplitPane {
     private SlidingUpPanelLayout mLayout;
     private BuildingInfo mCurrentBuilding;
     private LocationService mLocationService;
+    private ShuttleBusService mShuttleService;
     private Context mContext;
 
     //View Components
@@ -45,12 +48,13 @@ public class SplitPane {
     private ImageButton mDirectionButton;
     private AlertDialog mAlertDialog;
 
-    public SplitPane(View view, float anchorPoint, LocationService locationService, Context context) {
+    public SplitPane(View view, float anchorPoint, LocationService locationService, ShuttleBusService shuttleBusService, Context context) {
         mContext = context;
         mLayout = (SlidingUpPanelLayout) view;
         mLayout.setAnchorPoint(anchorPoint);
         mCurrentBuilding = null;
         mLocationService = locationService;
+        mShuttleService = shuttleBusService;
 
         //initializing components
         mBuildingName = (TextView) mLayout.findViewById(R.id.building_name);
@@ -60,26 +64,34 @@ public class SplitPane {
         mBuildingPictureView = (ImageView) mLayout.findViewById(R.id.building_image);
         mDirectionButton = (ImageButton) mLayout.findViewById(R.id.direction_button);
         mDirectionButton.setOnClickListener(directionBtnListener);
-        initDialog();
     }
 
-    public void initDialog(){
+    public void initDialog(final ShuttleResponseObject responseObject){
+        if (!responseObject.ismPreferable())
+            return;
+
+        SimpleDateFormat format = new SimpleDateFormat("h:m a");
+
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setMessage("Would you be interested taking the Shuttle Bus?")
+        builder.setTitle("Shuttle Bus at "+ format.format(responseObject.getmShuttleDepart()))
+                .setMessage("Looks like it will be easier to take the shuttle bus to get to " + responseObject.getmCampus().getName().name())
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.i("Dialog","YES");
-
+                        openDirections(new LatLng(mLocationService.getLastLocation().getLatitude(),mLocationService.getLastLocation().getLongitude()),
+                                new LatLng(responseObject.getmCampus().getShuttlePointPoint().latitude,responseObject.getmCampus().getShuttlePointPoint().longitude));
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.i("Dialog","No");
+
                     }
                 });
         mAlertDialog = builder.create();
+        mAlertDialog.show();
     }
 
     public void updateContent(BuildingInfo buildingInfo) {
@@ -106,18 +118,25 @@ public class SplitPane {
                 Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
             }
 
-            mAlertDialog.show();
+            ShuttleResponseObject response = mShuttleService.ShuttleBusWins(new LatLng(mLocationService.getLastLocation().getLatitude(), mLocationService.getLastLocation().getLongitude()), mCurrentBuilding);
+            initDialog(response);
 
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                    Uri.parse("http://maps.google.com/maps?saddr=" + mLocationService.getLastLocation().getLatitude() + "," +
-                            mLocationService.getLastLocation().getLongitude() +
-                            "&daddr=" + mCurrentBuilding.getCoordinates().latitude + "," +
-                            mCurrentBuilding.getCoordinates().longitude));
-
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            mContext.startActivity(intent);
+            openDirections(new LatLng(mLocationService.getLastLocation().getLatitude(),mLocationService.getLastLocation().getLongitude()),
+                    new LatLng(mCurrentBuilding.getCoordinates().latitude,mCurrentBuilding.getCoordinates().longitude));
         }
 
     };
+
+    private void openDirections (LatLng from, LatLng to){
+
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("http://maps.google.com/maps?saddr=" + from.latitude + "," +
+                        from.longitude +
+                        "&daddr=" + to.latitude + "," +
+                        to.longitude));
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        mContext.startActivity(intent);
+    }
 }

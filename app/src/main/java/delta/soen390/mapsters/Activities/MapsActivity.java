@@ -18,6 +18,7 @@ import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.LocationService;
+import delta.soen390.mapsters.Services.ShuttleBusService;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
 
@@ -28,6 +29,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private CampusSwitchUI mCampusSwitchUI;
     private CampusViewSwitcher mCampusViewSwitcher;
     private LocationService mLocationService;
+    private ShuttleBusService mShuttleService;
 
     private SplitPane splitPane;
     private static final String TAG = "DemoActivity";
@@ -44,11 +46,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //initialize location
         mLocationService = new LocationService(getApplicationContext());
+        mShuttleService = new ShuttleBusService(getApplicationContext());
 
         mCampusSwitchUI = new CampusSwitchUI(this, mCampusViewSwitcher);
 
         //Initialize the SlidingUpPanel
-        splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f, mLocationService, this);
+        splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f, mLocationService, mShuttleService,this);
     }
 
     public void setImageOptions() {

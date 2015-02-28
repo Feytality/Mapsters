@@ -6,28 +6,28 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class Campus {
 
-    private final LatLng mCenterPoint;
+    private final LatLng mShuttlePoint;
     private final CampusEnum mName;
     //To be changed: users should be 1k from the campus in order for the shuttle to be a viable option
     private final int mInsideDistance = 1000;
 
     public Campus (CampusEnum name,LatLng point){
         mName = name;
-        mCenterPoint = point;
+        mShuttlePoint = point;
     }
 
     public CampusEnum getName(){
         return mName;
     }
 
-    public LatLng getCenterPoint(){
-        return mCenterPoint;
+    public LatLng getShuttlePointPoint(){
+        return mShuttlePoint;
     }
 
     //TODO create geo fence method instead of this POS algo
     public boolean isClose(LatLng point){
         float[] result = new float[1];
-        Location.distanceBetween(mCenterPoint.latitude, mCenterPoint.longitude, point.latitude, point.longitude, result);
+        Location.distanceBetween(mShuttlePoint.latitude, mShuttlePoint.longitude, point.latitude, point.longitude, result);
 
         if (result[0] > mInsideDistance)
             return false;
