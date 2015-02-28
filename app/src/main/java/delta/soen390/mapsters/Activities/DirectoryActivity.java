@@ -16,6 +16,13 @@ public class DirectoryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.f_directory_placeholder);
 
+
+//        Fragment fragment = new SecondFragment();
+//// Insert the fragment by replacing any existing fragment
+//        FragmentManager fragmentManager = getFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.f_container, fragment)
+//                .commit();
 //        fruitView = (ListView) findViewById(android.R.id.list);
 //
 //        fruitView.setFastScrollEnabled(true);

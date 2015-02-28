@@ -193,4 +193,17 @@
             android:textColor="@color/background_material_light" />
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/textView2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="505dp"
+        android:layout_marginStart="505dp"
+        android:layout_marginBottom="127dp" />
+
 </RelativeLayout>

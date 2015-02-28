@@ -8,7 +8,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,7 +21,7 @@ import delta.soen390.mapsters.R;
 public class NavigationDrawer implements AdapterView.OnItemClickListener {
 
     private final Activity mContext;
-    private final Button mNavBtn;
+    //private final Button mNavBtn;
     private ListView mListView;
     private DrawerLayout mDrawerLayout;
 
@@ -45,13 +44,13 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
         ));
         mListView.setOnItemClickListener(this);
 
-        mNavBtn = (Button)mContext.findViewById(R.id.btn_nav_drawer);
-        mNavBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDrawerLayout.openDrawer(Gravity.LEFT);
-            }
-        });
+//        mNavBtn = (Button)mContext.findViewById(R.id.btn_nav_drawer);
+//        mNavBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDrawerLayout.openDrawer(Gravity.LEFT);
+//            }
+//        });
 
     }
 

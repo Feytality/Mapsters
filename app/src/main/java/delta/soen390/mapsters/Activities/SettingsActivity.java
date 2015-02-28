@@ -45,6 +45,16 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+    //TODO:Settings-
+//        -account setting
+//                **gmailaccount
+//                **sync calendar now
+//        -first screen to show
+//        - Map
+//                **default campus
+//                **routing options(tunnel...)
+//                **transport Preferencesa
+//        -notifications
 
         setupSimplePreferencesScreen();
     }
