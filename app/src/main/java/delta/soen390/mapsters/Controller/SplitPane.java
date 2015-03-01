@@ -1,5 +1,6 @@
 package delta.soen390.mapsters.Controller;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -24,7 +25,7 @@ public class SplitPane {
     private BuildingInfo mCurrentBuilding;
     private LocationService mLocationService;
     private Context mContext;
-
+    private Activity mActivity;
     //View Components
     private TextView mBuildingName;
     private TextView mBuildingCode;
@@ -36,6 +37,23 @@ public class SplitPane {
     public SplitPane(View view, float anchorPoint, LocationService locationService, Context context) {
         mContext = context;
         mLayout = (SlidingUpPanelLayout) view;
+        mLayout.setAnchorPoint(anchorPoint);
+        mCurrentBuilding = null;
+        mLocationService = locationService;
+
+        //initializing components
+        mBuildingName = (TextView) mLayout.findViewById(R.id.building_name);
+        mBuildingCode = (TextView) mLayout.findViewById(R.id.building_code);
+        mCampus = (TextView) mLayout.findViewById(R.id.campus);
+        mBuildingServices = (TextView) mLayout.findViewById(R.id.building_services);
+        mBuildingPictureView = (ImageView) mLayout.findViewById(R.id.building_image);
+        mDirectionButton = (ImageButton) mLayout.findViewById(R.id.direction_button);
+        mDirectionButton.setOnClickListener(directionBtnListener);
+    }
+
+    public SplitPane(View view, float anchorPoint, LocationService locationService, Activity activity) {
+        mContext = activity;
+        mLayout =(SlidingUpPanelLayout) view;
         mLayout.setAnchorPoint(anchorPoint);
         mCurrentBuilding = null;
         mLocationService = locationService;

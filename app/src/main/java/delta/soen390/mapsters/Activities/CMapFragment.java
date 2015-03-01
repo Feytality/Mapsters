@@ -3,11 +3,11 @@ package delta.soen390.mapsters.Activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
@@ -27,8 +27,8 @@ import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
 public class CMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource {
 
-    private TextView textPointer;
-
+    private View view;
+    private FragmentActivity mActivity;
     private CampusSwitchUI mCampusSwitchUI;
     private CampusViewSwitcher mCampusViewSwitcher;
     private LocationService mLocationService;
@@ -60,6 +60,21 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        view =inflater.inflate(R.layout.fragment_map, container, false);
+
+       mActivity = getActivity();
+
+        mLocationService = new LocationService(mActivity.getApplicationContext());
+
+
+        mCampusSwitchUI = new CampusSwitchUI(view, mActivity, mCampusViewSwitcher);
+
+        //Initialize the SlidingUpPanel
+       splitPane = new SplitPane(view.findViewById(R.id.sliding_layout), 0.50f, mLocationService, mActivity);
+
+        //Initialize the CalendarEventManager
+        mCalendarEventManager = new CalendarEventManager(mActivity.getApplicationContext());
+        mCalendarEventManager.updateEventQueue();
 
 
         FragmentManager fm = getChildFragmentManager();
@@ -68,11 +83,8 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
             fragment = SupportMapFragment.newInstance();
             fm.beginTransaction().replace(R.id.map_container, fragment).commit();
         }
-
-
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map, container, false);
+        return view;
     }
 
 
@@ -110,10 +122,10 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setBuildingsEnabled(false);
 
-        //Initialize the Campus Switch
-        //mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap));
-        //Initialize the Building Polygons
-       // BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
+//        Initialize the Campus Switch
+        mCampusSwitchUI = new CampusSwitchUI(view,mActivity,new CampusViewSwitcher(mActivity, googleMap));
+//        Initialize the Building Polygons
+//       BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
 
 
     }

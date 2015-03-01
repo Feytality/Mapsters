@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:gravity="bottom"
         >
-
+<!--BASE CONTENT-->
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -38,7 +38,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/map_container">
 
-                     The map fragments will go here
+                     <!--The map fragments will go here-->
                 </RelativeLayout>
 
 
@@ -80,7 +80,7 @@
 
         </RelativeLayout>
 
-
+<!--SLIDING CONTENT-->
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent" android:layout_height="match_parent">
 
@@ -276,5 +276,7 @@
             </LinearLayout>
 
         </RelativeLayout>
+
+
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </RelativeLayout>

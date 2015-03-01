@@ -1,5 +1,7 @@
 package delta.soen390.mapsters.Controller;
 
+import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ViewSwitcher;
@@ -8,7 +10,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
-import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.R;
 
 /**
@@ -20,17 +21,27 @@ public class CampusViewSwitcher {
 
     private ViewSwitcher mMapSwitcher;
 
-    private MapsActivity mActivity;
+    private Activity mActivity;
     private GoogleMap  mMap;
 
     private boolean mIsLoyolaDisplayed = true;
 
-    public CampusViewSwitcher(MapsActivity activity, GoogleMap map)
+    public CampusViewSwitcher(Activity activity, GoogleMap map)
     {
         mActivity = activity;
         mMap = map;
         mMapSwitcher = (ViewSwitcher) mActivity.findViewById(R.id.mapSwitcher);
-		
+
+        LoadAnimation();
+        LoadCampusViews();
+    }
+
+    public CampusViewSwitcher(FragmentActivity activity, GoogleMap map)
+    {
+        mActivity = activity;
+        mMap = map;
+        mMapSwitcher = (ViewSwitcher) mActivity.findViewById(R.id.mapSwitcher);
+
         LoadAnimation();
         LoadCampusViews();
     }
