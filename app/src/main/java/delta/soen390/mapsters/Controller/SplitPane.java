@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
@@ -78,7 +79,8 @@ public class SplitPane {
         mBuildingName.setText(buildingInfo.getBuildingName());
         mBuildingCode.setText(buildingInfo.getBuildingCode());
         mCampus.setText(buildingInfo.getCampus());
-
+    ImageLoader img = ImageLoader.getInstance();
+        img.init(ImageLoaderConfiguration.createDefault(mContext.getApplicationContext()));
         ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), mBuildingPictureView);
     }
 

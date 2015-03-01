@@ -1,8 +1,9 @@
 package delta.soen390.mapsters.Controller;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import delta.soen390.mapsters.Activities.CMapFragment;
 import delta.soen390.mapsters.Activities.DirectoryActivity;
 import delta.soen390.mapsters.Activities.SettingsActivity;
 import delta.soen390.mapsters.R;
@@ -20,12 +22,11 @@ import delta.soen390.mapsters.R;
  */
 public class NavigationDrawer implements AdapterView.OnItemClickListener {
 
-    private final Activity mContext;
-    //private final Button mNavBtn;
+    private final FragmentActivity mContext;
     private ListView mListView;
     private DrawerLayout mDrawerLayout;
 
-    public NavigationDrawer(Activity a){
+    public NavigationDrawer(FragmentActivity a){
         mContext = a;
         mDrawerLayout = (DrawerLayout) mContext.findViewById(R.id.drawer_layout);
 
@@ -44,13 +45,6 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
         ));
         mListView.setOnItemClickListener(this);
 
-//        mNavBtn = (Button)mContext.findViewById(R.id.btn_nav_drawer);
-//        mNavBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mDrawerLayout.openDrawer(Gravity.LEFT);
-//            }
-//        });
 
     }
 
@@ -71,6 +65,10 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
                 msg = "Show Services activity/fragment";
                 break;
             case 3://Departments
+                FragmentManager fragmentManager =mContext.getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.m_container, new CMapFragment())
+                        .commit();
                 msg = "Show department activity/fragment";
                 break;
             case 4://Settings

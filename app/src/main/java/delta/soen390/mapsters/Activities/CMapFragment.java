@@ -8,12 +8,16 @@ import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
+import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarEventNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
@@ -38,6 +42,9 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
     private CalendarEventManager mCalendarEventManager;
     private CalendarEventNotification mCalendarEventNotification;
     private SupportMapFragment fragment;
+    private GoogleMap map;
+    private Button mNavBtn;
+
     public static CMapFragment newInstance(String param1, String param2) {
         CMapFragment fragment = new CMapFragment();
         Bundle args = new Bundle();
@@ -61,7 +68,12 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view =inflater.inflate(R.layout.fragment_map, container, false);
-
+        FragmentManager fm = getChildFragmentManager();
+        fragment = (SupportMapFragment) fm.findFragmentById(R.id.map_container);
+        if (fragment == null) {
+            fragment = SupportMapFragment.newInstance();
+            fm.beginTransaction().replace(R.id.map_container, fragment).commit();
+        }
        mActivity = getActivity();
 
         mLocationService = new LocationService(mActivity.getApplicationContext());
@@ -77,12 +89,8 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
         mCalendarEventManager.updateEventQueue();
 
 
-        FragmentManager fm = getChildFragmentManager();
-        fragment = (SupportMapFragment) fm.findFragmentById(R.id.map_container);
-        if (fragment == null) {
-            fragment = SupportMapFragment.newInstance();
-            fm.beginTransaction().replace(R.id.map_container, fragment).commit();
-        }
+
+
         // Inflate the layout for this fragment
         return view;
     }
@@ -117,17 +125,6 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        googleMap.setLocationSource(this);
-        googleMap.setMyLocationEnabled(true);
-        googleMap.setOnMyLocationButtonClickListener(this);
-        googleMap.setBuildingsEnabled(false);
-
-//        Initialize the Campus Switch
-        mCampusSwitchUI = new CampusSwitchUI(view,mActivity,new CampusViewSwitcher(mActivity, googleMap));
-//        Initialize the Building Polygons
-//       BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
-
-
     }
 
     @Override
@@ -146,6 +143,19 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
         mLocationService.setLocationListener(null);
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (map == null) {
+            map = fragment.getMap();
+            map.setLocationSource(this);
+            map.setMyLocationEnabled(true);
+            map.setOnMyLocationButtonClickListener(this);
+            map.setBuildingsEnabled(false);
+            map.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
+            mCampusSwitchUI = new CampusSwitchUI(view,mActivity,new CampusViewSwitcher(mActivity, map));
+            BuildingPolygonManager.getInstance().loadResources(map, splitPane, mActivity.getApplicationContext());
+        }
+    }
 
 }

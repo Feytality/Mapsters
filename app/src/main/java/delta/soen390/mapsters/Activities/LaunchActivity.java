@@ -28,12 +28,19 @@ public class LaunchActivity extends FragmentActivity {
 
         Fragment fragment = new CMapFragment();
 
-        //Insert the DEFAULT fragment by replacing any existing fragment
+//Insert the DEFAULT fragment by replacing any existing fragment
         FragmentManager fragmentManager =getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.m_container, fragment)
                 .commit();
 
+//        mNavBtn = (Button)mContext.findViewById(R.id.btn_nav_drawer);
+//        mNavBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDrawerLayout.openDrawer(Gravity.LEFT);
+//            }
+//        });
     }
 
 
