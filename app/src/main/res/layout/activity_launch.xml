@@ -11,7 +11,7 @@
         android:layout_height="match_parent" />
     <!-- The navigation drawer -->
 
-
+<!--this is the actual content-->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/m_container"
@@ -22,7 +22,7 @@
 
 
 
-
+<!--This is the actual drawer-->
     <ListView android:id="@+id/left_drawer"
     android:layout_width="240dp"
     android:layout_height="match_parent"

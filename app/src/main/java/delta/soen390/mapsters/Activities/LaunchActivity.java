@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import delta.soen390.mapsters.Controller.NavigationDrawer;
+import delta.soen390.mapsters.Fragments.CMapFragment;
 import delta.soen390.mapsters.R;
 
 

@@ -1,10 +1,12 @@
-package delta.soen390.mapsters.Activities;
+package delta.soen390.mapsters.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +90,14 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
         mCalendarEventManager = new CalendarEventManager(mActivity.getApplicationContext());
         mCalendarEventManager.updateEventQueue();
 
-
+        mNavBtn = (Button)view.findViewById(R.id.btn_nav_drawer);
+        mNavBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawerLayout = (DrawerLayout)mActivity.findViewById(R.id.drawer_layout);
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
 
 
         // Inflate the layout for this fragment
@@ -125,6 +134,16 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        if (googleMap == null) {
+            googleMap = fragment.getMap();
+            googleMap.setLocationSource(this);
+            googleMap.setMyLocationEnabled(true);
+            googleMap.setOnMyLocationButtonClickListener(this);
+            googleMap.setBuildingsEnabled(false);
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
+            mCampusSwitchUI = new CampusSwitchUI(view,mActivity,new CampusViewSwitcher(mActivity, map));
+            BuildingPolygonManager.getInstance().loadResources(map, splitPane, mActivity.getApplicationContext());
+        }
     }
 
     @Override

@@ -12,7 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import delta.soen390.mapsters.Activities.CMapFragment;
+import delta.soen390.mapsters.Fragments.CMapFragment;
+import delta.soen390.mapsters.Fragments.DirectoriesFragment;
 import delta.soen390.mapsters.Activities.DirectoryActivity;
 import delta.soen390.mapsters.Activities.SettingsActivity;
 import delta.soen390.mapsters.R;
@@ -52,6 +53,7 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mDrawerLayout.closeDrawer(Gravity.LEFT);
         String msg="";
+        FragmentManager fragmentManager;
         switch(position) {
             default:
             case 0://Schedule
@@ -59,13 +61,17 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
                 mContext.startActivity (new Intent(Intent.ACTION_VIEW, Uri.parse("content://com.android.calendar/time/")));
                 break;
             case 1://Buildings
-                mContext.startActivity (new Intent(mContext, DirectoryActivity.class));
+                mContext.startActivity(new Intent(mContext, DirectoryActivity.class));
                 break;
             case 2://Services
+                 fragmentManager =mContext.getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.m_container, new DirectoriesFragment())
+                        .commit();
                 msg = "Show Services activity/fragment";
                 break;
             case 3://Departments
-                FragmentManager fragmentManager =mContext.getSupportFragmentManager();
+                 fragmentManager =mContext.getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.m_container, new CMapFragment())
                         .commit();
