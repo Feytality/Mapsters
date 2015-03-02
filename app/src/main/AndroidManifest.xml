@@ -6,19 +6,16 @@
     <uses-sdk
         android:maxSdkVersion="21"
         android:minSdkVersion="16"
-        android:targetSdkVersion="21" />
+        android:targetSdkVersion="21"
+        tools:overrideLibrary="android.support.v17.leanback"/>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-=======
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
-    <uses-sdk tools:overrideLibrary="android.support.v17.leanback"/>
->>>>>>> origin/master
+
 
     <permission
         android:name="delta.soen390.mapsters.permission.C2D_MESSAGE"
@@ -33,7 +30,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"

@@ -1,11 +1,8 @@
 package delta.soen390.mapsters.Activities;
 
-<<<<<<< HEAD
-
 import android.content.Intent;
 import android.os.Build;
-=======
->>>>>>> origin/master
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
@@ -76,11 +73,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);
-<<<<<<< HEAD
         mDrawer.addButton();
-=======
 
->>>>>>> origin/master
     }
 
     public void setImageOptions() {
