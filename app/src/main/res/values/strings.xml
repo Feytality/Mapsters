@@ -23,6 +23,36 @@
     <string name="action_example">Example action</string>
     <string name="title_activity_splash">Splash</string>
     <string name="title_activity_buildings">Directory Activity</string>
+    <string name ="tut_finding_location">1. Finding your Location on the Map:</string>
+    <string name="tut_finding_location_step1">\t1.1. On the top right hand side of the screen, tap on the button containing a crosshair symbol.</string>
+    <string name="tut_switch_campus">\n2. Switch Between Campus Views:</string>
+    <string name="tut_switch_campus_step1">\t2.1. On the top of the screen, tap the button that says either SGW or LOY.</string>
+    <string name="tut_switch_campus_step2">\t2.2. Use these buttons to switch to the campus you would like to view.</string>
+    <string name="tut_building_info">\n3. Viewing Information of a Building:</string>
+    <string name="tut_building_info_step1">\t3.1. Click on an outlined building on the map</string>
+    <string name="tut_building_info_step2">\t3.2. The name of the building will appear in the red panel at the bottom of your screen.</string>
+    <string name="tut_building_info_step3">\t3.3. Slide the red panel up to view information and services provided for that building.</string>
+    <string name="tut_dir_current">\n4. Getting Directions to a Building from your Current Location:</string>
+    <string name="tut_dir_current_step1">\t 4.1. Slide-up the red panel located at the bottom of the screen.</string>
+    <string name="tut_dir_current_step2">\t4.2. Tap on the button containing an arrow located on the right-hand side of the screen.</string>
+    <string name="tut_dir_current_step3">\t4.3. Your directions will be illustrated on the map.</string>
+    <string name="tut_options">\n5. Accessing the options panel:</string>
+    <string name="tut_options_step1">\t5.1. On the top-left hand side of the screen, tap on the 3 horizontal lines.</string>
+    <string name="tut_schedule">\n6. Accessing your Schedule:</string>
+    <string name="tut_access_options">\t6.1. Access the options panel (Follow steps from 5.).</string>
+    <string name="tut_schedule_step2">\t6.2. Tap on \'Schedule\'</string>
+    <string name="tut_schedule_step3">\t6.3. This will bring you to your Google calendar.</string>
+    <string name="tut_schedule_step4">\t6.4. To get back to the Mapster app, tap on the back button on your device.</string>
+    <string name="tut_bldg_list">\n7. Viewing a List of Campus Buildings:</string>
+    <string name="tut_bldg_list_step1">\t7.1. From Options Panel, tap on \'Campus Buildings\'.</string>
+    <string name="tut_services_list">\n8. Viewing a List of Campus Services:</string>
+    <string name="tut_services_list_step1">\t8.1 From Options Panel, tap on \'Campus Services\'</string>
+    <string name="tut_Departments">\n9. Viewing a List of Campus Departments:</string>
+    <string name="tut_Departments_step1">\t 9.1 From Options Panel, tap on \'Campus Departments\'</string>
+    <string name="tut_settings">\n10. Accessing your Settings:</string>
+    <string name="tut_settings_step1">\t10.1. From Options Panel, tap on \'Settings\'</string>
+    <string name="tut_settings_step2">\t10.2. This will bring you to a list of different setting options.</string>
+
 
     <string-array name="fruits_array">
         <item>Apples</item>
