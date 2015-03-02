@@ -23,19 +23,37 @@ import delta.soen390.mapsters.R;
 public class CalendarEventReceiver extends BroadcastReceiver {
 
     private Context mContext;
+    private CalendarEventManager mCalendarEventManager;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         mContext = context;
+        mCalendarEventManager = new CalendarEventManager(mContext);
+
         Calendar now = GregorianCalendar.getInstance();
         int dayOfWeek = now.get(Calendar.DATE);
         if(dayOfWeek != 1 && dayOfWeek != 7) {
-            Notification notif = buildNotification();
+            Notification eventNotification = buildNotification();
             NotificationManager nm = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
-            nm.notify(0, notif);
+
+            if(nm != null) {
+                nm.notify(0, eventNotification);
+
+                // Pop the added notification from the event queue
+                mCalendarEventManager.popNextEvent();
+
+                // TODO: add call to resync in event manager.
+            } else {
+                // Could not hook up notification.
+            }
         }
     }
 
+    /**
+     * Builds the way the notification will look.
+     *
+     * @return
+     */
     private Notification buildNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
 
@@ -73,9 +91,6 @@ public class CalendarEventReceiver extends BroadcastReceiver {
             expandedView.setTextViewText(R.id.expandedTextView, expandedText);
             notification.bigContentView = expandedView;
         }
-
-        // TODO: pop event queue here
-        // TODO: resync here (meaning populate the queue as much as they can as of after event start date.
 
         return notification;
     }

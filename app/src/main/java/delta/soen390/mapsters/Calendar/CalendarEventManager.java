@@ -54,4 +54,23 @@ public class CalendarEventManager {
     public LinkedList<CalendarEvent> getCalendarEventQueue() {
         return mCalendarEventQueue;
     }
+
+    /**
+     * Removes the next event in the event queue (meaning the notification for the event has shown)
+     */
+    public void popNextEvent() {
+        if(mCalendarEventQueue != null){
+            if(!mCalendarEventQueue.isEmpty()) {
+                mCalendarEventQueue.removeFirst();
+            } else {
+                // Can't pop from empty list.
+            }
+        } else{
+            // can't pop from a null list.
+        }
+    }
+
+    public void resyncEvents() {
+        // TODO
+    }
 }
