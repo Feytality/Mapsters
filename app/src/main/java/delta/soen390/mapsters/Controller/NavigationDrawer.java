@@ -39,7 +39,7 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
                 mContext.getString(R.string.nav_str_departments),
                 mContext.getString(R.string.nav_str_settings),
         };
-        mListView = (ListView) mContext.findViewById(R.id.left_drawer);
+        mListView = (ListView) mContext.findViewById(R.id.nav_options);
         mListView.setAdapter(new ArrayAdapter<String>(
                 mContext,
                 android.R.layout.simple_list_item_activated_1,
@@ -80,26 +80,24 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
                 mContext.startActivity (new Intent(Intent.ACTION_VIEW, Uri.parse("content://com.android.calendar/time/")));
                 break;
             case 1://Buildings
-             intent= new Intent(mContext, DirectoryActivity.class);
+                intent= new Intent(mContext, DirectoryActivity.class);
                 intent.putExtra("Directory",0);
-                mContext.startActivity(intent);
+                mContext.startActivityForResult(intent,1);
                 break;
             case 2://Services
                 intent= new Intent(mContext, DirectoryActivity.class);
                 intent.putExtra("Directory",1);
-                mContext.startActivity(intent);
+                mContext.startActivityForResult(intent,1);
                 break;
             case 3://Departments
                 intent= new Intent(mContext, DirectoryActivity.class);
                 intent.putExtra("Directory",2);
-                mContext.startActivity(intent);
+                mContext.startActivityForResult(intent,1);
                 break;
             case 4://Settings
                 msg = "Show settings activity/fragment";
                 mContext.startActivity(new Intent(mContext, SettingsActivity.class));
                 break;
         }
-
-//        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 }

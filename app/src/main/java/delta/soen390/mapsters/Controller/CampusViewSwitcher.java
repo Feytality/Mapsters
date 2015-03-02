@@ -109,7 +109,7 @@ public class CampusViewSwitcher {
     public void cameraToPoint(String latlong){
         LatLng ll =parseCoordinate(latlong);
         Log.e("*******************************************", ll.toString());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 17));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 18));
 
     }
 

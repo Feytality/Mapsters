@@ -294,15 +294,37 @@
 
         working portion -->
 
-        <ListView android:id="@+id/left_drawer"
-            android:layout_width="240dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:background="@color/concordia_grey"
-            />
+    <LinearLayout
+        android:id="@+id/left_drawer"
+        android:layout_width="300dp"
+        android:layout_gravity="start"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="240dp"
+        android:id="@+id/imageView2"
+        android:layout_gravity="top"
+        android:src="@drawable/photo2"
+        android:background="@color/concordia_grey"
+        />
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/nav_options"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageView2"
+        android:layout_weight="0.32"
+        android:layout_gravity="bottom"
+
+        android:background="@color/concordia_grey"
+        />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="240dp"
