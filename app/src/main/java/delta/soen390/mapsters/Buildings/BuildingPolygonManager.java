@@ -65,8 +65,7 @@ public class BuildingPolygonManager {
 		JSONObject jsonBuildingPolygons = JsonReader.ReadJsonFromFile(context,"buildingJson.json");
         PolygonSerializer polygonSerializer = new PolygonSerializer(gMap);
 
-<<<<<<< HEAD
-        mBuildingPolygons       = polygonSerializer.CreatePolygonArray(jsonBuildingPolygons);
+        mBuildingPolygons       = polygonSerializer.createPolygonArray(jsonBuildingPolygons);
         //TODO load from values
         float   borderWidth     = 4.0f;//context.getResources().getDimension(R.dimen.polygon_border_width);
         mBuildingStandardFillColor      = context.getResources().getColor(R.color.concordia_dark);
@@ -76,9 +75,6 @@ public class BuildingPolygonManager {
         {
             BuildingPolygon polygon = mBuildingPolygons.get(i);
             polygon.setBorderWidth(borderWidth);
-=======
-        mBuildingPolygons = polygonSerializer.createPolygonArray(jsonBuildingPolygons);
->>>>>>> origin/master
 
             unfocusBuildingPolygon(polygon);
         }
@@ -162,11 +158,5 @@ public class BuildingPolygonManager {
 
         return null;
     }
-
-<<<<<<< HEAD
-
-
 };
-=======
-}
->>>>>>> origin/master
+
