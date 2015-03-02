@@ -1,7 +1,6 @@
 package delta.soen390.mapsters.Buildings;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -127,6 +126,8 @@ public class BuildingPolygonManager {
         return null;
     }
 
+
+
     public BuildingInfo getBuildingInfoByService(String service) {
         if (service != null && !service.equals("")) {
             for (int i = 0; i < mBuildingPolygons.size(); ++i) {
@@ -158,5 +159,41 @@ public class BuildingPolygonManager {
 
         return null;
     }
-};
+
+    public ArrayList<String> getAllDepartments(){
+        ArrayList<String> allDepartments= new ArrayList<>();
+        for (int i = 0; i < mBuildingPolygons.size(); ++i) {
+            BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+            ArrayList<String[]> departments = buildingPolygon.getBuildingInfo().getDepartments();
+            for (String[] dept : departments) {
+                allDepartments.add(dept[0]);
+            }
+        }
+
+        return allDepartments;
+    }
+
+    public ArrayList<String> getAllServices(){
+        ArrayList<String> allServices= new ArrayList<>();
+        for (int i = 0; i < mBuildingPolygons.size(); ++i) {
+            BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+            ArrayList<String[]> services = buildingPolygon.getBuildingInfo().getServices();
+            for (String[] serv : services) {
+                allServices.add(serv[0]);
+            }
+        }
+
+        return allServices;
+    }
+
+    public ArrayList<String> getAllBuildings(){
+        ArrayList<String> allBuildings= new ArrayList<>();
+        for (int i = 0; i < mBuildingPolygons.size(); ++i) {
+            BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+            allBuildings.add(buildingPolygon.getBuildingInfo().getBuildingCode());
+
+        }
+        return allBuildings;
+    }
+}
 

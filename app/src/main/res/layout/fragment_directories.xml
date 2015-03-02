@@ -6,7 +6,7 @@
     <AutoCompleteTextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Search"
+        android:text=""
         android:id="@+id/autoCompleteTextView"
         android:layout_toLeftOf="@+id/button"
         android:layout_toStartOf="@+id/button" />

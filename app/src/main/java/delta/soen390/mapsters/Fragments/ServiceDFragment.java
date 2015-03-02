@@ -1,5 +1,7 @@
 package delta.soen390.mapsters.Fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,12 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.ListAdapter;
 import delta.soen390.mapsters.R;
 
@@ -41,12 +42,12 @@ public class ServiceDFragment extends Fragment {
         listingView = (ListView) view.findViewById(android.R.id.list);
         listingView.setFastScrollEnabled(true);
 
-        String[] fruits = getResources().getStringArray(R.array.fruits_array);
-        List<String> listingList = Arrays.asList(fruits);
+
+        List<String> listingList = BuildingPolygonManager.getInstance().getAllServices();
         Collections.sort(listingList);
 
         listingView.setAdapter(new ListAdapter(getActivity().getApplicationContext(),
-                android.R.layout.simple_list_item_1, listingList));
+                R.layout.my_list_item_style, listingList));
 
 
 
@@ -55,18 +56,19 @@ public class ServiceDFragment extends Fragment {
 
             public void onItemClick(AdapterView<?> parent, View arg1,
                                     int position, long arg3) {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "" + parent.getItemAtPosition(position),
-                        Toast.LENGTH_LONG).show();
+                Intent returnIntent = new Intent();
+                String result = BuildingPolygonManager.getInstance().getBuildingInfoByService(parent.getItemAtPosition(position).toString()).getCoordinates().toString();
+                returnIntent.putExtra("result",result);
+                getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                getActivity().finish();
             }
         });
 
         text = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
         text.setThreshold(1);
-        String[] countries = getResources().
-                getStringArray(R.array.fruits_array);
+
         ArrayAdapter adapter = new ArrayAdapter
-                (getActivity().getApplicationContext(),android.R.layout.simple_dropdown_item_1line,countries);
+                (getActivity().getApplicationContext(),R.layout.my_list_item_style,listingList);
         text.setAdapter(adapter);
 
 
@@ -91,7 +93,11 @@ public class ServiceDFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity().getApplicationContext(), position, Toast.LENGTH_SHORT).show();
+                Intent returnIntent = new Intent();
+                String result = BuildingPolygonManager.getInstance().getBuildingInfoByService(parent.getItemAtPosition(position).toString()).getCoordinates().toString();
+                returnIntent.putExtra("result",result);
+                getActivity().setResult(Activity.RESULT_OK, returnIntent);
+                getActivity().finish();
             }
 
         });

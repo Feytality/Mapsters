@@ -2,7 +2,6 @@ package delta.soen390.mapsters.Activities;
 
 import android.content.Intent;
 import android.os.Build;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
@@ -176,5 +175,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void deactivate() {
         mLocationService.setLocationListener(null);
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+
+                String result=data.getStringExtra("result");
+                mCampusSwitchUI.getmCampusViewSwitcher().cameraToPoint(result);
+                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+            }
+            if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this,"whyyyyy",Toast.LENGTH_SHORT).show();            }
+        }
+    }//onActivityResult
+
 }
 

@@ -2,6 +2,7 @@ package delta.soen390.mapsters.Controller;
 
 import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ViewSwitcher;
@@ -96,7 +97,25 @@ public class CampusViewSwitcher {
         mLoyolaCampusView.LoadView(mMap);
         mIsLoyolaDisplayed = true;
     }
-	
+
+    private LatLng parseCoordinate(String coor){
+
+        double lat =Double.valueOf(coor.substring(coor.indexOf("(")+1,coor.indexOf(",")));
+        double lng = Double.valueOf(coor.substring(coor.indexOf(",")+1,coor.indexOf(")")));
+        LatLng ll= new LatLng(lat,lng);
+        return ll;
+    }
+
+    public void cameraToPoint(String latlong){
+        LatLng ll =parseCoordinate(latlong);
+        Log.e("*******************************************", ll.toString());
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 18));
+
+    }
+
+
+
+
 	//The CampusView class holds the information of the different google map
     //views used.
     private class CampusView
