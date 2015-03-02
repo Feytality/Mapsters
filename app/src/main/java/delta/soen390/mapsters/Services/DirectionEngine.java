@@ -78,7 +78,7 @@ public class DirectionEngine {
                 initialRequest  = directionProvider.getBasicRequest(initialLocation,transitTravelInfo.getStartPoint(),TravelMode.WALKING);
                 finalRequest    = directionProvider.getBasicRequest(transitTravelInfo.getDestinationPoint(),finalLocation,TravelMode.WALKING);
 
-                //Add initial travelresponseinfo first
+                //Add initial TravelResponseinfo first
                 travelResponses.add(new TravelResponseInfo(initialRequest));
 
                 //Transit route goes in after
@@ -88,7 +88,7 @@ public class DirectionEngine {
 
                 if(mDirectionPreference == DirectionPreference.STM_SHUTTLE) {
                     for (int i = 0; i < travelResponses.size(); ++i) {
-                        shuttleDuration += travelResponses.get(i).getDuration();
+                        shuttleDuration += travelResponses.get(i).getTotalDuration();
                     }
                 }
             }
@@ -99,7 +99,7 @@ public class DirectionEngine {
             if(mDirectionPreference == DirectionPreference.STM_SHUTTLE) {
                 DirectionsApiRequest request = directionProvider.getStmRequest(initialLocation, finalLocation);
                 TravelResponseInfo stmTravelInfo = new TravelResponseInfo(request);
-                if(stmTravelInfo.getDuration() < shuttleDuration)
+                if(stmTravelInfo.getTotalDuration() < shuttleDuration)
                 {
                     travelResponses.clear();
                     travelResponses.add(stmTravelInfo);
@@ -121,12 +121,17 @@ public class DirectionEngine {
     {
         private GoogleMap mMap;
         private ArrayList<TravelResponseInfo.TravelStep> mTravelSteps;
+        private double  mTotalCost;
+        private long    mTotalDuration;
         private boolean mIsDirty = false;
         private PolylineOptions mPolylineOptions;
         private Polyline mPolyline;
 
         public DirectionPath(GoogleMap gMap)
         {
+            mTotalCost = 0;
+            mTotalDuration = 0;
+
             mMap = gMap;
             mTravelSteps = new ArrayList<TravelResponseInfo.TravelStep>();
             constructPath();
@@ -137,11 +142,14 @@ public class DirectionEngine {
             mIsDirty = true;
             ArrayList<TravelResponseInfo.TravelStep> travelSteps = info.getTravelSteps();
 
+            mTotalCost += info.getTotalCost();
+            mTotalDuration += info.getTotalDuration();
             for(int i = 0; i < travelSteps.size(); ++i)
             {
                 TravelResponseInfo.TravelStep step = travelSteps.get(i);
                 mTravelSteps.add(step);
             }
+
 
         }
 
@@ -190,6 +198,14 @@ public class DirectionEngine {
                     mPolylineOptions.add(point);
                 }
             }
+        }
+
+        public double getTotalCost(){
+            return mTotalCost;
+        }
+
+        public long getTotalDuration(){
+            return mTotalDuration;
         }
 
     }
