@@ -28,16 +28,20 @@ public class SplitPane {
     private BuildingInfo mCurrentBuilding;
     private LocationService mLocationService;
     private Context mContext;
-    private Activity mActivity;
+
     //View Components
     private TextView mBuildingName;
     private TextView mBuildingCode;
     private TextView mCampus;
     private TextView mBuildingServices;
     private ImageView mBuildingPictureView;
+
+    //Directions
     private ImageButton mDirectionButton;
     private DirectionEngine mDirectionEngine;
     private DirectionEngine.DirectionPath mCurrentDirectionPath;
+    private LatLng mStartingLocation;
+
     public SplitPane(View view, float anchorPoint, LocationService locationService, Context context) {
         mContext = context;
         mLayout = (SlidingUpPanelLayout) view;
@@ -82,7 +86,7 @@ public class SplitPane {
         mBuildingName.setText(buildingInfo.getBuildingName());
         mBuildingCode.setText(buildingInfo.getBuildingCode());
         mCampus.setText(buildingInfo.getCampus());
-    ImageLoader img = ImageLoader.getInstance();
+        ImageLoader img = ImageLoader.getInstance();
         img.init(ImageLoaderConfiguration.createDefault(mContext.getApplicationContext()));
         ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), mBuildingPictureView);
     }
@@ -91,6 +95,7 @@ public class SplitPane {
     {
         mDirectionEngine = directionEngine;
     }
+
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
             Log.i("Direction Button", "Clicked!");
@@ -116,13 +121,29 @@ public class SplitPane {
                 mCurrentDirectionPath.hideDirectionPath();
             }
 
-            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
-                    new com.google.maps.model.LatLng(lastLocation.getLatitude(),lastLocation.getLongitude()),
-                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
+            if(mStartingLocation == null) {
+                mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
+                        new com.google.maps.model.LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),
+                        GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
+            } else {
+                // Else, starting location is set (by placing marker on map), use the choosen location coordinates instead.
+                mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
+                        GoogleMapstersUtils.toDirectionsLatLng(mStartingLocation),
+                        GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
+            }
 
             mCurrentDirectionPath.showDirectionPath();
 
         }
 
     };
+
+    public void setStartingLocation(LatLng startingLocation) {
+        // Note: should be able to set it null to clear it
+        mStartingLocation = startingLocation;
+        if(startingLocation != null)
+            Log.i("Set starting location!", startingLocation.toString());
+
+    }
+
 }

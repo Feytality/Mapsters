@@ -6,11 +6,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -26,7 +30,7 @@ import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource, GoogleMap.OnMapLongClickListener {
 
     private TextView textPointer;
 
@@ -40,7 +44,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // For calendar and notifications
     private CalendarEventManager mCalendarEventManager;
     private CalendarEventNotification mCalendarEventNotification;
+
     private DirectionEngine mDirectionEngine;
+
+    // For current location, ask if theres another way to get map
+    private GoogleMap mGoogleMap;
+    private Marker mMarker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,25 +126,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setBuildingsEnabled(false);
 
+       initializeMap(googleMap);
+    }
+
+    private void initializeMap(GoogleMap googleMap) {
         //Initialize the Campus Switch
         mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap));
+
         //Initialize the Building Polygons
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
 
         //Initialize the Direction Engine
         mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap);
         splitPane.setDirectionEngine(mDirectionEngine);
+
+        googleMap.setOnMapLongClickListener(this);
+        mGoogleMap = googleMap;
+
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-
+        if(mMarker != null) {
+            mMarker.remove();
+        }
+        //splitPane.setStartingLocation(new LatLng(mLocationService.getLastLocation().getLatitude(), mLocationService.getLastLocation().getLongitude()));
+        splitPane.setStartingLocation(null);
         return false;
     }
 
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
         mLocationService.setLocationListener(onLocationChangedListener);
+    }
+
+    @Override
+    public void onMapLongClick(LatLng point) {
+        if(mMarker != null){
+            mMarker.remove();
+        }
+        mMarker = mGoogleMap.addMarker(new MarkerOptions().position(point).title(
+                "Your starting location!"));
+
+        // Set starting location.
+        splitPane.setStartingLocation(point);
     }
 
     @Override
