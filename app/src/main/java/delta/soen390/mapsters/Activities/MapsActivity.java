@@ -8,10 +8,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-<<<<<<< HEAD
-import com.google.android.gms.maps.model.LatLng;
-=======
->>>>>>> origin/master
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -117,9 +113,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap));
         //Initialize the Building Polygons
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
-
-        LatLng initial = BuildingPolygonManager.getInstance().getBuildingPolygon("H").getBuildingInfo().getCoordinates();
-        LatLng destination = BuildingPolygonManager.getInstance().getBuildingPolygon("CC").getBuildingInfo().getCoordinates();
 
         //Initialize the Direction Engine
         mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap);
