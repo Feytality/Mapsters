@@ -50,6 +50,7 @@ public class CampusSwitchUI {
         mView = null;
     }
 
+    public CampusViewSwitcher getmCampusViewSwitcher(){return mCampusViewSwitcher;}
 
     public CampusSwitchUI(View view,FragmentActivity activity, CampusViewSwitcher viewSwitcher)
     {
