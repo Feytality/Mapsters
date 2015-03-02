@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
+//TODO fetch a valid total cost
 /**
  * Created by georgevalergas on 15-03-01.
  */
@@ -24,8 +25,10 @@ public class TravelResponseInfo {
     private LatLng  mStartPoint;
     private LatLng  mDestinationPoint;
     private ArrayList<TravelStep> mTravelSteps;
-    private long    mDuration;
 
+    //Total travel duration in seconds
+    private long    mTotalDuration;
+    private double  mTotalCost;
 
     //Aladin's genie constructor. Takes request, fulfills request, but only 1.
     public TravelResponseInfo(DirectionsApiRequest directionsApiRequest) {
@@ -40,7 +43,8 @@ public class TravelResponseInfo {
             DateTime departureTime  = leg.departureTime;
             DateTime arrivalTime    =  leg.arrivalTime;
 
-            mDuration               = leg.duration.inSeconds;
+            mTotalDuration          = leg.duration.inSeconds;
+            mTotalCost              = 0.0;
             if( departureTime != null && arrivalTime != null){
                 mStartTime          = departureTime.toDate().getTime();
                 mArrivalTime        = arrivalTime.toDate().getTime();
@@ -53,12 +57,13 @@ public class TravelResponseInfo {
     }
 
     public TravelResponseInfo(long startTime, long arrivalTime, EncodedPolyline encodedPolyline, DirectionsStep[] directionsSteps) {
-        this.mStartTime         = startTime;
-        this.mArrivalTime       = arrivalTime;
+        mStartTime         = startTime;
+        mArrivalTime       = arrivalTime;
+        mTotalCost         = 0.0;
         List<LatLng> decodedLinePoints = encodedPolyline.decodePath();
-        this.mStartPoint        = decodedLinePoints.get(0);
-        this.mDestinationPoint  = decodedLinePoints.get(decodedLinePoints.size() -1);
-        this.mTravelSteps       = directionsToTravelSteps(directionsSteps);
+        mStartPoint        = decodedLinePoints.get(0);
+        mDestinationPoint  = decodedLinePoints.get(decodedLinePoints.size() -1);
+        mTravelSteps       = directionsToTravelSteps(directionsSteps);
     }
 
     public long getStartTime() {
@@ -86,10 +91,12 @@ public class TravelResponseInfo {
         return mDestinationPoint;
     }
 
-    public long getDuration()
+    public long getTotalDuration()
     {
-        return mDuration;
+        return mTotalDuration;
     }
+
+    public double getTotalCost() { return mTotalCost;}
 
     private ArrayList<TravelStep> directionsToTravelSteps(DirectionsStep[] directionsSteps) {
         ArrayList<TravelStep> travelSteps = new ArrayList<>();
