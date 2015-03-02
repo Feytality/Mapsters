@@ -1,5 +1,7 @@
 package delta.soen390.mapsters.Services;
 
+import android.content.Context;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.maps.model.LatLng;
@@ -29,9 +31,11 @@ public class DirectionEngine {
 
     private GoogleMap mMap;
     private GeoApiContext mGeoContext;
-    public DirectionEngine(GoogleMap gMap)
+    private Context mAppContext;
+    public DirectionEngine(Context appContext, GoogleMap gMap)
     {
         mMap = gMap;
+        mAppContext = appContext;
         mGeoContext = new GeoApiContext().setApiKey("AIzaSyCDsbX2OWOnFJRJ_oHMls-HRtncbpMc_qI");
     }
 
@@ -45,20 +49,14 @@ public class DirectionEngine {
     public DirectionPath GenerateDirectionPath(LatLng initialLocation, LatLng finalLocation)
     {
         boolean isSameCampus = isSameCampus(initialLocation,finalLocation);
+        DirectionsRequestProvider directionProvider = new DirectionsRequestProvider(mAppContext,mGeoContext);
 
-        DirectionsApiRequest request = buildRequest(initialLocation,finalLocation,TravelMode.WALKING);
+        DirectionsApiRequest request = directionProvider.getBasicRequest(initialLocation,finalLocation,TravelMode.WALKING);
+        TravelResponseInfo travelResponseInfo = new TravelResponseInfo(request);
 
         DirectionPath path = new DirectionPath(mMap);
 
         return path;
-    }
-
-    private DirectionsApiRequest buildRequest(LatLng initial, LatLng destination, TravelMode mode)
-    {
-        return DirectionsApi.newRequest(mGeoContext)
-                .origin(initial)
-                .destination(destination)
-                .mode(mode);
     }
 
     private boolean isSameCampus(LatLng p1, LatLng p2)

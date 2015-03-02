@@ -16,71 +16,73 @@ import java.util.List;
  */
 public class TravelResponseInfo {
     //start & arrival time in milliseconds
-    private long startTime;
-    private long arrivalTime;
-    private LatLng startPoint;
-    private LatLng destinationPoint;
-    private ArrayList<TravelStep> travelSteps;
+    private long mStartTime;
+    private long mArrivalTime;
+    private LatLng mStartPoint;
+    private LatLng mDestinationPoint;
+    private ArrayList<TravelStep> mTravelSteps;
+
 
     //Aladin's genie constructor. Takes request, fulfills request, but only 1.
     public TravelResponseInfo(DirectionsApiRequest directionsApiRequest) {
         try {
-            DirectionsRoute[] directionsRoutes = directionsApiRequest.await();
-            EncodedPolyline encodedPolyline = directionsRoutes[0].overviewPolyline;
-            List<LatLng> directionsLinePoints = directionsRoutes[0].overviewPolyline.decodePath();
-            LatLng startPoint = directionsLinePoints.get(0);
-            LatLng destinationPoint = directionsLinePoints.get(directionsLinePoints.size() -1);
-            long startTime = directionsRoutes[0].legs[0].departureTime.toDate().getTime();
-            long arrivalTime = directionsRoutes[0].legs[0].arrivalTime.toDate().getTime();
-            DirectionsStep[] directionsSteps = directionsRoutes[0].legs[0].steps;
+            DirectionsRoute[] directionsRoutes  = directionsApiRequest.await();
+            List<LatLng> directionsLinePoints   = directionsRoutes[0].overviewPolyline.decodePath();
+
+            mStartPoint         = directionsLinePoints.get(0);
+            mDestinationPoint   = directionsLinePoints.get(directionsLinePoints.size() -1);
+            mStartTime          = directionsRoutes[0].legs[0].departureTime.toDate().getTime();
+            mArrivalTime        = directionsRoutes[0].legs[0].arrivalTime.toDate().getTime();
+            mTravelSteps        = directionsToTravelSteps(directionsRoutes[0].legs[0].steps);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public TravelResponseInfo(long startTime, long arrivalTime, EncodedPolyline encodedPolyline, DirectionsStep[] directionsSteps) {
-        this.startTime = startTime;
-        this.arrivalTime = arrivalTime;
+        this.mStartTime         = startTime;
+        this.mArrivalTime       = arrivalTime;
         List<LatLng> decodedLinePoints = encodedPolyline.decodePath();
-        this.startPoint = decodedLinePoints.get(0);
-        this.destinationPoint = decodedLinePoints.get(decodedLinePoints.size() -1);
-        this.travelSteps = travelSteps;
-        this.travelSteps = directionsToTravelAdapter(directionsSteps);
+        this.mStartPoint        = decodedLinePoints.get(0);
+        this.mDestinationPoint  = decodedLinePoints.get(decodedLinePoints.size() -1);
+        this.mTravelSteps       = directionsToTravelSteps(directionsSteps);
     }
 
     public long getStartTime() {
-        return this.startTime;
+        return mStartTime;
     }
+
     public long getArrivalTime() {
-        return this.arrivalTime;
+        return mArrivalTime;
     }
 
     public ArrayList<TravelStep> getTravelSteps() {
-        return  this.travelSteps;
+        return  mTravelSteps;
     }
+
     public Iterator<TravelStep> getIterator()
     {
-        return travelSteps.iterator();
+        return mTravelSteps.iterator();
     }
 
     public LatLng getStartPoint() {
-        return startPoint;
-    }
-    public LatLng getDestinationPoint() {
-        return destinationPoint;
+        return mStartPoint;
     }
 
-    private ArrayList<TravelStep> directionsToTravelAdapter(DirectionsStep[] directionsSteps) {
+    public LatLng getDestinationPoint() {
+        return mDestinationPoint;
+    }
+
+    private ArrayList<TravelStep> directionsToTravelSteps(DirectionsStep[] directionsSteps) {
         ArrayList<TravelStep> travelSteps = new ArrayList<>();
-        for (DirectionsStep dubstep : directionsSteps) {
-            TravelStep t = new TravelStep(dubstep.htmlInstructions, dubstep.polyline);
+        for (DirectionsStep step : directionsSteps) {
+            TravelStep t = new TravelStep(step.htmlInstructions, step.polyline);
             travelSteps.add(t);
         }
         return travelSteps;
     }
 
     public class TravelStep {
-
         public TravelStep(String stepName, EncodedPolyline encodedPolyLine) {
             this.stepName = stepName;
             this.encodedPolyLine = encodedPolyLine;
