@@ -23,6 +23,7 @@ import delta.soen390.mapsters.R;
 public class NavigationDrawer implements AdapterView.OnItemClickListener {
 
     private final FragmentActivity mContext;
+    //private final TextView mListView2;
     private Button mNavBtn;
     private ListView mListView;
     private DrawerLayout mDrawerLayout;
@@ -45,6 +46,9 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
                 android.R.id.text1, menuItems
         ));
         mListView.setOnItemClickListener(this);
+
+        //mListView2 = (TextView) mContext.findViewById(R.id.right_drawer);
+
 
 
         mNavBtn = null;
