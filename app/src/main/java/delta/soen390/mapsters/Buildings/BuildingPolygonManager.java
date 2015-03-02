@@ -22,14 +22,11 @@ public class BuildingPolygonManager {
     //<editor-fold desc="Singleton Definition">
     private static BuildingPolygonManager sBuildingPolygonManager;
 
-    private BuildingPolygonManager()
-    {
-
+    private BuildingPolygonManager() {
         initialize();
     }
 
-    public static BuildingPolygonManager getInstance()
-    {
+    public static BuildingPolygonManager getInstance() {
 	    if(sBuildingPolygonManager == null) {
             sBuildingPolygonManager = new BuildingPolygonManager();
         }
@@ -44,8 +41,7 @@ public class BuildingPolygonManager {
         mBuildingPolygons  = new ArrayList<>();
     }
 
-    public BuildingPolygon getClickedPolygon(LatLng point)
-    {
+    public BuildingPolygon getClickedPolygon(LatLng point) {
         if(point != null) {
             for (int i = 0; i < mBuildingPolygons.size(); ++i) {
                 BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
@@ -58,16 +54,13 @@ public class BuildingPolygonManager {
         return null;
     }
 
-	public void loadResources(GoogleMap gMap, final SplitPane splitPane,Context context)
-	{
-
+	public void loadResources(GoogleMap gMap, final SplitPane splitPane, Context context) {
 		JSONObject jsonBuildingPolygons = JsonReader.ReadJsonFromFile(context,"buildingJson.json");
         PolygonSerializer polygonSerializer = new PolygonSerializer(gMap);
 
         mBuildingPolygons = polygonSerializer.createPolygonArray(jsonBuildingPolygons);
 
         //Set the listener
-
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
@@ -81,7 +74,6 @@ public class BuildingPolygonManager {
 
             }
         });
-
     }
 
     public BuildingPolygon getBuildingPolygon(String buildingCode)
@@ -91,6 +83,38 @@ public class BuildingPolygonManager {
                 BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
                 if (buildingPolygon.getBuildingInfo().getBuildingCode().compareTo(buildingCode) == 0) {
                     return buildingPolygon;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public BuildingInfo getBuildingInfoByService(String service) {
+        if (service != null && !service.equals("")) {
+            for (int i = 0; i < mBuildingPolygons.size(); ++i) {
+                BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+                ArrayList<String[]> services = buildingPolygon.getBuildingInfo().getServices();
+                for (String[] serv : services) {
+                    if(serv[0].equals(service)) {
+                        return buildingPolygon.getBuildingInfo();
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public BuildingInfo getBuildingInfoByDepartment(String department) {
+        if (department != null && !department.equals("")) {
+            for (int i = 0; i < mBuildingPolygons.size(); ++i) {
+                BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+                ArrayList<String[]> departments = buildingPolygon.getBuildingInfo().getDepartments();
+                for (String[] dept : departments) {
+                    if(dept[0].equals(department)) {
+                        return buildingPolygon.getBuildingInfo();
+                    }
                 }
             }
         }

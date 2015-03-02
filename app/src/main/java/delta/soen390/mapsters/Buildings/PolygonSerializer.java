@@ -3,6 +3,7 @@ package delta.soen390.mapsters.Buildings;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -29,7 +30,9 @@ public class PolygonSerializer {
         String campus = "";
         String buildingImageUrl = "http://www.concordia.ca";
         LatLng coordinates = new LatLng(0, 0);
-        ArrayList<LatLng> boundingCoordinates = new ArrayList<LatLng>();
+        ArrayList<LatLng> boundingCoordinates = new ArrayList<>();
+        ArrayList<String[]> services = new ArrayList<>();
+        ArrayList<String[]> departments = new ArrayList<>();
 
         try {
             buildingCode = object.getString("buildingcode");
@@ -43,11 +46,16 @@ public class PolygonSerializer {
             coordinates = new LatLng(object.getDouble("latitude"), object.getDouble("longitude"));
 
             boundingCoordinates = extractBoundaryCoordinates(object.getJSONObject("Polygon"));
+
+            services = extractList(object.getJSONArray("serviceslinks"));
+
+            departments = extractList(object.getJSONArray("departmentslinks"));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        BuildingInfo buildingInfo = new BuildingInfo(buildingCode, buildingName, campus, buildingImageUrl, null, coordinates, boundingCoordinates);
+        BuildingInfo buildingInfo = new BuildingInfo(buildingCode, buildingName, campus, buildingImageUrl,
+                                    coordinates, boundingCoordinates, services, departments);
 
         return new BuildingPolygon(mGoogleMap, buildingInfo);
     }
@@ -87,6 +95,29 @@ public class PolygonSerializer {
             e.printStackTrace();
         }
         return boundaryCoordinates;
+    }
+
+    private ArrayList<String[]> extractList(JSONArray object){
+        if(object == null) {
+            return null;
+        }
+
+        ArrayList<String[]> services = new ArrayList<>();
+
+        try {
+            for(int i = 0; i < object.length(); i++) {
+                {
+                    JSONObject service = new JSONObject(object.get(i).toString());
+                    String text = service.get("linkText").toString();
+                    String path = service.get("linkPath").toString();
+                    String[] serviceArray = { text, path };
+                    services.add(serviceArray);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return services;
     }
 
     public ArrayList<BuildingPolygon> createPolygonArray(JSONObject object) {
