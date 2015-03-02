@@ -1,6 +1,7 @@
 package delta.soen390.mapsters.Services;
 
 import android.content.Context;
+import android.graphics.Path;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Polyline;
@@ -16,6 +17,8 @@ import com.google.maps.model.TravelMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import delta.soen390.mapsters.Data.Campus;
+
 /**
  * Created by Mathieu on 3/1/2015.
  * DirectionEngine is used to poll directions from two points given certain predefined settings
@@ -26,20 +29,23 @@ public class DirectionEngine {
     {
         STM_ONLY,
         SHUTTLE_ONLY,
-        STM_SHUTTLE_ONLY
+        STM_SHUTTLE
     };
 
     private GoogleMap mMap;
     private GeoApiContext mGeoContext;
     private Context mAppContext;
+    private DirectionPreference mDirectionPreference;
+
     public DirectionEngine(Context appContext, GoogleMap gMap)
     {
         mMap = gMap;
         mAppContext = appContext;
         mGeoContext = new GeoApiContext().setApiKey("AIzaSyCDsbX2OWOnFJRJ_oHMls-HRtncbpMc_qI");
+        mDirectionPreference = DirectionPreference.STM_ONLY;
     }
 
-    private DirectionPreference mDirectionPreference;
+
 
     public void SetPreference(DirectionPreference preference)
     {
@@ -48,26 +54,67 @@ public class DirectionEngine {
 
     public DirectionPath GenerateDirectionPath(LatLng initialLocation, LatLng finalLocation)
     {
-        boolean isSameCampus = isSameCampus(initialLocation,finalLocation);
-        DirectionsRequestProvider directionProvider = new DirectionsRequestProvider(mAppContext,mGeoContext);
+        Campus.Name initialCampus   = Campus.getNearestCampus(initialLocation);
+        Campus.Name finalCampus     = Campus.getNearestCampus(finalLocation);
 
-        DirectionsApiRequest request = directionProvider.getBasicRequest(initialLocation,finalLocation,TravelMode.WALKING);
-        TravelResponseInfo travelResponseInfo = new TravelResponseInfo(request);
+        DirectionsRequestProvider directionProvider = new DirectionsRequestProvider(mAppContext,mGeoContext);
 
         DirectionPath path = new DirectionPath(mMap);
 
+        ArrayList<TravelResponseInfo> travelResponses = new ArrayList<TravelResponseInfo>();
+
+        //Cross campus travel
+        if(initialCampus != finalCampus)
+        {
+            long shuttleDuration = 0;
+            if(mDirectionPreference == DirectionPreference.SHUTTLE_ONLY || mDirectionPreference == DirectionPreference.STM_SHUTTLE){
+
+                //Represents the 3 legs of the user's travel route
+                DirectionsApiRequest initialRequest,transitRequest,finalRequest;
+
+                transitRequest = directionProvider.getNextShuttle(initialCampus);
+                TravelResponseInfo transitTravelInfo = new TravelResponseInfo(transitRequest);
+
+                initialRequest  = directionProvider.getBasicRequest(initialLocation,transitTravelInfo.getStartPoint(),TravelMode.WALKING);
+                finalRequest    = directionProvider.getBasicRequest(transitTravelInfo.getDestinationPoint(),finalLocation,TravelMode.WALKING);
+
+                //Add initial travelresponseinfo first
+                travelResponses.add(new TravelResponseInfo(initialRequest));
+
+                //Transit route goes in after
+                travelResponses.add(transitTravelInfo);
+
+                travelResponses.add(new TravelResponseInfo(finalRequest));
+
+                if(mDirectionPreference == DirectionPreference.STM_SHUTTLE) {
+                    for (int i = 0; i < travelResponses.size(); ++i) {
+                        shuttleDuration += travelResponses.get(i).getDuration();
+                    }
+                }
+            }
+            else if(mDirectionPreference == DirectionPreference.STM_ONLY) {
+                DirectionsApiRequest request = directionProvider.getStmRequest(initialLocation, finalLocation);
+                travelResponses.add(new TravelResponseInfo(request));
+            }
+            if(mDirectionPreference == DirectionPreference.STM_SHUTTLE) {
+                DirectionsApiRequest request = directionProvider.getStmRequest(initialLocation, finalLocation);
+                TravelResponseInfo stmTravelInfo = new TravelResponseInfo(request);
+                if(stmTravelInfo.getDuration() < shuttleDuration)
+                {
+                    travelResponses.clear();
+                    travelResponses.add(stmTravelInfo);
+                }
+            }
+        }
+        //Inner campus travel, not shuttle/stm
+        else
+        {
+            DirectionsApiRequest request = directionProvider.getBasicRequest(initialLocation,finalLocation,TravelMode.WALKING);
+            travelResponses.add(new TravelResponseInfo(request));
+        }
+
+        path.AddTravelResponseInfo(travelResponses);
         return path;
-    }
-
-    private boolean isSameCampus(LatLng p1, LatLng p2)
-    {
-       //Latitude delimiter for campus
-        double campusLatitudeDelimiter = 45.48;
-
-        return (p1.lat      < campusLatitudeDelimiter
-                && p2.lat   < campusLatitudeDelimiter)
-                || (p1.lat  > campusLatitudeDelimiter
-                && p2.lat   > campusLatitudeDelimiter);
     }
 
     public class DirectionPath
@@ -85,11 +132,25 @@ public class DirectionEngine {
             constructPath();
         }
 
-        public void AddTravelStep(TravelResponseInfo.TravelStep travelStep)
+        public void AddTravelResponseInfo(TravelResponseInfo info)
         {
             mIsDirty = true;
+            ArrayList<TravelResponseInfo.TravelStep> travelSteps = info.getTravelSteps();
+
+            for(int i = 0; i < travelSteps.size(); ++i)
+            {
+                TravelResponseInfo.TravelStep step = travelSteps.get(i);
+                mTravelSteps.add(step);
+            }
+
         }
 
+        public void AddTravelResponseInfo(ArrayList<TravelResponseInfo> travelResponseInfos)
+        {
+            for(int i = 0; i < travelResponseInfos.size(); ++i) {
+                AddTravelResponseInfo(travelResponseInfos.get(i));
+            }
+        }
         public void showDirectionPath()
         {
             if(mIsDirty)
@@ -111,7 +172,7 @@ public class DirectionEngine {
 
         public void constructPath()
         {
-            PolylineOptions path = new PolylineOptions();
+            mPolylineOptions = new PolylineOptions();
             for(int i = 0; i < mTravelSteps.size(); ++i)
             {
                 TravelResponseInfo.TravelStep travelStep = mTravelSteps.get(i);
@@ -126,7 +187,7 @@ public class DirectionEngine {
                     com.google.android.gms.maps.model.LatLng point =
                             new com.google.android.gms.maps.model.LatLng( p.lat,p.lng);
 
-                    path.add(point);
+                    mPolylineOptions.add(point);
                 }
             }
         }

@@ -13,6 +13,8 @@ import org.joda.time.DateTime;
 import java.sql.Driver;
 import java.util.Date;
 
+import delta.soen390.mapsters.Data.Campus;
+
 /**
  * Created by georgevalergas on 15-03-01.
  */
@@ -22,7 +24,6 @@ public class DirectionsRequestProvider {
 
     private static final LatLng sgwShuttle = new LatLng(45.4971514,-73.5787977);
     private static final LatLng loyShuttle = new LatLng(45.458949,-73.6383713);
-    public enum Campus {LOY, SGW}
 
 
     public DirectionsRequestProvider(Context applicationContext, GeoApiContext geoContext)
@@ -40,13 +41,13 @@ public class DirectionsRequestProvider {
                 .mode(mode);
     }
 
-    public DirectionsApiRequest getNextShuttle(Campus startCampus) {
+    public DirectionsApiRequest getNextShuttle(Campus.Name startCampus) {
 
         DirectionsApiRequest dar;
 
         //time next shuttle departs in milliseconds
         long nextDeparture;
-        if (startCampus.equals(Campus.LOY)) {
+        if (startCampus.equals(Campus.Name.LOY)) {
             dar = getBasicRequest(loyShuttle,sgwShuttle,TravelMode.DRIVING);
             nextDeparture = ShuttleUtils.getNextBusLoy(new Date(),mAppContext).getTime();
         } else {
@@ -58,9 +59,10 @@ public class DirectionsRequestProvider {
         return dar;
     }
 
-    public DirectionsApiRequest getNextStm(Campus startCampus)
+    public DirectionsApiRequest getStmRequest(LatLng initial, LatLng destination)
     {
-        //TODO
-        return getBasicRequest(null,null,TravelMode.WALKING);
+        DirectionsApiRequest request = getBasicRequest(initial, destination, TravelMode.TRANSIT);
+        request.departureTime(new DateTime());
+        return request;
     }
 }

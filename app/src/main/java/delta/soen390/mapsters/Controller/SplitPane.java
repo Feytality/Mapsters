@@ -16,7 +16,9 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
+import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 
 
 public class SplitPane {
@@ -32,7 +34,8 @@ public class SplitPane {
     private TextView mBuildingServices;
     private ImageView mBuildingPictureView;
     private ImageButton mDirectionButton;
-
+    private DirectionEngine mDirectionEngine;
+    private DirectionEngine.DirectionPath mCurrentDirectionPath;
     public SplitPane(View view, float anchorPoint, LocationService locationService, Context context) {
         mContext = context;
         mLayout = (SlidingUpPanelLayout) view;
@@ -64,6 +67,10 @@ public class SplitPane {
         ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), mBuildingPictureView);
     }
 
+    public void setDirectionEngine(DirectionEngine directionEngine)
+    {
+        mDirectionEngine = directionEngine;
+    }
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
             Log.i("Direction Button", "Clicked!");
@@ -75,21 +82,26 @@ public class SplitPane {
                 Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
             }
 
+            //TODO toast notify user of connectivity problem
+            if(mDirectionEngine == null) {
+                return;
+            }
+
+
             LatLng currentBuildingCoordinates = mCurrentBuilding.getCoordinates();
             if(currentBuildingCoordinates == null)
                 return;
 
-            //Create Path here
+            if(mCurrentDirectionPath != null){
+                mCurrentDirectionPath.hideDirectionPath();
+            }
 
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                    Uri.parse("http://maps.google.com/maps?saddr=" + lastLocation.getLatitude() + "," +
-                            lastLocation.getLongitude() +
-                            "&daddr=" + currentBuildingCoordinates.latitude + "," +
-                            currentBuildingCoordinates.longitude));
+            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
+                    new com.google.maps.model.LatLng(lastLocation.getLatitude(),lastLocation.getLongitude()),
+                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
 
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mCurrentDirectionPath.showDirectionPath();
 
-            mContext.startActivity(intent);
         }
 
     };

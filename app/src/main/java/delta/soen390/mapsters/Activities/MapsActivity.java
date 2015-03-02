@@ -9,6 +9,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -20,6 +21,7 @@ import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
@@ -36,7 +38,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = "DemoActivity";
     private CalendarEventManager mCalendarEventManager;
     private CalendarEventNotification mCalendarEventNotification;
-
+    private DirectionEngine mDirectionEngine;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          mCalendarEventNotification.createNotification();*/
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);
+
     }
 
     public void setImageOptions() {
@@ -112,7 +115,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Initialize the Building Polygons
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
 
+        LatLng initial = BuildingPolygonManager.getInstance().getBuildingPolygon("H").getBuildingInfo().getCoordinates();
+        LatLng destination = BuildingPolygonManager.getInstance().getBuildingPolygon("CC").getBuildingInfo().getCoordinates();
 
+        //Initialize the Direction Engine
+        mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap);
+        splitPane.setDirectionEngine(mDirectionEngine);
     }
 
     @Override

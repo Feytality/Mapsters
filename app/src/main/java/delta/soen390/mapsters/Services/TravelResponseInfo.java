@@ -1,10 +1,13 @@
 package delta.soen390.mapsters.Services;
 
 import com.google.maps.DirectionsApiRequest;
+import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
 import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
+
+import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,11 +19,12 @@ import java.util.List;
  */
 public class TravelResponseInfo {
     //start & arrival time in milliseconds
-    private long mStartTime;
-    private long mArrivalTime;
-    private LatLng mStartPoint;
-    private LatLng mDestinationPoint;
+    private long    mStartTime;
+    private long    mArrivalTime;
+    private LatLng  mStartPoint;
+    private LatLng  mDestinationPoint;
     private ArrayList<TravelStep> mTravelSteps;
+    private long    mDuration;
 
 
     //Aladin's genie constructor. Takes request, fulfills request, but only 1.
@@ -29,11 +33,20 @@ public class TravelResponseInfo {
             DirectionsRoute[] directionsRoutes  = directionsApiRequest.await();
             List<LatLng> directionsLinePoints   = directionsRoutes[0].overviewPolyline.decodePath();
 
+            DirectionsLeg leg = directionsRoutes[0].legs[0];
             mStartPoint         = directionsLinePoints.get(0);
             mDestinationPoint   = directionsLinePoints.get(directionsLinePoints.size() -1);
-            mStartTime          = directionsRoutes[0].legs[0].departureTime.toDate().getTime();
-            mArrivalTime        = directionsRoutes[0].legs[0].arrivalTime.toDate().getTime();
-            mTravelSteps        = directionsToTravelSteps(directionsRoutes[0].legs[0].steps);
+
+            DateTime departureTime  = leg.departureTime;
+            DateTime arrivalTime    =  leg.arrivalTime;
+
+            mDuration               = leg.duration.inSeconds;
+            if( departureTime != null && arrivalTime != null){
+                mStartTime          = departureTime.toDate().getTime();
+                mArrivalTime        = arrivalTime.toDate().getTime();
+            }
+
+            mTravelSteps        = directionsToTravelSteps(leg.steps);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,6 +84,11 @@ public class TravelResponseInfo {
 
     public LatLng getDestinationPoint() {
         return mDestinationPoint;
+    }
+
+    public long getDuration()
+    {
+        return mDuration;
     }
 
     private ArrayList<TravelStep> directionsToTravelSteps(DirectionsStep[] directionsSteps) {
