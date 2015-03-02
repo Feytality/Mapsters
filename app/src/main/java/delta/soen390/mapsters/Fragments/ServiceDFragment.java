@@ -1,0 +1,110 @@
+package delta.soen390.mapsters.Fragments;
+
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import delta.soen390.mapsters.ListAdapter;
+import delta.soen390.mapsters.R;
+
+
+public class ServiceDFragment extends Fragment {
+    ListView listingView;
+    private AutoCompleteTextView text;
+    View view;
+    public ServiceDFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view= inflater.inflate(R.layout.fragment_directories, container, false);
+        listingView = (ListView) view.findViewById(android.R.id.list);
+        listingView.setFastScrollEnabled(true);
+
+        String[] fruits = getResources().getStringArray(R.array.fruits_array);
+        List<String> listingList = Arrays.asList(fruits);
+        Collections.sort(listingList);
+
+        listingView.setAdapter(new ListAdapter(getActivity().getApplicationContext(),
+                android.R.layout.simple_list_item_1, listingList));
+
+
+
+
+        listingView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View arg1,
+                                    int position, long arg3) {
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "" + parent.getItemAtPosition(position),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
+        text = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
+        text.setThreshold(1);
+        String[] countries = getResources().
+                getStringArray(R.array.fruits_array);
+        ArrayAdapter adapter = new ArrayAdapter
+                (getActivity().getApplicationContext(),android.R.layout.simple_dropdown_item_1line,countries);
+        text.setAdapter(adapter);
+
+
+
+
+
+
+
+        text.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (text.getText().toString().contains("Search")) {
+                    text.setText("");
+
+                }
+            }
+        });
+
+
+        text.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getActivity().getApplicationContext(), position, Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        Button btn = (Button) view.findViewById(R.id.clr_button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                text.setText("");
+            }
+        });
+
+        return view;
+    }
+
+}

@@ -2,6 +2,7 @@ package delta.soen390.mapsters.Controller;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -9,11 +10,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import delta.soen390.mapsters.Fragments.CMapFragment;
-import delta.soen390.mapsters.Fragments.DirectoriesFragment;
 import delta.soen390.mapsters.Activities.DirectoryActivity;
 import delta.soen390.mapsters.Activities.SettingsActivity;
 import delta.soen390.mapsters.R;
@@ -24,6 +23,7 @@ import delta.soen390.mapsters.R;
 public class NavigationDrawer implements AdapterView.OnItemClickListener {
 
     private final FragmentActivity mContext;
+    private Button mNavBtn;
     private ListView mListView;
     private DrawerLayout mDrawerLayout;
 
@@ -47,13 +47,28 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
         mListView.setOnItemClickListener(this);
 
 
+        mNavBtn = null;
     }
+
+    public void addButton(){
+        mNavBtn = (Button)mContext.findViewById(R.id.btn_nav_drawer);
+        mNavBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawerLayout = (DrawerLayout)mContext.findViewById(R.id.drawer_layout);
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+    }
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mDrawerLayout.closeDrawer(Gravity.LEFT);
         String msg="";
         FragmentManager fragmentManager;
+        Intent intent;
+        Bundle bundle;
         switch(position) {
             default:
             case 0://Schedule
@@ -61,21 +76,19 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
                 mContext.startActivity (new Intent(Intent.ACTION_VIEW, Uri.parse("content://com.android.calendar/time/")));
                 break;
             case 1://Buildings
-                mContext.startActivity(new Intent(mContext, DirectoryActivity.class));
+             intent= new Intent(mContext, DirectoryActivity.class);
+                intent.putExtra("Directory",0);
+                mContext.startActivity(intent);
                 break;
             case 2://Services
-                 fragmentManager =mContext.getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.m_container, new DirectoriesFragment())
-                        .commit();
-                msg = "Show Services activity/fragment";
+                intent= new Intent(mContext, DirectoryActivity.class);
+                intent.putExtra("Directory",1);
+                mContext.startActivity(intent);
                 break;
             case 3://Departments
-                 fragmentManager =mContext.getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.m_container, new CMapFragment())
-                        .commit();
-                msg = "Show department activity/fragment";
+                intent= new Intent(mContext, DirectoryActivity.class);
+                intent.putExtra("Directory",2);
+                mContext.startActivity(intent);
                 break;
             case 4://Settings
                 msg = "Show settings activity/fragment";
@@ -83,6 +96,6 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
                 break;
         }
 
-        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
     }
 }
