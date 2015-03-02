@@ -8,9 +8,7 @@ import java.util.ArrayList;
  * Created by georgevalergas on 15-02-08.
  */
 public class BuildingInfo {
-    //    TODO Create BuildingServices Class
 //    TODO Create Image member
-//    private String[] mBuildingServices;
     private String mBuildingCode;
     private String mBuildingName;
     private String mCampus;
@@ -18,18 +16,24 @@ public class BuildingInfo {
     private LatLng mCoordinates;
     private ArrayList<LatLng> mBoundingCoordinates;
 
+    private ArrayList<String[]> mBuildingServices;
+    private ArrayList<String[]> mBuildingDepartments;
+
     public BuildingInfo() {
     }
 
     public BuildingInfo(String buildingCode, String buildingName, String campus, String imageUrl,
-                        String[] buildingServices, LatLng coordinates, ArrayList<LatLng> boundingCoordinates) {
-
+                        LatLng coordinates, ArrayList<LatLng> boundingCoordinates,
+                        ArrayList<String[]> services, ArrayList<String[]> departments) {
         mImageUrl = imageUrl;
         mBuildingCode = buildingCode;
         mBuildingName = buildingName;
         mCampus = campus;
         mCoordinates = coordinates;
         mBoundingCoordinates = boundingCoordinates;
+
+        mBuildingServices = services;
+        mBuildingDepartments = departments;
     }
 
 
@@ -55,5 +59,13 @@ public class BuildingInfo {
 
     public ArrayList<LatLng> getBoundingCoordinates() {
         return mBoundingCoordinates;
+    }
+
+    public ArrayList<String[]> getServices() {
+        return mBuildingServices;
+    }
+
+    public ArrayList<String[]> getDepartments() {
+        return mBuildingDepartments;
     }
 }

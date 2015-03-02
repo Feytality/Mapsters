@@ -1,8 +1,11 @@
 package delta.soen390.mapsters.Activities;
 
+<<<<<<< HEAD
 
 import android.content.Intent;
 import android.os.Build;
+=======
+>>>>>>> origin/master
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
@@ -22,9 +25,9 @@ import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
-
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource {
 
@@ -36,9 +39,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private NavigationDrawer mDrawer;
     private SplitPane splitPane;
     private static final String TAG = "DemoActivity";
+
+    // For calendar and notifications
     private CalendarEventManager mCalendarEventManager;
     private CalendarEventNotification mCalendarEventNotification;
-
+    private DirectionEngine mDirectionEngine;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,13 +70,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
         mCalendarEventManager.updateEventQueue();
 
-        // Uncomment the following code to TEST the notifications.
-         /*mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this,
-                              new CalendarEvent("EV", "H431", "SOEN 390", new DateTime(1424702700),new DateTime(1424707200)));
-         mCalendarEventNotification.createNotification();*/
+        //Initialize notifications
+        mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this);
+        mCalendarEventNotification.handleNotifications();
+
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);
+<<<<<<< HEAD
         mDrawer.addButton();
+=======
+
+>>>>>>> origin/master
     }
 
     public void setImageOptions() {
@@ -118,7 +127,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Initialize the Building Polygons
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
 
-
+        //Initialize the Direction Engine
+        mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap);
+        splitPane.setDirectionEngine(mDirectionEngine);
     }
 
     @Override
@@ -136,6 +147,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void deactivate() {
         mLocationService.setLocationListener(null);
     }
-
 }
 

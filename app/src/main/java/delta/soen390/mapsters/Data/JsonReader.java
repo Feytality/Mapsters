@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import android.content.Context;
 
-import com.google.android.gms.wearable.DataApi;
 
 /**
  * Created by Niofire on 2/15/2015.

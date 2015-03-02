@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="delta.soen390.mapsters" >
+    package="delta.soen390.mapsters"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-sdk
         android:maxSdkVersion="21"
@@ -11,8 +12,13 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+=======
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-sdk tools:overrideLibrary="android.support.v17.leanback"/>
+>>>>>>> origin/master
 
     <permission
         android:name="delta.soen390.mapsters.permission.C2D_MESSAGE"
@@ -40,7 +46,10 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-
+        <receiver
+            android:name="delta.soen390.mapsters.Calendar.CalendarEventReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND"
+            android:process=":remote" />
         <activity
             android:name=".Activities.MapsActivity"
             android:exported="true"

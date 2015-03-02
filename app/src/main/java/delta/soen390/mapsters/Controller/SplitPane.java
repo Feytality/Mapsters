@@ -18,7 +18,9 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
+import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 
 
 public class SplitPane {
@@ -34,7 +36,8 @@ public class SplitPane {
     private TextView mBuildingServices;
     private ImageView mBuildingPictureView;
     private ImageButton mDirectionButton;
-
+    private DirectionEngine mDirectionEngine;
+    private DirectionEngine.DirectionPath mCurrentDirectionPath;
     public SplitPane(View view, float anchorPoint, LocationService locationService, Context context) {
         mContext = context;
         mLayout = (SlidingUpPanelLayout) view;
@@ -84,30 +87,41 @@ public class SplitPane {
         ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), mBuildingPictureView);
     }
 
+    public void setDirectionEngine(DirectionEngine directionEngine)
+    {
+        mDirectionEngine = directionEngine;
+    }
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
             Log.i("Direction Button", "Clicked!");
-
-            if (mLocationService.getLastLocation() == null) {
+            Location lastLocation = mLocationService.getLastLocation();
+            if (lastLocation == null) {
                 Log.i("last direction", "null");
+                return;
             } else {
                 Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
             }
 
-            //TODO handle null last location value properly
-            Location lastLocation = mLocationService.getLastLocation();
-            LatLng currentBuildingCoordinates = mCurrentBuilding.getCoordinates();
-            if(lastLocation == null || currentBuildingCoordinates == null)
+            //TODO toast notify user of connectivity problem
+            if(mDirectionEngine == null) {
                 return;
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                    Uri.parse("http://maps.google.com/maps?saddr=" + lastLocation.getLatitude() + "," +
-                            lastLocation.getLongitude() +
-                            "&daddr=" + currentBuildingCoordinates.latitude + "," +
-                            currentBuildingCoordinates.longitude));
+            }
 
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-            mContext.startActivity(intent);
+            LatLng currentBuildingCoordinates = mCurrentBuilding.getCoordinates();
+            if(currentBuildingCoordinates == null)
+                return;
+
+            if(mCurrentDirectionPath != null){
+                mCurrentDirectionPath.hideDirectionPath();
+            }
+
+            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
+                    new com.google.maps.model.LatLng(lastLocation.getLatitude(),lastLocation.getLongitude()),
+                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
+
+            mCurrentDirectionPath.showDirectionPath();
+
         }
 
     };

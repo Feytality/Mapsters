@@ -1,4 +1,4 @@
-package delta.soen390.mapsters.GeometryTest;
+package delta.soen390.mapsters.GeometryTests;
 
 import android.test.InstrumentationTestCase;
 

@@ -20,17 +20,19 @@ public class PolygonSerializer {
         mGoogleMap = googleMap;
     }
 
-    public BuildingPolygon CreatePolygon(JSONObject object) {
-        if (object == null)
+    public BuildingPolygon createPolygon(JSONObject object) {
+        if (object == null) {
             return null;
+        }
 
         String buildingCode = "";
         String buildingName = "";
         String campus = "";
         String buildingImageUrl = "http://www.concordia.ca";
         LatLng coordinates = new LatLng(0, 0);
-        ArrayList<LatLng> boundingCoordinates = new ArrayList<LatLng>();
-
+        ArrayList<LatLng> boundingCoordinates = new ArrayList<>();
+        ArrayList<String[]> services = new ArrayList<>();
+        ArrayList<String[]> departments = new ArrayList<>();
 
         try {
             buildingCode = object.getString("buildingcode");
@@ -45,17 +47,20 @@ public class PolygonSerializer {
 
             boundingCoordinates = extractBoundaryCoordinates(object.getJSONObject("Polygon"));
 
+            services = extractList(object.getJSONArray("serviceslinks"));
 
+            departments = extractList(object.getJSONArray("departmentslinks"));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        BuildingInfo buildingInfo = new BuildingInfo(buildingCode, buildingName, campus, buildingImageUrl, null, coordinates, boundingCoordinates);
+        BuildingInfo buildingInfo = new BuildingInfo(buildingCode, buildingName, campus, buildingImageUrl,
+                                    coordinates, boundingCoordinates, services, departments);
 
         return new BuildingPolygon(mGoogleMap, buildingInfo);
     }
 
-    public BuildingPolygon CreatePolygon(String jsonString) {
+    public BuildingPolygon createPolygon(String jsonString) {
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(jsonString);
@@ -63,11 +68,15 @@ public class PolygonSerializer {
             e.printStackTrace();
             return null;
         }
-        return CreatePolygon(jsonObject);
+        return createPolygon(jsonObject);
     }
 
     private ArrayList<LatLng> extractBoundaryCoordinates(JSONObject object) {
-        ArrayList<LatLng> boundaryCoordinates = new ArrayList<LatLng>();
+        if(object == null) {
+            return null;
+        }
+
+        ArrayList<LatLng> boundaryCoordinates = new ArrayList<>();
 
         try {
             JSONObject outerBoundaryObj = object.getJSONObject("outerBoundaryIs");
@@ -82,19 +91,43 @@ public class PolygonSerializer {
 
                 boundaryCoordinates.add(new LatLng(lng, lat));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return boundaryCoordinates;
     }
 
-    public ArrayList<BuildingPolygon> CreatePolygonArray(JSONObject object) {
+    private ArrayList<String[]> extractList(JSONArray object){
+        if(object == null) {
+            return null;
+        }
 
-        ArrayList<BuildingPolygon> buildingPolygons = new ArrayList<BuildingPolygon>();
+        ArrayList<String[]> services = new ArrayList<>();
 
         try {
+            for(int i = 0; i < object.length(); i++) {
+                {
+                    JSONObject service = new JSONObject(object.get(i).toString());
+                    String text = service.get("linkText").toString();
+                    String path = service.get("linkPath").toString();
+                    String[] serviceArray = { text, path };
+                    services.add(serviceArray);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return services;
+    }
 
+    public ArrayList<BuildingPolygon> createPolygonArray(JSONObject object) {
+
+        if (object == null) {
+            return null;
+        }
+        ArrayList<BuildingPolygon> buildingPolygons = new ArrayList<>();
+
+        try {
             Iterator<?> keys = object.keys();
 
             while (keys.hasNext()) {
@@ -102,11 +135,10 @@ public class PolygonSerializer {
                 JSONObject polygonObject = object.getJSONObject(key);
 
                 if (object.get(key) instanceof JSONObject) {
-                    BuildingPolygon polygon = CreatePolygon(polygonObject);
+                    BuildingPolygon polygon = createPolygon(polygonObject);
                     if (polygon != null) {
                         buildingPolygons.add(polygon);
                     }
-
                 }
             }
         } catch (Exception exception) {

@@ -15,7 +15,7 @@ import java.util.GregorianCalendar;
 public class CalendarIntent {
 
     private Calendar mCalendar;
-    private Activity mActivity;
+
     public CalendarIntent()
     {
         mCalendar = new GregorianCalendar();
@@ -25,8 +25,9 @@ public class CalendarIntent {
     {
         //Push intent
         Intent intent = buildIntent();
-        if(intent == null)
+        if(intent == null) {
             return false;
+        }
         context.startActivity(intent);
         return true;
     }

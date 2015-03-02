@@ -1,6 +1,5 @@
 package delta.soen390.mapsters.Buildings;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -30,15 +29,14 @@ public class BuildingPolygonManager {
     //Only one building can be focused at a time
     private BuildingPolygon mCurrentlyFocusedBuilding;
 
-    private BuildingPolygonManager()
-    {
+    private BuildingPolygonManager() {
         initialize();
     }
 
-    public static BuildingPolygonManager getInstance()
-    {
-	    if(sBuildingPolygonManager == null)
-		    sBuildingPolygonManager = new BuildingPolygonManager();
+    public static BuildingPolygonManager getInstance() {
+	    if(sBuildingPolygonManager == null) {
+            sBuildingPolygonManager = new BuildingPolygonManager();
+        }
         return sBuildingPolygonManager;
     }
     //</editor-fold>
@@ -47,30 +45,27 @@ public class BuildingPolygonManager {
 
     public void initialize()
     {
-        mBuildingPolygons  = new ArrayList<BuildingPolygon>();
-
+        mBuildingPolygons  = new ArrayList<>();
     }
 
-    public BuildingPolygon getClickedPolygon(LatLng point)
-    {
-
-        for(int i = 0; i < mBuildingPolygons.size(); ++i)
-        {
-            BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
-            if(buildingPolygon.isPointInsidePolygon(point)) {
-	            return buildingPolygon;
+    public BuildingPolygon getClickedPolygon(LatLng point) {
+        if(point != null) {
+            for (int i = 0; i < mBuildingPolygons.size(); ++i) {
+                BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+                if (buildingPolygon.isPointInsidePolygon(point)) {
+                    return buildingPolygon;
+                }
             }
         }
 
         return null;
     }
 
-	public void loadResources(GoogleMap gMap, final SplitPane splitPane,Context context)
-	{
-
+	public void loadResources(GoogleMap gMap, final SplitPane splitPane, Context context) {
 		JSONObject jsonBuildingPolygons = JsonReader.ReadJsonFromFile(context,"buildingJson.json");
         PolygonSerializer polygonSerializer = new PolygonSerializer(gMap);
 
+<<<<<<< HEAD
         mBuildingPolygons       = polygonSerializer.CreatePolygonArray(jsonBuildingPolygons);
         //TODO load from values
         float   borderWidth     = 4.0f;//context.getResources().getDimension(R.dimen.polygon_border_width);
@@ -81,11 +76,13 @@ public class BuildingPolygonManager {
         {
             BuildingPolygon polygon = mBuildingPolygons.get(i);
             polygon.setBorderWidth(borderWidth);
+=======
+        mBuildingPolygons = polygonSerializer.createPolygonArray(jsonBuildingPolygons);
+>>>>>>> origin/master
 
             unfocusBuildingPolygon(polygon);
         }
         //Set the listener
-
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
             @Override
@@ -101,7 +98,6 @@ public class BuildingPolygonManager {
 
             }
         });
-
     }
 
     //Will create a focus effect on the passed BuildingPolygon
@@ -123,17 +119,54 @@ public class BuildingPolygonManager {
 
     public BuildingPolygon getBuildingPolygon(String buildingCode)
     {
-        for(int i = 0; i < mBuildingPolygons.size(); ++i)
-        {
-            BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
-            if(buildingPolygon.getBuildingInfo().getBuildingCode().compareTo(buildingCode) == 0) {
-	            return buildingPolygon;
+        if (buildingCode != null && !buildingCode.equals("")) {
+            for (int i = 0; i < mBuildingPolygons.size(); ++i) {
+                BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+                if (buildingPolygon.getBuildingInfo().getBuildingCode().compareTo(buildingCode) == 0) {
+                    return buildingPolygon;
+                }
             }
         }
 
         return null;
     }
 
+    public BuildingInfo getBuildingInfoByService(String service) {
+        if (service != null && !service.equals("")) {
+            for (int i = 0; i < mBuildingPolygons.size(); ++i) {
+                BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+                ArrayList<String[]> services = buildingPolygon.getBuildingInfo().getServices();
+                for (String[] serv : services) {
+                    if(serv[0].equals(service)) {
+                        return buildingPolygon.getBuildingInfo();
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public BuildingInfo getBuildingInfoByDepartment(String department) {
+        if (department != null && !department.equals("")) {
+            for (int i = 0; i < mBuildingPolygons.size(); ++i) {
+                BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+                ArrayList<String[]> departments = buildingPolygon.getBuildingInfo().getDepartments();
+                for (String[] dept : departments) {
+                    if(dept[0].equals(department)) {
+                        return buildingPolygon.getBuildingInfo();
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+<<<<<<< HEAD
 
 
 };
+=======
+}
+>>>>>>> origin/master

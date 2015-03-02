@@ -69,6 +69,10 @@ public class CalendarEventImporter {
                 null,
                 CalendarContract.Calendars._ID + " ASC");
 
+        if(calCursor == null) {
+            return -1;
+        }
+
         //I want to know which column contains the calendar name attribute
         //hint: It's column 1!
         int nameColumnIndex = calCursor.getColumnIndex("name");
