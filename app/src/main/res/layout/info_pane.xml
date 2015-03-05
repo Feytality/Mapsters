@@ -122,6 +122,16 @@
                 android:layout_gravity="center_horizontal"
                 android:text="Directions" />
 
+            <ImageButton
+                android:layout_width="53dp"
+                android:layout_height="53dp"
+                android:id="@+id/direction_button"
+                android:src="@drawable/directions_icon"
+                android:scaleType="fitXY"
+                android:padding="0dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_gravity="center|bottom" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -205,18 +215,6 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/t13"
                 android:layout_gravity="center_horizontal" />
-
-            <ImageButton
-                android:layout_width="53dp"
-                android:layout_height="53dp"
-                android:id="@+id/direction_button"
-                android:src="@drawable/directions_icon"
-                android:scaleType="fitXY"
-                android:padding="0dp"
-                android:visibility="gone"
-                style="?android:attr/borderlessButtonStyle"
-                android:background="#ffa5ff4f"
-                android:layout_gravity="bottom" />
 
             <TextView
                 android:layout_width="wrap_content"
