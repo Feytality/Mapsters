@@ -2,9 +2,7 @@ package delta.soen390.mapsters.Controller;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
-import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -15,6 +13,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import java.util.ArrayList;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.R;
@@ -41,6 +41,7 @@ public class SplitPane {
     private DirectionEngine mDirectionEngine;
     private DirectionEngine.DirectionPath mCurrentDirectionPath;
     private LatLng mStartingLocation;
+    private TextView mTextInfo;
 
     public SplitPane(View view, float anchorPoint, LocationService locationService, Context context) {
         mContext = context;
@@ -86,9 +87,12 @@ public class SplitPane {
         mBuildingName.setText(buildingInfo.getBuildingName());
         mBuildingCode.setText(buildingInfo.getBuildingCode());
         mCampus.setText(buildingInfo.getCampus());
+        setInfoText();
+
         ImageLoader img = ImageLoader.getInstance();
         img.init(ImageLoaderConfiguration.createDefault(mContext.getApplicationContext()));
         ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), mBuildingPictureView);
+
     }
 
     public void setDirectionEngine(DirectionEngine directionEngine)
@@ -144,6 +148,76 @@ public class SplitPane {
         if(startingLocation != null)
             Log.i("Set starting location!", startingLocation.toString());
 
+    }
+
+    private void setInfoText() {
+        ArrayList<String[]> departments = mCurrentBuilding.getDepartments();
+        ArrayList<String[]> services = mCurrentBuilding.getServices();
+
+        if(services.size() >= 1) {
+            mTextInfo = (TextView) mLayout.findViewById(R.id.service1);
+            mTextInfo.setText(services.get(0)[0]);
+        } else {
+            return;
+        }
+
+        if(services.size() >= 2) {
+            mTextInfo = (TextView) mLayout.findViewById(R.id.service2);
+            mTextInfo.setText(services.get(1)[0]);
+        } else {
+            return;
+        }
+
+        if(services.size() >= 3) {
+            mTextInfo = (TextView) mLayout.findViewById(R.id.service3);
+            mTextInfo.setText(services.get(2)[0]);
+        } else {
+            return;
+        }
+        if(services.size() >= 4) {
+            mTextInfo = (TextView) mLayout.findViewById(R.id.service4);
+            mTextInfo.setText(services.get(3)[0]);
+        } else {
+            return;
+        }
+        if(services.size() >= 5) {
+            mTextInfo = (TextView) mLayout.findViewById(R.id.service5);
+            mTextInfo.setText(services.get(4)[0]);
+        } else {
+            return;
+        }
+
+        if(departments.size() >= 1) {
+            mTextInfo = (TextView) mLayout.findViewById(R.id.department1);
+            mTextInfo.setText(departments.get(0)[0]);
+        } else {
+            return;
+        }
+
+        if(departments.size() >= 2) {
+            mTextInfo = (TextView) mLayout.findViewById(R.id.department2);
+            mTextInfo.setText(departments.get(1)[0]);
+        } else {
+            return;
+        }
+        if(departments.size() >= 3) {
+            mTextInfo = (TextView) mLayout.findViewById(R.id.department3);
+            mTextInfo.setText(departments.get(2)[0]);
+        } else {
+            return;
+        }
+        if(departments.size() >= 4) {
+            mTextInfo = (TextView) mLayout.findViewById(R.id.department4);
+            mTextInfo.setText(departments.get(3)[0]);
+        } else {
+            return;
+        }
+        if(departments.size() >= 5) {
+            mTextInfo = (TextView) mLayout.findViewById(R.id.department5);
+            mTextInfo.setText(departments.get(4)[0]);
+        } else {
+            return;
+        }
     }
 
 }

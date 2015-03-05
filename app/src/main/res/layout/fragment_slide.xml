@@ -11,94 +11,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            >
-
-            <ImageView
-                android:src="@drawable/loy"
-                android:layout_width="208dp"
-                android:layout_height="208dp"
-                android:id="@+id/building_image"
-                android:layout_gravity="center_vertical|top" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Services"
-                android:id="@+id/textView2" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/service1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/service2" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/service3" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/service4" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/service5" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Department"
-                android:id="@+id/textView5" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/department1" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/department2" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/department3" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/department4" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/department5" />
-
-        </LinearLayout>
+        <ImageView
+            android:src="@drawable/loy"
+            android:layout_width="208dp"
+            android:layout_height="208dp"
+            android:id="@+id/building_image"
+            android:layout_gravity="center_vertical|top" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -114,23 +32,23 @@
                 android:layout_gravity="center_horizontal"
                 android:visibility="gone" />
 
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/direction_button"
+                android:src="@drawable/directions_icon"
+                android:scaleType="fitXY"
+                android:padding="0dp"
+                android:visibility="gone"
+                style="?android:attr/borderlessButtonStyle"
+                />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/t1"
-                android:layout_gravity="center_horizontal"
-                android:text="Directions" />
-
-            <ImageButton
-                android:layout_width="53dp"
-                android:layout_height="53dp"
-                android:id="@+id/direction_button"
-                android:src="@drawable/directions_icon"
-                android:scaleType="fitXY"
-                android:padding="0dp"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_gravity="center|bottom" />
+                android:layout_gravity="center_horizontal" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -272,7 +190,6 @@
             android:layout_gravity="center_horizontal"
             android:padding="5dp"
             android:textColor="@color/background_material_light" />
-
     </LinearLayout>
 
 </RelativeLayout>
