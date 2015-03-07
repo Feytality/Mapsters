@@ -1,10 +1,9 @@
 package delta.soen390.mapsters.BuildingTests;
 
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 
 import com.google.android.gms.maps.GoogleMap;
 
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -15,7 +14,7 @@ import delta.soen390.mapsters.Buildings.PolygonSerializer;
  * Created by Patrick on 15-02-23.
  *
  */
-public class PolygonSerializerTests extends InstrumentationTestCase {
+public class PolygonSerializerTests extends AndroidTestCase {
 
     private PolygonSerializer mPolygonSerializer;
     private GoogleMap mGoogleMap;
