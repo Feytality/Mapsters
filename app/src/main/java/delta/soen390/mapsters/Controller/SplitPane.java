@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -35,6 +36,7 @@ public class SplitPane {
     private TextView mCampus;
     private TextView mBuildingServices;
     private ImageView mBuildingPictureView;
+    private ArrayList<TextView> mCurrentPaneText = new ArrayList<>();
 
     //Directions
     private ImageButton mDirectionButton;
@@ -87,7 +89,11 @@ public class SplitPane {
         mBuildingName.setText(buildingInfo.getBuildingName());
         mBuildingCode.setText(buildingInfo.getBuildingCode());
         mCampus.setText(buildingInfo.getCampus());
-        setInfoText();
+
+        clearViews();
+        // Create text views for the services and departments
+        displayBuildingInfo(mCurrentBuilding.getServices(), "Services");
+        displayBuildingInfo(mCurrentBuilding.getDepartments(), "Departments");
 
         ImageLoader img = ImageLoader.getInstance();
         img.init(ImageLoaderConfiguration.createDefault(mContext.getApplicationContext()));
@@ -150,74 +156,43 @@ public class SplitPane {
 
     }
 
-    private void setInfoText() {
-        ArrayList<String[]> departments = mCurrentBuilding.getDepartments();
-        ArrayList<String[]> services = mCurrentBuilding.getServices();
+    private void displayBuildingInfo(ArrayList<String[]> info, String title) {
+        if(info.size() > 0) {
+            // Get the building pane layout so that we can add text views to it.
+            LinearLayout buildingPane = (LinearLayout) mLayout.findViewById(R.id.building_info);
 
-        if(services.size() >= 1) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.service1);
-            mTextInfo.setText(services.get(0)[0]);
-        } else {
-            return;
-        }
+            // Create title text view and add it to the pane
+            TextView titleRow = new TextView(mContext);
+            titleRow.setText(title);
+            titleRow.setTextAppearance(mContext, android.R.style.TextAppearance_Small);
+            titleRow.setTextColor(mContext.getResources().getColor(R.color.concordia_main_color));
+            buildingPane.addView(titleRow);
+            mCurrentPaneText.add(titleRow);
 
-        if(services.size() >= 2) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.service2);
-            mTextInfo.setText(services.get(1)[0]);
-        } else {
-            return;
-        }
+            TextView infoRow;
 
-        if(services.size() >= 3) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.service3);
-            mTextInfo.setText(services.get(2)[0]);
-        } else {
-            return;
-        }
-        if(services.size() >= 4) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.service4);
-            mTextInfo.setText(services.get(3)[0]);
-        } else {
-            return;
-        }
-        if(services.size() >= 5) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.service5);
-            mTextInfo.setText(services.get(4)[0]);
-        } else {
-            return;
-        }
+            for (String[] infoArray : info) {
+                infoRow = new TextView(mContext);
 
-        if(departments.size() >= 1) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.department1);
-            mTextInfo.setText(departments.get(0)[0]);
-        } else {
-            return;
-        }
+                infoRow.setText(infoArray[0]);
+                infoRow.setTextAppearance(mContext, android.R.style.TextAppearance_Small);
+                //infoRow.setTextColor(mContext.getResources().getColor(R.color.concordia_main_color));
+                // newRow.setId();
 
-        if(departments.size() >= 2) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.department2);
-            mTextInfo.setText(departments.get(1)[0]);
-        } else {
-            return;
-        }
-        if(departments.size() >= 3) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.department3);
-            mTextInfo.setText(departments.get(2)[0]);
-        } else {
-            return;
-        }
-        if(departments.size() >= 4) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.department4);
-            mTextInfo.setText(departments.get(3)[0]);
-        } else {
-            return;
-        }
-        if(departments.size() >= 5) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.department5);
-            mTextInfo.setText(departments.get(4)[0]);
-        } else {
-            return;
+                // add the textview to the linearlayou
+                buildingPane.addView(infoRow);
+
+                // save a reference to the textview for later
+                mCurrentPaneText.add(infoRow);
+            }
         }
     }
 
+    public void clearViews () {
+        if(mCurrentPaneText != null && mCurrentPaneText.size() > 0) {
+            for (TextView row : mCurrentPaneText) {
+                row.setVisibility(View.GONE);
+            }
+        }
+    }
 }
