@@ -1,6 +1,6 @@
 package delta.soen390.mapsters.BuildingTests;
 
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import com.google.android.gms.maps.model.LatLng;
@@ -11,16 +11,17 @@ import java.util.ArrayList;
  * Making sure getters all function correctly
  */
 
-public class BuildingInfoTests extends InstrumentationTestCase {
+public class BuildingInfoTests extends AndroidTestCase {
 
     private BuildingInfo mBuildingInfo;
     private String mBuildingCode;
     private String mBuildingName;
     private String mCampus;
     private String mImageUrl;
-    private String[] mBuildingServices;
     private LatLng mCoordinates;
     private ArrayList<LatLng> mBoundingCoordinates;
+    private ArrayList<String[]> mBuildingServices;
+    private ArrayList<String[]> mDepartments;
 
     @Override
     protected void setUp() throws Exception {
@@ -29,10 +30,12 @@ public class BuildingInfoTests extends InstrumentationTestCase {
         mBuildingName = "Airport terminal";
         mCampus = "SGW";
         mImageUrl = "http://concordia.ca";
-        mBuildingServices = new String[5];
         mCoordinates = new LatLng(0, 0);
         mBoundingCoordinates = new ArrayList<>();
-        mBuildingInfo = new BuildingInfo(mBuildingCode, mBuildingName, mCampus, mImageUrl, mBuildingServices,mCoordinates, mBoundingCoordinates);
+        mBuildingServices = new ArrayList<>(5);
+        mDepartments = new ArrayList<>(5);
+        mBuildingInfo = new BuildingInfo(mBuildingCode, mBuildingName, mCampus, mImageUrl,
+                mCoordinates, mBoundingCoordinates, mBuildingServices, mDepartments);
     }
 
     @Override
@@ -49,7 +52,6 @@ public class BuildingInfoTests extends InstrumentationTestCase {
     }
 
     public void testGetCampus() throws Exception {
-        BuildingInfoTests p = new BuildingInfoTests();
         assertEquals(mBuildingInfo.getCampus(), mCampus);
     }
 

@@ -1,5 +1,5 @@
 package delta.soen390.mapsters.BuildingTests;
-import android.test.InstrumentationTestCase;
+import android.test.AndroidTestCase;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import delta.soen390.mapsters.Geometry.BoundingBox2D;
@@ -10,7 +10,7 @@ import delta.soen390.mapsters.Geometry.Vector2D;
  *
  */
 
-public class BuildingPolygonTests extends InstrumentationTestCase {
+public class BuildingPolygonTests extends AndroidTestCase {
 
     private BoundingBox2D mBoundingBox2D;
     private ArrayList<LatLng> mBoundingPoints;
