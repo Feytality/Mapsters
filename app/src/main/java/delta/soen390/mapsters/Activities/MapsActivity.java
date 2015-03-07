@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,10 +33,9 @@ import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource, GoogleMap.OnMapLongClickListener {
+public class MapsActivity extends FragmentActivity implements SlidingFragment.OnDataPass, OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource, GoogleMap.OnMapLongClickListener {
 
     private TextView textPointer;
-
     private CampusSwitchUI mCampusSwitchUI;
     private CampusViewSwitcher mCampusViewSwitcher;
     private LocationService mLocationService;
@@ -52,6 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mGoogleMap;
     private Marker mMarker;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,18 +63,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             getActionBar().hide();
         }
         //Setup the google map
+        // initialize location
+        mLocationService = new LocationService(getApplicationContext());
+        mCampusSwitchUI = new CampusSwitchUI(this, mCampusViewSwitcher);
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment)).getMapAsync(this);
 
         setImageOptions();
-
-        //initialize location
-        mLocationService = new LocationService(getApplicationContext());
-
-        mCampusSwitchUI = new CampusSwitchUI(this, mCampusViewSwitcher);
-
-
         //Initialize the SlidingUpPanel
-        splitPane = new SplitPane(findViewById(R.id.sliding_layout), 0.50f, mLocationService, getApplicationContext());
+        initializeSlidingPane();
 
         //Initialize the CalendarEventManager
         mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
@@ -86,6 +84,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mDrawer = new NavigationDrawer(this);
         mDrawer.addButton();
 
+    }
+
+    private void initializeSlidingPane(){
+        SlidingFragment slidingFragment = new SlidingFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.sliding_container,slidingFragment )
+                .commit();
     }
 
     public void setImageOptions() {
@@ -139,6 +145,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Initialize the Direction Engine
         mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap);
+
+
+
         splitPane.setDirectionEngine(mDirectionEngine);
 
         googleMap.setOnMapLongClickListener(this);
@@ -151,7 +160,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if(mMarker != null) {
             mMarker.remove();
         }
-        //splitPane.setStartingLocation(new LatLng(mLocationService.getLastLocation().getLatitude(), mLocationService.getLastLocation().getLongitude()));
+//        splitPane.setStartingLocation(new LatLng(mLocationService.getLastLocation().getLatitude(), mLocationService.getLastLocation().getLongitude()));
         splitPane.setStartingLocation(null);
         return false;
     }
@@ -192,5 +201,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }//onActivityResult
 
+    public LocationService getLocationService() {
+        return mLocationService;
+    }
+
+
+    @Override
+    public void onDataPass(SplitPane data) {
+        Log.d("***************************************************", "hello " + data.toString());
+        splitPane =data;
+    }
 }
 

@@ -1,8 +1,8 @@
 package delta.soen390.mapsters.Controller;
 
-import android.app.Activity;
-import android.content.Context;
 import android.location.Location;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -12,10 +12,10 @@ import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 
+import delta.soen390.mapsters.Activities.SlidingFragment;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
@@ -24,10 +24,10 @@ import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 
 
 public class SplitPane {
-    private SlidingUpPanelLayout mLayout;
+    private View mContent;
     private BuildingInfo mCurrentBuilding;
     private LocationService mLocationService;
-    private Context mContext;
+    private FragmentActivity mContext;
 
     //View Components
     private TextView mBuildingName;
@@ -43,39 +43,36 @@ public class SplitPane {
     private LatLng mStartingLocation;
     private TextView mTextInfo;
 
-    public SplitPane(View view, float anchorPoint, LocationService locationService, Context context) {
+    public SplitPane(View slideView, float anchorPoint, LocationService locationService, FragmentActivity context) {
         mContext = context;
-        mLayout = (SlidingUpPanelLayout) view;
-        mLayout.setAnchorPoint(anchorPoint);
+        mContent = slideView;
+
+//        setAnchorPoint(anchorPoint);
         mCurrentBuilding = null;
         mLocationService = locationService;
 
         //initializing components
-        mBuildingName = (TextView) mLayout.findViewById(R.id.building_name);
-        mBuildingCode = (TextView) mLayout.findViewById(R.id.building_code);
-        mCampus = (TextView) mLayout.findViewById(R.id.campus);
-        mBuildingServices = (TextView) mLayout.findViewById(R.id.building_services);
-        mBuildingPictureView = (ImageView) mLayout.findViewById(R.id.building_image);
-        mDirectionButton = (ImageButton) mLayout.findViewById(R.id.direction_button);
+        mBuildingName = (TextView) mContent.findViewById(R.id.building_name);
+        mBuildingCode = (TextView) mContent.findViewById(R.id.building_code);
+        mCampus = (TextView) mContent.findViewById(R.id.campus);
+        mBuildingServices = (TextView) mContent.findViewById(R.id.building_services);
+        mBuildingPictureView = (ImageView) mContent.findViewById(R.id.building_image);
+        mBuildingPictureView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SlidingFragment slidingFragment = new SlidingFragment();
+                FragmentManager fragmentManager = mContext.getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.sliding_container,slidingFragment )
+                        .commit();
+
+            }
+        });
+        mDirectionButton = (ImageButton) mContent.findViewById(R.id.direction_button);
         mDirectionButton.setOnClickListener(directionBtnListener);
     }
 
-    public SplitPane(View view, float anchorPoint, LocationService locationService, Activity activity) {
-        mContext = activity;
-        mLayout =(SlidingUpPanelLayout) view;
-        mLayout.setAnchorPoint(anchorPoint);
-        mCurrentBuilding = null;
-        mLocationService = locationService;
 
-        //initializing components
-        mBuildingName = (TextView) mLayout.findViewById(R.id.building_name);
-        mBuildingCode = (TextView) mLayout.findViewById(R.id.building_code);
-        mCampus = (TextView) mLayout.findViewById(R.id.campus);
-        mBuildingServices = (TextView) mLayout.findViewById(R.id.building_services);
-        mBuildingPictureView = (ImageView) mLayout.findViewById(R.id.building_image);
-        mDirectionButton = (ImageButton) mLayout.findViewById(R.id.direction_button);
-        mDirectionButton.setOnClickListener(directionBtnListener);
-    }
 
     public void updateContent(BuildingInfo buildingInfo) {
         if (mCurrentBuilding == null) {
@@ -99,6 +96,9 @@ public class SplitPane {
     {
         mDirectionEngine = directionEngine;
     }
+
+
+
 
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
@@ -155,65 +155,65 @@ public class SplitPane {
         ArrayList<String[]> services = mCurrentBuilding.getServices();
 
         if(services.size() >= 1) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.service1);
+            mTextInfo = (TextView) mContent.findViewById(R.id.service1);
             mTextInfo.setText(services.get(0)[0]);
         } else {
             return;
         }
 
         if(services.size() >= 2) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.service2);
+            mTextInfo = (TextView) mContent.findViewById(R.id.service2);
             mTextInfo.setText(services.get(1)[0]);
         } else {
             return;
         }
 
         if(services.size() >= 3) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.service3);
+            mTextInfo = (TextView) mContent.findViewById(R.id.service3);
             mTextInfo.setText(services.get(2)[0]);
         } else {
             return;
         }
         if(services.size() >= 4) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.service4);
+            mTextInfo = (TextView) mContent.findViewById(R.id.service4);
             mTextInfo.setText(services.get(3)[0]);
         } else {
             return;
         }
         if(services.size() >= 5) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.service5);
+            mTextInfo = (TextView) mContent.findViewById(R.id.service5);
             mTextInfo.setText(services.get(4)[0]);
         } else {
             return;
         }
 
         if(departments.size() >= 1) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.department1);
+            mTextInfo = (TextView) mContent.findViewById(R.id.department1);
             mTextInfo.setText(departments.get(0)[0]);
         } else {
             return;
         }
 
         if(departments.size() >= 2) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.department2);
+            mTextInfo = (TextView) mContent.findViewById(R.id.department2);
             mTextInfo.setText(departments.get(1)[0]);
         } else {
             return;
         }
         if(departments.size() >= 3) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.department3);
+            mTextInfo = (TextView) mContent.findViewById(R.id.department3);
             mTextInfo.setText(departments.get(2)[0]);
         } else {
             return;
         }
         if(departments.size() >= 4) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.department4);
+            mTextInfo = (TextView) mContent.findViewById(R.id.department4);
             mTextInfo.setText(departments.get(3)[0]);
         } else {
             return;
         }
         if(departments.size() >= 5) {
-            mTextInfo = (TextView) mLayout.findViewById(R.id.department5);
+            mTextInfo = (TextView) mContent.findViewById(R.id.department5);
             mTextInfo.setText(departments.get(4)[0]);
         } else {
             return;
