@@ -62,9 +62,11 @@ public class SplitPane {
             public void onClick(View v) {
                 SlidingFragment slidingFragment = new SlidingFragment();
                 FragmentManager fragmentManager = mContext.getSupportFragmentManager();
-                fragmentManager.beginTransaction()
+
+                fragmentManager.beginTransaction().addToBackStack(null)
                         .replace(R.id.sliding_container,slidingFragment )
                         .commit();
+
 
             }
         });
