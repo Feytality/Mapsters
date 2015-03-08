@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 
@@ -20,7 +19,6 @@ import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
-import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 
 
 public class SplitPane {
@@ -35,6 +33,8 @@ public class SplitPane {
     private TextView mCampus;
     private TextView mBuildingServices;
     private ImageView mBuildingPictureView;
+    private ArrayList<TextView> mCurrentPaneText = new ArrayList<>();
+
 
     //Directions
     private ImageButton mDirectionButton;
@@ -84,7 +84,7 @@ public class SplitPane {
         mBuildingName.setText(buildingInfo.getBuildingName());
         mBuildingCode.setText(buildingInfo.getBuildingCode());
         mCampus.setText(buildingInfo.getCampus());
-        setInfoText();
+
 
         clearViews();
         // Create text views for the services and departments
@@ -115,7 +115,7 @@ public class SplitPane {
     private void displayBuildingInfo(ArrayList<String[]> info, String title) {
         if(info.size() > 0) {
             // Get the building pane layout so that we can add text views to it.
-            LinearLayout buildingPane = (LinearLayout) mLayout.findViewById(R.id.building_info);
+            LinearLayout buildingPane = (LinearLayout) mContext.findViewById(R.id.building_info);
 
             // Create title text view and add it to the pane
             TextView titleRow = new TextView(mContext);
