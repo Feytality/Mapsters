@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -92,6 +93,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);
         mDrawer.addButton();
+
+        String msg = PreferenceManager.getDefaultSharedPreferences(this).getString("campus_list","NOO");
 
     }
 
