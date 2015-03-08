@@ -141,7 +141,7 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
             googleMap.setOnMyLocationButtonClickListener(this);
             googleMap.setBuildingsEnabled(false);
             googleMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
-            mCampusSwitchUI = new CampusSwitchUI(view,mActivity,new CampusViewSwitcher(mActivity, map));
+            mCampusSwitchUI = new CampusSwitchUI(view,mActivity,new CampusViewSwitcher(mActivity, map,mCampusSwitchUI));
             BuildingPolygonManager.getInstance().loadResources(map, splitPane, mActivity.getApplicationContext());
         }
     }
@@ -172,7 +172,7 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
             map.setOnMyLocationButtonClickListener(this);
             map.setBuildingsEnabled(false);
             map.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
-            mCampusSwitchUI = new CampusSwitchUI(view,mActivity,new CampusViewSwitcher(mActivity, map));
+            mCampusSwitchUI = new CampusSwitchUI(view,mActivity,new CampusViewSwitcher(mActivity, map,mCampusSwitchUI));
             BuildingPolygonManager.getInstance().loadResources(map, splitPane, mActivity.getApplicationContext());
         }
     }

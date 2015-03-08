@@ -1,12 +1,16 @@
 package delta.soen390.mapsters.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -135,7 +139,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void initializeMap(GoogleMap googleMap) {
         //Initialize the Campus Switch
-        mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap));
+        mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap,mCampusSwitchUI));
 
         //Initialize the Building Polygons
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
@@ -212,13 +216,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         if (buildingCode.isEmpty()) {
-            Toast.makeText(this, "Please put in a room in this format H456", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please put in a building code in this format H456", Toast.LENGTH_SHORT).show();
         }
 
         BuildingPolygon buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(buildingCode);
 
         if (buildingPolygon!=null) {
             BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
+            mCampusSwitchUI.getmCampusViewSwitcher().zoomToLatLong(18,buildingPolygon.getBuildingInfo());
             return;
         }
 

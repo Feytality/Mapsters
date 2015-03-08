@@ -86,7 +86,7 @@ public class SplitPane {
 
         mBuildingName.setText(buildingInfo.getBuildingName());
         mBuildingCode.setText(buildingInfo.getBuildingCode());
-        mCampus.setText(buildingInfo.getCampus());
+        mCampus.setText(buildingInfo.getCampus().toString());
         setInfoText();
 
         ImageLoader img = ImageLoader.getInstance();
