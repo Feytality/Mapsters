@@ -82,9 +82,14 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
         mCalendarEventManager.updateEventQueue();
 
+        // Uncomment to test notifications.
+        // mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this,
+        // new CalendarEvent("H", "H431", "SOEN 390", new DateTime(1425333436), new DateTime(1425333436), new DateTime(1425333436)));
+        //  mCalendarEventNotification.createNotification();
+
         //Initialize notifications
-        mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this, new CalendarEvent("H", "H431", "SOEN 390", new DateTime(1425333436), new DateTime(1425333436), new DateTime(1425333436)));
-        mCalendarEventNotification.createNotification();
+        mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this);
+        mCalendarEventNotification.handleNotifications();
 
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);
