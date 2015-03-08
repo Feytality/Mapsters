@@ -116,8 +116,10 @@ public class BuildingPolygonManager {
         polygon.setFillColor(mBuildingStandardFillColor);
     }
 
-    public BuildingPolygon getBuildingPolygon(String buildingCode)
+    public BuildingPolygon getBuildingPolygonByBuildingCode(String buildingCode)
     {
+        buildingCode = buildingCode.toUpperCase();
+
         if (buildingCode != null && !buildingCode.equals("")) {
             for (int i = 0; i < mBuildingPolygons.size(); ++i) {
                 BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
@@ -129,7 +131,6 @@ public class BuildingPolygonManager {
 
         return null;
     }
-
 
 
     public BuildingInfo getBuildingInfoByService(String service) {

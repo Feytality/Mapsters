@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +19,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygon;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Calendar.CalendarEvent;
@@ -217,8 +215,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(this, "Please put in a room in this format H456", Toast.LENGTH_SHORT).show();
         }
 
-        BuildingPolygon buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygon(buildingCode);
-        BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
+        BuildingPolygon buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(buildingCode);
+
+        if (buildingPolygon!=null) {
+            BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
+            return;
+        }
+
+        Toast.makeText(this, "Please enter a proper building code", Toast.LENGTH_SHORT).show();
     }
 }
 
