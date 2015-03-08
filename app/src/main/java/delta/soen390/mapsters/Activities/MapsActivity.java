@@ -1,6 +1,7 @@
 package delta.soen390.mapsters.Activities;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -21,6 +22,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Calendar.CalendarEvent;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
@@ -31,6 +33,7 @@ import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
+import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
 public class MapsActivity extends FragmentActivity implements SlidingFragment.OnDataPass, OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource, GoogleMap.OnMapLongClickListener {
@@ -52,6 +55,9 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     // For current location, ask if theres another way to get map
     private GoogleMap mGoogleMap;
     private Marker mMarker;
+    private LatLng mStartingLocation;
+    private BuildingInfo mCurrentBuilding;
+    private DirectionEngine.DirectionPath mCurrentDirectionPath;
 
 
     @Override
@@ -146,10 +152,6 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         //Initialize the Direction Engine
         mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap);
 
-
-
-        splitPane.setDirectionEngine(mDirectionEngine);
-
         googleMap.setOnMapLongClickListener(this);
         mGoogleMap = googleMap;
 
@@ -161,7 +163,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             mMarker.remove();
         }
 //        splitPane.setStartingLocation(new LatLng(mLocationService.getLastLocation().getLatitude(), mLocationService.getLastLocation().getLongitude()));
-        splitPane.setStartingLocation(null);
+        setStartingLocation(null);
         return false;
     }
 
@@ -179,7 +181,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                 "Your starting location!"));
 
         // Set starting location.
-        splitPane.setStartingLocation(point);
+       setStartingLocation(point);
     }
 
     @Override
@@ -206,9 +208,59 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     }
 
 
+
+    public void getDirections(){
+        Log.i("Direction Button", "Clicked!");
+        Location lastLocation = mLocationService.getLastLocation();
+        if (lastLocation == null) {
+            Log.i("last direction", "null");
+            return;
+        } else {
+            Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
+        }
+
+        //TODO toast notify user of connectivity problem
+        if(mDirectionEngine == null) {
+            return;
+        }
+
+
+        LatLng currentBuildingCoordinates = BuildingPolygonManager.getInstance().getCurrentBuildingInfo().getCoordinates();
+        if(currentBuildingCoordinates == null)
+            return;
+
+        if(mCurrentDirectionPath != null){
+            mCurrentDirectionPath.hideDirectionPath();
+        }
+
+        if(mStartingLocation == null) {
+            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
+                    new com.google.maps.model.LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),
+                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
+        } else {
+            // Else, starting location is set (by placing marker on map), use the choosen location coordinates instead.
+            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
+                    GoogleMapstersUtils.toDirectionsLatLng(mStartingLocation),
+                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
+        }
+
+        mCurrentDirectionPath.showDirectionPath();
+
+    }
+
+    public void setStartingLocation(LatLng startingLocation) {
+        // Note: should be able to set it null to clear it
+        mStartingLocation = startingLocation;
+        if(startingLocation != null)
+            Log.i("Set starting location!", startingLocation.toString());
+
+    }
+
+
+
     @Override
     public void onDataPass(SplitPane data) {
-        Log.d("***************************************************", "hello " + data.toString());
+
         splitPane =data;
     }
 }

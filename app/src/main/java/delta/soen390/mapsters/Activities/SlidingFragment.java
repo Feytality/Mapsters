@@ -48,8 +48,6 @@ public class SlidingFragment extends Fragment {
         SlidingUpPanelLayout panelLayout =(SlidingUpPanelLayout) mapsActivity.findViewById(R.id.sliding_layout);
         panelLayout.setAnchorPoint(0.50f);
 
-
-
         splitPane = new SplitPane(view, 0.50f, mapsActivity.getLocationService(), mapsActivity);
         passData(splitPane);
         return view;

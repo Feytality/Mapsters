@@ -1,9 +1,6 @@
 package delta.soen390.mapsters.Controller;
 
-import android.location.Location;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -15,19 +12,19 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Activities.SlidingFragment;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
-import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 
 
 public class SplitPane {
     private View mContent;
     private BuildingInfo mCurrentBuilding;
     private LocationService mLocationService;
-    private FragmentActivity mContext;
+    private MapsActivity mContext;
 
     //View Components
     private TextView mBuildingName;
@@ -43,9 +40,9 @@ public class SplitPane {
     private LatLng mStartingLocation;
     private TextView mTextInfo;
 
-    public SplitPane(View slideView, float anchorPoint, LocationService locationService, FragmentActivity context) {
+    public SplitPane(View slideView, float anchorPoint, LocationService locationService, MapsActivity context) {
         mContext = context;
-        mContent = slideView;
+        mContent =slideView;
 
 //        setAnchorPoint(anchorPoint);
         mCurrentBuilding = null;
@@ -94,63 +91,20 @@ public class SplitPane {
 
     }
 
-    public void setDirectionEngine(DirectionEngine directionEngine)
-    {
-        mDirectionEngine = directionEngine;
-    }
+
 
 
 
 
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Log.i("Direction Button", "Clicked!");
-            Location lastLocation = mLocationService.getLastLocation();
-            if (lastLocation == null) {
-                Log.i("last direction", "null");
-                return;
-            } else {
-                Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
-            }
-
-            //TODO toast notify user of connectivity problem
-            if(mDirectionEngine == null) {
-                return;
-            }
-
-
-            LatLng currentBuildingCoordinates = mCurrentBuilding.getCoordinates();
-            if(currentBuildingCoordinates == null)
-                return;
-
-            if(mCurrentDirectionPath != null){
-                mCurrentDirectionPath.hideDirectionPath();
-            }
-
-            if(mStartingLocation == null) {
-                mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
-                        new com.google.maps.model.LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),
-                        GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
-            } else {
-                // Else, starting location is set (by placing marker on map), use the choosen location coordinates instead.
-                mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
-                        GoogleMapstersUtils.toDirectionsLatLng(mStartingLocation),
-                        GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
-            }
-
-            mCurrentDirectionPath.showDirectionPath();
+    mContext.getDirections();
 
         }
 
     };
 
-    public void setStartingLocation(LatLng startingLocation) {
-        // Note: should be able to set it null to clear it
-        mStartingLocation = startingLocation;
-        if(startingLocation != null)
-            Log.i("Set starting location!", startingLocation.toString());
 
-    }
 
     private void setInfoText() {
         ArrayList<String[]> departments = mCurrentBuilding.getDepartments();
