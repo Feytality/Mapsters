@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,8 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import delta.soen390.mapsters.Buildings.BuildingInfo;
+import delta.soen390.mapsters.Buildings.BuildingPolygon;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Calendar.CalendarEvent;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
@@ -26,12 +29,14 @@ import delta.soen390.mapsters.Calendar.CalendarEventNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.SplitPane;
+import delta.soen390.mapsters.Fragments.SearchBarFragment;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource, GoogleMap.OnMapLongClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource,
+        GoogleMap.OnMapLongClickListener, SearchBarFragment.SearchBarListener {
 
     private TextView textPointer;
 
@@ -192,5 +197,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }//onActivityResult
 
+    @Override
+    public void searchForRoom(String input) {
+        boolean firstChar = false;
+        String buildingCode = "";
+
+        for (char c : input.toCharArray()){
+            if (Character.isLetter(c)) {
+                firstChar = true;
+                buildingCode += c;
+                continue;
+            }
+            if (firstChar){
+                break;
+            }
+        }
+
+        if (buildingCode.isEmpty()) {
+            Toast.makeText(this, "Please put in a room in this format H456", Toast.LENGTH_SHORT).show();
+        }
+
+        BuildingPolygon buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygon(buildingCode);
+        BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
+    }
 }
 

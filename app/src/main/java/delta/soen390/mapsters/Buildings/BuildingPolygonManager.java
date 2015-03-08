@@ -23,6 +23,7 @@ public class BuildingPolygonManager {
     private static BuildingPolygonManager sBuildingPolygonManager;
     private int mBuildingFocusFillColor;
     private int mBuildingStandardFillColor;
+    private SplitPane mSplitPane;
 
     //Whenever the user clicks a building, that building is focused.
     //Only one building can be focused at a time
@@ -63,7 +64,7 @@ public class BuildingPolygonManager {
 	public void loadResources(GoogleMap gMap, final SplitPane splitPane, Context context) {
 		JSONObject jsonBuildingPolygons = JsonReader.ReadJsonFromFile(context,"buildingJson.json");
         PolygonSerializer polygonSerializer = new PolygonSerializer(gMap);
-
+        mSplitPane = splitPane;
         mBuildingPolygons       = polygonSerializer.createPolygonArray(jsonBuildingPolygons);
         //TODO load from values
         float   borderWidth     = 4.0f;//context.getResources().getDimension(R.dimen.polygon_border_width);
@@ -84,15 +85,18 @@ public class BuildingPolygonManager {
             public void onMapClick(LatLng point) {
                BuildingPolygon polygon = getClickedPolygon(point);
                 if(polygon != null) {
-                    BuildingInfo buildingInfo = polygon.getBuildingInfo();
-
-                    //Focus the selected building
-                    focusBuildingPolygon(polygon);
-                    splitPane.updateContent(buildingInfo);
+                    clickAndPopulate(polygon);
                 }
 
             }
         });
+    }
+
+    public void clickAndPopulate(BuildingPolygon buildingPolygon){
+        BuildingInfo buildingInfo = buildingPolygon.getBuildingInfo();
+        //Focus the selected building
+        focusBuildingPolygon(buildingPolygon);
+        mSplitPane.updateContent(buildingInfo);
     }
 
     //Will create a focus effect on the passed BuildingPolygon

@@ -48,8 +48,18 @@
                     android:id="@+id/map_fragment"
                     />
 
+
+
                 <!--45.497174,-73.578835,17z SGW-->
             </ViewSwitcher>
+
+            <fragment
+                android:layout_width="300dp"
+                android:layout_height="75dp"
+                android:name="delta.soen390.mapsters.Fragments.SearchBarFragment"
+                android:id="@+id/SearchBarFragment"
+                android:layout_centerHorizontal="true"
+                tools:layout="@layout/search_bar_fragment" />
 
             <Switch
                 android:layout_width="wrap_content"
