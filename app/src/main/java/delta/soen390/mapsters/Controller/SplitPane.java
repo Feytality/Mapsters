@@ -1,9 +1,6 @@
 package delta.soen390.mapsters.Controller;
 
-import android.app.Activity;
-import android.content.Context;
-import android.location.Location;
-import android.util.Log;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -13,22 +10,22 @@ import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
+import delta.soen390.mapsters.Activities.SlidingFragment;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
-import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 
 
 public class SplitPane {
-    private SlidingUpPanelLayout mLayout;
+    private View mContent;
     private BuildingInfo mCurrentBuilding;
     private LocationService mLocationService;
-    private Context mContext;
+    private MapsActivity mContext;
 
     //View Components
     private TextView mBuildingName;
@@ -38,6 +35,7 @@ public class SplitPane {
     private ImageView mBuildingPictureView;
     private ArrayList<TextView> mCurrentPaneText = new ArrayList<>();
 
+
     //Directions
     private ImageButton mDirectionButton;
     private DirectionEngine mDirectionEngine;
@@ -45,37 +43,34 @@ public class SplitPane {
     private LatLng mStartingLocation;
     private TextView mTextInfo;
 
-    public SplitPane(View view, float anchorPoint, LocationService locationService, Context context) {
+    public SplitPane(View slideView, float anchorPoint, LocationService locationService, MapsActivity context) {
         mContext = context;
-        mLayout = (SlidingUpPanelLayout) view;
-        mLayout.setAnchorPoint(anchorPoint);
+        mContent =slideView;
+
+//        setAnchorPoint(anchorPoint);
         mCurrentBuilding = null;
         mLocationService = locationService;
 
         //initializing components
-        mBuildingName = (TextView) mLayout.findViewById(R.id.building_name);
-        mBuildingCode = (TextView) mLayout.findViewById(R.id.building_code);
-        mCampus = (TextView) mLayout.findViewById(R.id.campus);
-        mBuildingServices = (TextView) mLayout.findViewById(R.id.building_services);
-        mBuildingPictureView = (ImageView) mLayout.findViewById(R.id.building_image);
-        mDirectionButton = (ImageButton) mLayout.findViewById(R.id.direction_button);
-        mDirectionButton.setOnClickListener(directionBtnListener);
-    }
+        mBuildingName = (TextView) mContent.findViewById(R.id.building_name);
+        mBuildingCode = (TextView) mContent.findViewById(R.id.building_code);
+        mCampus = (TextView) mContent.findViewById(R.id.campus);
+        mBuildingServices = (TextView) mContent.findViewById(R.id.building_services);
+        mBuildingPictureView = (ImageView) mContent.findViewById(R.id.building_image);
+        mBuildingPictureView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SlidingFragment slidingFragment = new SlidingFragment();
+                FragmentManager fragmentManager = mContext.getSupportFragmentManager();
 
-    public SplitPane(View view, float anchorPoint, LocationService locationService, Activity activity) {
-        mContext = activity;
-        mLayout =(SlidingUpPanelLayout) view;
-        mLayout.setAnchorPoint(anchorPoint);
-        mCurrentBuilding = null;
-        mLocationService = locationService;
+                fragmentManager.beginTransaction().addToBackStack(null)
+                        .replace(R.id.sliding_container,slidingFragment )
+                        .commit();
 
-        //initializing components
-        mBuildingName = (TextView) mLayout.findViewById(R.id.building_name);
-        mBuildingCode = (TextView) mLayout.findViewById(R.id.building_code);
-        mCampus = (TextView) mLayout.findViewById(R.id.campus);
-        mBuildingServices = (TextView) mLayout.findViewById(R.id.building_services);
-        mBuildingPictureView = (ImageView) mLayout.findViewById(R.id.building_image);
-        mDirectionButton = (ImageButton) mLayout.findViewById(R.id.direction_button);
+
+            }
+        });
+        mDirectionButton = (ImageButton) mContent.findViewById(R.id.direction_button);
         mDirectionButton.setOnClickListener(directionBtnListener);
     }
 
@@ -90,6 +85,7 @@ public class SplitPane {
         mBuildingCode.setText(buildingInfo.getBuildingCode());
         mCampus.setText(buildingInfo.getCampus());
 
+
         clearViews();
         // Create text views for the services and departments
         displayBuildingInfo(mCurrentBuilding.getServices(), "Services");
@@ -101,65 +97,25 @@ public class SplitPane {
 
     }
 
-    public void setDirectionEngine(DirectionEngine directionEngine)
-    {
-        mDirectionEngine = directionEngine;
-    }
+
+
+
+
 
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Log.i("Direction Button", "Clicked!");
-            Location lastLocation = mLocationService.getLastLocation();
-            if (lastLocation == null) {
-                Log.i("last direction", "null");
-                return;
-            } else {
-                Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
-            }
-
-            //TODO toast notify user of connectivity problem
-            if(mDirectionEngine == null) {
-                return;
-            }
-
-
-            LatLng currentBuildingCoordinates = mCurrentBuilding.getCoordinates();
-            if(currentBuildingCoordinates == null)
-                return;
-
-            if(mCurrentDirectionPath != null){
-                mCurrentDirectionPath.hideDirectionPath();
-            }
-
-            if(mStartingLocation == null) {
-                mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
-                        new com.google.maps.model.LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),
-                        GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
-            } else {
-                // Else, starting location is set (by placing marker on map), use the choosen location coordinates instead.
-                mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
-                        GoogleMapstersUtils.toDirectionsLatLng(mStartingLocation),
-                        GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
-            }
-
-            mCurrentDirectionPath.showDirectionPath();
+    mContext.getDirections();
 
         }
 
     };
 
-    public void setStartingLocation(LatLng startingLocation) {
-        // Note: should be able to set it null to clear it
-        mStartingLocation = startingLocation;
-        if(startingLocation != null)
-            Log.i("Set starting location!", startingLocation.toString());
 
-    }
 
     private void displayBuildingInfo(ArrayList<String[]> info, String title) {
         if(info.size() > 0) {
             // Get the building pane layout so that we can add text views to it.
-            LinearLayout buildingPane = (LinearLayout) mLayout.findViewById(R.id.building_info);
+            LinearLayout buildingPane = (LinearLayout) mContext.findViewById(R.id.building_info);
 
             // Create title text view and add it to the pane
             TextView titleRow = new TextView(mContext);

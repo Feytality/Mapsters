@@ -27,6 +27,7 @@ public class BuildingPolygonManager {
     //Whenever the user clicks a building, that building is focused.
     //Only one building can be focused at a time
     private BuildingPolygon mCurrentlyFocusedBuilding;
+    private BuildingInfo mCurrentBuildingInfo;
 
     private BuildingPolygonManager() {
         initialize();
@@ -84,15 +85,19 @@ public class BuildingPolygonManager {
             public void onMapClick(LatLng point) {
                BuildingPolygon polygon = getClickedPolygon(point);
                 if(polygon != null) {
-                    BuildingInfo buildingInfo = polygon.getBuildingInfo();
+                    mCurrentBuildingInfo = polygon.getBuildingInfo();
 
                     //Focus the selected building
                     focusBuildingPolygon(polygon);
-                    splitPane.updateContent(buildingInfo);
+                    splitPane.updateContent(mCurrentBuildingInfo);
                 }
 
             }
         });
+    }
+
+    public BuildingInfo getCurrentBuildingInfo(){
+        return mCurrentBuildingInfo;
     }
 
     //Will create a focus effect on the passed BuildingPolygon
