@@ -26,11 +26,11 @@ public class LaunchActivityTest extends ActivityInstrumentationTestCase2<LaunchA
         mLaunch = mActivity.findViewById(R.id.title); // should return null because LaunchActivity shouldn't have a title value at all
     }
 
-    public void testPreConditions() {
-        assertNotNull(mActivity);
-
-    }
-    public void testLaunchNullValue() {
-        assertNull(mLaunch);
-    }
+//    public void testPreConditions() {
+//        assertNotNull(mActivity);
+//
+//    }
+//    public void testLaunchNullValue() {
+//        assertNull(mLaunch);
+//    }
 }
