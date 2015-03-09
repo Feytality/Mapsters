@@ -19,7 +19,9 @@ public class SplashActivityTest extends ActivityInstrumentationTestCase2<SplashA
 
     private SplashActivity mActivity;
     private View mSplash;
-    private TextView x;
+    private TextView mSplashText;
+    private ImageView mSplashImageView;
+    private int ID;
 
     public SplashActivityTest() {
         super(SplashActivity.class);
@@ -33,23 +35,28 @@ public class SplashActivityTest extends ActivityInstrumentationTestCase2<SplashA
         setActivityInitialTouchMode(false);
         mActivity = getActivity();
         mSplash = mActivity.findViewById(R.id.splash);
-
-    }
-
-    public void testSanity(){
-        x = (TextView)mSplash.findViewById(R.id.textView);
-        assertEquals(x.getText(), "Mapster");
-        ImageView y = (ImageView)mSplash.findViewById(R.id.imageView);
-        assertEquals(y.getVisibility(), View.VISIBLE);
-        int ID = y.getId();
-        assertEquals(ID, R.id.imageView); // Making sure it's the same ID
-
+        mSplashText = (TextView)mSplash.findViewById(R.id.textView);
+        mSplashImageView = (ImageView)mSplash.findViewById(R.id.imageView);
+        ID = mSplashImageView.getId();
     }
 
     public void testPreConditions() {
         assertNotNull(mActivity);
         assertNotNull(mSplash);
     }
+
+    public void testSplashTextIsCorrect() {
+        assertEquals(mSplashText.getText(), "Mapster");
+    }
+
+    public void testSplashImageIsVisible() {
+        assertEquals(mSplashImageView.getVisibility(), View.VISIBLE);
+    }
+
+    public void testSplashImageID() {
+        assertEquals(ID, R.id.imageView);
+    }
+
 
     public void testContentView() {
         assertNotNull(mActivity.getWindow().getDecorView());
