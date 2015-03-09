@@ -3,19 +3,19 @@ package delta.soen390.mapsters.ActivitiesTest;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 
-import delta.soen390.mapsters.Activities.SlideFragment;
+import delta.soen390.mapsters.Activities.MapsActivity;
 
 /**
  * Created by Patrick on 15-03-08.
  *
  */
-public class SlideFragmentTest extends ActivityInstrumentationTestCase2 {
+public class MapsActivityTest extends ActivityInstrumentationTestCase2<MapsActivity>{
 
-    private SlideFragment mFragment;
-    private View mSlide;
+    private MapsActivity mActivity;
+    private View mMaps;
 
-    public SlideFragmentTest() {
-        super(SlideFragment.class);
+    public MapsActivityTest() {
+        super(MapsActivity.class);
     }
 
     @Override
@@ -25,10 +25,9 @@ public class SlideFragmentTest extends ActivityInstrumentationTestCase2 {
     }
 
     public void testPreConditions() {
-        assertNull(mFragment);
+        assertNull(mActivity);
     }
-    public void testSlideFragmentNullValue() {
-        assertNull(mSlide);
+    public void testMapsNullValue() {
+        assertNull(mMaps);
     }
-
 }
