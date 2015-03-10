@@ -2,7 +2,9 @@ package delta.soen390.mapsters.Controller;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -171,15 +173,24 @@ public class SplitPane {
 
             TextView infoRow;
 
-            for (String[] infoArray : info) {
+            for (final String[] infoArray : info) {
                 infoRow = new TextView(mContext);
 
                 infoRow.setText(infoArray[0]);
-                infoRow.setTextAppearance(mContext, android.R.style.TextAppearance_Small);
-                //infoRow.setTextColor(mContext.getResources().getColor(R.color.concordia_main_color));
-                // newRow.setId();
 
-                // add the textview to the linearlayou
+                // make the text view clickable and go to teh link associated with the service or department
+                infoRow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(infoArray[1]));
+                        browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(browserIntent);
+                    }
+                });
+
+                infoRow.setTextAppearance(mContext, android.R.style.TextAppearance_Small);
+
+                // add the textview to the linear layout
                 buildingPane.addView(infoRow);
 
                 // save a reference to the textview for later
