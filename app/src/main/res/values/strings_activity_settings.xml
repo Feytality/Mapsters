@@ -14,16 +14,44 @@
     <string name="pref_title_display_name">Display name</string>
     <string name="pref_default_display_name">John Smith</string>
 
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string name="pref_title_add_friends_to_messages">Default Campus View</string>
     <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
+        <item>SGW</item>
+        <item>Loyola</item>
     </string-array>
     <string-array name="pref_example_list_values">
         <item>1</item>
         <item>0</item>
-        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_transit_options">Transit Preferences</string>
+    <string-array name="pref_transit_list_titles">
+        <item>Walk</item>
+        <item>Bicycle</item>
+        <item>Bus</item>
+        <item>Shuttle</item>
+        <item>Car</item>
+
+    </string-array>
+    <string-array name="pref_transit_list_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+
+    </string-array>
+
+    <string name="pref_title_route_options">Route Preferences</string>
+    <string-array name="pref_route_list_titles">
+        <item>Shortest</item>
+        <item>Avoid outside</item>
+
+    </string-array>
+    <string-array name="pref_route_list_values">
+        <item>0</item>
+        <item>1</item>
+
     </string-array>
 
     <!-- Example settings for Data & Sync -->
@@ -47,12 +75,13 @@
         <item>-1</item>
     </string-array>
 
-    <string name="pref_title_system_sync_settings">System sync settings</string>
+    <string name="pref_title_add_account">Add Account</string>
+    <string name="pref_title_sync_settings">System sync settings</string>
 
     <!-- Example settings for Notifications -->
     <string name="pref_header_map_settings">Map Settings</string>
 
-    <string name="pref_title_new_message_notifications">New message notifications</string>
+    <string name="pref_title_new_class_notifications">Class Notifications</string>
 
     <string name="pref_title_ringtone">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>

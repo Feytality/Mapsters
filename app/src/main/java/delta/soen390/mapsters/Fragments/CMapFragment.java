@@ -3,7 +3,6 @@ package delta.soen390.mapsters.Fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -19,6 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarEventNotification;
@@ -34,7 +34,7 @@ import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 public class CMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource {
 
     private View view;
-    private FragmentActivity mActivity;
+    private MapsActivity mActivity;
     private CampusSwitchUI mCampusSwitchUI;
     private CampusViewSwitcher mCampusViewSwitcher;
     private LocationService mLocationService;
@@ -76,7 +76,7 @@ public class CMapFragment extends Fragment implements OnMapReadyCallback, Google
             fragment = SupportMapFragment.newInstance();
             fm.beginTransaction().replace(R.id.map_container, fragment).commit();
         }
-       mActivity = getActivity();
+       //mActivity = getActivity();
 
         mLocationService = new LocationService(mActivity.getApplicationContext());
 
