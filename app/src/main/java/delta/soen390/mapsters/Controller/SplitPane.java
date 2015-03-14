@@ -1,12 +1,11 @@
 package delta.soen390.mapsters.Controller;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.net.Uri;
-import android.util.Log;
+import android.os.Build;
 import android.support.v4.app.FragmentManager;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -136,17 +135,22 @@ public class SplitPane {
             for (final String[] infoArray : info) {
                 infoRow = new TextView(mContext);
 
-                infoRow.setText(infoArray[0]);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    infoRow.setMovementMethod(LinkMovementMethod.getInstance());
+                    infoRow.setText(Html.fromHtml("<a href=\"" + infoArray[1] + "\">" + infoArray[0] + "</a>"));
 
-                // make the text view clickable and go to teh link associated with the service or department
-                infoRow.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View arg0) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(infoArray[1]));
-                        browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mContext.startActivity(browserIntent);
-                    }
-                });
+                } else {
+                    infoRow.setText(infoArray[0]);
+                    // make the text view clickable and go to teh link associated with the service or department
+                    infoRow.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View arg0) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(infoArray[1]));
+                            browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mContext.startActivity(browserIntent);
+                        }
+                    });
+                }
 
                 infoRow.setTextAppearance(mContext, android.R.style.TextAppearance_Small);
 
