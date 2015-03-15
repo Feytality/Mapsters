@@ -95,14 +95,14 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mDrawer.addButton();
 
         String msg = PreferenceManager.getDefaultSharedPreferences(this).getString("campus_list","NOO");
-
     }
 
     private void initializeSlidingPane(){
+
         SlidingFragment slidingFragment = new SlidingFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.sliding_container,slidingFragment )
+                .replace(R.id.sliding_container, slidingFragment)
                 .commit();
     }
 

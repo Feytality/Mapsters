@@ -19,8 +19,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import java.util.ArrayList;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
-import delta.soen390.mapsters.Activities.SlidingFragment;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
+import delta.soen390.mapsters.Fragments.DirOptionFragment;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
@@ -62,14 +62,15 @@ public class SplitPane {
         mCampus = (TextView) mContent.findViewById(R.id.campus);
         mBuildingServices = (TextView) mContent.findViewById(R.id.building_services);
         mBuildingPictureView = (ImageView) mContent.findViewById(R.id.building_image);
+
         mBuildingPictureView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SlidingFragment slidingFragment = new SlidingFragment();
+                DirOptionFragment dirOptionFragment = new DirOptionFragment();
                 FragmentManager fragmentManager = mContext.getSupportFragmentManager();
 
                 fragmentManager.beginTransaction().addToBackStack(null)
-                        .replace(R.id.sliding_container,slidingFragment )
+                        .replace(R.id.sliding_container,dirOptionFragment )
                         .commit();
 
 
