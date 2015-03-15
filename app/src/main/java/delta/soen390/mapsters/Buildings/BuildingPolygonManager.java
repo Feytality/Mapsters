@@ -1,6 +1,7 @@
 package delta.soen390.mapsters.Buildings;
 
 import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -24,6 +25,7 @@ public class BuildingPolygonManager {
     private int mBuildingFocusFillColor;
     private int mBuildingStandardFillColor;
     private SplitPane mSplitPane;
+
 
     //Whenever the user clicks a building, that building is focused.
     //Only one building can be focused at a time
@@ -78,18 +80,13 @@ public class BuildingPolygonManager {
 
             unfocusBuildingPolygon(polygon);
         }
-        //Set the listener
-        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+    }
 
-            @Override
-            public void onMapClick(LatLng point) {
-               BuildingPolygon polygon = getClickedPolygon(point);
-                if(polygon != null) {
-                    clickAndPopulate(polygon);
-                }
-
-            }
-        });
+    public void clickPolygon(LatLng point){
+        BuildingPolygon polygon = getClickedPolygon(point);
+        if(polygon != null) {
+            clickAndPopulate(polygon);
+        }
     }
 
     public void clickAndPopulate(BuildingPolygon buildingPolygon){

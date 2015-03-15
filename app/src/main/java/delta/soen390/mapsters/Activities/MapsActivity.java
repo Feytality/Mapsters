@@ -38,7 +38,7 @@ import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource,
-        GoogleMap.OnMapLongClickListener, SearchBarFragment.SearchBarListener {
+        GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener, SearchBarFragment.SearchBarListener {
 
     private TextView textPointer;
 
@@ -47,6 +47,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationService mLocationService;
     private NavigationDrawer mDrawer;
     private SplitPane splitPane;
+    private InputMethodManager mImm;
     private static final String TAG = "DemoActivity";
 
     // For calendar and notifications
@@ -74,6 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //initialize location
         mLocationService = new LocationService(getApplicationContext());
+        mImm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
         mCampusSwitchUI = new CampusSwitchUI(this, mCampusViewSwitcher);
 
@@ -149,8 +151,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         splitPane.setDirectionEngine(mDirectionEngine);
 
         googleMap.setOnMapLongClickListener(this);
+        googleMap.setOnMapClickListener(this);
         mGoogleMap = googleMap;
-
     }
 
     @Override
@@ -228,6 +230,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         Toast.makeText(this, "Please enter a proper building code", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        BuildingPolygonManager.getInstance().clickPolygon(latLng);
+        mImm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 }
 
