@@ -2,31 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="300dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:background="#ffff1e1a"
+        android:background="#abffffff"
         android:id="@+id/frameLayout"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
         <AutoCompleteTextView
-            android:layout_width="245dp"
+            android:layout_width="210dp"
             android:layout_height="wrap_content"
-            android:text="Search Text"
+            android:hint="Search"
             android:id="@+id/search_text_input"
             android:layout_gravity="left|center_vertical"
-            />
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <ImageButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_gravity="right|center_vertical"
             android:id="@+id/search_button"
-            android:src="@drawable/directions_icon"
-            />
+            android:background="@drawable/cancel"
+            android:scaleType="fitXY"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_alignTop="@+id/search_text_input"
+            android:layout_toRightOf="@+id/search_text_input"
+            android:layout_toEndOf="@+id/search_text_input" />
 
-    </FrameLayout>
+    </RelativeLayout>
 
     <TextSwitcher
         android:layout_width="wrap_content"
