@@ -5,12 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/content_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    <!-- The navigation drawer -->
-
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -22,13 +16,15 @@
         android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom"
-        >
+        android:gravity="bottom">
+
+
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!--Map Fragment -->
             <ViewSwitcher
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -48,19 +44,21 @@
                     android:id="@+id/map_fragment"
                     />
 
-
-
                 <!--45.497174,-73.578835,17z SGW-->
             </ViewSwitcher>
 
+
+            <!--Search Bar Fragment -->
             <fragment
                 android:layout_width="300dp"
                 android:layout_height="75dp"
                 android:name="delta.soen390.mapsters.Fragments.SearchBarFragment"
                 android:id="@+id/SearchBarFragment"
-                android:layout_centerHorizontal="true"
-                tools:layout="@layout/search_bar_fragment" />
-
+                tools:layout="@layout/search_bar_fragment"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/tableRow"
+                android:layout_toEndOf="@+id/tableRow" />
+            <!--Campus Switcher -->
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,11 +68,10 @@
                 android:checked="false"
                 android:textOn="SGW"
                 android:textOff="LOY"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="47dp"
-                android:padding="10dp" />
-
+                android:padding="10dp"
+                android:layout_below="@+id/SearchBarFragment"
+                android:layout_centerHorizontal="true" />
+            <!--Menu Bar-->
             <TableRow
                 android:layout_width="42dp"
                 android:layout_height="42dp"
@@ -83,7 +80,8 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:id="@+id/tableRow">
 
                 <Button
                     android:layout_width="0dip"
@@ -96,6 +94,7 @@
 
         </RelativeLayout>
 
+        <!--Bottom Slide Pane -->
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent" android:layout_height="match_parent">
 
@@ -112,8 +111,7 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    >
+                    android:layout_height="fill_parent">
 
                     <ImageView
                         android:src="@drawable/loy"
@@ -611,11 +609,5 @@
 
         </LinearLayout>
     </ScrollView>
-
-
-
-
-
-
 
     </android.support.v4.widget.DrawerLayout>
