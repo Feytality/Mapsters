@@ -7,12 +7,17 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import delta.soen390.mapsters.R;
 
@@ -62,6 +67,17 @@ public class SettingsActivity extends PreferenceActivity {
         sectionHeader.setTitle(R.string.pref_header_map_settings);
         getPreferenceScreen().addPreference(sectionHeader);
         addPreferencesFromResource(R.xml.pref_notification);
+        String[] selections = {getString(R.string.is_shuttle),getString(R.string.is_driving),getString(R.string.is_cycling),getString(R.string.is_walking)};
+        Set<String> selectionSet = new HashSet<String>();
+        selectionSet.addAll(Arrays.asList(selections));
+
+        MultiSelectListPreference multiSelectPref = new MultiSelectListPreference(this);
+        multiSelectPref.setKey("transit_views");
+        multiSelectPref.setTitle("Transit View");
+        multiSelectPref.setEntries(selections);
+        multiSelectPref.setEntryValues(selections);
+        multiSelectPref.setDefaultValue(selectionSet);
+        getPreferenceScreen().addPreference(multiSelectPref);
 
         // Add 'data and sync' preferences, and a corresponding header.
         sectionHeader = new PreferenceCategory(this);
@@ -78,6 +94,7 @@ public class SettingsActivity extends PreferenceActivity {
 //      bindPreferenceSummaryToValue(findPreference("message_pref"));
 //       bindPreferenceSummaryToValue(findPreference("vibrate_pref"));
 //       bindPreferenceSummaryToValue(findPreference("ringtone_pref"));
+
 
     }
 
