@@ -72,7 +72,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startActivity(new Intent(this,SplashActivity.class));
+        startActivity(new Intent(this, SplashActivity.class));
         setContentView(R.layout.activity_maps);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getActionBar().hide();
@@ -80,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         //Setup the google map
         // initialize location
         mLocationService = new LocationService(getApplicationContext());
-        mImm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         mCampusSwitchUI = new CampusSwitchUI(this, mCampusViewSwitcher);
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment)).getMapAsync(this);
@@ -106,13 +106,12 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mDrawer = new NavigationDrawer(this);
         mDrawer.addButton();
 
-        String msg = PreferenceManager.getDefaultSharedPreferences(this).getString("campus_list","NOO");
+        String msg = PreferenceManager.getDefaultSharedPreferences(this).getString("campus_list", "NOO");
 
     }
 
 
-
-    public void initializeSlidingPane(){
+    public void initializeSlidingPane() {
 
         final SlidingFragment slidingFragment = new SlidingFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -152,7 +151,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
      * <p/>
-
+     * <p/>
      * This should only be called once and when we are sure that map is not null.
      */
     @Override
@@ -162,18 +161,18 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setBuildingsEnabled(false);
 
-       initializeMap(googleMap);
+        initializeMap(googleMap);
     }
 
     private void initializeMap(GoogleMap googleMap) {
         //Initialize the Campus Switch
-        mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap,mCampusSwitchUI));
+        mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap, mCampusSwitchUI));
 
         //Initialize the Building Polygons
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
 
         //Initialize the Direction Engine
-        mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap);
+        mDirectionEngine = new DirectionEngine(getApplicationContext(), googleMap);
 
         googleMap.setOnMapLongClickListener(this);
         googleMap.setOnMapClickListener(this);
@@ -182,7 +181,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
     @Override
     public boolean onMyLocationButtonClick() {
-        if(mMarker != null) {
+        if (mMarker != null) {
             mMarker.remove();
         }
 //        splitPane.setStartingLocation(new LatLng(mLocationService.getLastLocation().getLatitude(), mLocationService.getLastLocation().getLongitude()));
@@ -197,14 +196,14 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
     @Override
     public void onMapLongClick(LatLng point) {
-        if(mMarker != null){
+        if (mMarker != null) {
             mMarker.remove();
         }
         mMarker = mGoogleMap.addMarker(new MarkerOptions().position(point).title(
                 "Your starting location!"));
 
         // Set starting location.
-       setStartingLocation(point);
+        setStartingLocation(point);
     }
 
     @Override
@@ -215,30 +214,31 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1) {
-            if(resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
 
-                String result=data.getStringExtra("result");
+                String result = data.getStringExtra("result");
                 mCampusSwitchUI.getmCampusViewSwitcher().cameraToPoint(result);
                 Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
             }
             if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this,"whyyyyy",Toast.LENGTH_SHORT).show();            }
+                Toast.makeText(this, "whyyyyy", Toast.LENGTH_SHORT).show();
+            }
         }
     }//onActivityResult
 
-    
+
     @Override
     public void searchForRoom(String input) {
         boolean firstChar = false;
         String buildingCode = "";
 
-        for (char c : input.toCharArray()){
+        for (char c : input.toCharArray()) {
             if (Character.isLetter(c)) {
                 firstChar = true;
                 buildingCode += c;
                 continue;
             }
-            if (firstChar){
+            if (firstChar) {
                 break;
             }
         }
@@ -249,9 +249,9 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
         BuildingPolygon buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(buildingCode);
 
-        if (buildingPolygon!=null) {
+        if (buildingPolygon != null) {
             BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
-            mCampusSwitchUI.getmCampusViewSwitcher().zoomToLatLong(18,buildingPolygon.getBuildingInfo());
+            mCampusSwitchUI.getmCampusViewSwitcher().zoomToLatLong(18, buildingPolygon.getBuildingInfo());
             return;
         }
 
@@ -263,15 +263,14 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         BuildingPolygonManager.getInstance().clickPolygon(latLng);
         mImm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
-}
 
-public LocationService getLocationService() {
+
+    public LocationService getLocationService() {
         return mLocationService;
     }
 
 
-
-    public void getDirections(){
+    public void getDirections() {
         Log.i("Direction Button", "Clicked!");
         Location lastLocation = mLocationService.getLastLocation();
         if (lastLocation == null) {
@@ -282,20 +281,20 @@ public LocationService getLocationService() {
         }
 
         //TODO toast notify user of connectivity problem
-        if(mDirectionEngine == null) {
+        if (mDirectionEngine == null) {
             return;
         }
 
 
         LatLng currentBuildingCoordinates = BuildingPolygonManager.getInstance().getCurrentBuildingInfo().getCoordinates();
-        if(currentBuildingCoordinates == null)
+        if (currentBuildingCoordinates == null)
             return;
 
-        if(mCurrentDirectionPath != null){
+        if (mCurrentDirectionPath != null) {
             mCurrentDirectionPath.hideDirectionPath();
         }
 
-        if(mStartingLocation == null) {
+        if (mStartingLocation == null) {
             mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
                     new com.google.maps.model.LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),
                     GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
@@ -313,29 +312,27 @@ public LocationService getLocationService() {
     public void setStartingLocation(LatLng startingLocation) {
         // Note: should be able to set it null to clear it
         mStartingLocation = startingLocation;
-        if(startingLocation != null)
+        if (startingLocation != null)
             Log.i("Set starting location!", startingLocation.toString());
 
     }
 
 
-
     @Override
     public void onDataPass(SplitPane data) {
 
-        splitPane =data;
+        splitPane = data;
     }
 
 
-
-  //  public void onBackPressed(){}
+    //  public void onBackPressed(){}
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch(keyCode){
+        switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                    requestLowerPanel();
-                    initializeSlidingPane();
+                requestLowerPanel();
+                initializeSlidingPane();
                 return true;
         }
         this.onBackPressed();
