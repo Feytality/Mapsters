@@ -24,7 +24,7 @@ public class UIMapper {
         textPointer.setText(buildingInfo.getBuildingCode());//
 
         textPointer= (TextView) context.findViewById(R.id.campus);
-        textPointer.setText(buildingInfo.getCampus());//
+        textPointer.setText(buildingInfo.getCampus().toString());//
 
         textPointer= (TextView) context.findViewById(R.id.building_name);
         textPointer.setText(buildingInfo.getBuildingName());//

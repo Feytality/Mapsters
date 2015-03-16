@@ -57,7 +57,7 @@ public class BuildingDFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View arg1,
                                     int position, long arg3) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingPolygon(parent.getItemAtPosition(position).toString()).getBuildingInfo().getCoordinates().toString();
+                String result = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(parent.getItemAtPosition(position).toString()).getBuildingInfo().getCoordinates().toString();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
@@ -94,7 +94,7 @@ public class BuildingDFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingPolygon(parent.getItemAtPosition(position).toString()).getBuildingInfo().getCoordinates().toString();
+                String result = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(parent.getItemAtPosition(position).toString()).getBuildingInfo().getCoordinates().toString();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();

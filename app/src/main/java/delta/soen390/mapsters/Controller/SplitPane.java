@@ -98,7 +98,7 @@ public class SplitPane {
         mCurrentBuilding = buildingInfo;
         mBuildingName.setText(buildingInfo.getBuildingName());
         mBuildingCode.setText(buildingInfo.getBuildingCode());
-        mCampus.setText(buildingInfo.getCampus());
+        mCampus.setText(buildingInfo.getCampus().toString());
 
 
         clearViews();
@@ -145,9 +145,8 @@ public class SplitPane {
             mCurrentPaneText.add(titleRow);
 
             TextView infoRow;
-
+            mDestinationUrl = "";
             for (final String[] infoArray : info) {
-                mDestinationUrl = "";
                 String destUrl = "";
                 infoRow = new TextView(mContext);
 
@@ -157,8 +156,10 @@ public class SplitPane {
                     // correct the url
                     if(!mDestinationUrl.equals("")) {
                         destUrl = mDestinationUrl.concat(infoArray[1].substring(1));
-                    } else {
+                    } else if(!infoArray[1].equals("")) {
                         destUrl = mDefaultUrl.concat(infoArray[1].substring(1));
+                    } else {
+                        destUrl = mDefaultUrl;
                     }
                 }
 
@@ -178,8 +179,10 @@ public class SplitPane {
                                 // correct the url
                                 if(!mDestinationUrl.equals("")) {
                                     url = mDestinationUrl.concat(infoArray[1].substring(1));
-                                } else {
+                                } else if (!infoArray[1].equals("")) {
                                     url = mDefaultUrl.concat(infoArray[1].substring(1));
+                                } else {
+                                    url = mDefaultUrl;
                                 }
                             } else {
                                 url = infoArray[1];
