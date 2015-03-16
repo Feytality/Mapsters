@@ -86,9 +86,11 @@ public class SplitPane {
 
     public void updateContent(BuildingInfo buildingInfo) {
         if (mContext.getCurrentDirectionPath() == null) {
-            if (mDirectionButton != null) {
+            if (mCurrentBuilding == null) {
                 mDirectionButton.setVisibility(View.VISIBLE);
+
             }
+            mDirectionButton.setVisibility(View.VISIBLE);
             SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout) mContext.findViewById(R.id.sliding_layout);
             slidingUpPanelLayout.setTouchEnabled(true);
 
@@ -103,6 +105,7 @@ public class SplitPane {
             mBuildingName.setText(buildingInfo.getBuildingName());
             mBuildingCode.setText(buildingInfo.getBuildingCode());
             mCampus.setText(buildingInfo.getCampus());
+
 
             clearViews();
             // Create text views for the services and departments
