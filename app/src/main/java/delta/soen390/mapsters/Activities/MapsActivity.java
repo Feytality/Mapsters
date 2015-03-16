@@ -7,15 +7,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -23,6 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.model.TravelMode;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -68,11 +67,12 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     private BuildingInfo mCurrentBuilding;
     private DirectionEngine.DirectionPath mCurrentDirectionPath;
 
+    private SlidingUpPanelLayout mSlidingUpPanelLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startActivity(new Intent(this, SplashActivity.class));
+        startActivity(new Intent(this,SplashActivity.class));
         setContentView(R.layout.activity_maps);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getActionBar().hide();
@@ -88,6 +88,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         setImageOptions();
         //Initialize the SlidingUpPanel
         initializeSlidingPane();
+        mSlidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        mSlidingUpPanelLayout.setTouchEnabled(false);
 
         //Initialize the CalendarEventManager
         mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
@@ -106,12 +108,13 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mDrawer = new NavigationDrawer(this);
         mDrawer.addButton();
 
-        String msg = PreferenceManager.getDefaultSharedPreferences(this).getString("campus_list", "NOO");
+        String msg = PreferenceManager.getDefaultSharedPreferences(this).getString("campus_list","NOO");
 
     }
 
 
-    public void initializeSlidingPane() {
+
+    public void initializeSlidingPane(){
 
         final SlidingFragment slidingFragment = new SlidingFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -151,7 +154,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
      * This is where we can add markers or lines, add listeners or move the camera. In this case, we
      * just add a marker near Africa.
      * <p/>
-     * <p/>
+
      * This should only be called once and when we are sure that map is not null.
      */
     @Override
@@ -161,7 +164,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setBuildingsEnabled(false);
 
-        initializeMap(googleMap);
+       initializeMap(googleMap);
     }
 
     private void initializeMap(GoogleMap googleMap) {
@@ -172,16 +175,17 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
 
         //Initialize the Direction Engine
-        mDirectionEngine = new DirectionEngine(getApplicationContext(), googleMap);
+        mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap);
 
         googleMap.setOnMapLongClickListener(this);
         googleMap.setOnMapClickListener(this);
         mGoogleMap = googleMap;
+
     }
 
     @Override
     public boolean onMyLocationButtonClick() {
-        if (mMarker != null) {
+        if(mMarker != null) {
             mMarker.remove();
         }
 //        splitPane.setStartingLocation(new LatLng(mLocationService.getLastLocation().getLatitude(), mLocationService.getLastLocation().getLongitude()));
@@ -196,14 +200,14 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
     @Override
     public void onMapLongClick(LatLng point) {
-        if (mMarker != null) {
+        if(mMarker != null){
             mMarker.remove();
         }
         mMarker = mGoogleMap.addMarker(new MarkerOptions().position(point).title(
                 "Your starting location!"));
 
         // Set starting location.
-        setStartingLocation(point);
+       setStartingLocation(point);
     }
 
     @Override
@@ -214,15 +218,14 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
+            if(resultCode == RESULT_OK){
 
-                String result = data.getStringExtra("result");
+                String result=data.getStringExtra("result");
                 mCampusSwitchUI.getmCampusViewSwitcher().cameraToPoint(result);
                 Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
             }
             if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "whyyyyy", Toast.LENGTH_SHORT).show();
-            }
+                Toast.makeText(this,"whyyyyy",Toast.LENGTH_SHORT).show();            }
         }
     }//onActivityResult
 
@@ -270,7 +273,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     }
 
 
-    public void getDirections() {
+
+    public void getDirections(){
         Log.i("Direction Button", "Clicked!");
         Location lastLocation = mLocationService.getLastLocation();
         if (lastLocation == null) {
@@ -281,20 +285,20 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         }
 
         //TODO toast notify user of connectivity problem
-        if (mDirectionEngine == null) {
+        if(mDirectionEngine == null) {
             return;
         }
 
 
         LatLng currentBuildingCoordinates = BuildingPolygonManager.getInstance().getCurrentBuildingInfo().getCoordinates();
-        if (currentBuildingCoordinates == null)
+        if(currentBuildingCoordinates == null)
             return;
 
-        if (mCurrentDirectionPath != null) {
+        if(mCurrentDirectionPath != null){
             mCurrentDirectionPath.hideDirectionPath();
         }
 
-        if (mStartingLocation == null) {
+        if(mStartingLocation == null) {
             mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
                     new com.google.maps.model.LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),
                     GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
@@ -308,11 +312,49 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mCurrentDirectionPath.showDirectionPath();
 
     }
+    public void getDirections(TravelMode mode){
+        Log.i("Direction Button", "Clicked!");
+        Location lastLocation = mLocationService.getLastLocation();
+        if (lastLocation == null) {
+            Log.i("last direction", "null");
+            return;
+        } else {
+            Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
+        }
+
+        //TODO toast notify user of connectivity problem
+        if(mDirectionEngine == null) {
+            return;
+        }
+
+
+        LatLng currentBuildingCoordinates = BuildingPolygonManager.getInstance().getCurrentBuildingInfo().getCoordinates();
+        if(currentBuildingCoordinates == null)
+            return;
+
+        if(mCurrentDirectionPath != null){
+            mCurrentDirectionPath.hideDirectionPath();
+        }
+
+        if(mStartingLocation == null) {
+            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
+                    new com.google.maps.model.LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),
+                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates),mode);
+        } else {
+            // Else, starting location is set (by placing marker on map), use the choosen location coordinates instead.
+            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
+                    GoogleMapstersUtils.toDirectionsLatLng(mStartingLocation),
+                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates),mode);
+        }
+
+        mCurrentDirectionPath.showDirectionPath();
+
+    }
 
     public void setStartingLocation(LatLng startingLocation) {
         // Note: should be able to set it null to clear it
         mStartingLocation = startingLocation;
-        if (startingLocation != null)
+        if(startingLocation != null)
             Log.i("Set starting location!", startingLocation.toString());
 
     }
@@ -326,18 +368,24 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     @Override
     public void onDataPass(SplitPane data) {
 
-        splitPane = data;
+        splitPane =data;
     }
 
 
-    //  public void onBackPressed(){}
+
+  //  public void onBackPressed(){}
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
+        switch(keyCode){
             case KeyEvent.KEYCODE_BACK:
-                requestLowerPanel();
-                initializeSlidingPane();
+                    requestLowerPanel();
+                    initializeSlidingPane();
+                    if(mCurrentDirectionPath != null) {
+                        mCurrentDirectionPath.hideDirectionPath();
+                        mCurrentDirectionPath = null;
+                    }
+                    mSlidingUpPanelLayout.setTouchEnabled(false);
                 return true;
         }
         this.onBackPressed();
@@ -348,6 +396,10 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         SlidingUpPanelLayout panel = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         if (panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
             panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+    }
+
+    public DirectionEngine.DirectionPath getCurrentDirectionPath() {
+        return mCurrentDirectionPath;
     }
 
 }

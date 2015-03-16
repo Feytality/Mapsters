@@ -24,7 +24,8 @@
                     android:layout_width="208dp"
                     android:layout_height="208dp"
                     android:id="@+id/building_image"
-                    android:layout_gravity="center_vertical|top" />
+                    android:layout_gravity="center_vertical|top"
+                    android:visibility="visible" />
 
 
             </LinearLayout>
@@ -48,9 +49,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/t1"
+                android:id="@+id/direction_text"
                 android:layout_gravity="center_horizontal"
-                android:text="Directions" />
+                android:text="Directions"
+                android:visibility="visible" />
 
             <ImageButton
                 android:layout_width="53dp"
@@ -60,7 +62,8 @@
                 android:scaleType="fitXY"
                 android:padding="0dp"
                 style="?android:attr/borderlessButtonStyle"
-                android:layout_gravity="center|bottom" />
+                android:layout_gravity="center|bottom"
+                android:visibility="visible" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -177,7 +180,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/building"
             android:id="@+id/building_code"
             android:layout_gravity="center_horizontal|left|top"
             android:padding="5dp"
@@ -187,7 +189,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="SGW"
             android:id="@+id/campus"
             android:layout_gravity="right"
             android:padding="5dp"
@@ -197,7 +198,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Molson Pavillion"
             android:id="@+id/building_name"
             android:layout_gravity="center_horizontal"
             android:padding="5dp"
