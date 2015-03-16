@@ -299,5 +299,9 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
 
+    public DirectionEngine.DirectionPath getCurrentDirectionPath() {
+        return mCurrentDirectionPath;
+    }
+
 }
 

@@ -119,10 +119,10 @@ public class SplitPane {
 
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
-            DirectionStepsFragment dirOptionFragment = new DirectionStepsFragment();
+           DirectionStepsFragment dirOptionFragment = new DirectionStepsFragment();
             FragmentManager fragmentManager = mContext.getSupportFragmentManager();
             fragmentManager.beginTransaction().addToBackStack("info")
-                    .replace(R.id.sliding_container,dirOptionFragment )
+                    .replace(R.id.sliding_container, dirOptionFragment)
                     .commit();
 
         }
