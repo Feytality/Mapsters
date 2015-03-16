@@ -285,16 +285,19 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch(keyCode){
             case KeyEvent.KEYCODE_BACK:
-                SlidingUpPanelLayout panel = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-                if(panel.getPanelState()== SlidingUpPanelLayout.PanelState.EXPANDED) {
-                panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-                initializeSlidingPane();
-
-                }
+                    requestLowerPanel();
+                    initializeSlidingPane();
                 return true;
         }
         this.onBackPressed();
         return super.onKeyDown(keyCode, event);
     }
+
+    public void requestLowerPanel() {
+        SlidingUpPanelLayout panel = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        if (panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
+            panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+    }
+
 }
 

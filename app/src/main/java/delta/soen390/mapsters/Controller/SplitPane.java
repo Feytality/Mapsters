@@ -6,7 +6,6 @@ import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -84,8 +83,14 @@ public class SplitPane {
             mDirectionButton.setVisibility(View.VISIBLE);
         }
 
+        //reconnect with views, if lost when swapping fragments
+        mBuildingName = (TextView) mContext.findViewById(R.id.building_name);
+        mBuildingCode = (TextView) mContext.findViewById(R.id.building_code);
+        mCampus = (TextView) mContext.findViewById(R.id.campus);
+        mBuildingServices = (TextView) mContext.findViewById(R.id.building_services);
+        mBuildingPictureView = (ImageView) mContext.findViewById(R.id.building_image);
+
         mCurrentBuilding = buildingInfo;
-        Log.e("*********************",mBuildingCode.getText().toString());
         mBuildingName.setText(buildingInfo.getBuildingName());
         mBuildingCode.setText(buildingInfo.getBuildingCode());
         mCampus.setText(buildingInfo.getCampus());
@@ -111,7 +116,6 @@ public class SplitPane {
         public void onClick(View v) {
             DirOptionFragment dirOptionFragment = new DirOptionFragment();
             FragmentManager fragmentManager = mContext.getSupportFragmentManager();
-
             fragmentManager.beginTransaction().addToBackStack("info")
                     .replace(R.id.sliding_container,dirOptionFragment )
                     .commit();
