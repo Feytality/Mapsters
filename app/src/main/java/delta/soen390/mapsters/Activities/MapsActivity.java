@@ -289,6 +289,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                     initializeSlidingPane();
                     if(mCurrentDirectionPath != null) {
                         mCurrentDirectionPath.hideDirectionPath();
+                        mCurrentDirectionPath = null;
                     }
                 return true;
         }
