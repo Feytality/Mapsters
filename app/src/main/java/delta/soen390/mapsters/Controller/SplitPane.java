@@ -79,9 +79,6 @@ public class SplitPane {
     }
 
     public void updateContent(BuildingInfo buildingInfo) {
-
-
-
         if (mCurrentBuilding == null) {
             mDirectionButton.setVisibility(View.VISIBLE);
         }
@@ -92,7 +89,7 @@ public class SplitPane {
         mCampus = (TextView) mContext.findViewById(R.id.campus);
         mBuildingServices = (TextView) mContext.findViewById(R.id.building_services);
         mBuildingPictureView = (ImageView) mContext.findViewById(R.id.building_image);
-
+        //set em
         mCurrentBuilding = buildingInfo;
         mBuildingName.setText(buildingInfo.getBuildingName());
         mBuildingCode.setText(buildingInfo.getBuildingCode());
