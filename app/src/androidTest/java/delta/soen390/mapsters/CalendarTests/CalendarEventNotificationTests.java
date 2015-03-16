@@ -2,7 +2,6 @@ package delta.soen390.mapsters.CalendarTests;
 
 import android.content.ContentResolver;
 import android.test.AndroidTestCase;
-import android.test.mock.MockApplication;
 import android.test.mock.MockContentResolver;
 import android.test.mock.MockContext;
 
@@ -13,7 +12,9 @@ import delta.soen390.mapsters.Calendar.CalendarEvent;
 import delta.soen390.mapsters.Calendar.CalendarEventNotification;
 
 /**
+ *
  * Created by Felicia on 2015-02-25.
+ *
  */
 public class CalendarEventNotificationTests extends AndroidTestCase {
     private CalendarNotificationContext mMockContext;
@@ -25,7 +26,7 @@ public class CalendarEventNotificationTests extends AndroidTestCase {
     protected void setUp() throws Exception {
         mMockContext = new CalendarNotificationContext();
         mMapsActivity = new MapsActivity();
-        mCEvent = new CalendarEvent("H", "SGW", "Hall", new DateTime(1424877564), new DateTime(1424877564));
+        mCEvent = new CalendarEvent("H", "SGW", "Hall", new DateTime(1424877564), new DateTime(1424877564), new DateTime(1424877564));
         mCENotification = new CalendarEventNotification(mMockContext, mMapsActivity, mCEvent);
     }
 

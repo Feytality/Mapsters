@@ -107,5 +107,11 @@
 
     <string name="title_activity_launch">LaunchActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pref_title_first_screen">First Screen to Display</string>
+    <string name="pref_title_sync_now">Sync Now</string>
+    <string name="is_shuttle">Shuttle</string>
+    <string name="is_driving">Driving</string>
+    <string name="is_cycling">Cycling</string>
+    <string name="is_walking">Walking</string>
 
 </resources>

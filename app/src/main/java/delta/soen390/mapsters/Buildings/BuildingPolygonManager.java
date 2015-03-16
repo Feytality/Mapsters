@@ -30,6 +30,7 @@ public class BuildingPolygonManager {
     //Whenever the user clicks a building, that building is focused.
     //Only one building can be focused at a time
     private BuildingPolygon mCurrentlyFocusedBuilding;
+    private BuildingInfo mCurrentBuildingInfo;
 
     private BuildingPolygonManager() {
         initialize();
