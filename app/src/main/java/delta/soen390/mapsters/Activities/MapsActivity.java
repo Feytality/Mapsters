@@ -67,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     private BuildingInfo mCurrentBuilding;
     private DirectionEngine.DirectionPath mCurrentDirectionPath;
 
+    private SlidingUpPanelLayout mSlidingUpPanelLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +88,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         setImageOptions();
         //Initialize the SlidingUpPanel
         initializeSlidingPane();
-        SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        slidingUpPanelLayout.setTouchEnabled(false);
+        mSlidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        mSlidingUpPanelLayout.setTouchEnabled(false);
 
         //Initialize the CalendarEventManager
         mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
@@ -384,6 +385,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                         mCurrentDirectionPath.hideDirectionPath();
                         mCurrentDirectionPath = null;
                     }
+                    mSlidingUpPanelLayout.setTouchEnabled(false);
                 return true;
         }
         this.onBackPressed();

@@ -76,6 +76,7 @@ public class SplitPane {
             if (mDirectionButton != null) {
                 mDirectionButton.setVisibility(View.VISIBLE);
             }
+            mDirectionButton.setVisibility(View.VISIBLE);
             SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout) mContext.findViewById(R.id.sliding_layout);
             slidingUpPanelLayout.setTouchEnabled(true);
 

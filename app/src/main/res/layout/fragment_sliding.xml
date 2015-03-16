@@ -63,7 +63,7 @@
                 android:padding="0dp"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_gravity="center|bottom"
-                android:visibility="invisible" />
+                android:visibility="visible" />
 
             <TextView
                 android:layout_width="wrap_content"
