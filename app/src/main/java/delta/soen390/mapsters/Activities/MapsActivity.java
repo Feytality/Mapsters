@@ -270,6 +270,10 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     }
 
 
+    public DirectionEngine getDirectionEngine()
+    {
+        return mDirectionEngine;
+    }
 
     @Override
     public void onDataPass(SplitPane data) {
