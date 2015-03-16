@@ -9,12 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
+import android.widget.Toast;
 
+import com.google.maps.model.TravelMode;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import delta.soen390.mapsters.Activities.DirectionStepsFragment;
 import delta.soen390.mapsters.R;
 
 
@@ -54,11 +57,11 @@ public class DirOptionFragment extends Fragment {
         tabHost.addTab(tabHost.newTabSpec("STM").setIndicator("STM"), GetSteps.class, null);
 
         if (defaults.contains(isShuttle)){
-            tabHost.addTab(tabHost.newTabSpec(isShuttle).setIndicator(isShuttle), GetSteps.class, null);
+            tabHost.addTab(tabHost.newTabSpec(isShuttle).setIndicator(isShuttle), DirectionStepsFragment.class, null);
         } if (defaults.contains(isDriving)){
             tabHost.addTab(tabHost.newTabSpec(isDriving).setIndicator(isDriving), GetSteps.class, null);
         } if (defaults.contains(isWalking)){
-            tabHost.addTab(tabHost.newTabSpec(isWalking).setIndicator(isWalking), GetSteps.class, null);
+            tabHost.addTab(tabHost.newTabSpec(isWalking).setIndicator(isWalking), DirectionStepsFragment.class, null);
         } if (defaults.contains(isCycling)){
             tabHost.addTab(tabHost.newTabSpec(isCycling).setIndicator(isCycling), GetSteps.class, null);
 
@@ -68,7 +71,7 @@ public class DirOptionFragment extends Fragment {
             tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
                 @Override
                 public void onTabChanged(String tabId) {
-
+            Toast.makeText(getActivity().getApplicationContext(), TravelMode.BICYCLING.toString(),Toast.LENGTH_SHORT).show();
                     git = new GetSteps();
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.steps_layout, git)

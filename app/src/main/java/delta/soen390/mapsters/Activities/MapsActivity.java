@@ -19,6 +19,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.model.TravelMode;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -255,6 +256,44 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
                     GoogleMapstersUtils.toDirectionsLatLng(mStartingLocation),
                     GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
+        }
+
+        mCurrentDirectionPath.showDirectionPath();
+
+    }
+    public void getDirections(TravelMode mode){
+        Log.i("Direction Button", "Clicked!");
+        Location lastLocation = mLocationService.getLastLocation();
+        if (lastLocation == null) {
+            Log.i("last direction", "null");
+            return;
+        } else {
+            Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
+        }
+
+        //TODO toast notify user of connectivity problem
+        if(mDirectionEngine == null) {
+            return;
+        }
+
+
+        LatLng currentBuildingCoordinates = BuildingPolygonManager.getInstance().getCurrentBuildingInfo().getCoordinates();
+        if(currentBuildingCoordinates == null)
+            return;
+
+        if(mCurrentDirectionPath != null){
+            mCurrentDirectionPath.hideDirectionPath();
+        }
+
+        if(mStartingLocation == null) {
+            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
+                    new com.google.maps.model.LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),
+                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates),mode);
+        } else {
+            // Else, starting location is set (by placing marker on map), use the choosen location coordinates instead.
+            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
+                    GoogleMapstersUtils.toDirectionsLatLng(mStartingLocation),
+                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates),mode);
         }
 
         mCurrentDirectionPath.showDirectionPath();
