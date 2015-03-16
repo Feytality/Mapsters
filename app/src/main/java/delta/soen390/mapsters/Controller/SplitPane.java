@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 
@@ -85,9 +86,11 @@ public class SplitPane {
 
     public void updateContent(BuildingInfo buildingInfo) {
         if (mContext.getCurrentDirectionPath() == null) {
-            if (mCurrentBuilding == null) {
+            if (mDirectionButton != null) {
                 mDirectionButton.setVisibility(View.VISIBLE);
             }
+            SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout) mContext.findViewById(R.id.sliding_layout);
+            slidingUpPanelLayout.setTouchEnabled(true);
 
             //reconnect with views, if lost when swapping fragments
             mBuildingName = (TextView) mContext.findViewById(R.id.building_name);
@@ -100,7 +103,6 @@ public class SplitPane {
             mBuildingName.setText(buildingInfo.getBuildingName());
             mBuildingCode.setText(buildingInfo.getBuildingCode());
             mCampus.setText(buildingInfo.getCampus());
-
 
             clearViews();
             // Create text views for the services and departments

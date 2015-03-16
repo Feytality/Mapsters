@@ -78,6 +78,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         setImageOptions();
         //Initialize the SlidingUpPanel
         initializeSlidingPane();
+        SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        slidingUpPanelLayout.setTouchEnabled(false);
 
         //Initialize the CalendarEventManager
         mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
@@ -299,6 +301,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
     public void requestLowerPanel() {
         SlidingUpPanelLayout panel = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+
         if (panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
             panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
