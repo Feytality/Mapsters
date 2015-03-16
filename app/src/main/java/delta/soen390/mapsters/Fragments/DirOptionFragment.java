@@ -56,7 +56,7 @@ public class DirOptionFragment extends Fragment {
         tabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
         //Always here
-        tabHost.addTab(tabHost.newTabSpec(isTransit).setIndicator(isTransit), GetSteps.class, null);
+        tabHost.addTab(tabHost.newTabSpec(isTransit).setIndicator(isTransit), DirectionStepsFragment.class, null);
 
         if (defaults.contains(isShuttle)){
             tabHost.addTab(tabHost.newTabSpec(isShuttle).setIndicator(isShuttle), DirectionStepsFragment.class, null);
@@ -64,9 +64,9 @@ public class DirOptionFragment extends Fragment {
             tabHost.addTab(tabHost.newTabSpec(isDriving).setIndicator(isDriving), DirectionStepsFragment.class, null);
         } if (defaults.contains(isWalking)){
             tabHost.addTab(tabHost.newTabSpec(isWalking).setIndicator(isWalking), DirectionStepsFragment.class, null);
-        } if (defaults.contains(isCycling)){
+        } if (defaults.contains(isCycling)) {
             tabHost.addTab(tabHost.newTabSpec(isCycling).setIndicator(isCycling), DirectionStepsFragment.class, null);
-
+        }
 
             //Listerner BAY - refactor
 
@@ -91,13 +91,12 @@ public class DirOptionFragment extends Fragment {
                     m.getDirections(TravelMode.WALKING);
                 }
 
-
                 }
 
             });
 
 
-        }        return tabHost;
+                return tabHost;
     }
 
 
