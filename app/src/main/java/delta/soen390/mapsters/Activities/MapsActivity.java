@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
@@ -98,12 +100,16 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
     }
 
-    private void initializeSlidingPane(){
-        SlidingFragment slidingFragment = new SlidingFragment();
+
+
+    public void initializeSlidingPane(){
+
+        final SlidingFragment slidingFragment = new SlidingFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.sliding_container,slidingFragment )
+                .replace(R.id.sliding_container, slidingFragment, "info")
                 .commit();
+
     }
 
     public void setImageOptions() {
@@ -129,6 +135,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     protected void onResume() {
         super.onResume();
         mLocationService.getGoogleApiClient().connect();
+
     }
 
     /**
@@ -269,5 +276,28 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
         splitPane =data;
     }
+
+
+
+  //  public void onBackPressed(){}
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch(keyCode){
+            case KeyEvent.KEYCODE_BACK:
+                    requestLowerPanel();
+                    initializeSlidingPane();
+                return true;
+        }
+        this.onBackPressed();
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void requestLowerPanel() {
+        SlidingUpPanelLayout panel = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        if (panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
+            panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+    }
+
 }
 

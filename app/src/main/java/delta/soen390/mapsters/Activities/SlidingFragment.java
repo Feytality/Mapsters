@@ -14,8 +14,12 @@ import delta.soen390.mapsters.R;
 
 
 
-public class SlidingFragment extends Fragment {
+public class SlidingFragment extends Fragment{
     private SplitPane splitPane;
+    private SlidingUpPanelLayout panelLayout;
+    private View view;
+
+
 
     public interface OnDataPass {
         public void onDataPass(SplitPane data);
@@ -27,6 +31,9 @@ public class SlidingFragment extends Fragment {
     public void onAttach(Activity a) {
         super.onAttach(a);
         dataPasser = (OnDataPass) a;
+
+
+
     }
 
 
@@ -43,10 +50,11 @@ public class SlidingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sliding, container, false);
+         view = inflater.inflate(R.layout.fragment_sliding, container, false);
         MapsActivity mapsActivity = (MapsActivity)dataPasser;
-        SlidingUpPanelLayout panelLayout =(SlidingUpPanelLayout) mapsActivity.findViewById(R.id.sliding_layout);
-        panelLayout.setAnchorPoint(0.50f);
+       panelLayout =(SlidingUpPanelLayout) mapsActivity.findViewById(R.id.sliding_layout);
+        view.setFocusableInTouchMode(true);
+
 
         splitPane = new SplitPane(view, 0.50f, mapsActivity.getLocationService(), mapsActivity);
         passData(splitPane);
@@ -57,4 +65,7 @@ public class SlidingFragment extends Fragment {
         dataPasser.onDataPass(data);
 
     }
+
+
+
 }

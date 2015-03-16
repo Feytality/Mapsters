@@ -14,6 +14,7 @@
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
         android:layout_height="wrap_content"
         android:text="X"
         android:id="@+id/clr_button"

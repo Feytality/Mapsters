@@ -89,6 +89,7 @@ public class BuildingPolygonManager {
 
                     //Focus the selected building
                     focusBuildingPolygon(polygon);
+
                     splitPane.updateContent(mCurrentBuildingInfo);
                 }
 
