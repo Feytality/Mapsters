@@ -41,20 +41,19 @@ public class DirectionStepsFragment extends Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(mapsActivity);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
-        DirectionsStepAdapter ca = new DirectionsStepAdapter(createTravelSteps(mapsActivity.getCurrentDirectionPath().getTravelSteps()));
+        DirectionsStepAdapter ca = new DirectionsStepAdapter(createTravelSteps(mapsActivity.getCurrentDirectionPath().getTravelSteps()), mapsActivity);
         recList.setAdapter(ca);
         return view;
     }
 
     private List createTravelSteps(ArrayList<TravelResponseInfo.TravelStep> steps) {
         List result = new ArrayList();
-        for (int i = 1; i <= steps.size(); i++) {
+        for (int i = 1; i < steps.size(); i++) {
             ArrayList<String> stepName = new ArrayList<>();
             stepName.add(steps.get(i).getStepName());
             DirectionStep ds = new DirectionStep();
             ds.setStep(ds.getStepPrefix() + i);
             ds.setSteps(stepName);
-
             result.add(ds);
         }
 

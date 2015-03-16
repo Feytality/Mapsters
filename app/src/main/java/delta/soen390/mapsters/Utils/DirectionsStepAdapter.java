@@ -1,15 +1,15 @@
 package delta.soen390.mapsters.Utils;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Controller.DirectionStep;
 import delta.soen390.mapsters.R;
 
@@ -18,23 +18,34 @@ import delta.soen390.mapsters.R;
  */
 public class DirectionsStepAdapter extends RecyclerView.Adapter<DirectionsStepAdapter.DirectionsStepViewHolder> {
 
-    private List<DirectionStep> contactList;
+    private List<DirectionStep> mStepsList;
+    private MapsActivity mContext;
 
-    public DirectionsStepAdapter(List<DirectionStep> contactList) {
-        this.contactList = contactList;
+    public DirectionsStepAdapter(List<DirectionStep> stepsList, MapsActivity context) {
+        mStepsList = stepsList;
+        mContext = context;
     }
 
     @Override
     public int getItemCount() {
-        return contactList.size();
+        return mStepsList.size();
     }
 
     @Override
     public void onBindViewHolder(DirectionsStepViewHolder directionsStepViewHolder, int i) {
-        DirectionStep ds = contactList.get(i);
+        DirectionStep ds = mStepsList.get(i);
         directionsStepViewHolder.vSteps.setText(ds.getSteps().toString());
         directionsStepViewHolder.vStepTitle.setText(ds.getStep());
+        directionsStepViewHolder.vSteps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                mContext.requestLowerPanel();
+            }
+
+        });
     }
+
+
 
     @Override
     public DirectionsStepViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
