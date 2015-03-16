@@ -22,20 +22,10 @@
             android:textColor="@android:color/white"
             android:textSize="14dp"/>
 
-       <!-- <TextView
-            android:id="@+id/txtName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textSize="10dp"
-            android:layout_below="@id/title"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="5dp"/> -->
-
         <TextView
             android:id="@+id/stepText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:textSize="10dp"
             android:layout_below="@id/stepTitle"

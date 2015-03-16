@@ -326,6 +326,9 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             case KeyEvent.KEYCODE_BACK:
                     requestLowerPanel();
                     initializeSlidingPane();
+                    if(mCurrentDirectionPath != null) {
+                        mCurrentDirectionPath.hideDirectionPath();
+                    }
                 return true;
         }
         this.onBackPressed();
