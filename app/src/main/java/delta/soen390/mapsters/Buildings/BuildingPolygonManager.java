@@ -1,6 +1,7 @@
 package delta.soen390.mapsters.Buildings;
 
 import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -23,6 +24,8 @@ public class BuildingPolygonManager {
     private static BuildingPolygonManager sBuildingPolygonManager;
     private int mBuildingFocusFillColor;
     private int mBuildingStandardFillColor;
+    private SplitPane mSplitPane;
+
 
     //Whenever the user clicks a building, that building is focused.
     //Only one building can be focused at a time
@@ -64,7 +67,7 @@ public class BuildingPolygonManager {
 	public void loadResources(GoogleMap gMap, final SplitPane splitPane, Context context) {
 		JSONObject jsonBuildingPolygons = JsonReader.ReadJsonFromFile(context,"buildingJson.json");
         PolygonSerializer polygonSerializer = new PolygonSerializer(gMap);
-
+        mSplitPane = splitPane;
         mBuildingPolygons       = polygonSerializer.createPolygonArray(jsonBuildingPolygons);
         //TODO load from values
         float   borderWidth     = 4.0f;//context.getResources().getDimension(R.dimen.polygon_border_width);
@@ -78,27 +81,20 @@ public class BuildingPolygonManager {
 
             unfocusBuildingPolygon(polygon);
         }
-        //Set the listener
-        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
-            @Override
-            public void onMapClick(LatLng point) {
-               BuildingPolygon polygon = getClickedPolygon(point);
-                if(polygon != null) {
-                    mCurrentBuildingInfo = polygon.getBuildingInfo();
-
-                    //Focus the selected building
-                    focusBuildingPolygon(polygon);
-
-                    splitPane.updateContent(mCurrentBuildingInfo);
-                }
-
-            }
-        });
     }
 
-    public BuildingInfo getCurrentBuildingInfo(){
-        return mCurrentBuildingInfo;
+    public void clickPolygon(LatLng point){
+        BuildingPolygon polygon = getClickedPolygon(point);
+        if(polygon != null) {
+            clickAndPopulate(polygon);
+        }
+    }
+
+    public void clickAndPopulate(BuildingPolygon buildingPolygon){
+        BuildingInfo buildingInfo = buildingPolygon.getBuildingInfo();
+        //Focus the selected building
+        focusBuildingPolygon(buildingPolygon);
+        mSplitPane.updateContent(buildingInfo);
     }
 
     //Will create a focus effect on the passed BuildingPolygon
@@ -118,8 +114,10 @@ public class BuildingPolygonManager {
         polygon.setFillColor(mBuildingStandardFillColor);
     }
 
-    public BuildingPolygon getBuildingPolygon(String buildingCode)
+    public BuildingPolygon getBuildingPolygonByBuildingCode(String buildingCode)
     {
+        buildingCode = buildingCode.toUpperCase();
+
         if (buildingCode != null && !buildingCode.equals("")) {
             for (int i = 0; i < mBuildingPolygons.size(); ++i) {
                 BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
@@ -131,7 +129,6 @@ public class BuildingPolygonManager {
 
         return null;
     }
-
 
 
     public BuildingInfo getBuildingInfoByService(String service) {

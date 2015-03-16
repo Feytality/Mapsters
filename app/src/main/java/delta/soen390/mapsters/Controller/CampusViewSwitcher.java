@@ -11,7 +11,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
+import delta.soen390.mapsters.Buildings.BuildingInfo;
+import delta.soen390.mapsters.Data.Campus;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
 /**
  * Created by Mathieu on 2/11/2015.
@@ -24,11 +27,13 @@ public class CampusViewSwitcher {
 
     private Activity mActivity;
     private GoogleMap  mMap;
+    private CampusSwitchUI mSwitchUI;
 
     private boolean mIsLoyolaDisplayed = true;
 
-    public CampusViewSwitcher(Activity activity, GoogleMap map)
+    public CampusViewSwitcher(Activity activity, GoogleMap map, CampusSwitchUI switchUI)
     {
+        mSwitchUI = switchUI;
         mActivity = activity;
         mMap = map;
         mMapSwitcher = (ViewSwitcher) mActivity.findViewById(R.id.mapSwitcher);
@@ -37,9 +42,10 @@ public class CampusViewSwitcher {
         LoadCampusViews();
     }
 
-    public CampusViewSwitcher(FragmentActivity activity, GoogleMap map)
+    public CampusViewSwitcher(FragmentActivity activity, GoogleMap map, CampusSwitchUI switchUI)
     {
         mActivity = activity;
+        mSwitchUI = switchUI;
         mMap = map;
         mMapSwitcher = (ViewSwitcher) mActivity.findViewById(R.id.mapSwitcher);
 
@@ -107,10 +113,20 @@ public class CampusViewSwitcher {
     }
 
     public void cameraToPoint(String latlong){
-        LatLng ll =parseCoordinate(latlong);
-        Log.e("*******************************************", ll.toString());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 18));
+        LatLng latLng =parseCoordinate(latlong);
+        zoomToLatLong(18, latLng);
+    }
 
+    public void zoomToLatLong(int zoomLevel,BuildingInfo info){
+        Log.i("","This is the current campus"+mSwitchUI.getCurrentCampus().toString());
+        if (!info.getCampus().equals(mSwitchUI.getCurrentCampus())){
+            mSwitchUI.toggleCampusSwitch();
+        }
+        zoomToLatLong(zoomLevel, info.getCoordinates());
+    }
+
+    public void zoomToLatLong(int zoomLevel, LatLng latLng){
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
     }
 
 

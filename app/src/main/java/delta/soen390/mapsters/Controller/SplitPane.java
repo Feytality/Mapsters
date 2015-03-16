@@ -98,7 +98,7 @@ public class SplitPane {
         mCurrentBuilding = buildingInfo;
         mBuildingName.setText(buildingInfo.getBuildingName());
         mBuildingCode.setText(buildingInfo.getBuildingCode());
-        mCampus.setText(buildingInfo.getCampus());
+        mCampus.setText(buildingInfo.getCampus().toString());
 
 
         clearViews();

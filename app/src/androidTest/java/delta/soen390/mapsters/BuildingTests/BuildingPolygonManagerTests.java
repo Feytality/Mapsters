@@ -39,12 +39,12 @@ public class BuildingPolygonManagerTests extends AndroidTestCase {
     }
 
     public void testGetBuildingPolygonNull() {
-        BuildingPolygon retVal = mBuildingPolygonManager.getBuildingPolygon(null);
+        BuildingPolygon retVal = mBuildingPolygonManager.getBuildingPolygonByBuildingCode(null);
         assertNull(retVal);
     }
 
     public void testGetBuildingPolygonEmpty() {
-        BuildingPolygon retVal = mBuildingPolygonManager.getBuildingPolygon("");
+        BuildingPolygon retVal = mBuildingPolygonManager.getBuildingPolygonByBuildingCode("");
         assertNull(retVal);
     }
 
