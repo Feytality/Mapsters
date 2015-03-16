@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,6 +23,7 @@ public class DirOptionFragment extends Fragment {
 
     private FragmentTabHost tabHost;
     private GetSteps git;
+    private SlidingUpPanelLayout panelLayout;
 
     public DirOptionFragment() {
         // Required empty public constructor
@@ -44,7 +47,7 @@ public class DirOptionFragment extends Fragment {
          String isShuttle = getString(R.string.is_shuttle);
         tabHost = new FragmentTabHost(getActivity());
 
-        inflater.inflate(R.layout.fragment_dir_option, tabHost);
+        View view = inflater.inflate(R.layout.fragment_dir_option, tabHost);
         tabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
         //Always here
@@ -60,8 +63,7 @@ public class DirOptionFragment extends Fragment {
             tabHost.addTab(tabHost.newTabSpec(isCycling).setIndicator(isCycling), GetSteps.class, null);
 
 
-
-
+            //Listerner BAY - refactor
 
             tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
                 @Override
@@ -71,8 +73,6 @@ public class DirOptionFragment extends Fragment {
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.steps_layout, git)
                             .commit();
-
-
                     git.createSteps(tabHost);
 
                 }

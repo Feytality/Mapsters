@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -66,12 +67,7 @@ public class SplitPane {
         mBuildingPictureView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DirOptionFragment dirOptionFragment = new DirOptionFragment();
-                FragmentManager fragmentManager = mContext.getSupportFragmentManager();
 
-                fragmentManager.beginTransaction().addToBackStack(null)
-                        .replace(R.id.sliding_container,dirOptionFragment )
-                        .commit();
 
 
             }
@@ -81,12 +77,15 @@ public class SplitPane {
     }
 
     public void updateContent(BuildingInfo buildingInfo) {
+
+
+
         if (mCurrentBuilding == null) {
             mDirectionButton.setVisibility(View.VISIBLE);
         }
 
         mCurrentBuilding = buildingInfo;
-
+        Log.e("*********************",mBuildingCode.getText().toString());
         mBuildingName.setText(buildingInfo.getBuildingName());
         mBuildingCode.setText(buildingInfo.getBuildingCode());
         mCampus.setText(buildingInfo.getCampus());
@@ -110,7 +109,12 @@ public class SplitPane {
 
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
-    mContext.getDirections();
+            DirOptionFragment dirOptionFragment = new DirOptionFragment();
+            FragmentManager fragmentManager = mContext.getSupportFragmentManager();
+
+            fragmentManager.beginTransaction().addToBackStack("info")
+                    .replace(R.id.sliding_container,dirOptionFragment )
+                    .commit();
 
         }
 
