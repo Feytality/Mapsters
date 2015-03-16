@@ -91,10 +91,14 @@ public class BuildingPolygonManager {
     }
 
     public void clickAndPopulate(BuildingPolygon buildingPolygon){
-        BuildingInfo buildingInfo = buildingPolygon.getBuildingInfo();
+        mCurrentBuildingInfo = buildingPolygon.getBuildingInfo();
         //Focus the selected building
         focusBuildingPolygon(buildingPolygon);
-        mSplitPane.updateContent(buildingInfo);
+        mSplitPane.updateContent(mCurrentBuildingInfo);
+    }
+
+    public BuildingInfo getCurrentBuildingInfo(){
+        return mCurrentBuildingInfo;
     }
 
     //Will create a focus effect on the passed BuildingPolygon
