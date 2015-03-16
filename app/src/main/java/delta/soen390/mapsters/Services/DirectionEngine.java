@@ -270,6 +270,10 @@ public class DirectionEngine {
             return mTotalDuration;
         }
 
+        public ArrayList<TravelResponseInfo.TravelStep> getTravelSteps() {
+            return mTravelSteps;
+        }
+
     }
 
 
