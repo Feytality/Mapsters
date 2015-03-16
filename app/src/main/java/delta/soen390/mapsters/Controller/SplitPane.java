@@ -14,12 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.model.TravelMode;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 
-import delta.soen390.mapsters.Activities.DirectionStepsFragment;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Fragments.DirOptionFragment;
@@ -66,19 +66,6 @@ public class SplitPane {
         mCampus = (TextView) mContent.findViewById(R.id.campus);
         mBuildingServices = (TextView) mContent.findViewById(R.id.building_services);
         mBuildingPictureView = (ImageView) mContent.findViewById(R.id.building_image);
-
-        mBuildingPictureView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DirOptionFragment dirOptionFragment = new DirOptionFragment();
-                FragmentManager fragmentManager = mContext.getSupportFragmentManager();
-                fragmentManager.beginTransaction().addToBackStack("info")
-                        .replace(R.id.sliding_container,dirOptionFragment )
-                        .commit();
-
-
-            }
-        });
         mDirectionButton = (ImageButton) mContent.findViewById(R.id.direction_button);
         mDirectionButton.setOnClickListener(directionBtnListener);
     }
@@ -119,8 +106,8 @@ public class SplitPane {
 
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
-            mContext.getDirections();
-            DirectionStepsFragment dirOptionFragment = new DirectionStepsFragment();
+            mContext.getDirections(TravelMode.TRANSIT);
+            DirOptionFragment dirOptionFragment = new DirOptionFragment();
             FragmentManager fragmentManager = mContext.getSupportFragmentManager();
             fragmentManager.beginTransaction().addToBackStack("info")
                     .replace(R.id.sliding_container, dirOptionFragment)
