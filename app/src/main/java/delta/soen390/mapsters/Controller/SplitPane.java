@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.model.TravelMode;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 
@@ -71,31 +72,34 @@ public class SplitPane {
     }
 
     public void updateContent(BuildingInfo buildingInfo) {
-        if (mCurrentBuilding == null) {
-            mDirectionButton.setVisibility(View.VISIBLE);
+        if (mContext.getCurrentDirectionPath() == null) {
+            if (mDirectionButton != null) {
+                mDirectionButton.setVisibility(View.VISIBLE);
+            }
+            SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout) mContext.findViewById(R.id.sliding_layout);
+            slidingUpPanelLayout.setTouchEnabled(true);
+
+            //reconnect with views, if lost when swapping fragments
+            mBuildingName = (TextView) mContext.findViewById(R.id.building_name);
+            mBuildingCode = (TextView) mContext.findViewById(R.id.building_code);
+            mCampus = (TextView) mContext.findViewById(R.id.campus);
+            mBuildingServices = (TextView) mContext.findViewById(R.id.building_services);
+            mBuildingPictureView = (ImageView) mContext.findViewById(R.id.building_image);
+            //set em
+            mCurrentBuilding = buildingInfo;
+            mBuildingName.setText(buildingInfo.getBuildingName());
+            mBuildingCode.setText(buildingInfo.getBuildingCode());
+            mCampus.setText(buildingInfo.getCampus());
+
+            clearViews();
+            // Create text views for the services and departments
+            displayBuildingInfo(mCurrentBuilding.getServices(), "Services");
+            displayBuildingInfo(mCurrentBuilding.getDepartments(), "Departments");
+
+            ImageLoader img = ImageLoader.getInstance();
+            img.init(ImageLoaderConfiguration.createDefault(mContext.getApplicationContext()));
+            ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), mBuildingPictureView);
         }
-
-        //reconnect with views, if lost when swapping fragments
-        mBuildingName = (TextView) mContext.findViewById(R.id.building_name);
-        mBuildingCode = (TextView) mContext.findViewById(R.id.building_code);
-        mCampus = (TextView) mContext.findViewById(R.id.campus);
-        mBuildingServices = (TextView) mContext.findViewById(R.id.building_services);
-        mBuildingPictureView = (ImageView) mContext.findViewById(R.id.building_image);
-        //set em
-        mCurrentBuilding = buildingInfo;
-        mBuildingName.setText(buildingInfo.getBuildingName());
-        mBuildingCode.setText(buildingInfo.getBuildingCode());
-        mCampus.setText(buildingInfo.getCampus());
-
-
-        clearViews();
-        // Create text views for the services and departments
-        displayBuildingInfo(mCurrentBuilding.getServices(), "Services");
-        displayBuildingInfo(mCurrentBuilding.getDepartments(), "Departments");
-
-        ImageLoader img = ImageLoader.getInstance();
-        img.init(ImageLoaderConfiguration.createDefault(mContext.getApplicationContext()));
-        ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), mBuildingPictureView);
 
     }
 
