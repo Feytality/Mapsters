@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,6 +40,8 @@ public class SplitPane {
     private TextView mBuildingServices;
     private ImageView mBuildingPictureView;
     private ArrayList<TextView> mCurrentPaneText = new ArrayList<>();
+    private String mDestinationUrl;
+    private String mDefaultUrl = "http://www.concordia.ca/";
 
 
     //Directions
@@ -142,19 +145,44 @@ public class SplitPane {
             TextView infoRow;
 
             for (final String[] infoArray : info) {
+                mDestinationUrl = "";
+                String destUrl = "";
                 infoRow = new TextView(mContext);
 
+                if(URLUtil.isValidUrl(infoArray[1])) {
+                    mDestinationUrl = infoArray[1];
+                } else {
+                    // correct the url
+                    if(!mDestinationUrl.equals("")) {
+                        destUrl = mDestinationUrl.concat(infoArray[1].substring(1));
+                    } else {
+                        destUrl = mDefaultUrl.concat(infoArray[1].substring(1));
+                    }
+                }
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    infoRow.setMovementMethod(LinkMovementMethod.getInstance());
-                    infoRow.setText(Html.fromHtml("<a href=\"" + infoArray[1] + "\">" + infoArray[0] + "</a>"));
+                        infoRow.setMovementMethod(LinkMovementMethod.getInstance());
+                        infoRow.setText(Html.fromHtml("<a href=\"" + destUrl + "\">" + infoArray[0] + "</a>"));
 
                 } else {
                     infoRow.setText(infoArray[0]);
                     // make the text view clickable and go to teh link associated with the service or department
                     infoRow.setOnClickListener(new View.OnClickListener() {
+
                         @Override
                         public void onClick(View arg0) {
-                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(infoArray[1]));
+                            String url = "";
+                            if(!URLUtil.isValidUrl(infoArray[1])) {
+                                // correct the url
+                                if(!mDestinationUrl.equals("")) {
+                                    url = mDestinationUrl.concat(infoArray[1].substring(1));
+                                } else {
+                                    url = mDefaultUrl.concat(infoArray[1].substring(1));
+                                }
+                            } else {
+                                url = infoArray[1];
+                            }
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                             browserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             mContext.startActivity(browserIntent);
                         }
@@ -179,4 +207,5 @@ public class SplitPane {
             }
         }
     }
+
 }
