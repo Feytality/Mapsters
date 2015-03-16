@@ -19,26 +19,28 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.model.TravelMode;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
+import delta.soen390.mapsters.Buildings.BuildingPolygon;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarEventNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.SplitPane;
+import delta.soen390.mapsters.Fragments.SearchBarFragment;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
-public class MapsActivity extends FragmentActivity implements SlidingFragment.OnDataPass, OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource, GoogleMap.OnMapLongClickListener {
+public class MapsActivity extends FragmentActivity implements SlidingFragment.OnDataPass, OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource,
+        GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener, SearchBarFragment.SearchBarListener {
 
     private TextView textPointer;
     private CampusSwitchUI mCampusSwitchUI;
@@ -46,6 +48,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     private LocationService mLocationService;
     private NavigationDrawer mDrawer;
     private SplitPane splitPane;
+    private InputMethodManager mImm;
     private static final String TAG = "DemoActivity";
 
     // For calendar and notifications
@@ -73,6 +76,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         //Setup the google map
         // initialize location
         mLocationService = new LocationService(getApplicationContext());
+        mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
         mCampusSwitchUI = new CampusSwitchUI(this, mCampusViewSwitcher);
         ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment)).getMapAsync(this);
 
@@ -160,7 +165,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
     private void initializeMap(GoogleMap googleMap) {
         //Initialize the Campus Switch
-        mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap));
+        mCampusSwitchUI = new CampusSwitchUI(this, new CampusViewSwitcher(this, googleMap, mCampusSwitchUI));
 
         //Initialize the Building Polygons
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
@@ -169,6 +174,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap);
 
         googleMap.setOnMapLongClickListener(this);
+        googleMap.setOnMapClickListener(this);
         mGoogleMap = googleMap;
 
     }
@@ -218,6 +224,45 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                 Toast.makeText(this,"whyyyyy",Toast.LENGTH_SHORT).show();            }
         }
     }//onActivityResult
+
+
+    @Override
+    public void searchForRoom(String input) {
+        boolean firstChar = false;
+        String buildingCode = "";
+
+        for (char c : input.toCharArray()) {
+            if (Character.isLetter(c)) {
+                firstChar = true;
+                buildingCode += c;
+                continue;
+            }
+            if (firstChar) {
+                break;
+            }
+        }
+
+        if (buildingCode.isEmpty()) {
+            Toast.makeText(this, "Please put in a building code in this format H456", Toast.LENGTH_SHORT).show();
+        }
+
+        BuildingPolygon buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(buildingCode);
+
+        if (buildingPolygon != null) {
+            BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
+            mCampusSwitchUI.getmCampusViewSwitcher().zoomToLatLong(18, buildingPolygon.getBuildingInfo());
+            return;
+        }
+
+        Toast.makeText(this, "Please enter a proper building code", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        BuildingPolygonManager.getInstance().clickPolygon(latLng);
+        mImm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+    }
+
 
     public LocationService getLocationService() {
         return mLocationService;
@@ -311,6 +356,10 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     }
 
 
+    public DirectionEngine getDirectionEngine()
+    {
+        return mDirectionEngine;
+    }
 
     @Override
     public void onDataPass(SplitPane data) {
@@ -340,7 +389,6 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
     public void requestLowerPanel() {
         SlidingUpPanelLayout panel = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-
         if (panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
             panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }

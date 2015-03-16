@@ -6,4 +6,12 @@
     <color name="concordia_xdark">#46000E</color>
     <color name="concordia_xlight">#DC7A8D</color>
     <color name="concordia_grey">#f2f2f2</color>
+    <color name="travel_step_subway_green_line">#00ff00</color>
+    <color name="travel_step_subway_orange_line">#ff8000</color>
+    <color name="travel_step_subway_yellow_line">#ffff00</color>
+    <color name="travel_step_subway_blue_line">#0000ff</color>
+    <color name="travel_step_walking">#080808</color>
+    <color name="travel_step_shuttle">#93243A</color>
+    <color name="travel_step_bus">#ff0000</color>
+    <color name="travel_step_default">#030303</color>
 </resources>

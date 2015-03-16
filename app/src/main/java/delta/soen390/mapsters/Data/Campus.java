@@ -33,4 +33,12 @@ public class Campus {
         return point.lat  < campusLatitudeDelimiter ? Name.LOY : Name.SGW;
     }
 
+    public static Name getCampusAsEnum(String name){
+        name = name.toUpperCase();
+        if (Name.SGW.toString().equals(name))
+            return Name.SGW;
+        if (Name.LOY.toString().equals(name))
+            return Name.LOY;
+        return null;
+    }
 }

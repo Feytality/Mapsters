@@ -4,6 +4,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
+import delta.soen390.mapsters.Data.Campus;
+
 /**
  * Created by georgevalergas on 15-02-08.
  */
@@ -11,7 +13,7 @@ public class BuildingInfo {
 //    TODO Create Image member
     private String mBuildingCode;
     private String mBuildingName;
-    private String mCampus;
+    private Campus.Name mCampus;
     private String mImageUrl;
     private LatLng mCoordinates;
     private ArrayList<LatLng> mBoundingCoordinates;
@@ -28,7 +30,7 @@ public class BuildingInfo {
         mImageUrl = imageUrl;
         mBuildingCode = buildingCode;
         mBuildingName = buildingName;
-        mCampus = campus;
+        mCampus = Campus.getCampusAsEnum(campus);
         mCoordinates = coordinates;
         mBoundingCoordinates = boundingCoordinates;
 
@@ -45,7 +47,7 @@ public class BuildingInfo {
         return mBuildingName;
     }
 
-    public String getCampus() {
+    public Campus.Name getCampus() {
         return mCampus;
     }
 

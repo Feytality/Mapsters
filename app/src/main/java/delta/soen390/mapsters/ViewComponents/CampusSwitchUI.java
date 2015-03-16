@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
+import delta.soen390.mapsters.Data.Campus;
 import delta.soen390.mapsters.R;
 
 /**
@@ -78,6 +79,17 @@ public class CampusSwitchUI {
                                                      }
             );
         }
+    }
+
+    public Campus.Name getCurrentCampus(){
+       if (mCampusSwitch.isChecked()){
+           return Campus.Name.SGW;
+       }
+       return Campus.Name.LOY;
+    }
+
+    public void toggleCampusSwitch(){
+        mCampusSwitch.setChecked(!mCampusSwitch.isChecked());
     }
 
 
