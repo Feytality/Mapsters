@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import delta.soen390.mapsters.Activities.DirectionStepsFragment;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
+import delta.soen390.mapsters.Fragments.DirOptionFragment;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
@@ -69,7 +70,11 @@ public class SplitPane {
         mBuildingPictureView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                DirOptionFragment dirOptionFragment = new DirOptionFragment();
+                FragmentManager fragmentManager = mContext.getSupportFragmentManager();
+                fragmentManager.beginTransaction().addToBackStack("info")
+                        .replace(R.id.sliding_container,dirOptionFragment )
+                        .commit();
 
 
             }
