@@ -10,9 +10,35 @@
         <item name="android:colorPrimaryDark">@color/concordia_main_color</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">@color/concordia_main_color</item>
+        <item name="android:colorButtonNormal">#2196f3</item>
+
 
 
 
     </style>
+<!--see it you can move a version of this to regular styles-->
+    <style name="FlatBtn">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:translationZ">1dp</item>
+        <item name="android:background">@drawable/primary_round</item>
 
+    </style>
+
+    <style name="FloatBtn">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:minWidth">56dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:translationZ">1dp</item>
+<item name="android:stateListAnimator">@anim/button_elevation</item>
+        <item name="android:background">@drawable/primary_flat</item>
+
+    </style>
+
+    <color name="white">#ffffff</color>
 </resources>

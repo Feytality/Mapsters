@@ -1,14 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/concordia_grey">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageView3"
+        android:layout_below="@+id/linearLayout"
+        android:src="@drawable/concordiabgmark"/>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/concordia_grey"
         android:layout_below="@+id/linearLayout"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout2">
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,6 +72,12 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_gravity="center|bottom"
                 android:visibility="visible" />
+
+            <Button style="@style/FlatBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/bacon"
+                android:text="it" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -204,4 +218,24 @@
             android:textColor="@color/background_material_light" />
 
     </LinearLayout>
+
+    <ImageButton style="@style/FloatBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/kevin"
+        android:src="@android:drawable/ic_menu_directions"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/linearLayout2"
+        android:layout_alignParentLeft="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignParentTop="false" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/button4"
+        android:layout_alignParentBottom="true" />
+
 </RelativeLayout>
