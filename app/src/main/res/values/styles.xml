@@ -3,7 +3,29 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+
     </style>
+    <!--see it you can move a version of this to regular styles-->
+
+    <style name="FlatBtn">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:background">@drawable/primary_round</item>
+
+    </style>
+
+    <style name="FloatBtn">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:minWidth">56dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:background">@drawable/primary_flat</item>
+    </style>
+
 
     <style name="NotificationContent" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
