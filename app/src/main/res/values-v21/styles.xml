@@ -24,7 +24,7 @@
         <item name="android:minHeight">48dp</item>
         <item name="android:layout_margin">3dp</item>
         <item name="android:translationZ">1dp</item>
-        <item name="android:background">@drawable/primary_round</item>
+        <item name="android:background">@drawable/primary_roundv21</item>
 
     </style>
 
@@ -36,7 +36,7 @@
         <item name="android:layout_margin">3dp</item>
         <item name="android:translationZ">1dp</item>
 <item name="android:stateListAnimator">@anim/button_elevation</item>
-        <item name="android:background">@drawable/primary_flat</item>
+        <item name="android:background">@drawable/primary_flatv21</item>
 
     </style>
 
