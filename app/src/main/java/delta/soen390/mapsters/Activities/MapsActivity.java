@@ -21,6 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.api.client.util.DateTime;
 import com.google.maps.model.TravelMode;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -30,6 +31,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygon;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
+import delta.soen390.mapsters.Calendar.CalendarEvent;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarEventNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
@@ -96,13 +98,13 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mCalendarEventManager.updateEventQueue();
 
         // Uncomment to test notifications.
-        // mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this,
-        // new CalendarEvent("H", "H431", "SOEN 390", new DateTime(1425333436), new DateTime(1425333436), new DateTime(1425333436)));
-        //  mCalendarEventNotification.createNotification();
+        mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this,
+        new CalendarEvent("H", "H431", "SOEN 390", new DateTime(1425333436), new DateTime(1425333436), new DateTime(1425333436)));
+        mCalendarEventNotification.createNotification();
 
         //Initialize notifications
-        mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this);
-        mCalendarEventNotification.handleNotifications();
+       // mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this);
+      //  mCalendarEventNotification.handleNotifications();
 
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);

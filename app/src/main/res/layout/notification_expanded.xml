@@ -10,27 +10,47 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <TextView
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/NotificationContent"
-            android:text="@string/expanded"
-            android:layout_gravity="center_vertical"
-            android:layout_alignParentTop="false"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/imageView"
-            android:gravity="center"
-            android:id="@+id/expandedTextView"
-            android:layout_centerVertical="true" />
+            android:id="@+id/linearLayout2">
 
-        <ImageView
+            <TextView
+                android:layout_width="329dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/NotificationContent"
+                android:text="@string/expanded"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:id="@+id/expandedTextView"
+                android:layout_alignBottom="@+id/imageView"
+                android:layout_centerHorizontal="true" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher"
+                android:layout_gravity="right|top"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:id="@+id/imageView" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"></LinearLayout>
+        </LinearLayout>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher"
-            android:layout_gravity="right|top"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:id="@+id/imageView" />
+            android:text="Get Directions"
+            android:id="@+id/expanded_get_directions"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_centerHorizontal="true" />
+
     </RelativeLayout>
 
 
