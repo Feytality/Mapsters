@@ -86,23 +86,21 @@ public class CalendarEventNotification {
 
 
     public void createNotification() {
-        Intent notificationIntent = new Intent(mContext, NotificationGetDirectionsListener.class);
+        Intent notificationIntent = new Intent();
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         notificationIntent.putExtra("EventName", mCalendarEvent.getEventName());
         notificationIntent.putExtra("EventLocation", mCalendarEvent.getFullLocation());
-
+        notificationIntent.setAction("NOTIFICATION_TAP");
+        notificationIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        //mContext.sendBroadcast(notificationIntent);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-
         Notification notification = buildNotificationView(pendingIntent);
-
 
         // To show the notification
         NotificationManager nm = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
         nm.notify(0, notification);
-
-
     }
 
     private Notification buildNotificationView(PendingIntent pendingIntent) {
@@ -144,6 +142,5 @@ public class CalendarEventNotification {
         }
 
         return notification;
-
     }
 }

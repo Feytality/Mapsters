@@ -1,7 +1,9 @@
 package delta.soen390.mapsters.Activities;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,14 +74,25 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
 
+    NotificationGetDirectionsListener notificationReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        IntentFilter filter = new IntentFilter("NOTIFICATION_TAP");
+        if(notificationReceiver == null) {
+            NotificationGetDirectionsListener notificationReceiver = new NotificationGetDirectionsListener();
+            registerReceiver(notificationReceiver, filter);
+        } else {
+            unregisterReceiver(notificationReceiver);
+        }
         startActivity(new Intent(this,SplashActivity.class));
         setContentView(R.layout.activity_maps);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getActionBar().hide();
         }
+
         //Setup the google map
         // initialize location
         mLocationService = new LocationService(getApplicationContext());
@@ -96,6 +110,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         //Initialize the CalendarEventManager
         mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
         mCalendarEventManager.updateEventQueue();
+
+
 
         // Uncomment to test notifications.
         mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this,
@@ -201,6 +217,17 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     }
 
     @Override
+    protected void onStop()
+    {
+        try {
+            unregisterReceiver(notificationReceiver);
+        } catch (IllegalArgumentException iae) {
+            Log.i("ERROR", "Could not unregister receiver.");
+        }
+        super.onStop();
+    }
+
+    @Override
     public void onMapLongClick(LatLng point) {
         if(mMarker != null){
             mMarker.remove();
@@ -229,24 +256,10 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this,"whyyyyy",Toast.LENGTH_SHORT).show();            }
         }
-    }//onActivityResult
+    }
 
-
-    @Override
-    public void searchForRoom(String input) {
-        boolean firstChar = false;
-        String buildingCode = "";
-
-        for (char c : input.toCharArray()) {
-            if (Character.isLetter(c)) {
-                firstChar = true;
-                buildingCode += c;
-                continue;
-            }
-            if (firstChar) {
-                break;
-            }
-        }
+    public void searchForRoom(String roomNumber) {
+        String buildingCode = getBuildingCode(roomNumber);
 
         if (buildingCode.isEmpty()) {
             Toast.makeText(this, "Please put in a building code in this format H456", Toast.LENGTH_SHORT).show();
@@ -261,6 +274,52 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         }
 
         Toast.makeText(this, "Please enter a proper building code", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void getDirectionsToRoom(String roomNumber) {
+        if(!roomNumber.equals("")) {
+            String buildingCode = getBuildingCode(roomNumber);
+
+            if (buildingCode.isEmpty()) {
+                Toast.makeText(this, "Please fix the location of your class in your calendar! (Ex: H410)", Toast.LENGTH_SHORT).show();
+            } else {
+
+                BuildingPolygon buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(buildingCode);
+
+                if (buildingPolygon != null) {
+                    BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
+                    mCampusSwitchUI.getmCampusViewSwitcher().zoomToLatLong(18, buildingPolygon.getBuildingInfo());
+                    getDirections();
+                    ImageButton directionButton = (ImageButton) findViewById(R.id.direction_button);
+                    directionButton.callOnClick();
+                } else {
+                    Toast.makeText(this, "Please fix the location of your class in your calendar! (Ex: H410)",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else {
+            Toast.makeText(this, "Please fix the location of your class in your calendar! (Ex: H410)",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private String getBuildingCode(String roomNumber) {
+        boolean firstChar = false;
+        String buildingCode = "";
+
+        for (char c : roomNumber.toCharArray()) {
+            if (Character.isLetter(c)) {
+                firstChar = true;
+                buildingCode += c;
+                continue;
+            }
+            if (firstChar) {
+                break;
+            }
+        }
+
+        return buildingCode;
     }
 
     @Override
@@ -353,6 +412,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
     }
 
+
     public void setStartingLocation(LatLng startingLocation) {
         // Note: should be able to set it null to clear it
         mStartingLocation = startingLocation;
@@ -403,6 +463,27 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     public DirectionEngine.DirectionPath getCurrentDirectionPath() {
         return mCurrentDirectionPath;
     }
+
+    /**
+     * This class receives the action of the user tapping the "Get Directions" button within
+     * a notification.
+     */
+    public class NotificationGetDirectionsListener extends BroadcastReceiver {
+
+        public NotificationGetDirectionsListener(){ }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String location = intent.getStringExtra("EventLocation");
+            if(location != null){
+                getDirectionsToRoom(location);
+            } else {
+                Toast.makeText(context,"nope",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 
 }
 
