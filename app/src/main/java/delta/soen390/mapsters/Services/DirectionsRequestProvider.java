@@ -38,10 +38,11 @@ public class DirectionsRequestProvider {
         return DirectionsApi.newRequest(mGeoApiContext)
                 .origin(initial)
                 .destination(destination)
-                .mode(mode);
+                .mode(mode)
+                .departureTime(new DateTime());
     }
 
-    public DirectionsApiRequest getNextShuttle(Campus.Name startCampus) {
+    public DirectionsApiRequest getShuttleRequest(Campus.Name startCampus) {
 
         DirectionsApiRequest dar;
 
@@ -59,10 +60,4 @@ public class DirectionsRequestProvider {
         return dar;
     }
 
-    public DirectionsApiRequest getStmRequest(LatLng initial, LatLng destination)
-    {
-        DirectionsApiRequest request = getBasicRequest(initial, destination, TravelMode.TRANSIT);
-        request.departureTime(new DateTime());
-        return request;
-    }
 }

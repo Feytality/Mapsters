@@ -22,7 +22,6 @@ public class DirOptionFragment extends Fragment {
 
 
     private FragmentTabHost tabHost;
-    private GetSteps git;
     private SlidingUpPanelLayout panelLayout;
 
     public DirOptionFragment() {

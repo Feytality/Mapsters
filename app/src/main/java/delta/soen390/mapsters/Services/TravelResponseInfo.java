@@ -1,5 +1,7 @@
 package delta.soen390.mapsters.Services;
 
+import android.graphics.Color;
+
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.model.DirectionsLeg;
 import com.google.maps.model.DirectionsRoute;
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import delta.soen390.mapsters.Services.TravelStepParser.TravelStepParser;
+
 
 //TODO fetch a valid total cost
 /**
@@ -24,7 +28,7 @@ public class TravelResponseInfo {
     private long    mArrivalTime;
     private LatLng  mStartPoint;
     private LatLng  mDestinationPoint;
-    private ArrayList<TravelStep> mTravelSteps;
+    private ArrayList<TravelStep> mTravelSteps = new ArrayList<TravelStep>();
 
     //Total travel duration in seconds
     private long    mTotalDuration;
@@ -101,6 +105,7 @@ public class TravelResponseInfo {
     private ArrayList<TravelStep> directionsToTravelSteps(DirectionsStep[] directionsSteps) {
         ArrayList<TravelStep> travelSteps = new ArrayList<>();
         for (DirectionsStep step : directionsSteps) {
+
             TravelStep t = new TravelStep(step.htmlInstructions, step.polyline);
             travelSteps.add(t);
         }
@@ -108,18 +113,31 @@ public class TravelResponseInfo {
     }
 
     public class TravelStep {
-        public TravelStep(String stepName, EncodedPolyline encodedPolyLine) {
-            this.stepName = stepName;
-            this.encodedPolyLine = encodedPolyLine;
-        }
-        private String stepName;
-        private EncodedPolyline encodedPolyLine;
 
-        public String getStepName() {
-            return this.stepName;
+        private int mPathColor = 0;
+        private String mDisplayTag = "";
+        private String mDescription;
+        private EncodedPolyline mEncodedPolyLine;
+
+
+        public TravelStep(String description, EncodedPolyline encodedPolyLine) {
+            mDescription = mDescription;
+            mEncodedPolyLine = encodedPolyLine;
         }
+
+        public void loadAttributes(TravelStepParser parser) {
+            mDisplayTag = parser.getTag(mDescription);
+            mPathColor = parser.getColor(mDescription);
+        }
+
+
+        public String getDisplayTag() { return mDisplayTag;}
+        public String getStepName() {
+            return mDescription;
+        }
+        public int getColor() { return mPathColor;}
         public  EncodedPolyline getEncodedPolyLine() {
-            return this.encodedPolyLine;
+            return mEncodedPolyLine;
         }
 
 

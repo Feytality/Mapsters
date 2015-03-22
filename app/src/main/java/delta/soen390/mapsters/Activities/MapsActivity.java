@@ -28,6 +28,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.ArrayList;
+
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygon;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
@@ -291,21 +293,21 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             return;
 
         if (mCurrentDirectionPath != null) {
-            mCurrentDirectionPath.hideDirectionPath();
+            mCurrentDirectionPath.hide();
         }
 
+        com.google.maps.model.LatLng startingLocation, endLocation;
+        endLocation = GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates);
         if (mStartingLocation == null) {
-            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
-                    new com.google.maps.model.LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),
-                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
+            startingLocation = new com.google.maps.model.LatLng(lastLocation.getLatitude(), lastLocation.getLongitude());
         } else {
-            // Else, starting location is set (by placing marker on map), use the choosen location coordinates instead.
-            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
-                    GoogleMapstersUtils.toDirectionsLatLng(mStartingLocation),
-                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
+            startingLocation = GoogleMapstersUtils.toDirectionsLatLng(mStartingLocation);
         }
+        mDirectionEngine.setInitialLocation(startingLocation);
+        mDirectionEngine.setFinalLocation(endLocation);
 
-        mCurrentDirectionPath.showDirectionPath();
+        mDirectionEngine.updateDirectionPath(DirectionEngine.DirectionType.TRANSIT, DirectionEngine.DirectionType.WALKING);
+        mDirectionEngine.showDirectionPath(DirectionEngine.DirectionType.TRANSIT);
 
     }
 
