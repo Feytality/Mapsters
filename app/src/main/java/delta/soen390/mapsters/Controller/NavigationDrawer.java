@@ -16,6 +16,7 @@ import android.widget.ListView;
 import delta.soen390.mapsters.Activities.DirectoryActivity;
 import delta.soen390.mapsters.Activities.SettingsActivity;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Utils.HelpToolTip;
 
 /**
  * Created by Cat on 2/21/2015.
@@ -28,6 +29,7 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
     private ListView mListView;
     private DrawerLayout mDrawerLayout;
 
+
     public NavigationDrawer(FragmentActivity a){
         mContext = a;
         mDrawerLayout = (DrawerLayout) mContext.findViewById(R.id.drawer_layout);
@@ -38,6 +40,7 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
                 mContext.getString(R.string.nav_str_services),
                 mContext.getString(R.string.nav_str_departments),
                 mContext.getString(R.string.nav_str_settings),
+                mContext.getString(R.string.nav_str_help)
         };
         mListView = (ListView) mContext.findViewById(R.id.nav_options);
         mListView.setAdapter(new ArrayAdapter<String>(
@@ -50,7 +53,6 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
         //mListView2 = (TextView) mContext.findViewById(R.id.right_drawer);
 
 
-
         mNavBtn = null;
     }
 
@@ -61,8 +63,12 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
             public void onClick(View v) {
                 DrawerLayout drawerLayout = (DrawerLayout)mContext.findViewById(R.id.drawer_layout);
                 drawerLayout.openDrawer(Gravity.LEFT);
+
+
+
             }
         });
+
     }
 
 
@@ -97,6 +103,13 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
             case 4://Settings
                 msg = "Show settings activity/fragment";
                 mContext.startActivity(new Intent(mContext, SettingsActivity.class));
+                break;
+            case 5://Help
+                msg = "Show settings activity/fragment";
+
+//                SlidingUpPanelLayout p = (SlidingUpPanelLayout) mContext.findViewById(R.id.sliding_layout);
+//                p.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                new HelpToolTip(mContext,R.id.direction_button,0);
                 break;
         }
     }

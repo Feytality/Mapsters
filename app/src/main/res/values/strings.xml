@@ -54,6 +54,24 @@
     <string name="tut_settings_step1">\t10.1. From Options Panel, tap on \'Settings\'</string>
     <string name="tut_settings_step2">\t10.2. This will bring you to a list of different setting options.</string>
 
+    <string name="tut_title0">Navigation Menu</string>
+    <string name="tut_text0">The menu can be opened by touching this button, or swiping in from the edge.</string>
+    <string name="tut_title1">Options</string>
+    <string name="tut_text1">You can see your course schedule, see concordia\'s offerings, change settings, and get help here.</string>
+    <string name="tut_title2">Concordia</string>
+    <string name="tut_text2">Concordia buildings are highlighted, and you can get info about each by tapping on them. </string>
+    <string name="tut_title3">Switch Campuses</string>
+    <string name="tut_text3">Quickly switch views between Loyola and SGW campuses</string>
+    <string name="tut_title4">Where Are You?</string>
+    <string name="tut_text4">Touch this to get your current Location</string>
+    <string name="tut_title5">Find Anything</string>
+    <string name="tut_text5">Rooms, services, buildings, and departments at your fingertips</string>
+    <string name="tut_title6">Info Panel</string>
+    <string name="tut_text6">Slide this panel up to find out more about the things you select</string>
+    <string name="tut_title7">Floor Plans</string>
+    <string name="tut_text7">Take a peak inside concordia buildings from here</string>
+    <string name="tut_title8">Directions</string>
+    <string name="tut_text8">Get directions to Concordia buildings quickly</string>
 
 
 

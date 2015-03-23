@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="concordia_main_color">#93243A</color>
+    <color name="concordia_main_color_alpha">#aa93243A</color>
     <color name="concordia_dark">#6D091D</color>
     <color name="concordia_light">#B3445A</color>
     <color name="concordia_xdark">#46000E</color>
