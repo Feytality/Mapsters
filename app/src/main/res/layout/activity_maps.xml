@@ -92,6 +92,14 @@
                     android:clickable="false" />
             </TableRow>
 
+            <ImageButton
+                style="@style/FloatBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_compass"
+                android:id="@+id/locate_me"
+                android:layout_alignRight="@+id/mapSwitcher" />
+
         </RelativeLayout>
 
         <FrameLayout

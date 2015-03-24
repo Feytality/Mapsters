@@ -67,8 +67,7 @@ public class BuildingDFragment extends Fragment {
         text = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
         text.setThreshold(1);
 
-        ArrayAdapter adapter = new ArrayAdapter
-                (getActivity().getApplicationContext(),R.layout.my_list_item_style,listingList);
+        ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(),R.layout.my_list_item_style,listingList);
         text.setAdapter(adapter);
 
 

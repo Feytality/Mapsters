@@ -34,4 +34,6 @@ dependencies {
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.android.support:recyclerview-v7:21.0.+'
     compile 'com.google.android.gms:play-services-location:6.5.87'
+    compile 'me.grantland:autofittextview:0.2.+'
+    compile 'com.github.amlcurran.showcaseview:library:5.0.0'
 }

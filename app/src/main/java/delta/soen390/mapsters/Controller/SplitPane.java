@@ -6,7 +6,10 @@ import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.webkit.URLUtil;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -72,6 +75,18 @@ public class SplitPane {
     }
 
     public void updateContent(BuildingInfo buildingInfo) {
+
+        mContext.findViewById(R.id.sliding_container).clearAnimation();
+        TranslateAnimation translation;
+        translation = new TranslateAnimation(0f, 0F, 50f, 0f);
+        translation.setStartOffset(0);
+        translation.setDuration(500);
+       translation.setFillAfter(true);
+        translation.setInterpolator(new BounceInterpolator());
+        mContext.findViewById(R.id.sliding_container).startAnimation(translation);
+
+
+
         if (mContext.getCurrentDirectionPath() == null) {
             if (mDirectionButton != null) {
                 mDirectionButton.setVisibility(View.VISIBLE);
@@ -103,7 +118,11 @@ public class SplitPane {
 
     }
 
-
+    private int getDisplayHeight() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        mContext.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return metrics.widthPixels;
+    }
 
 
 
@@ -117,9 +136,13 @@ public class SplitPane {
                     .replace(R.id.sliding_container, dirOptionFragment)
                     .commit();
 
+
+
         }
 
     };
+
+
 
 
 
