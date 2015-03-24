@@ -10,7 +10,6 @@ import com.google.maps.model.TravelMode;
 
 import org.joda.time.DateTime;
 
-import java.sql.Driver;
 import java.util.Date;
 
 import delta.soen390.mapsters.Data.Campus;
@@ -58,6 +57,20 @@ public class DirectionsRequestProvider {
 
         dar.departureTime(new DateTime(nextDeparture));
         return dar;
+    }
+
+    public DirectionsApiRequest getStmRequest(LatLng initial, LatLng destination)
+    {
+        DirectionsApiRequest request = getBasicRequest(initial, destination, TravelMode.TRANSIT);
+        request.departureTime(new DateTime());
+        return request;
+    }
+
+    public DirectionsApiRequest getSelectedRequest(LatLng initial, LatLng destination,TravelMode mode)
+    {
+        DirectionsApiRequest request = getBasicRequest(initial, destination, mode);
+        request.departureTime(new DateTime());
+        return request;
     }
 
 }

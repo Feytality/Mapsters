@@ -1,6 +1,7 @@
 package delta.soen390.mapsters.Services;
 
 import android.graphics.Color;
+import android.graphics.Path;
 
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.model.DirectionsLeg;
@@ -8,6 +9,7 @@ import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
 import com.google.maps.model.EncodedPolyline;
 import com.google.maps.model.LatLng;
+import com.google.maps.model.TravelMode;
 
 import org.joda.time.DateTime;
 
@@ -60,6 +62,17 @@ public class TravelResponseInfo {
         }
     }
 
+    public void setShuttleTravel()
+    {
+        for(TravelStep step : mTravelSteps)
+        {
+            if(step.getDirectionType() == DirectionEngine.DirectionType.DRIVING)
+            {
+                step.mDirectionType = DirectionEngine.DirectionType.SHUTTLE;
+            }
+        }
+    }
+
     public TravelResponseInfo(long startTime, long arrivalTime, EncodedPolyline encodedPolyline, DirectionsStep[] directionsSteps) {
         mStartTime         = startTime;
         mArrivalTime       = arrivalTime;
@@ -105,9 +118,28 @@ public class TravelResponseInfo {
     private ArrayList<TravelStep> directionsToTravelSteps(DirectionsStep[] directionsSteps) {
         ArrayList<TravelStep> travelSteps = new ArrayList<>();
         for (DirectionsStep step : directionsSteps) {
-
-            TravelStep t = new TravelStep(step.htmlInstructions, step.polyline);
-            travelSteps.add(t);
+            String stepDescription = step.htmlInstructions;
+            EncodedPolyline stepLine = step.polyline;
+            DirectionEngine.DirectionType type;
+            switch(step.travelMode)
+            {
+                case TRANSIT:
+                    type = DirectionEngine.DirectionType.TRANSIT;
+                    break;
+                case WALKING:
+                    type = DirectionEngine.DirectionType.WALKING;
+                    break;
+                case BICYCLING:
+                    type = DirectionEngine.DirectionType.BICYCLE;
+                    break;
+                case DRIVING:
+                    type = DirectionEngine.DirectionType.DRIVING;
+                    break;
+                default:
+                    type = DirectionEngine.DirectionType.DRIVING;
+                    break;
+            }
+            travelSteps.add(new TravelStep(stepDescription,type,stepLine));
         }
         return travelSteps;
     }
@@ -118,21 +150,24 @@ public class TravelResponseInfo {
         private String mDisplayTag = "";
         private String mDescription;
         private EncodedPolyline mEncodedPolyLine;
+        private DirectionEngine.DirectionType mDirectionType;
 
-
-        public TravelStep(String description, EncodedPolyline encodedPolyLine) {
-            mDescription = mDescription;
+        public TravelStep(String description,DirectionEngine.DirectionType type, EncodedPolyline encodedPolyLine) {
+            mDescription = description;
             mEncodedPolyLine = encodedPolyLine;
+            mDirectionType = type;
+
         }
 
         public void loadAttributes(TravelStepParser parser) {
-            mDisplayTag = parser.getTag(mDescription);
-            mPathColor = parser.getColor(mDescription);
+
+            mDisplayTag = parser.getTag(this);
+            mPathColor = parser.getColor(this);
         }
 
-
+        public DirectionEngine.DirectionType getDirectionType() { return mDirectionType;}
         public String getDisplayTag() { return mDisplayTag;}
-        public String getStepName() {
+        public String getDescription() {
             return mDescription;
         }
         public int getColor() { return mPathColor;}

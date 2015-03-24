@@ -52,9 +52,8 @@ public class SlidingFragment extends Fragment{
                              Bundle savedInstanceState) {
          view = inflater.inflate(R.layout.fragment_sliding, container, false);
         MapsActivity mapsActivity = (MapsActivity)dataPasser;
-       panelLayout =(SlidingUpPanelLayout) mapsActivity.findViewById(R.id.sliding_layout);
+        panelLayout =(SlidingUpPanelLayout) mapsActivity.findViewById(R.id.sliding_layout);
         view.setFocusableInTouchMode(true);
-
 
         splitPane = new SplitPane(view, 0.50f, mapsActivity.getLocationService(), mapsActivity);
         passData(splitPane);

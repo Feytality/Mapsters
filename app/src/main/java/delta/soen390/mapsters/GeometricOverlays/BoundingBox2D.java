@@ -1,4 +1,4 @@
-package delta.soen390.mapsters.Geometry;
+package delta.soen390.mapsters.GeometricOverlays;
 
 import android.util.Log;
 

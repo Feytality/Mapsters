@@ -1,25 +1,27 @@
 package delta.soen390.mapsters.Services;
 
 import android.content.Context;
+
 import android.graphics.Path;
+import android.location.Location;
 import android.opengl.Visibility;
+import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.api.services.calendar.Calendar;
 import com.google.maps.model.LatLng;
-
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.common.collect.MapMaker;
-import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
 import com.google.maps.GeoApiContext;
+import com.google.maps.model.LatLng;
 import com.google.maps.model.TravelMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import delta.soen390.mapsters.Data.Campus;
+import delta.soen390.mapsters.Services.TravelStepParser.TravelStepParser;
 import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 
 /**
@@ -27,6 +29,9 @@ import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
  * DirectionEngine is used to poll directions from two points given certain predefined settings
  */
 public class DirectionEngine {
+
+
+    private TravelStepParser mTravelStepParser;
     public enum DirectionType
     {
         TRANSIT,
@@ -41,10 +46,15 @@ public class DirectionEngine {
     private Context mAppContext;
     public ArrayList<DirectionPath> mDirectionPaths = new ArrayList<DirectionPath>();
     private LatLng mInitialLocation = null, mFinalLocation = null;
-    public DirectionEngine(Context appContext, GoogleMap gMap)
+    private LocationService mLocationService;
+
+    public DirectionEngine(Context appContext, GoogleMap gMap, LocationService locationService)
     {
+
         mMap = gMap;
+        mLocationService = locationService;
         mAppContext = appContext;
+        mTravelStepParser = new TravelStepParser(mAppContext);
         mGeoContext = new GeoApiContext().setApiKey("AIzaSyCDsbX2OWOnFJRJ_oHMls-HRtncbpMc_qI");
     }
 
@@ -57,22 +67,32 @@ public class DirectionEngine {
     {
         mFinalLocation = finalLocation;
     }
-    public void updateDirectionPath( DirectionType... types  ) {
+
+    public void updateDirectionEngine() {
 
         clearEngineState();
 
         DirectionsRequestProvider directionProvider = new DirectionsRequestProvider(mAppContext, mGeoContext);
+
+        if(mInitialLocation == null)
+        {
+            Location loc = mLocationService.getLastLocation();
+            if(loc == null) {
+                return;
+            }
+            mInitialLocation = new LatLng(loc.getLatitude(),loc.getLongitude());
+        }
+
         //Engine has not been set up properly, empty path list returned.
         if (mInitialLocation == null || mFinalLocation == null) {
             return;
         }
 
 
-        //Go through every direction type and generate the directionpath
-        for (DirectionType dType : types) {
+        //Go through every direction type and generate a corresponding direction path
+        for (DirectionType dType : DirectionType.values()) {
             DirectionPath path = new DirectionPath(mMap, dType);
             ArrayList<TravelResponseInfo> responseInfos = new ArrayList<TravelResponseInfo>();
-
             DirectionsApiRequest travelRequest = null;
             switch (dType) {
                 case SHUTTLE:
@@ -88,7 +108,7 @@ public class DirectionEngine {
                     } else {
                         travelRequest = directionProvider.getShuttleRequest(startingCampus);
                         TravelResponseInfo shuttleTravelResponseInfo = new TravelResponseInfo(travelRequest);
-
+                        shuttleTravelResponseInfo.setShuttleTravel();
                         toShuttleRequest = directionProvider.getBasicRequest(mInitialLocation, shuttleTravelResponseInfo.getStartPoint(), TravelMode.WALKING);
                         fromShuttleRequest = directionProvider.getBasicRequest(shuttleTravelResponseInfo.getDestinationPoint(), mFinalLocation, TravelMode.WALKING);
 
@@ -131,6 +151,17 @@ public class DirectionEngine {
         }
     }
 
+    public ArrayList<TravelResponseInfo.TravelStep> getTravelSteps(DirectionType type)
+    {
+        for(DirectionPath path : mDirectionPaths)
+        {
+            if(path.getType() == type) {
+                return path.getTravelSteps();
+            }
+        }
+        return null;
+    }
+
     public void clearEngineState()
     {
         for(DirectionPath path : mDirectionPaths)
@@ -153,6 +184,8 @@ public class DirectionEngine {
             }
         }
     }
+
+
 
     public class DirectionPath
     {
@@ -190,12 +223,14 @@ public class DirectionEngine {
             for(int i = 0; i < travelSteps.size(); ++i)
             {
                 TravelResponseInfo.TravelStep step = travelSteps.get(i);
+                step.loadAttributes(mTravelStepParser);
                 mTravelSteps.add(step);
             }
         }
 
         public void AddTravelResponseInfo(ArrayList<TravelResponseInfo> travelResponseInfos)
         {
+
             for(int i = 0; i < travelResponseInfos.size(); ++i) {
                 AddTravelResponseInfo(travelResponseInfos.get(i));
             }
@@ -250,7 +285,6 @@ public class DirectionEngine {
 
                 //Set the line color
                 option.color(step.getColor());
-
                 //Add the line on the map!
                 mPolylines.add(mMap.addPolyline(option));
             }
@@ -262,6 +296,10 @@ public class DirectionEngine {
 
         public long getTotalDuration(){
             return mTotalDuration;
+        }
+
+        public ArrayList<TravelResponseInfo.TravelStep> getTravelSteps() {
+            return mTravelSteps;
         }
 
     }

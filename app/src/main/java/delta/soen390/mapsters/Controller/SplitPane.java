@@ -14,18 +14,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.model.TravelMode;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 
-import delta.soen390.mapsters.Activities.DirectionStepsFragment;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
+import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Fragments.DirOptionFragment;
+import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
+import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
+import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 
 
 public class SplitPane {
@@ -66,63 +71,63 @@ public class SplitPane {
         mCampus = (TextView) mContent.findViewById(R.id.campus);
         mBuildingServices = (TextView) mContent.findViewById(R.id.building_services);
         mBuildingPictureView = (ImageView) mContent.findViewById(R.id.building_image);
-
-        mBuildingPictureView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DirOptionFragment dirOptionFragment = new DirOptionFragment();
-                FragmentManager fragmentManager = mContext.getSupportFragmentManager();
-                fragmentManager.beginTransaction().addToBackStack("info")
-                        .replace(R.id.sliding_container,dirOptionFragment )
-                        .commit();
-
-
-            }
-        });
         mDirectionButton = (ImageButton) mContent.findViewById(R.id.direction_button);
         mDirectionButton.setOnClickListener(directionBtnListener);
     }
 
     public void updateContent(BuildingInfo buildingInfo) {
-        if (mCurrentBuilding == null) {
+        if (mContext.getCurrentDirectionPath() == null) {
+            if (mDirectionButton != null) {
+                mDirectionButton.setVisibility(View.VISIBLE);
+            }
             mDirectionButton.setVisibility(View.VISIBLE);
+            SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout) mContext.findViewById(R.id.sliding_layout);
+            slidingUpPanelLayout.setTouchEnabled(true);
+
+            //reconnect with views, if lost when swapping fragments
+            mBuildingName = (TextView) mContext.findViewById(R.id.building_name);
+            mBuildingCode = (TextView) mContext.findViewById(R.id.building_code);
+            mCampus = (TextView) mContext.findViewById(R.id.campus);
+            mBuildingServices = (TextView) mContext.findViewById(R.id.building_services);
+            mBuildingPictureView = (ImageView) mContext.findViewById(R.id.building_image);
+            //set em
+            mCurrentBuilding = buildingInfo;
+            mBuildingName.setText(buildingInfo.getBuildingName());
+            mBuildingCode.setText(buildingInfo.getBuildingCode());
+            mCampus.setText(buildingInfo.getCampus().toString());
+            clearViews();
+            // Create text views for the services and departments
+            displayBuildingInfo(mCurrentBuilding.getServices(), "Services");
+            displayBuildingInfo(mCurrentBuilding.getDepartments(), "Departments");
+
+            ImageLoader img = ImageLoader.getInstance();
+            img.init(ImageLoaderConfiguration.createDefault(mContext.getApplicationContext()));
+            ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), mBuildingPictureView);
         }
-
-        //reconnect with views, if lost when swapping fragments
-        mBuildingName = (TextView) mContext.findViewById(R.id.building_name);
-        mBuildingCode = (TextView) mContext.findViewById(R.id.building_code);
-        mCampus = (TextView) mContext.findViewById(R.id.campus);
-        mBuildingServices = (TextView) mContext.findViewById(R.id.building_services);
-        mBuildingPictureView = (ImageView) mContext.findViewById(R.id.building_image);
-        //set em
-        mCurrentBuilding = buildingInfo;
-        mBuildingName.setText(buildingInfo.getBuildingName());
-        mBuildingCode.setText(buildingInfo.getBuildingCode());
-        mCampus.setText(buildingInfo.getCampus().toString());
-
-
-        clearViews();
-        // Create text views for the services and departments
-        displayBuildingInfo(mCurrentBuilding.getServices(), "Services");
-        displayBuildingInfo(mCurrentBuilding.getDepartments(), "Departments");
-
-        ImageLoader img = ImageLoader.getInstance();
-        img.init(ImageLoaderConfiguration.createDefault(mContext.getApplicationContext()));
-        ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), mBuildingPictureView);
 
     }
 
-
-
-
-
-
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
-            DirectionStepsFragment dirOptionFragment = new DirectionStepsFragment();
+            DirectionEngine directionEngine = mContext.getDirectionEngine();
+
+            //Engine has not been set up, no directions available
+            if(directionEngine == null) {
+                return;
+            }
+
+            //Update the direction engine with all of the requested direction type
+            //from the settings
+            //Get the currently clicked overlay
+            directionEngine.setFinalLocation(GoogleMapstersUtils.toDirectionsLatLng(mCurrentBuilding.getCoordinates()));
+            directionEngine.updateDirectionEngine();
+
+            //DirOptionFragment is the view component of the direction pane
+            DirOptionFragment dirOptionFragment = new DirOptionFragment();
+
             FragmentManager fragmentManager = mContext.getSupportFragmentManager();
             fragmentManager.beginTransaction().addToBackStack("info")
-                    .replace(R.id.sliding_container,dirOptionFragment )
+                    .replace(R.id.sliding_container, dirOptionFragment)
                     .commit();
 
         }

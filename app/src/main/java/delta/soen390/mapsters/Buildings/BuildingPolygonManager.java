@@ -1,10 +1,10 @@
 package delta.soen390.mapsters.Buildings;
 
 import android.content.Context;
-import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polygon;
 
 import org.json.JSONObject;
 
@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.Data.JsonReader;
+import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
+import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
 import delta.soen390.mapsters.R;
 
 /**
@@ -22,14 +24,13 @@ public class BuildingPolygonManager {
 
     //<editor-fold desc="Singleton Definition">
     private static BuildingPolygonManager sBuildingPolygonManager;
-    private int mBuildingFocusFillColor;
-    private int mBuildingStandardFillColor;
     private SplitPane mSplitPane;
 
+    private ArrayList<BuildingPolygonOverlay> mBuildingPolygons = new ArrayList<BuildingPolygonOverlay>();
 
     //Whenever the user clicks a building, that building is focused.
     //Only one building can be focused at a time
-    private BuildingPolygon mCurrentlyFocusedBuilding;
+    private BuildingPolygonOverlay mCurrentlyFocusedBuilding;
     private BuildingInfo mCurrentBuildingInfo;
 
     private BuildingPolygonManager() {
@@ -44,24 +45,10 @@ public class BuildingPolygonManager {
     }
     //</editor-fold>
 
-    private ArrayList<BuildingPolygon> mBuildingPolygons;
 
     public void initialize()
     {
-        mBuildingPolygons  = new ArrayList<>();
-    }
 
-    public BuildingPolygon getClickedPolygon(LatLng point) {
-        if(point != null) {
-            for (int i = 0; i < mBuildingPolygons.size(); ++i) {
-                BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
-                if (buildingPolygon.isPointInsidePolygon(point)) {
-                    return buildingPolygon;
-                }
-            }
-        }
-
-        return null;
     }
 
 	public void loadResources(GoogleMap gMap, final SplitPane splitPane, Context context) {
@@ -69,31 +56,42 @@ public class BuildingPolygonManager {
         PolygonSerializer polygonSerializer = new PolygonSerializer(gMap);
         mSplitPane = splitPane;
         mBuildingPolygons       = polygonSerializer.createPolygonArray(jsonBuildingPolygons);
+
         //TODO load from values
         float   borderWidth     = 4.0f;//context.getResources().getDimension(R.dimen.polygon_border_width);
-        mBuildingStandardFillColor      = context.getResources().getColor(R.color.concordia_dark);
-        mBuildingFocusFillColor         = context.getResources().getColor(R.color.concordia_light);
+        int buildingUnfocusFillColor      = context.getResources().getColor(R.color.concordia_dark);
+        int buildingFocusFillColor         = context.getResources().getColor(R.color.concordia_light);
 
-        for(int i = 0; i < mBuildingPolygons.size(); ++i)
+        for(BuildingPolygonOverlay buildingOverlay : mBuildingPolygons)
         {
-            BuildingPolygon polygon = mBuildingPolygons.get(i);
-            polygon.setBorderWidth(borderWidth);
+            buildingOverlay.setBorderWidth(borderWidth);
 
-            unfocusBuildingPolygon(polygon);
+            //Set the focus/unfocused color for the overlays
+            buildingOverlay.setFocusColor(buildingFocusFillColor);
+            buildingOverlay.setUnfocusedColor(buildingUnfocusFillColor);
+
+            //Set the overlay state to unfocused in order to reset the new passed unfocused color
+            buildingOverlay.unfocus();
         }
+
     }
 
     public void clickPolygon(LatLng point){
-        BuildingPolygon polygon = getClickedPolygon(point);
-        if(polygon != null) {
-            clickAndPopulate(polygon);
+        PolygonOverlay polygon = PolygonOverlayManager.getInstance().getClickedPolygon(point);
+
+        //Null check and make sure the clicked polygon is actually a building and not a room
+        if( (polygon != null) && (polygon.getClass() == BuildingPolygonOverlay.class) )
+        {
+            clickAndPopulate((BuildingPolygonOverlay)polygon);
         }
     }
 
-    public void clickAndPopulate(BuildingPolygon buildingPolygon){
+
+    public void clickAndPopulate(BuildingPolygonOverlay buildingPolygon){
         mCurrentBuildingInfo = buildingPolygon.getBuildingInfo();
         //Focus the selected building
-        focusBuildingPolygon(buildingPolygon);
+
+        mCurrentlyFocusedBuilding = buildingPolygon;
         mSplitPane.updateContent(mCurrentBuildingInfo);
     }
 
@@ -101,30 +99,20 @@ public class BuildingPolygonManager {
         return mCurrentBuildingInfo;
     }
 
-    //Will create a focus effect on the passed BuildingPolygon
-    public void focusBuildingPolygon(BuildingPolygon polygon)
+
+    public void activateBuildingOverlays()
     {
-        if(mCurrentlyFocusedBuilding != null) {
-            unfocusBuildingPolygon(mCurrentlyFocusedBuilding);
-        }
-        mCurrentlyFocusedBuilding = polygon;
-        mCurrentlyFocusedBuilding.setFillColor(mBuildingFocusFillColor);
+        PolygonOverlayManager.getInstance().setActiveOverlays(mBuildingPolygons);
     }
 
-    //Remove all focus effects of the BuildingPolygon
-    //mainly resets color
-    public void unfocusBuildingPolygon(BuildingPolygon polygon)
-    {
-        polygon.setFillColor(mBuildingStandardFillColor);
-    }
 
-    public BuildingPolygon getBuildingPolygonByBuildingCode(String buildingCode)
+    public BuildingPolygonOverlay getBuildingPolygonByBuildingCode(String buildingCode)
     {
         buildingCode = buildingCode.toUpperCase();
 
         if (buildingCode != null && !buildingCode.equals("")) {
             for (int i = 0; i < mBuildingPolygons.size(); ++i) {
-                BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+                BuildingPolygonOverlay buildingPolygon = mBuildingPolygons.get(i);
                 if (buildingPolygon.getBuildingInfo().getBuildingCode().compareTo(buildingCode) == 0) {
                     return buildingPolygon;
                 }
@@ -138,7 +126,7 @@ public class BuildingPolygonManager {
     public BuildingInfo getBuildingInfoByService(String service) {
         if (service != null && !service.equals("")) {
             for (int i = 0; i < mBuildingPolygons.size(); ++i) {
-                BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+                BuildingPolygonOverlay buildingPolygon = mBuildingPolygons.get(i);
                 ArrayList<String[]> services = buildingPolygon.getBuildingInfo().getServices();
                 for (String[] serv : services) {
                     if(serv[0].equals(service)) {
@@ -154,7 +142,7 @@ public class BuildingPolygonManager {
     public BuildingInfo getBuildingInfoByDepartment(String department) {
         if (department != null && !department.equals("")) {
             for (int i = 0; i < mBuildingPolygons.size(); ++i) {
-                BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+                BuildingPolygonOverlay buildingPolygon = mBuildingPolygons.get(i);
                 ArrayList<String[]> departments = buildingPolygon.getBuildingInfo().getDepartments();
                 for (String[] dept : departments) {
                     if(dept[0].equals(department)) {
@@ -170,7 +158,7 @@ public class BuildingPolygonManager {
     public ArrayList<String> getAllDepartments(){
         ArrayList<String> allDepartments= new ArrayList<>();
         for (int i = 0; i < mBuildingPolygons.size(); ++i) {
-            BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+            BuildingPolygonOverlay buildingPolygon = mBuildingPolygons.get(i);
             ArrayList<String[]> departments = buildingPolygon.getBuildingInfo().getDepartments();
             for (String[] dept : departments) {
                 allDepartments.add(dept[0]);
@@ -183,7 +171,7 @@ public class BuildingPolygonManager {
     public ArrayList<String> getAllServices(){
         ArrayList<String> allServices= new ArrayList<>();
         for (int i = 0; i < mBuildingPolygons.size(); ++i) {
-            BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+            BuildingPolygonOverlay buildingPolygon = mBuildingPolygons.get(i);
             ArrayList<String[]> services = buildingPolygon.getBuildingInfo().getServices();
             for (String[] serv : services) {
                 allServices.add(serv[0]);
@@ -196,7 +184,7 @@ public class BuildingPolygonManager {
     public ArrayList<String> getAllBuildings(){
         ArrayList<String> allBuildings= new ArrayList<>();
         for (int i = 0; i < mBuildingPolygons.size(); ++i) {
-            BuildingPolygon buildingPolygon = mBuildingPolygons.get(i);
+            BuildingPolygonOverlay buildingPolygon = mBuildingPolygons.get(i);
             allBuildings.add(buildingPolygon.getBuildingInfo().getBuildingCode());
 
         }

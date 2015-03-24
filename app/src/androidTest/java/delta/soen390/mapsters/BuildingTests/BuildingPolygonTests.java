@@ -2,8 +2,8 @@ package delta.soen390.mapsters.BuildingTests;
 import android.test.AndroidTestCase;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
-import delta.soen390.mapsters.Geometry.BoundingBox2D;
-import delta.soen390.mapsters.Geometry.Vector2D;
+import delta.soen390.mapsters.GeometricOverlays.BoundingBox2D;
+import delta.soen390.mapsters.GeometricOverlays.Vector2D;
 
 /**
  * Created by Patrick on 15-02-22.

@@ -1,4 +1,4 @@
-package delta.soen390.mapsters.Geometry;
+package delta.soen390.mapsters.GeometricOverlays;
 
 /**
  * Created by Niofire on 2/7/2015.

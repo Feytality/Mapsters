@@ -9,13 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import delta.soen390.mapsters.Activities.DirectionStepsFragment;
+import delta.soen390.mapsters.Activities.MapsActivity;
+import delta.soen390.mapsters.Controller.DirectionStep;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Services.DirectionEngine;
 
 
 public class DirOptionFragment extends Fragment {
@@ -23,7 +30,8 @@ public class DirOptionFragment extends Fragment {
 
     private FragmentTabHost tabHost;
     private SlidingUpPanelLayout panelLayout;
-
+    private ArrayList<TabHost.TabSpec> mTabSpecs = new ArrayList<>();
+    private DirectionEngine mDirectionEngine;
     public DirOptionFragment() {
         // Required empty public constructor
     }
@@ -32,6 +40,15 @@ public class DirOptionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+    }
+
+    private void addTab(String tabId, DirectionEngine.DirectionType directionType)
+    {
+        //MapsActivity activity = (MapsActivity)getActivity();
+        Bundle args = new Bundle();
+        args.putInt("DirectionType", directionType.ordinal());
+        tabHost.addTab(tabHost.newTabSpec(tabId).setIndicator(tabId), DirectionStepsFragment.class, args);
     }
 
     @Override
@@ -40,27 +57,35 @@ public class DirOptionFragment extends Fragment {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Set<String> defaults = prefs.getStringSet("transit_views", new HashSet<String>());
-         String isCycling = getString(R.string.is_cycling);
-         String isWalking = getString(R.string.is_walking);
-         String isDriving = getString(R.string.is_driving);
-         String isShuttle = getString(R.string.is_shuttle);
+        final String isCycling = getString(R.string.is_cycling);
+        final   String isWalking = getString(R.string.is_walking);
+        final  String isDriving = getString(R.string.is_driving);
+        final   String isShuttle = getString(R.string.is_shuttle);
+        final   String isTransit = getString(R.string.is_Transit);
         tabHost = new FragmentTabHost(getActivity());
 
         View view = inflater.inflate(R.layout.fragment_dir_option, tabHost);
         tabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
         //Always here
-        tabHost.addTab(tabHost.newTabSpec("STM").setIndicator("STM"), GetSteps.class, null);
+        addTab(isTransit, DirectionEngine.DirectionType.TRANSIT);
 
+        MapsActivity activity = ((MapsActivity)getActivity());
+        mDirectionEngine = activity.getDirectionEngine();
+
+        //Transit is the default value which is always present, hence show the transit path
+        mDirectionEngine.showDirectionPath(DirectionEngine.DirectionType.TRANSIT);
+
+        //update the tab
         if (defaults.contains(isShuttle)){
-            tabHost.addTab(tabHost.newTabSpec(isShuttle).setIndicator(isShuttle), GetSteps.class, null);
+            addTab(isShuttle, DirectionEngine.DirectionType.SHUTTLE);
         } if (defaults.contains(isDriving)){
-            tabHost.addTab(tabHost.newTabSpec(isDriving).setIndicator(isDriving), GetSteps.class, null);
+            addTab(isDriving, DirectionEngine.DirectionType.DRIVING);
         } if (defaults.contains(isWalking)){
-            tabHost.addTab(tabHost.newTabSpec(isWalking).setIndicator(isWalking), GetSteps.class, null);
-        } if (defaults.contains(isCycling)){
-            tabHost.addTab(tabHost.newTabSpec(isCycling).setIndicator(isCycling), GetSteps.class, null);
-
+            addTab(isWalking, DirectionEngine.DirectionType.WALKING);
+        } if (defaults.contains(isCycling)) {
+            addTab(isCycling, DirectionEngine.DirectionType.BICYCLE);
+        }
 
             //Listerner BAY - refactor
 
@@ -68,17 +93,44 @@ public class DirOptionFragment extends Fragment {
                 @Override
                 public void onTabChanged(String tabId) {
 
-                    git = new GetSteps();
-                    getActivity().getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.steps_layout, git)
-                            .commit();
-                    git.createSteps(tabHost);
+                    Toast.makeText(getActivity().getApplicationContext(),tabId,Toast.LENGTH_SHORT).show();
+
+                    if(mDirectionEngine == null) {
+                        MapsActivity activity = ((MapsActivity)getActivity());
+                        mDirectionEngine = activity.getDirectionEngine();
+                        if(mDirectionEngine == null) {
+                            return;
+                        }
+                    }
+
+                    DirectionEngine.DirectionType directionType = DirectionEngine.DirectionType.TRANSIT;
+                    if(tabId.equals(isCycling))
+                    {
+                        directionType = DirectionEngine.DirectionType.BICYCLE;
+                    }
+                    else if(tabId.equals(isTransit))
+                    {
+                        directionType = DirectionEngine.DirectionType.TRANSIT;
+                    }
+                    else if(tabId.equals(isShuttle))
+                    {
+                        directionType = DirectionEngine.DirectionType.SHUTTLE;
+                    }
+                    else if(tabId.equals(isWalking))
+                    {
+                        directionType = DirectionEngine.DirectionType.WALKING;
+                    }
+                    else if(tabId.equals(isDriving))
+                    {
+                        directionType = DirectionEngine.DirectionType.DRIVING;
+                    }
+
+                    mDirectionEngine.showDirectionPath(directionType);
 
                 }
+
             });
-
-
-        }        return tabHost;
+                return tabHost;
     }
 
 
