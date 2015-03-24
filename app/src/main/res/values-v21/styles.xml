@@ -10,9 +10,43 @@
         <item name="android:colorPrimaryDark">@color/concordia_main_color</item>
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">@color/concordia_main_color</item>
+        <item name="android:colorButtonNormal">#2196f3</item>
+
 
 
 
     </style>
+<!--see it you can move a version of this to regular styles-->
+    <style name="FlatBtn">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:translationZ">1dp</item>
+        <item name="android:background">@drawable/primary_roundv21</item>
 
+    </style>
+
+    <style name="FloatBtn">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:minWidth">56dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:translationZ">1dp</item>
+<item name="android:stateListAnimator">@anim/button_elevation</item>
+        <item name="android:background">@drawable/primary_flatv21</item>
+
+    </style>
+    <style name="CustomShowcaseTheme" parent="ShowcaseView">
+        <item name="sv_backgroundColor">@color/concordia_main_color_alpha</item>
+        <item name="sv_showcaseColor">@color/concordia_gold</item>
+        <item name="sv_tintButtonColor">true</item>
+        <item name="sv_titleTextAppearance">@style/CustomTitle</item>
+    </style>
+
+    <style name="CustomTitle" parent="TextAppearance.ShowcaseView.Title">
+        <item name="android:textColor">@color/concordia_gold_light</item>
+    </style>
 </resources>

@@ -5,8 +5,10 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        card_view:cardCornerRadius="4dp"
-        android:layout_margin="5dp">
+        card_view:cardCornerRadius="0dp"
+    android:stateListAnimator="@anim/button_elevation"
+
+    android:layout_margin="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,19 +17,19 @@
         <TextView
             android:id="@+id/stepTitle"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="62dp"
             android:background="@color/concordia_dark"
             android:text="contact det"
             android:gravity="center_vertical"
             android:textColor="@android:color/white"
-            android:textSize="14dp"/>
+            android:textSize="60dp"/>
 
         <TextView
             android:id="@+id/stepText"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
-            android:textSize="10dp"
+            android:textSize="30dp"
             android:layout_below="@id/stepTitle"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"/>

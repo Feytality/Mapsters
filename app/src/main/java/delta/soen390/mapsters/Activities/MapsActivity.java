@@ -80,6 +80,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         //Setup the google map
         // initialize location
         mLocationService = new LocationService(getApplicationContext());
+
         mImm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         mCampusSwitchUI = new CampusSwitchUI(this, mCampusViewSwitcher);
