@@ -121,8 +121,12 @@ public class SplitPane {
         }
 
     }
+    private int getDisplayHeight() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        mContext.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        return metrics.widthPixels;
+    }
 
-<<<<<<< HEAD
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
             DirectionEngine directionEngine = mContext.getDirectionEngine();
@@ -131,14 +135,6 @@ public class SplitPane {
             if(directionEngine == null) {
                 return;
             }
-=======
-    private int getDisplayHeight() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        mContext.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        return metrics.widthPixels;
-    }
->>>>>>> f656a834bce93c3c94c34785a9032428ecf381d4
-
             //Update the direction engine with all of the requested direction type
             //from the settings
             //Get the currently clicked overlay
