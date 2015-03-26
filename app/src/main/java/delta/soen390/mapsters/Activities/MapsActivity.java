@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -34,6 +33,7 @@ import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarEventNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
+import delta.soen390.mapsters.Controller.ProtoSearchBox;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.Fragments.SearchBarFragment;
 import delta.soen390.mapsters.R;
@@ -112,7 +112,6 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
 
 
-        String msg = PreferenceManager.getDefaultSharedPreferences(this).getString("campus_list","NOO");
 
     }
 
@@ -185,6 +184,14 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         googleMap.setOnMapClickListener(this);
         mGoogleMap = googleMap;
 
+        //Select a building
+        BuildingPolygon buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode("AD");
+        if (buildingPolygon != null) {
+            BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
+            mCampusSwitchUI.getmCampusViewSwitcher().zoomToLatLong(17, buildingPolygon.getBuildingInfo());
+        }
+
+        ProtoSearchBox pt = new ProtoSearchBox(this);
     }
 
     @Override

@@ -49,15 +49,18 @@
 
 
             <!--Search Bar Fragment -->
-            <fragment
-                android:layout_width="wrap_content"
+            <AutoCompleteTextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:name="delta.soen390.mapsters.Fragments.SearchBarFragment"
-                android:id="@+id/SearchBarFragment"
+                android:id="@+id/global_search"
                 tools:layout="@layout/search_bar_fragment"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/tableRow"
-                android:layout_toEndOf="@+id/tableRow" />
+                android:layout_toLeftOf="@+id/locate_me"
+                android:layout_toStartOf="@+id/locate_me" />
+
+
             <!--Campus Switcher -->
             <Switch
                 android:layout_width="wrap_content"
@@ -69,7 +72,7 @@
                 android:textOn="SGW"
                 android:textOff="LOY"
                 android:padding="10dp"
-                android:layout_below="@+id/SearchBarFragment"
+                android:layout_below="@+id/global_search"
                 android:layout_centerHorizontal="true" />
             <!--Menu Bar-->
             <TableRow

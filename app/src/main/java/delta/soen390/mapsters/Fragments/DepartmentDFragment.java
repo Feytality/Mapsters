@@ -67,7 +67,7 @@ public class DepartmentDFragment extends Fragment {
             }
         });
 
-        text = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
+        text = (AutoCompleteTextView) view.findViewById(R.id.directory_search);
         text.setThreshold(1);
 
         ArrayAdapter adapter = new ArrayAdapter
