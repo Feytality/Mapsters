@@ -74,7 +74,8 @@
                         android:layout_alignParentTop="true"
                         android:layout_toRightOf="@+id/tableRow"
                         android:layout_toLeftOf="@+id/locate_me"
-                        android:layout_toStartOf="@+id/locate_me" />
+                        android:layout_toStartOf="@+id/locate_me"
+                        android:hint="Search"/>
 
                     <Switch
                         android:layout_width="wrap_content"

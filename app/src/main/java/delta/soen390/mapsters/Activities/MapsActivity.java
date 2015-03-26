@@ -35,7 +35,6 @@ import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.ProtoSearchBox;
 import delta.soen390.mapsters.Controller.SplitPane;
-import delta.soen390.mapsters.Fragments.SearchBarFragment;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
@@ -43,7 +42,7 @@ import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
 public class MapsActivity extends FragmentActivity implements SlidingFragment.OnDataPass, OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource,
-        GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener, SearchBarFragment.SearchBarListener {
+        GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener{
 
     private TextView textPointer;
     private CampusSwitchUI mCampusSwitchUI;
@@ -185,14 +184,19 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mGoogleMap = googleMap;
 
         //Select a building
-        BuildingPolygon buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode("AD");
-        if (buildingPolygon != null) {
-            BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
-            mCampusSwitchUI.getmCampusViewSwitcher().zoomToLatLong(17, buildingPolygon.getBuildingInfo());
-        }
-
+        SelectBuildingByBuildingCode("AD", 17);
         ProtoSearchBox pt = new ProtoSearchBox(this);
     }
+
+    private void SelectBuildingByBuildingCode(String code, int zoomLevel) {
+        BuildingPolygon buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(code);
+        if (buildingPolygon != null) {
+            BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
+            mCampusSwitchUI.getmCampusViewSwitcher().zoomToLatLong(zoomLevel, buildingPolygon.getBuildingInfo());
+        }
+    }
+
+
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -232,8 +236,11 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             if(resultCode == RESULT_OK){
 
                 String result=data.getStringExtra("result");
-                mCampusSwitchUI.getmCampusViewSwitcher().cameraToPoint(result);
-                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+                keywordResult(result);
+
+//                LatLng latlng= mCampusSwitchUI.getmCampusViewSwitcher().parseCoordinate(result);
+//                onMapClick(latlng);
+//                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
             }
             if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this,"whyyyyy",Toast.LENGTH_SHORT).show();            }
@@ -241,44 +248,18 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     }//onActivityResult
 
     public void keywordResult(String result){
-        mCampusSwitchUI.getmCampusViewSwitcher().cameraToPoint(result);
+        LatLng latlng= mCampusSwitchUI.getmCampusViewSwitcher().parseCoordinate(result);
+        onMapClick(latlng);
+        SelectBuildingByBuildingCode(mCurrentBuilding.getBuildingCode(),17);
 
     }
 
 
-    public void searchForRoom(String input) {
-        boolean firstChar = false;
-        String buildingCode = "";
-
-        for (char c : input.toCharArray()) {
-            if (Character.isLetter(c)) {
-                firstChar = true;
-                buildingCode += c;
-                continue;
-            }
-            if (firstChar) {
-                break;
-            }
-        }
-
-        if (buildingCode.isEmpty()) {
-            Toast.makeText(this, "Please put in a building code in this format H456", Toast.LENGTH_SHORT).show();
-        }
-
-        BuildingPolygon buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(buildingCode);
-
-        if (buildingPolygon != null) {
-            BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
-            mCampusSwitchUI.getmCampusViewSwitcher().zoomToLatLong(18, buildingPolygon.getBuildingInfo());
-            return;
-        }
-
-        Toast.makeText(this, "Please enter a proper building code", Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onMapClick(LatLng latLng) {
         BuildingPolygonManager.getInstance().clickPolygon(latLng);
+        mCurrentBuilding=BuildingPolygonManager.getInstance().getCurrentBuildingInfo();
         mImm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
