@@ -20,11 +20,12 @@
 
 
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <!--Map Fragment -->
+
             <ViewSwitcher
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -47,63 +48,69 @@
                 <!--45.497174,-73.578835,17z SGW-->
             </ViewSwitcher>
 
-
-            <!--Search Bar Fragment -->
-            <AutoCompleteTextView
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:name="delta.soen390.mapsters.Fragments.SearchBarFragment"
-                android:id="@+id/global_search"
-                tools:layout="@layout/search_bar_fragment"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/tableRow"
-                android:layout_toLeftOf="@+id/locate_me"
-                android:layout_toStartOf="@+id/locate_me" />
-
-
-            <!--Campus Switcher -->
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/campusSwitch"
-                android:showText="true"
-                android:splitTrack="true"
-                android:checked="false"
-                android:textOn="SGW"
-                android:textOff="LOY"
-                android:padding="10dp"
-                android:layout_below="@+id/global_search"
-                android:layout_centerHorizontal="true" />
-            <!--Menu Bar-->
-            <TableRow
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_weight="1"
-
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:id="@+id/tableRow">
+                android:layout_height="fill_parent">
 
                 <Button
-                    android:layout_width="0dip"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
+                    android:layout_width="56dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/apptheme_ic_navigation_drawer"
                     android:id="@+id/btn_nav_drawer"
                     android:clickable="false" />
-            </TableRow>
 
-            <ImageButton
-                style="@style/FloatBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_compass"
-                android:id="@+id/locate_me"
-                android:layout_alignRight="@+id/mapSwitcher" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="257dp"
+                    android:layout_height="wrap_content">
 
-        </RelativeLayout>
+                    <AutoCompleteTextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:name="delta.soen390.mapsters.Fragments.SearchBarFragment"
+                        android:id="@+id/global_search"
+                        tools:layout="@layout/search_bar_fragment"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/tableRow"
+                        android:layout_toLeftOf="@+id/locate_me"
+                        android:layout_toStartOf="@+id/locate_me" />
+
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/campusSwitch"
+                        android:showText="true"
+                        android:splitTrack="true"
+                        android:checked="false"
+                        android:textOn="SGW"
+                        android:textOff="LOY"
+                        android:padding="10dp"
+                        android:layout_below="@+id/global_search"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center" />
+
+                </LinearLayout>
+
+                <ImageButton
+                    style="@style/FloatBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@android:drawable/ic_menu_compass"
+                    android:id="@+id/locate_me"
+                    android:layout_alignRight="@+id/mapSwitcher"
+                    android:minWidth="56dp" />
+
+            </LinearLayout>
+
+
+            <!--Search Bar Fragment -->
+
+
+            <!--Campus Switcher -->
+            <!--Menu Bar-->
+
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/sliding_container"

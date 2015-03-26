@@ -1,12 +1,12 @@
 package delta.soen390.mapsters.Controller;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageButton;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,51 +21,50 @@ import delta.soen390.mapsters.R;
 public class ProtoSearchBox {
 
     private  MapsActivity mContext;
-    private AutoCompleteTextView textView;
+    private AutoCompleteTextView mTextView;
 
     public ProtoSearchBox(MapsActivity context){
         mContext = context;
         List<String> listingList = setAllSearch();
         Collections.sort(listingList);
-        textView = (AutoCompleteTextView) mContext.findViewById(R.id.global_search);
-        View v =mContext.findViewById(R.id.SearchBarFragment);
-        v.setVisibility(View.GONE);
-        textView.setThreshold(1);
-        ArrayAdapter adapter = new ArrayAdapter(mContext.getApplicationContext(),R.layout.my_list_item_style,listingList);
-        textView.setAdapter(adapter);
+        mTextView = (AutoCompleteTextView) mContext.findViewById(R.id.global_search);
 
-        textView.setOnClickListener(new View.OnClickListener() {
+        mTextView.setThreshold(1);
+        ArrayAdapter adapter = new ArrayAdapter(mContext.getApplicationContext(),R.layout.my_list_item_style,listingList);
+        mTextView.setAdapter(adapter);
+
+        mTextView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                if (textView.getText().toString().contains("Search")) {
-                    textView.setText("");
+                if (mTextView.getText().toString().contains("Search")) {
+                    mTextView.setText("");
 
                 }
             }
         });
 
 
-        textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(parent.getItemAtPosition(position).toString()).getBuildingInfo().getCoordinates().toString();
-                returnIntent.putExtra("result",result);
-                mContext.setResult(Activity.RESULT_OK, returnIntent);
-                mContext.finish();
+                String result = BuildingPolygonManager.getInstance().getBuildingInfoByKeyword(parent.getItemAtPosition(position).toString()).getCoordinates().toString();
+               mContext.keywordResult(result);
+                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mTextView.getWindowToken(), 0);
             }
 
         });
 
-        ImageButton btn = (ImageButton) mContext.findViewById(R.id.clr_button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textView.setText("");
-            }
-        });
+//        ImageButton btn = (ImageButton) mContext.findViewById(R.id.clr_button);
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                textView.setText("");
+//            }
+//        });
 
 
 

@@ -108,7 +108,7 @@ public class HelpToolTip implements View.OnClickListener{
                 break;
 
             case 5:
-                expose = new ViewTarget(mActivity.findViewById(R.id.SearchBarFragment));
+                expose = new ViewTarget(mActivity.findViewById(R.id.global_search));
                 showcaseView.setShowcase(expose,true);
                 showcaseView.setContentTitle(mActivity.getString(R.string.tut_title5));
                 showcaseView.setContentText(mActivity.getString(R.string.tut_text5));

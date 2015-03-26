@@ -240,8 +240,12 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         }
     }//onActivityResult
 
+    public void keywordResult(String result){
+        mCampusSwitchUI.getmCampusViewSwitcher().cameraToPoint(result);
 
-    @Override
+    }
+
+
     public void searchForRoom(String input) {
         boolean firstChar = false;
         String buildingCode = "";
