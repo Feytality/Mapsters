@@ -85,4 +85,12 @@
     <string name="is_cycling">Bicycling</string>
     <string name="is_walking">Walking</string>
 
+
+    <!--Polygon overlay loading path-->
+    <string name="data_directory_floor_overlay">FloorOverlayData</string>
+    <string name="overlay_room_name" >name</string>
+    <string name="overlay_room_bounding_coordinates">coordinates</string>
+    <string name="overlay_room_description">description</string>
+    <string name="overlay_room_starting_element">Placemark</string>
+
 </resources>

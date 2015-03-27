@@ -1,12 +1,16 @@
 package delta.soen390.mapsters.Buildings;
 
+import android.content.Context;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
 
 import java.util.ArrayList;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
+import delta.soen390.mapsters.R;
 
 /**
  * Created by Niofire on 2/7/2015.
@@ -16,9 +20,9 @@ public class BuildingPolygonOverlay extends PolygonOverlay {
     private BuildingInfo mBuildingInfo;
 
 	//UI Polygon displayed on the gmap isntance
-	public BuildingPolygonOverlay(GoogleMap googleMap, BuildingInfo buildingInfo)
+	public BuildingPolygonOverlay(MapsActivity activity, BuildingInfo buildingInfo)
 	{
-        super(googleMap);
+        super(activity);
 
 		mBuildingInfo   = buildingInfo;
 
@@ -30,7 +34,12 @@ public class BuildingPolygonOverlay extends PolygonOverlay {
     {
         super.focus();
 
-        BuildingPolygonManager.getInstance().clickAndPopulate(this);
+    }
+
+    public void loadResources(Context c)
+    {
+        setFocusColor(c.getResources().getColor(R.color.concordia_dark));
+        setUnfocusedColor(c.getResources().getColor(R.color.concordia_light));
     }
 
 	private void initializePolygon()

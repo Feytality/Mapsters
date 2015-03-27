@@ -38,6 +38,7 @@ import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 
 public class SplitPane {
     private View mContent;
+
     private BuildingInfo mCurrentBuilding;
     private LocationService mLocationService;
     private MapsActivity mContext;
@@ -54,7 +55,7 @@ public class SplitPane {
     private ImageView mBike;
 
 
-    //Directions
+    //Directions UI
     private ImageButton mDirectionButton;
     private DirectionEngine mDirectionEngine;
     private DirectionEngine.DirectionPath mCurrentDirectionPath;
@@ -65,6 +66,8 @@ public class SplitPane {
     private ImageView mAccess;
     private TextView mBuildingAddress;
 
+    private View mIndoorsDirectoryButton;
+
     public SplitPane(View slideView, float anchorPoint, LocationService locationService, MapsActivity context) {
         mContext = context;
         mContent =slideView;
@@ -74,6 +77,46 @@ public class SplitPane {
         mLocationService = locationService;
 
         //initializing components
+        initializeBuildingInformationDisplay();
+        initializeDirectionButton();
+        initializeIndoorsDirectoryButton();
+    }
+
+    private void initializeDirectionButton()
+    {
+        mDirectionButton = (ImageButton) mContent.findViewById(R.id.direction_button);
+        if(mDirectionButton == null)
+        {
+            return;
+        }
+        mDirectionButton.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                        DirectionEngine directionEngine = mContext.getDirectionEngine();
+
+                        //Engine has not been set up, no directions available
+                        if(directionEngine == null) {
+                            return;
+                        }
+                        //Update the direction engine with all of the requested direction type
+                        //from the settings
+                        //Get the currently clicked overlay
+                        directionEngine.setFinalLocation(GoogleMapstersUtils.toDirectionsLatLng(mCurrentBuilding.getCoordinates()));
+                        directionEngine.updateDirectionEngine();
+
+                        //DirOptionFragment is the view component of the direction pane
+                        DirOptionFragment dirOptionFragment = new DirOptionFragment();
+
+                        FragmentManager fragmentManager = mContext.getSupportFragmentManager();
+                        fragmentManager.beginTransaction().addToBackStack("info")
+                                .replace(R.id.sliding_container, dirOptionFragment)
+                                .commit();
+                    }}
+        );
+    }
+
+    private void initializeBuildingInformationDisplay()
+    {
         mBuildingName = (TextView) mContent.findViewById(R.id.building_name);
         mBuildingCode = (TextView) mContent.findViewById(R.id.building_code);
         mCampus = (TextView) mContent.findViewById(R.id.campus);
@@ -83,6 +126,23 @@ public class SplitPane {
         mDirectionButton.setOnClickListener(directionBtnListener);
     }
 
+    private void initializeIndoorsDirectoryButton()
+    {
+        mIndoorsDirectoryButton = mContext.findViewById(R.id.indoors_btn);
+
+        if(mIndoorsDirectoryButton == null) {
+            return;
+        }
+
+        mIndoorsDirectoryButton.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View v) {
+                       //Todo
+                        //indoorViewManager shit
+                    }}
+        );
+    }
+
     public void updateContent(BuildingInfo buildingInfo) {
 
         mContext.findViewById(R.id.sliding_container).clearAnimation();
@@ -90,7 +150,7 @@ public class SplitPane {
         translation = new TranslateAnimation(0f, 0F, 50f, 0f);
         translation.setStartOffset(0);
         translation.setDuration(500);
-       translation.setFillAfter(true);
+        translation.setFillAfter(true);
         translation.setInterpolator(new BounceInterpolator());
         mContext.findViewById(R.id.sliding_container).startAnimation(translation);
 
@@ -149,37 +209,6 @@ public class SplitPane {
         return metrics.widthPixels;
     }
 
-    private View.OnClickListener directionBtnListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            DirectionEngine directionEngine = mContext.getDirectionEngine();
-
-            //Engine has not been set up, no directions available
-            if(directionEngine == null) {
-                return;
-            }
-            //Update the direction engine with all of the requested direction type
-            //from the settings
-            //Get the currently clicked overlay
-            directionEngine.setFinalLocation(GoogleMapstersUtils.toDirectionsLatLng(mCurrentBuilding.getCoordinates()));
-            directionEngine.updateDirectionEngine();
-
-            //DirOptionFragment is the view component of the direction pane
-            DirOptionFragment dirOptionFragment = new DirOptionFragment();
-
-            FragmentManager fragmentManager = mContext.getSupportFragmentManager();
-            fragmentManager.beginTransaction().addToBackStack("info")
-                    .replace(R.id.sliding_container, dirOptionFragment)
-                    .commit();
-
-
-
-        }
-
-    };
-
-
-
-
 
     private void displayBuildingInfo(ArrayList<String[]> info, String title) {
         if(info.size() > 0) {
@@ -214,8 +243,8 @@ public class SplitPane {
                 }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        infoRow.setMovementMethod(LinkMovementMethod.getInstance());
-                        infoRow.setText(Html.fromHtml("<a href=\"" + destUrl + "\">" + infoArray[0] + "</a>"));
+                    infoRow.setMovementMethod(LinkMovementMethod.getInstance());
+                    infoRow.setText(Html.fromHtml("<a href=\"" + destUrl + "\">" + infoArray[0] + "</a>"));
 
                 } else {
                     infoRow.setText(infoArray[0]);

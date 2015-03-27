@@ -5,7 +5,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+
+import delta.soen390.mapsters.Activities.MapsActivity;
+import delta.soen390.mapsters.R;
 
 /**
  * Created by Mathieu on 3/21/2015.
@@ -20,21 +25,31 @@ public class PolygonOverlay {
     private int mFocusedColor;
     private int mUnfocusedColor;
 
-    public PolygonOverlay(GoogleMap map) {
-        mGoogleMap = map;
+    private LatLng mCenterPoint;
+    protected PolygonOverlayManager mPolygonManager;
 
+    public PolygonOverlay(MapsActivity activity) {
+        mGoogleMap = activity.getGoogleMap();
+        mPolygonManager = activity.getPolygonOverlayManager();
     }
 
-    protected boolean createPolygon(ArrayList<LatLng> boundingPoints)
+
+    public boolean createPolygon(ArrayList<LatLng> boundingPoints)
     {
 //Create the Polygon Options which will be used to instantiate the actual google map Polygon UI element
         PolygonOptions polygonOptions = new PolygonOptions();
 
+        double totalLatitude = 0,totalLongitude = 0;
         //Load in the vertices!
         for(LatLng point : boundingPoints)
         {
+            totalLatitude += point.latitude;
+            totalLongitude += point.longitude;
             polygonOptions.add(point);
         }
+
+        mCenterPoint = new LatLng(totalLatitude/boundingPoints.size(),totalLongitude/boundingPoints.size());
+        //
 
         //add first vertex at the end in order to create a complete polygon loop
         if(boundingPoints.size() > 0) {
@@ -70,6 +85,8 @@ public class PolygonOverlay {
         }
     }
 
+    public LatLng getCenterPoint() { return mCenterPoint;}
+
     public void setFillColor(int color)
     {
         if(mPolygon != null) {
@@ -94,7 +111,7 @@ public class PolygonOverlay {
 
     public void focus()
     {
-        PolygonOverlayManager.getInstance().focusOverlay(this);
+        mPolygonManager.focusOverlay(this);
         setFillColor(mFocusedColor);
     }
 

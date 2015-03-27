@@ -25,7 +25,6 @@
             android:layout_height="match_parent">
 
             <!--Map Fragment -->
-
             <ViewSwitcher
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -16,7 +16,10 @@ import android.widget.ListView;
 import java.util.Collections;
 import java.util.List;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
+import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
+import delta.soen390.mapsters.Buildings.PolygonDirectory;
 import delta.soen390.mapsters.ListAdapter;
 import delta.soen390.mapsters.R;
 
@@ -25,6 +28,7 @@ import delta.soen390.mapsters.R;
 public class DepartmentDFragment extends Fragment {
     ListView listingView;
     private AutoCompleteTextView text;
+    private PolygonDirectory mDirectory;
     View view;
     public DepartmentDFragment() {
         // Required empty public constructor
@@ -44,7 +48,8 @@ public class DepartmentDFragment extends Fragment {
         listingView.setFastScrollEnabled(true);
 
 
-        List<String> listingList = BuildingPolygonManager.getInstance().getAllDepartments();
+        mDirectory = ((MapsActivity)getActivity()).getPolygonOverlayManager().getPolygonDirectory();
+        List<String> listingList = mDirectory.getAllDepartments();
         Collections.sort(listingList);
 
         listingView.setAdapter(new ListAdapter(getActivity().getApplicationContext(),//listView elements styler
@@ -59,7 +64,8 @@ public class DepartmentDFragment extends Fragment {
                                     int position, long arg3) {
 
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingInfoByDepartment(parent.getItemAtPosition(position).toString()).getCoordinates().toString();
+                BuildingPolygonOverlay overlay = mDirectory.getBuildingByDepartment(parent.getItemAtPosition(position).toString());
+                String result = overlay.getBuildingInfo().getCoordinates().toString();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
@@ -98,7 +104,8 @@ public class DepartmentDFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingInfoByDepartment(parent.getItemAtPosition(position).toString()).getCoordinates().toString();
+                BuildingPolygonOverlay overlay = mDirectory.getBuildingByDepartment(parent.getItemAtPosition(position).toString());
+                String result = overlay.getBuildingInfo().getCoordinates().toString();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();

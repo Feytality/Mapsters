@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -47,7 +48,7 @@ public class SearchBarFragment extends Fragment {
         mSearchButton = (ImageButton)searchBarView.findViewById(R.id.search_button);
         mTextView = (AutoCompleteTextView) searchBarView.findViewById(R.id.search_text_input);
         mImm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        mImm.hideSoftInputFromWindow(mTextView.getWindowToken(), 0);
+
         mSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
