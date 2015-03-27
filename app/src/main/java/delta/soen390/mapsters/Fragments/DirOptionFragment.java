@@ -11,17 +11,14 @@ import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.Toast;
 
-import com.google.maps.model.TravelMode;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import delta.soen390.mapsters.Activities.DirectionStepsFragment;
 import delta.soen390.mapsters.Activities.MapsActivity;
-import delta.soen390.mapsters.Controller.DirectionStep;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 
@@ -29,7 +26,7 @@ import delta.soen390.mapsters.Services.DirectionEngine;
 public class DirOptionFragment extends Fragment {
 
 
-    private FragmentTabHost tabHost;
+    private FragmentTabHost mTabHost;
     private SlidingUpPanelLayout panelLayout;
     private ArrayList<TabHost.TabSpec> mTabSpecs = new ArrayList<>();
     private DirectionEngine mDirectionEngine;
@@ -48,7 +45,7 @@ public class DirOptionFragment extends Fragment {
         //MapsActivity activity = (MapsActivity)getActivity();
         Bundle args = new Bundle();
         args.putInt("DirectionType", directionType.ordinal());
-        tabHost.addTab(tabHost.newTabSpec(tabId).setIndicator(tabId), DirectionStepsFragment.class, args);
+        mTabHost.addTab(mTabHost.newTabSpec(tabId).setIndicator(tabId), DirectionStepsFragment.class, args);
     }
 
     @Override
@@ -127,11 +124,11 @@ public class DirOptionFragment extends Fragment {
 
                     mDirectionEngine.showDirectionPath(directionType);
 
-                return mTabHost;
+
                 }
 
             });
-                return tabHost;
+                return mTabHost;
     }
 
 

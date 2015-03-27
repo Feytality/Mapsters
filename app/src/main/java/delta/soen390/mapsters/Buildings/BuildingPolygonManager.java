@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Polygon;
 
 import org.json.JSONObject;
 
@@ -159,7 +158,7 @@ public class BuildingPolygonManager {
         if (keyword != null && !keyword.equals("")) {
             BuildingInfo buildingInfo=null;
             //is it a service?
-            BuildingPolygon buildingPolygon=getBuildingPolygonByBuildingCode(keyword);
+            BuildingPolygonOverlay buildingPolygon=getBuildingPolygonByBuildingCode(keyword);
             if (buildingPolygon!= null) return buildingPolygon.getBuildingInfo();
             buildingInfo = getBuildingInfoByService(keyword);
             if (buildingInfo != null) return buildingInfo;
