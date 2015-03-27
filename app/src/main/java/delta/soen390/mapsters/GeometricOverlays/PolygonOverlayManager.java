@@ -3,32 +3,35 @@ package delta.soen390.mapsters.GeometricOverlays;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
+import delta.soen390.mapsters.Buildings.PolygonDirectory;
 
 /**
  * Created by Mathieu on 3/22/2015.
  */
 public class PolygonOverlayManager {
 
-    private ArrayList<? extends PolygonOverlay> mCurrentlyActiveOverlays = null;
+    private Collection<? extends PolygonOverlay> mCurrentlyActiveOverlays = null;
     private PolygonOverlay mCurrentlyFocusedOverlay = null;
+    private ArrayList<BuildingPolygonOverlay> mBuildingPolygons = new ArrayList<BuildingPolygonOverlay>();
+    private PolygonDirectory mDirectory;
 
-    private PolygonOverlayManager()
+    public PolygonOverlayManager()
     {
+        mDirectory = new PolygonDirectory();
 
     }
 
-    private static PolygonOverlayManager sPolygonOverlayManager = null;
-
-    public static PolygonOverlayManager getInstance() {
-        if (sPolygonOverlayManager == null){
-            sPolygonOverlayManager = new PolygonOverlayManager();
-        }
-        return sPolygonOverlayManager;
+    public void loadResources(MapsActivity activity)
+    {
+        mDirectory.loadResources(activity);
     }
 
-    public void setActiveOverlays(ArrayList<? extends PolygonOverlay> overlays)
+    public void setActiveOverlays(Collection<? extends PolygonOverlay> overlays)
     {
         deactivateOverlays();
 
@@ -85,5 +88,11 @@ public class PolygonOverlayManager {
         }
         return null;
     }
+
+    public PolygonDirectory getPolygonDirectory()
+    {
+        return mDirectory;
+    }
+
 
 }

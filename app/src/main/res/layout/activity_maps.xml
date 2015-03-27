@@ -49,15 +49,6 @@
 
 
             <!--Search Bar Fragment -->
-            <fragment
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:name="delta.soen390.mapsters.Fragments.SearchBarFragment"
-                android:id="@+id/SearchBarFragment"
-                tools:layout="@layout/search_bar_fragment"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/tableRow"
-                android:layout_toEndOf="@+id/tableRow" />
             <!--Campus Switcher -->
             <Switch
                 android:layout_width="wrap_content"
@@ -69,7 +60,6 @@
                 android:textOn="SGW"
                 android:textOff="LOY"
                 android:padding="10dp"
-                android:layout_below="@+id/SearchBarFragment"
                 android:layout_centerHorizontal="true" />
             <!--Menu Bar-->
             <TableRow

@@ -3,8 +3,10 @@ package delta.soen390.mapsters.Buildings;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import delta.soen390.mapsters.Data.Campus;
+import delta.soen390.mapsters.IndoorDirectory.BuildingFloor;
 
 /**
  * Created by georgevalergas on 15-02-08.
@@ -17,7 +19,7 @@ public class BuildingInfo {
     private String mImageUrl;
     private LatLng mCoordinates;
     private ArrayList<LatLng> mBoundingCoordinates;
-
+    private HashMap<String,BuildingFloor> mFloors = new HashMap<>();
     private ArrayList<String[]> mBuildingServices;
     private ArrayList<String[]> mBuildingDepartments;
 
@@ -36,6 +38,16 @@ public class BuildingInfo {
 
         mBuildingServices = services;
         mBuildingDepartments = departments;
+    }
+
+    public void addFloor(String level, BuildingFloor floor)
+    {
+        mFloors.put(level,floor);
+    }
+
+    public BuildingFloor getFloorAt(String floorLevel)
+    {
+        return mFloors.get(floorLevel);
     }
 
 

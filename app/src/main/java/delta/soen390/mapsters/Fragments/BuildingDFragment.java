@@ -16,7 +16,9 @@ import android.widget.ListView;
 import java.util.Collections;
 import java.util.List;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
+import delta.soen390.mapsters.Buildings.PolygonDirectory;
 import delta.soen390.mapsters.ListAdapter;
 import delta.soen390.mapsters.R;
 
@@ -24,6 +26,7 @@ import delta.soen390.mapsters.R;
 public class BuildingDFragment extends Fragment {
     ListView listingView;
     private AutoCompleteTextView text;
+    private PolygonDirectory mPolygonDirectory;
     View view;
     public BuildingDFragment() {
         // Required empty public constructor
@@ -41,9 +44,9 @@ public class BuildingDFragment extends Fragment {
         view= inflater.inflate(R.layout.fragment_directories, container, false);
         listingView = (ListView) view.findViewById(android.R.id.list);
         listingView.setFastScrollEnabled(true);
+        mPolygonDirectory = ((MapsActivity)getActivity()).getPolygonOverlayManager().getPolygonDirectory();
 
-
-        List<String> listingList = BuildingPolygonManager.getInstance().getAllBuildings();
+        List<String> listingList = mPolygonDirectory.getAllBuildingCodes();
         Collections.sort(listingList);
 
         listingView.setAdapter(new ListAdapter(getActivity().getApplicationContext(),
@@ -57,7 +60,7 @@ public class BuildingDFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View arg1,
                                     int position, long arg3) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(parent.getItemAtPosition(position).toString()).getBuildingInfo().getCoordinates().toString();
+                String result = mPolygonDirectory.getBuildingByCode((parent.getItemAtPosition(position).toString())).getBuildingInfo().getCoordinates().toString();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
@@ -93,7 +96,7 @@ public class BuildingDFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(parent.getItemAtPosition(position).toString()).getBuildingInfo().getCoordinates().toString();
+                String result = mPolygonDirectory.getBuildingByCode(parent.getItemAtPosition(position).toString()).getBuildingInfo().getCoordinates().toString();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();

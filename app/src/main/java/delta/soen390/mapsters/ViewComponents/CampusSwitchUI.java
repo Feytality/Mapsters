@@ -51,35 +51,7 @@ public class CampusSwitchUI {
         mView = null;
     }
 
-    public CampusViewSwitcher getmCampusViewSwitcher(){return mCampusViewSwitcher;}
-
-    public CampusSwitchUI(View view,FragmentActivity activity, CampusViewSwitcher viewSwitcher)
-    {
-        mFActivity = activity;
-        mView =view;
-        mCampusViewSwitcher = viewSwitcher;
-        mCampusSwitch = (Switch) view.findViewById(R.id.campusSwitch);
-
-        if (mCampusSwitch != null) {
-
-
-            mCampusSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                                                         @Override
-                                                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                                                             mCampusViewSwitcher.SwitchView();
-
-                                                             if (isChecked) {
-                                                                 Toast.makeText(mFActivity.getApplicationContext(), "Show SGW Map", Toast.LENGTH_SHORT).show();
-                                                             } else {
-                                                                 Toast.makeText(mFActivity.getApplicationContext(), "Show Loyola Map", Toast.LENGTH_SHORT).show();
-                                                             }
-                                                         }
-                                                     }
-            );
-        }
-    }
+    public CampusViewSwitcher getCampusViewSwitcher(){return mCampusViewSwitcher;}
 
     public Campus.Name getCurrentCampus(){
        if (mCampusSwitch.isChecked()){

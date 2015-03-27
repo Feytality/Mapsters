@@ -11,9 +11,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Data.Campus;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Utils.GoogleMapCamera;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
 /**
@@ -25,16 +27,18 @@ public class CampusViewSwitcher {
 
     private ViewSwitcher mMapSwitcher;
 
-    private Activity mActivity;
+    private MapsActivity mActivity;
+    private GoogleMapCamera mCamera;
     private GoogleMap  mMap;
     private CampusSwitchUI mSwitchUI;
 
     private boolean mIsLoyolaDisplayed = true;
 
-    public CampusViewSwitcher(Activity activity, GoogleMap map, CampusSwitchUI switchUI)
+    public CampusViewSwitcher(MapsActivity activity, GoogleMap map, CampusSwitchUI switchUI)
     {
         mSwitchUI = switchUI;
         mActivity = activity;
+        mCamera = mActivity.getGoogleMapCamera();
         mMap = map;
         mMapSwitcher = (ViewSwitcher) mActivity.findViewById(R.id.mapSwitcher);
 
@@ -42,16 +46,6 @@ public class CampusViewSwitcher {
         LoadCampusViews();
     }
 
-    public CampusViewSwitcher(FragmentActivity activity, GoogleMap map, CampusSwitchUI switchUI)
-    {
-        mActivity = activity;
-        mSwitchUI = switchUI;
-        mMap = map;
-        mMapSwitcher = (ViewSwitcher) mActivity.findViewById(R.id.mapSwitcher);
-
-        LoadAnimation();
-        LoadCampusViews();
-    }
 
     public void SwitchView()
     {
@@ -66,15 +60,6 @@ public class CampusViewSwitcher {
         mMapSwitcher.showNext();
     }
 
-    public boolean IsLoyolaDisplayed()
-    {
-        return mIsLoyolaDisplayed;
-    }
-
-    public boolean IsSgwDisplayed()
-    {
-        return !mIsLoyolaDisplayed;
-    }
     private void LoadAnimation()
     {
         Animation slideInLeft = AnimationUtils.loadAnimation(mActivity,
@@ -126,7 +111,7 @@ public class CampusViewSwitcher {
     }
 
     public void zoomToLatLong(int zoomLevel, LatLng latLng){
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+        mCamera.moveToTarget(latLng,zoomLevel);
     }
 
 
@@ -143,16 +128,6 @@ public class CampusViewSwitcher {
         {
             mZoomLevel = zoomLevel;
             mCoordinate = coordinate;
-        }
-
-        public float GetZoomLevel()
-        {
-            return mZoomLevel;
-        }
-
-        public LatLng GetCoordinate()
-        {
-            return mCoordinate;
         }
 
 		//If ever stakeholder wants to save the view, we'll have it
