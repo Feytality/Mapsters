@@ -7,21 +7,22 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text=""
-        android:id="@+id/autoCompleteTextView"
-        android:layout_toLeftOf="@+id/button"
-        android:layout_toStartOf="@+id/button" />
+        android:id="@+id/directory_search"
+        android:hint="Search"
+         />
 
-    <Button
+    <ImageButton
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="48dp"
         android:background="?android:attr/selectableItemBackground"
-        android:layout_height="wrap_content"
-        android:text="X"
+        android:layout_height="48dp"
+        android:src="@drawable/cancel"
         android:id="@+id/clr_button"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        />
+        android:scaleType="fitXY"
+        android:layout_above="@android:id/list" />
 
     <ListView
         android:id="@android:id/list"
@@ -29,7 +30,7 @@
         android:layout_height="fill_parent"
         android:scrollbarStyle="outsideOverlay"
         android:paddingRight="5dp"
-        android:layout_below="@+id/autoCompleteTextView">
+        android:layout_below="@+id/directory_search">
     </ListView>
 
 </RelativeLayout>

@@ -33,10 +33,19 @@ public class PolygonSerializer {
         ArrayList<LatLng> boundingCoordinates = new ArrayList<>();
         ArrayList<String[]> services = new ArrayList<>();
         ArrayList<String[]> departments = new ArrayList<>();
+        String address = "";
+        boolean access = false;
+        boolean info = false;
+        boolean parking = false;
+        boolean bikeRack = false;
 
         try {
             buildingCode = object.getString("buildingcode");
-
+            address = object.getString("civicaddress");
+            parking = object.getBoolean("parkinglot");
+            access = object.getBoolean("accessibility");
+            info = object.getBoolean("infokiosk");
+            bikeRack = object.getBoolean("bikerack");
             buildingName = object.getString("buildingname");
 
             buildingImageUrl += object.getString("image");
@@ -55,7 +64,7 @@ public class PolygonSerializer {
         }
 
         BuildingInfo buildingInfo = new BuildingInfo(buildingCode, buildingName, campus, buildingImageUrl,
-                                    coordinates, boundingCoordinates, services, departments);
+                                    coordinates, boundingCoordinates, services, departments,address,info,parking,access,bikeRack);
         BuildingPolygonOverlay overlay = new BuildingPolygonOverlay(mGoogleMap, buildingInfo);
         if(overlay.isValidOverlay())
         {

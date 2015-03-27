@@ -51,6 +51,7 @@ public class SplitPane {
     private ArrayList<TextView> mCurrentPaneText = new ArrayList<>();
     private String mDestinationUrl;
     private String mDefaultUrl = "http://www.concordia.ca/";
+    private ImageView mBike;
 
 
     //Directions
@@ -59,6 +60,10 @@ public class SplitPane {
     private DirectionEngine.DirectionPath mCurrentDirectionPath;
     private LatLng mStartingLocation;
     private TextView mTextInfo;
+    private ImageView mParking;
+    private ImageView mInfo;
+    private ImageView mAccess;
+    private TextView mBuildingAddress;
 
     public SplitPane(View slideView, float anchorPoint, LocationService locationService, MapsActivity context) {
         mContext = context;
@@ -105,11 +110,28 @@ public class SplitPane {
             mCampus = (TextView) mContext.findViewById(R.id.campus);
             mBuildingServices = (TextView) mContext.findViewById(R.id.building_services);
             mBuildingPictureView = (ImageView) mContext.findViewById(R.id.building_image);
+            mBuildingAddress = (TextView)mContext.findViewById(R.id.address_txt);
+            mParking = (ImageView) mContext.findViewById(R.id.parking_img);
+            mInfo = (ImageView) mContext.findViewById(R.id.info_img);
+            mAccess = (ImageView) mContext.findViewById(R.id.accessibility_img);
+            mBike = (ImageView) mContext.findViewById(R.id.bikerack_img);
+            if (!buildingInfo.hasParking())
+                mParking.setVisibility(View.GONE);
+
+            if (!buildingInfo.hasInfo())
+                mInfo.setVisibility(View.GONE);
+
+            if (!buildingInfo.hasAccessibility())
+                mAccess.setVisibility(View.GONE);
+
+            if (!buildingInfo.hasBikeRack())
+                mBike.setVisibility(View.GONE);
             //set em
             mCurrentBuilding = buildingInfo;
             mBuildingName.setText(buildingInfo.getBuildingName());
             mBuildingCode.setText(buildingInfo.getBuildingCode());
             mCampus.setText(buildingInfo.getCampus().toString());
+            mBuildingAddress.setText(buildingInfo.getAddress());
             clearViews();
             // Create text views for the services and departments
             displayBuildingInfo(mCurrentBuilding.getServices(), "Services");

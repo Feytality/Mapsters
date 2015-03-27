@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.Collections;
@@ -41,33 +41,27 @@ public class BuildingDFragment extends Fragment {
         view= inflater.inflate(R.layout.fragment_directories, container, false);
         listingView = (ListView) view.findViewById(android.R.id.list);
         listingView.setFastScrollEnabled(true);
-
-
         List<String> listingList = BuildingPolygonManager.getInstance().getAllBuildings();
         Collections.sort(listingList);
-
+//set up list view beneath
         listingView.setAdapter(new ListAdapter(getActivity().getApplicationContext(),
                 R.layout.my_list_item_style, listingList));
-
-
-
-
         listingView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View arg1,
                                     int position, long arg3) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(parent.getItemAtPosition(position).toString()).getBuildingInfo().getCoordinates().toString();
+                String result = BuildingPolygonManager.getInstance().getBuildingInfoByKeyword(parent.getItemAtPosition(position).toString()).getCoordinates().toString();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
             }
         });
 
-        text = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
+        text = (AutoCompleteTextView) view.findViewById(R.id.directory_search);
         text.setThreshold(1);
 
-        ArrayAdapter adapter = new ArrayAdapter(getActivity().getApplicationContext(),R.layout.my_list_item_style,listingList);
+        ArrayAdapter adapter = new ListAdapter(getActivity().getApplicationContext(),R.layout.my_list_item_style,listingList);
         text.setAdapter(adapter);
 
 
@@ -101,7 +95,7 @@ public class BuildingDFragment extends Fragment {
 
         });
 
-        Button btn = (Button) view.findViewById(R.id.clr_button);
+        ImageButton btn = (ImageButton) view.findViewById(R.id.clr_button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +104,14 @@ public class BuildingDFragment extends Fragment {
         });
 
         return view;
+    }
+
+
+    public List<String> setAllSearch(){
+        List<String> listingList = BuildingPolygonManager.getInstance().getAllBuildings();
+        listingList.addAll(BuildingPolygonManager.getInstance().getAllDepartments());
+        listingList.addAll(BuildingPolygonManager.getInstance().getAllServices());
+        return listingList;
     }
 
 }

@@ -18,7 +18,7 @@
         android:layout_alignParentStart="true"
         android:id="@+id/linearLayout2">
         <ScrollView
-            android:layout_width="wrap_content"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:scrollbars="none">
             <LinearLayout
@@ -27,13 +27,29 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/building_info">
 
-                <ImageView
-                    android:src="@drawable/loy"
-                    android:layout_width="208dp"
-                    android:layout_height="208dp"
-                    android:id="@+id/building_image"
-                    android:layout_gravity="center_vertical|top"
-                    android:visibility="visible" />
+                <FrameLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/concordia_main_color">
+
+                    <ImageView
+                        android:src="@drawable/loy"
+                        android:layout_width="228dp"
+                        android:layout_height="228dp"
+                        android:id="@+id/building_image"
+                        android:layout_gravity="center_vertical|top"
+                        android:visibility="visible"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="5dp" />
+
+                    <ImageButton
+                        style="@style/FlatBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/ic_menu_view"
+                        android:id="@+id/indoors_btn"
+                        android:layout_gravity="right|bottom" />
+                </FrameLayout>
 
 
             </LinearLayout>
@@ -53,6 +69,13 @@
                 android:layout_gravity="center_horizontal"
                 android:visibility="gone" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/address_txt"
+                android:layout_gravity="center_horizontal" />
+
             <ImageButton style="@style/FloatBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -63,6 +86,56 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="false"
                 android:layout_gravity="center_horizontal" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:id="@+id/info_img"
+                    android:background="@drawable/info_pin" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/parking_pin"
+                    android:id="@+id/parking_img"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_gravity="center_horizontal" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/accessibility_pin"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:id="@+id/accessibility_img" />
+
+                <ImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bikerack_pin"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:id="@+id/bikerack_img" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -123,17 +196,20 @@
                 android:focusable="true" />
             </me.grantland.widget.AutofitLayout>
 
-            <ImageButton
-                style="@style/FlatBtn"
-                android:layout_width="95dp"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_view"
-                android:id="@+id/indoors_btn" />
-
         </LinearLayout>
 
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView4"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="96dp"
+        android:layout_marginStart="96dp" />
 
 
 </RelativeLayout>

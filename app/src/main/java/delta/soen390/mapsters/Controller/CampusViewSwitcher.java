@@ -12,7 +12,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
-import delta.soen390.mapsters.Data.Campus;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
@@ -104,7 +103,7 @@ public class CampusViewSwitcher {
         mIsLoyolaDisplayed = true;
     }
 
-    private LatLng parseCoordinate(String coor){
+    public LatLng parseCoordinate(String coor){
 
         double lat =Double.valueOf(coor.substring(coor.indexOf("(")+1,coor.indexOf(",")));
         double lng = Double.valueOf(coor.substring(coor.indexOf(",")+1,coor.indexOf(")")));
@@ -112,10 +111,6 @@ public class CampusViewSwitcher {
         return ll;
     }
 
-    public void cameraToPoint(String latlong){
-        LatLng latLng =parseCoordinate(latlong);
-        zoomToLatLong(18, latLng);
-    }
 
     public void zoomToLatLong(int zoomLevel,BuildingInfo info){
         Log.i("","This is the current campus"+mSwitchUI.getCurrentCampus().toString());

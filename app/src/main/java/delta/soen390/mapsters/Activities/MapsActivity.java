@@ -34,6 +34,7 @@ import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarEventNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
+import delta.soen390.mapsters.Controller.ProtoSearchBox;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.Fragments.SearchBarFragment;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
@@ -45,7 +46,7 @@ import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 
 public class MapsActivity extends FragmentActivity implements SlidingFragment.OnDataPass, OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource,
-        GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener, SearchBarFragment.SearchBarListener {
+        GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener{
 
     private TextView textPointer;
     private CampusSwitchUI mCampusSwitchUI;
@@ -65,6 +66,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     // For current location, ask if theres another way to get map
     private GoogleMap mGoogleMap;
     private Marker mMarker;
+    private LatLng mStartingLocation;
+    private BuildingInfo mCurrentBuilding;
     private DirectionEngine.DirectionPath mCurrentDirectionPath;
 
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
@@ -108,6 +111,12 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);
         mDrawer.addButton();
+
+
+
+
+        String msg = PreferenceManager.getDefaultSharedPreferences(this).getString("campus_list","NOO");
+
     }
 
 
@@ -182,7 +191,20 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         googleMap.setOnMapClickListener(this);
         mGoogleMap = googleMap;
 
+        //Select a building
+        SelectBuildingByBuildingCode("AD", 17);
+        ProtoSearchBox pt = new ProtoSearchBox(this);
     }
+
+    private void SelectBuildingByBuildingCode(String code, int zoomLevel) {
+        BuildingPolygon buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(code);
+        if (buildingPolygon != null) {
+            BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
+            mCampusSwitchUI.getmCampusViewSwitcher().zoomToLatLong(zoomLevel, buildingPolygon.getBuildingInfo());
+        }
+    }
+
+
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -230,46 +252,23 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             if(resultCode == RESULT_OK){
 
                 String result=data.getStringExtra("result");
-                mCampusSwitchUI.getmCampusViewSwitcher().cameraToPoint(result);
-                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+                keywordResult(result);
+
+//                LatLng latlng= mCampusSwitchUI.getmCampusViewSwitcher().parseCoordinate(result);
+//                onMapClick(latlng);
+//                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
             }
             if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this,"whyyyyy",Toast.LENGTH_SHORT).show();            }
         }
     }//onActivityResult
 
+    public void keywordResult(String result){
+        LatLng latlng= mCampusSwitchUI.getmCampusViewSwitcher().parseCoordinate(result);
+        onMapClick(latlng);
+        SelectBuildingByBuildingCode(mCurrentBuilding.getBuildingCode(),17);
 
-    @Override
-    public void searchForRoom(String input) {
-        boolean firstChar = false;
-        String buildingCode = "";
-
-        for (char c : input.toCharArray()) {
-            if (Character.isLetter(c)) {
-                firstChar = true;
-                buildingCode += c;
-                continue;
-            }
-            if (firstChar) {
-                break;
-            }
-        }
-
-        if (buildingCode.isEmpty()) {
-            Toast.makeText(this, "Please put in a building code in this format H456", Toast.LENGTH_SHORT).show();
-        }
-
-        BuildingPolygonOverlay buildingPolygon = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(buildingCode);
-
-        if (buildingPolygon != null) {
-            BuildingPolygonManager.getInstance().clickAndPopulate(buildingPolygon);
-            mCampusSwitchUI.getmCampusViewSwitcher().zoomToLatLong(18, buildingPolygon.getBuildingInfo());
-            return;
-        }
-
-        Toast.makeText(this, "Please enter a proper building code", Toast.LENGTH_SHORT).show();
-    }
-
+  
     @Override
     public void onMapClick(LatLng latLng) {
 
@@ -277,6 +276,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         if(overlay != null) {
             overlay.focus();
         }
+            
+            //set current buildind
             mImm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import com.google.maps.model.TravelMode;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
@@ -40,7 +41,6 @@ public class DirOptionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
     }
 
     private void addTab(String tabId, DirectionEngine.DirectionType directionType)
@@ -62,10 +62,10 @@ public class DirOptionFragment extends Fragment {
         final  String isDriving = getString(R.string.is_driving);
         final   String isShuttle = getString(R.string.is_shuttle);
         final   String isTransit = getString(R.string.is_Transit);
-        tabHost = new FragmentTabHost(getActivity());
+        mTabHost = new FragmentTabHost(getActivity());
 
-        View view = inflater.inflate(R.layout.fragment_dir_option, tabHost);
-        tabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
+        View view = inflater.inflate(R.layout.fragment_dir_option, mTabHost);
+        mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
         //Always here
         addTab(isTransit, DirectionEngine.DirectionType.TRANSIT);
@@ -89,7 +89,7 @@ public class DirOptionFragment extends Fragment {
 
             //Listerner BAY - refactor
 
-            tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
                 @Override
                 public void onTabChanged(String tabId) {
 
@@ -127,6 +127,7 @@ public class DirOptionFragment extends Fragment {
 
                     mDirectionEngine.showDirectionPath(directionType);
 
+                return mTabHost;
                 }
 
             });

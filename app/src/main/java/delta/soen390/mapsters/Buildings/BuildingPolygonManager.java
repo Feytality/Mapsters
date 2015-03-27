@@ -155,6 +155,20 @@ public class BuildingPolygonManager {
         return null;
     }
 
+    public BuildingInfo getBuildingInfoByKeyword(String keyword) {
+        if (keyword != null && !keyword.equals("")) {
+            BuildingInfo buildingInfo=null;
+            //is it a service?
+            BuildingPolygon buildingPolygon=getBuildingPolygonByBuildingCode(keyword);
+            if (buildingPolygon!= null) return buildingPolygon.getBuildingInfo();
+            buildingInfo = getBuildingInfoByService(keyword);
+            if (buildingInfo != null) return buildingInfo;
+            buildingInfo = getBuildingInfoByDepartment(keyword);
+            if (buildingInfo != null) return buildingInfo;
+
+        }
+        return null;
+    }
     public ArrayList<String> getAllDepartments(){
         ArrayList<String> allDepartments= new ArrayList<>();
         for (int i = 0; i < mBuildingPolygons.size(); ++i) {

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.Collections;
@@ -64,7 +64,7 @@ public class ServiceDFragment extends Fragment {
             }
         });
 
-        text = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
+        text = (AutoCompleteTextView) view.findViewById(R.id.directory_search);
         text.setThreshold(1);
 
         ArrayAdapter adapter = new ArrayAdapter
@@ -102,7 +102,7 @@ public class ServiceDFragment extends Fragment {
 
         });
 
-        Button btn = (Button) view.findViewById(R.id.clr_button);
+        ImageButton btn = (ImageButton) view.findViewById(R.id.clr_button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
