@@ -51,14 +51,20 @@
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:weightSum="1">
 
-                <Button
-                    android:layout_width="56dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/apptheme_ic_navigation_drawer"
+                <ImageButton
+                    android:layout_width="66dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/ic_drawer"
+                    android:backgroundTint="@color/concordia_main_color"
                     android:id="@+id/btn_nav_drawer"
-                    android:clickable="false" />
+                    android:clickable="false"
+                    android:layout_weight="1.17"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp" />
 
                 <LinearLayout
                     android:orientation="vertical"
@@ -67,7 +73,7 @@
 
                     <AutoCompleteTextView
                         android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="52dp"
                         android:name="delta.soen390.mapsters.Fragments.SearchBarFragment"
                         android:id="@+id/global_search"
                         tools:layout="@layout/search_bar_fragment"
@@ -75,7 +81,9 @@
                         android:layout_toRightOf="@+id/tableRow"
                         android:layout_toLeftOf="@+id/locate_me"
                         android:layout_toStartOf="@+id/locate_me"
-                        android:hint="Search"/>
+                        android:hint="Search"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/concordia_grey_alpha" />
 
                     <Switch
                         android:layout_width="wrap_content"
@@ -100,7 +108,8 @@
                     android:src="@android:drawable/ic_menu_compass"
                     android:id="@+id/locate_me"
                     android:layout_alignRight="@+id/mapSwitcher"
-                    android:minWidth="56dp" />
+                    android:minWidth="56dp"
+                    android:layout_marginTop="20dp" />
 
             </LinearLayout>
 

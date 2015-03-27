@@ -10,7 +10,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import delta.soen390.mapsters.Activities.DirectoryActivity;
@@ -25,7 +25,7 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
 
     private final FragmentActivity mContext;
     //private final TextView mListView2;
-    private Button mNavBtn;
+    private ImageButton mNavBtn;
     private ListView mListView;
     private DrawerLayout mDrawerLayout;
 
@@ -50,14 +50,13 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
         ));
         mListView.setOnItemClickListener(this);
 
-        //mListView2 = (TextView) mContext.findViewById(R.id.right_drawer);
 
 
         mNavBtn = null;
     }
 
     public void addButton(){
-        mNavBtn = (Button)mContext.findViewById(R.id.btn_nav_drawer);
+        mNavBtn = (ImageButton)mContext.findViewById(R.id.btn_nav_drawer);
         mNavBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

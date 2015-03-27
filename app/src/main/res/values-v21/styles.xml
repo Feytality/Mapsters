@@ -20,9 +20,9 @@
     <style name="FlatBtn">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:padding">0dp</item>
-        <item name="android:minWidth">48dp</item>
+        <item name="android:minWidth">92dp</item>
         <item name="android:minHeight">48dp</item>
-        <item name="android:layout_margin">3dp</item>
+        <item name="android:layout_margin">5dp</item>
         <item name="android:translationZ">1dp</item>
         <item name="android:background">@drawable/primary_roundv21</item>
 

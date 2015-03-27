@@ -25,7 +25,7 @@ import delta.soen390.mapsters.R;
 public class DirOptionFragment extends Fragment {
 
 
-    private FragmentTabHost tabHost;
+    private FragmentTabHost mTabHost;
     private GetSteps git;
     private SlidingUpPanelLayout panelLayout;
 
@@ -50,53 +50,60 @@ public class DirOptionFragment extends Fragment {
         final  String isDriving = getString(R.string.is_driving);
         final   String isShuttle = getString(R.string.is_shuttle);
         final   String isTransit = getString(R.string.is_Transit);
-        tabHost = new FragmentTabHost(getActivity());
+        mTabHost = new FragmentTabHost(getActivity());
 
-        View view = inflater.inflate(R.layout.fragment_dir_option, tabHost);
-        tabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
+        View view = inflater.inflate(R.layout.fragment_dir_option, mTabHost);
+        mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
         //Always here
-        tabHost.addTab(tabHost.newTabSpec(isTransit).setIndicator(isTransit), DirectionStepsFragment.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec(isTransit).setIndicator("",getResources().getDrawable(R.drawable.bus)), DirectionStepsFragment.class, null);
 
         if (defaults.contains(isShuttle)){
-            tabHost.addTab(tabHost.newTabSpec(isShuttle).setIndicator(isShuttle), DirectionStepsFragment.class, null);
+            mTabHost.addTab(mTabHost.newTabSpec(isShuttle).setIndicator("",getResources().getDrawable(R.drawable.van)), DirectionStepsFragment.class, null);
         } if (defaults.contains(isDriving)){
-            tabHost.addTab(tabHost.newTabSpec(isDriving).setIndicator(isDriving), DirectionStepsFragment.class, null);
+            mTabHost.addTab(mTabHost.newTabSpec(isDriving).setIndicator("",getResources().getDrawable(R.drawable.car)), DirectionStepsFragment.class, null);
         } if (defaults.contains(isWalking)){
-            tabHost.addTab(tabHost.newTabSpec(isWalking).setIndicator(isWalking), DirectionStepsFragment.class, null);
+            mTabHost.addTab(mTabHost.newTabSpec(isWalking).setIndicator("",getResources().getDrawable(R.drawable.walking)), DirectionStepsFragment.class, null);
         } if (defaults.contains(isCycling)) {
-            tabHost.addTab(tabHost.newTabSpec(isCycling).setIndicator(isCycling), DirectionStepsFragment.class, null);
+            mTabHost.addTab(mTabHost.newTabSpec(isCycling).setIndicator("",getResources().getDrawable(R.drawable.cycling)), DirectionStepsFragment.class, null);
         }
+
+
+
 
             //Listerner BAY - refactor
 
-            tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
                 @Override
                 public void onTabChanged(String tabId) {
-                    Toast.makeText(getActivity().getApplicationContext(),tabId,Toast.LENGTH_SHORT).show();
-                    if(tabId.equals(isShuttle)){
-                    MapsActivity m = (MapsActivity)getActivity();
-                    m.getDirections(TravelMode.TRANSIT);
-                }if(tabId.equals(isCycling)){
-                    MapsActivity m = (MapsActivity)getActivity();
-                    m.getDirections(TravelMode.BICYCLING);
-                }if(tabId.equals(isDriving)){
-                    MapsActivity m = (MapsActivity)getActivity();
-                    m.getDirections(TravelMode.DRIVING);
-                }if(tabId.equals(isTransit)){
-                    MapsActivity m = (MapsActivity)getActivity();
-                    m.getDirections(TravelMode.TRANSIT);
-                }if(tabId.equals(isWalking)){
-                    MapsActivity m = (MapsActivity)getActivity();
-                    m.getDirections(TravelMode.WALKING);
-                }
+                    Toast.makeText(getActivity().getApplicationContext(), tabId, Toast.LENGTH_SHORT).show();
+                    if (tabId.equals(isShuttle)) {
+                        MapsActivity m = (MapsActivity) getActivity();
+                        m.getDirections(TravelMode.TRANSIT);
+                    }
+                    if (tabId.equals(isCycling)) {
+                        MapsActivity m = (MapsActivity) getActivity();
+                        m.getDirections(TravelMode.BICYCLING);
+                    }
+                    if (tabId.equals(isDriving)) {
+                        MapsActivity m = (MapsActivity) getActivity();
+                        m.getDirections(TravelMode.DRIVING);
+                    }
+                    if (tabId.equals(isTransit)) {
+                        MapsActivity m = (MapsActivity) getActivity();
+                        m.getDirections(TravelMode.TRANSIT);
+                    }
+                    if (tabId.equals(isWalking)) {
+                        MapsActivity m = (MapsActivity) getActivity();
+                        m.getDirections(TravelMode.WALKING);
+                    }
 
                 }
 
             });
 
 
-                return tabHost;
+                return mTabHost;
     }
 
 
