@@ -1,20 +1,16 @@
 package delta.soen390.mapsters.Buildings;
 
 import android.content.Context;
-import android.media.MediaDescription;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Data.JsonReader;
-import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
 import delta.soen390.mapsters.IndoorDirectory.BuildingFloor;
 import delta.soen390.mapsters.IndoorDirectory.RoomPolygonOverlay;
@@ -186,11 +182,23 @@ public class PolygonDirectory {
         return null;
     }
 
+    public BuildingPolygonOverlay getBuildingByKeyword(String keyword)
+    {
+        BuildingPolygonOverlay overlay = getBuildingByCode(keyword);
+        if(overlay != null)
+            return overlay;
+        overlay = getBuildingByDepartment(keyword);
+        if(overlay!=null)
+            return overlay;
+        overlay= getBuildingByService(keyword);
+        return overlay;
+
+    }
+
     public final ArrayList<String> getAllServices()
     {
         return mServiceList;
     }
-
     public final ArrayList<String> getAllDepartments()
     {
         return mDepartmentList;
@@ -198,6 +206,15 @@ public class PolygonDirectory {
     public final ArrayList<String> getAllBuildingCodes()
     {
         return mBuildingCodes;
+    }
+    public  ArrayList<String> getAllDirectoryInfo()
+    {
+
+        ArrayList<String> str = new ArrayList<String>();
+        str.addAll(getAllDepartments());
+        str.addAll(getAllServices());
+        str.addAll(getAllBuildingCodes());
+        return str;
     }
 
 

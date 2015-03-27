@@ -14,15 +14,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
-import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
-import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.ListAdapter;
 import delta.soen390.mapsters.R;
 
@@ -50,7 +46,7 @@ public class ServiceDFragment extends Fragment {
         listingView.setFastScrollEnabled(true);
 
 
-        mPolygonDirectory = ((MapsActivity)getActivity()).getPolygonOverlayManager().getPolygonDirectory();
+        mPolygonDirectory = MapsActivity.sPolygonDirectory;
         ArrayList<String> listingList = mPolygonDirectory.getAllServices();
 
         Collections.sort(listingList);
@@ -67,7 +63,7 @@ public class ServiceDFragment extends Fragment {
                                     int position, long arg3) {
                 Intent returnIntent = new Intent();
                 BuildingPolygonOverlay overlay = mPolygonDirectory.getBuildingByService(parent.getItemAtPosition(position).toString());
-                String result = overlay.getBuildingInfo().getCoordinates().toString();
+                String result = overlay.getBuildingInfo().getBuildingCode();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
@@ -105,7 +101,7 @@ public class ServiceDFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent returnIntent = new Intent();
                 BuildingPolygonOverlay overlay = mPolygonDirectory.getBuildingByService(parent.getItemAtPosition(position).toString());
-                String result = overlay.getBuildingInfo().getCoordinates().toString();
+                String result = overlay.getBuildingInfo().getBuildingCode();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();

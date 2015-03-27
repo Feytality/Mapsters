@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.maps.model.TravelMode;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -26,10 +25,7 @@ import java.util.ArrayList;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
-import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Fragments.DirOptionFragment;
-import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
-import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
@@ -123,7 +119,6 @@ public class SplitPane {
         mBuildingServices = (TextView) mContent.findViewById(R.id.building_services);
         mBuildingPictureView = (ImageView) mContent.findViewById(R.id.building_image);
         mDirectionButton = (ImageButton) mContent.findViewById(R.id.direction_button);
-        mDirectionButton.setOnClickListener(directionBtnListener);
     }
 
     private void initializeIndoorsDirectoryButton()

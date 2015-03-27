@@ -68,7 +68,7 @@ public class PolygonSerializer {
 
         BuildingInfo buildingInfo = new BuildingInfo(buildingCode, buildingName, campus, buildingImageUrl,
                                     coordinates, boundingCoordinates, services, departments,address,info,parking,access,bikeRack);
-        BuildingPolygonOverlay overlay = new BuildingPolygonOverlay(mGoogleMap, buildingInfo);
+        BuildingPolygonOverlay overlay = new BuildingPolygonOverlay(mActivity, buildingInfo);
         if(overlay.isValidOverlay())
         {
             return overlay;

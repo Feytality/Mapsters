@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
-import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
+import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
 import delta.soen390.mapsters.ListAdapter;
 import delta.soen390.mapsters.R;
@@ -44,7 +44,7 @@ public class BuildingDFragment extends Fragment {
         view= inflater.inflate(R.layout.fragment_directories, container, false);
         listingView = (ListView) view.findViewById(android.R.id.list);
         listingView.setFastScrollEnabled(true);
-        mPolygonDirectory = ((MapsActivity)getActivity()).getPolygonOverlayManager().getPolygonDirectory();
+        mPolygonDirectory = MapsActivity.sPolygonDirectory;
 
         List<String> listingList = mPolygonDirectory.getAllBuildingCodes();
         Collections.sort(listingList);
@@ -60,7 +60,8 @@ public class BuildingDFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View arg1,
                                     int position, long arg3) {
                 Intent returnIntent = new Intent();
-                String result = mPolygonDirectory.getBuildingByCode((parent.getItemAtPosition(position).toString())).getBuildingInfo().getCoordinates().toString();
+                BuildingPolygonOverlay overlay = mPolygonDirectory.getBuildingByCode(parent.getItemAtPosition(position).toString());
+                String result = overlay.getBuildingInfo().getBuildingCode();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();

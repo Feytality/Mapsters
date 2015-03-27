@@ -12,7 +12,9 @@ import java.util.Collections;
 import java.util.List;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
-import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
+import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
+import delta.soen390.mapsters.Buildings.PolygonDirectory;
+import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
 import delta.soen390.mapsters.R;
 
 /**
@@ -22,10 +24,11 @@ public class ProtoSearchBox {
 
     private  MapsActivity mContext;
     private AutoCompleteTextView mTextView;
-
+    private PolygonOverlayManager mPolygonManager;
     public ProtoSearchBox(MapsActivity context){
         mContext = context;
-        List<String> listingList = setAllSearch();
+        mPolygonManager = context.getPolygonOverlayManager();
+        List<String> listingList = mPolygonManager.getPolygonDirectory().getAllDirectoryInfo();
         Collections.sort(listingList);
         mTextView = (AutoCompleteTextView) mContext.findViewById(R.id.global_search);
 
@@ -50,7 +53,11 @@ public class ProtoSearchBox {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingInfoByKeyword(parent.getItemAtPosition(position).toString()).getCoordinates().toString();
+                PolygonDirectory polygonDirectory = mPolygonManager.getPolygonDirectory();
+                BuildingPolygonOverlay overlay=polygonDirectory.getBuildingByKeyword(parent.getItemAtPosition(position).toString());
+                if (overlay==null)
+                    return;
+                String result = overlay.getBuildingInfo().getCoordinates().toString();
                mContext.keywordResult(result);
                 InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mTextView.getWindowToken(), 0);
@@ -75,12 +82,6 @@ public class ProtoSearchBox {
 
     }
 
-    public List<String> setAllSearch(){
-        List<String> listingList = BuildingPolygonManager.getInstance().getAllBuildings();
-        listingList.addAll(BuildingPolygonManager.getInstance().getAllDepartments());
-        listingList.addAll(BuildingPolygonManager.getInstance().getAllServices());
-        return listingList;
-    }
 
 
 }
