@@ -20,7 +20,7 @@ public class PolygonSerializer {
         mGoogleMap = googleMap;
     }
 
-    public BuildingPolygon createPolygon(JSONObject object) {
+    public BuildingPolygonOverlay createPolygon(JSONObject object) {
         if (object == null) {
             return null;
         }
@@ -65,11 +65,15 @@ public class PolygonSerializer {
 
         BuildingInfo buildingInfo = new BuildingInfo(buildingCode, buildingName, campus, buildingImageUrl,
                                     coordinates, boundingCoordinates, services, departments,address,info,parking,access,bikeRack);
-
-        return new BuildingPolygon(mGoogleMap, buildingInfo);
+        BuildingPolygonOverlay overlay = new BuildingPolygonOverlay(mGoogleMap, buildingInfo);
+        if(overlay.isValidOverlay())
+        {
+            return overlay;
+        }
+        return null;
     }
 
-    public BuildingPolygon createPolygon(String jsonString) {
+    public BuildingPolygonOverlay createPolygon(String jsonString) {
         JSONObject jsonObject;
         try {
             jsonObject = new JSONObject(jsonString);
@@ -129,12 +133,12 @@ public class PolygonSerializer {
         return services;
     }
 
-    public ArrayList<BuildingPolygon> createPolygonArray(JSONObject object) {
+    public ArrayList<BuildingPolygonOverlay> createPolygonArray(JSONObject object) {
 
         if (object == null) {
             return null;
         }
-        ArrayList<BuildingPolygon> buildingPolygons = new ArrayList<>();
+        ArrayList<BuildingPolygonOverlay> buildingPolygons = new ArrayList<>();
 
         try {
             Iterator<?> keys = object.keys();
@@ -144,7 +148,7 @@ public class PolygonSerializer {
                 JSONObject polygonObject = object.getJSONObject(key);
 
                 if (object.get(key) instanceof JSONObject) {
-                    BuildingPolygon polygon = createPolygon(polygonObject);
+                    BuildingPolygonOverlay polygon = createPolygon(polygonObject);
                     if (polygon != null) {
                         buildingPolygons.add(polygon);
                     }

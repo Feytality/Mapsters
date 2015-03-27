@@ -5,6 +5,8 @@ import android.content.Context;
 import java.util.ArrayList;
 
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Services.DirectionEngine;
+import delta.soen390.mapsters.Services.TravelResponseInfo;
 
 /**
  * Created by Mathieu on 3/14/2015.
@@ -55,21 +57,21 @@ public class TravelStepSubwayParser implements ITravelStepParsingStrategy {
 
 
     //Must return whether the string passed is valid according to this strategy
-    public boolean isValidString(String str){
+    public boolean isValidString(TravelResponseInfo.TravelStep step){
         for(int i = 0; i < mSubwayParsers.size(); ++i) {
             SubwayLineParser parser = mSubwayParsers.get(i);
-            if(parser.isValid(str))
+            if(parser.isValid(step))
                 return true;
         }
         return false;
     }
 
-    public String getTag(String str)
+    public String getTag(TravelResponseInfo.TravelStep step)
     {
         for(int i = 0; i < mSubwayParsers.size(); ++i)
         {
             SubwayLineParser parser = mSubwayParsers.get(i);
-            if(parser.isValid(str))
+            if(parser.isValid(step))
             {
                 return parser.getTag();
             }
@@ -77,12 +79,12 @@ public class TravelStepSubwayParser implements ITravelStepParsingStrategy {
         return "";
     }
 
-    public int getColor(String str)
+    public int getColor(TravelResponseInfo.TravelStep step)
     {
         for(int i = 0; i < mSubwayParsers.size(); ++i)
         {
             SubwayLineParser parser = mSubwayParsers.get(i);
-            if(parser.isValid(str))
+            if(parser.isValid(step))
             {
                 return parser.getColor();
             }
@@ -114,12 +116,16 @@ public class TravelStepSubwayParser implements ITravelStepParsingStrategy {
             return mColor;
         }
 
-        public boolean isValid(String str)
+        public boolean isValid(TravelResponseInfo.TravelStep step)
         {
+            String str = step.getDescription();
             for(int i = 0; i < mTerminals.length; ++i)
             {
-                if(str.contains(mTerminals[i]) && str.contains(sSubwayTag))
+                if(str.contains(mTerminals[i])
+                        && str.contains(sSubwayTag)
+                        && step.getDirectionType() == DirectionEngine.DirectionType.TRANSIT) {
                     return true;
+                }
             }
             return false;
         }

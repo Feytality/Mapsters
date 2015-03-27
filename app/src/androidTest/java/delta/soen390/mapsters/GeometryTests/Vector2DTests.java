@@ -2,7 +2,7 @@ package delta.soen390.mapsters.GeometryTests;
 
 import android.test.InstrumentationTestCase;
 
-import delta.soen390.mapsters.Geometry.Vector2D;
+import delta.soen390.mapsters.GeometricOverlays.Vector2D;
 
 /**
  * Created by Amanda on 2015-02-22.

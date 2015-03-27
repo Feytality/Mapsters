@@ -14,21 +14,25 @@ import android.widget.Toast;
 import com.google.maps.model.TravelMode;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import delta.soen390.mapsters.Activities.DirectionStepsFragment;
 import delta.soen390.mapsters.Activities.MapsActivity;
+import delta.soen390.mapsters.Controller.DirectionStep;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Services.DirectionEngine;
 
 
 public class DirOptionFragment extends Fragment {
 
 
-    private FragmentTabHost mTabHost;
-    private GetSteps git;
+    private FragmentTabHost tabHost;
     private SlidingUpPanelLayout panelLayout;
-
+    private ArrayList<TabHost.TabSpec> mTabSpecs = new ArrayList<>();
+    private DirectionEngine mDirectionEngine;
     public DirOptionFragment() {
         // Required empty public constructor
     }
@@ -37,6 +41,14 @@ public class DirOptionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    private void addTab(String tabId, DirectionEngine.DirectionType directionType)
+    {
+        //MapsActivity activity = (MapsActivity)getActivity();
+        Bundle args = new Bundle();
+        args.putInt("DirectionType", directionType.ordinal());
+        tabHost.addTab(tabHost.newTabSpec(tabId).setIndicator(tabId), DirectionStepsFragment.class, args);
     }
 
     @Override
@@ -56,54 +68,70 @@ public class DirOptionFragment extends Fragment {
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
         //Always here
-        mTabHost.addTab(mTabHost.newTabSpec(isTransit).setIndicator("",getResources().getDrawable(R.drawable.bus)), DirectionStepsFragment.class, null);
+        addTab(isTransit, DirectionEngine.DirectionType.TRANSIT);
 
+        MapsActivity activity = ((MapsActivity)getActivity());
+        mDirectionEngine = activity.getDirectionEngine();
+
+        //Transit is the default value which is always present, hence show the transit path
+        mDirectionEngine.showDirectionPath(DirectionEngine.DirectionType.TRANSIT);
+
+        //update the tab
         if (defaults.contains(isShuttle)){
-            mTabHost.addTab(mTabHost.newTabSpec(isShuttle).setIndicator("",getResources().getDrawable(R.drawable.van)), DirectionStepsFragment.class, null);
+            addTab(isShuttle, DirectionEngine.DirectionType.SHUTTLE);
         } if (defaults.contains(isDriving)){
-            mTabHost.addTab(mTabHost.newTabSpec(isDriving).setIndicator("",getResources().getDrawable(R.drawable.car)), DirectionStepsFragment.class, null);
+            addTab(isDriving, DirectionEngine.DirectionType.DRIVING);
         } if (defaults.contains(isWalking)){
-            mTabHost.addTab(mTabHost.newTabSpec(isWalking).setIndicator("",getResources().getDrawable(R.drawable.walking)), DirectionStepsFragment.class, null);
+            addTab(isWalking, DirectionEngine.DirectionType.WALKING);
         } if (defaults.contains(isCycling)) {
-            mTabHost.addTab(mTabHost.newTabSpec(isCycling).setIndicator("",getResources().getDrawable(R.drawable.cycling)), DirectionStepsFragment.class, null);
+            addTab(isCycling, DirectionEngine.DirectionType.BICYCLE);
         }
-
-
-
 
             //Listerner BAY - refactor
 
             mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
                 @Override
                 public void onTabChanged(String tabId) {
-                    Toast.makeText(getActivity().getApplicationContext(), tabId, Toast.LENGTH_SHORT).show();
-                    if (tabId.equals(isShuttle)) {
-                        MapsActivity m = (MapsActivity) getActivity();
-                        m.getDirections(TravelMode.TRANSIT);
-                    }
-                    if (tabId.equals(isCycling)) {
-                        MapsActivity m = (MapsActivity) getActivity();
-                        m.getDirections(TravelMode.BICYCLING);
-                    }
-                    if (tabId.equals(isDriving)) {
-                        MapsActivity m = (MapsActivity) getActivity();
-                        m.getDirections(TravelMode.DRIVING);
-                    }
-                    if (tabId.equals(isTransit)) {
-                        MapsActivity m = (MapsActivity) getActivity();
-                        m.getDirections(TravelMode.TRANSIT);
-                    }
-                    if (tabId.equals(isWalking)) {
-                        MapsActivity m = (MapsActivity) getActivity();
-                        m.getDirections(TravelMode.WALKING);
+
+                    Toast.makeText(getActivity().getApplicationContext(),tabId,Toast.LENGTH_SHORT).show();
+
+                    if(mDirectionEngine == null) {
+                        MapsActivity activity = ((MapsActivity)getActivity());
+                        mDirectionEngine = activity.getDirectionEngine();
+                        if(mDirectionEngine == null) {
+                            return;
+                        }
                     }
 
+                    DirectionEngine.DirectionType directionType = DirectionEngine.DirectionType.TRANSIT;
+                    if(tabId.equals(isCycling))
+                    {
+                        directionType = DirectionEngine.DirectionType.BICYCLE;
+                    }
+                    else if(tabId.equals(isTransit))
+                    {
+                        directionType = DirectionEngine.DirectionType.TRANSIT;
+                    }
+                    else if(tabId.equals(isShuttle))
+                    {
+                        directionType = DirectionEngine.DirectionType.SHUTTLE;
+                    }
+                    else if(tabId.equals(isWalking))
+                    {
+                        directionType = DirectionEngine.DirectionType.WALKING;
+                    }
+                    else if(tabId.equals(isDriving))
+                    {
+                        directionType = DirectionEngine.DirectionType.DRIVING;
+                    }
+
+                    mDirectionEngine.showDirectionPath(directionType);
+
+                return mTabHost;
                 }
 
             });
-
-
-                return mTabHost;
+                return tabHost;
     }
 
 

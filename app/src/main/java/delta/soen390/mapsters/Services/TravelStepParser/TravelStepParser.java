@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.ArrayList;
 
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Services.TravelResponseInfo;
 
 /**
  * Created by Mathieu on 3/15/2015.
@@ -24,28 +25,33 @@ public class TravelStepParser {
     private void initializeStrategies(Context c)
     {
         mParsingStrategies.add( new TravelStepSubwayParser(c));
+        mParsingStrategies.add( new TravelStepWalkingParser(c));
+        mParsingStrategies.add(new TravelStepBusParser(c));
+        mParsingStrategies.add(new TravelStepShuttleParser(c));
+        mParsingStrategies.add(new TravelStepDrivingParser(c));
+        //mParsingStrategies.add(new TravelStepDrivingParser(c));
        // mParsingStrategies.add( new )
     }
 
-    public int getColor(String str)
+    public int getColor(TravelResponseInfo.TravelStep step)
     {
         for(ITravelStepParsingStrategy strategy : mParsingStrategies)
         {
-            if(strategy.isValidString(str))
+            if(strategy.isValidString(step))
             {
-                return strategy.getColor(str);
+                return strategy.getColor(step);
             }
         }
-        return 0;
+        return mDefaultColor;
     }
 
-    public String getTag(String str)
+    public String getTag(TravelResponseInfo.TravelStep step)
     {
         for(ITravelStepParsingStrategy strategy : mParsingStrategies)
         {
-            if(strategy.isValidString(str))
+            if(strategy.isValidString(step))
             {
-                return strategy.getTag(str);
+                return strategy.getTag(step);
             }
         }
         return "";

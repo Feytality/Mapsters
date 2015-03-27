@@ -7,7 +7,7 @@ import com.google.android.gms.maps.GoogleMap;
 
 import java.util.ArrayList;
 
-import delta.soen390.mapsters.Buildings.BuildingPolygon;
+import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonSerializer;
 
 /**
@@ -30,7 +30,7 @@ public class PolygonSerializerTests extends AndroidTestCase {
     }
 
     public void testCreatePolygonArray() throws Exception {
-        ArrayList<BuildingPolygon> retVal = mPolygonSerializer.createPolygonArray(null);
+        ArrayList<BuildingPolygonOverlay> retVal = mPolygonSerializer.createPolygonArray(null);
         assertNull(retVal);
     }
 }

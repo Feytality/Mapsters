@@ -4,7 +4,7 @@ import android.test.AndroidTestCase;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import delta.soen390.mapsters.Buildings.BuildingPolygon;
+import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 
 /**
@@ -29,22 +29,22 @@ public class BuildingPolygonManagerTests extends AndroidTestCase {
     }
 
     public void testGetClickedPolygonNull() {
-        BuildingPolygon retVal = mBuildingPolygonManager.getClickedPolygon(null);
+        BuildingPolygonOverlay retVal = mBuildingPolygonManager.getClickedPolygon(null);
         assertNull(retVal);
     }
 
     public void testGetClickedPolygonNotNull() {
-        BuildingPolygon retVal = mBuildingPolygonManager.getClickedPolygon(mLatLng);
+        BuildingPolygonOverlay retVal = mBuildingPolygonManager.getClickedPolygon(mLatLng);
         assertNull(retVal);
     }
 
     public void testGetBuildingPolygonNull() {
-        BuildingPolygon retVal = mBuildingPolygonManager.getBuildingPolygonByBuildingCode(null);
+        BuildingPolygonOverlay retVal = mBuildingPolygonManager.getBuildingPolygonByBuildingCode(null);
         assertNull(retVal);
     }
 
     public void testGetBuildingPolygonEmpty() {
-        BuildingPolygon retVal = mBuildingPolygonManager.getBuildingPolygonByBuildingCode("");
+        BuildingPolygonOverlay retVal = mBuildingPolygonManager.getBuildingPolygonByBuildingCode("");
         assertNull(retVal);
     }
 

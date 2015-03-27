@@ -26,10 +26,14 @@ import java.util.ArrayList;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
+import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Fragments.DirOptionFragment;
+import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
+import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
+import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 
 
 public class SplitPane {
@@ -139,20 +143,29 @@ public class SplitPane {
         }
 
     }
-
     private int getDisplayHeight() {
         DisplayMetrics metrics = new DisplayMetrics();
         mContext.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         return metrics.widthPixels;
     }
 
-
-
-
     private View.OnClickListener directionBtnListener = new View.OnClickListener() {
         public void onClick(View v) {
-            mContext.getDirections(TravelMode.TRANSIT);
+            DirectionEngine directionEngine = mContext.getDirectionEngine();
+
+            //Engine has not been set up, no directions available
+            if(directionEngine == null) {
+                return;
+            }
+            //Update the direction engine with all of the requested direction type
+            //from the settings
+            //Get the currently clicked overlay
+            directionEngine.setFinalLocation(GoogleMapstersUtils.toDirectionsLatLng(mCurrentBuilding.getCoordinates()));
+            directionEngine.updateDirectionEngine();
+
+            //DirOptionFragment is the view component of the direction pane
             DirOptionFragment dirOptionFragment = new DirOptionFragment();
+
             FragmentManager fragmentManager = mContext.getSupportFragmentManager();
             fragmentManager.beginTransaction().addToBackStack("info")
                     .replace(R.id.sliding_container, dirOptionFragment)

@@ -37,10 +37,11 @@ public class DirectionsRequestProvider {
         return DirectionsApi.newRequest(mGeoApiContext)
                 .origin(initial)
                 .destination(destination)
-                .mode(mode);
+                .mode(mode)
+                .departureTime(new DateTime());
     }
 
-    public DirectionsApiRequest getNextShuttle(Campus.Name startCampus) {
+    public DirectionsApiRequest getShuttleRequest(Campus.Name startCampus) {
 
         DirectionsApiRequest dar;
 

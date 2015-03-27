@@ -17,5 +17,6 @@
     <color name="travel_step_shuttle">#93243A</color>
     <color name="travel_step_bus">#ff0000</color>
     <color name="travel_step_default">#030303</color>
+    <color name="travel_step_driving">#cAa311</color>
     <color name="concordia_grey_alpha">#aaf2f2f2</color>
 </resources>

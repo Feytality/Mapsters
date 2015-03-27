@@ -7,30 +7,29 @@ import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.TravelResponseInfo;
 
 /**
- * Created by Mathieu on 3/14/2015.
+ * Created by Mathieu on 3/23/2015.
  */
-public class TravelStepBusParser implements ITravelStepParsingStrategy {
+public class TravelStepDrivingParser implements ITravelStepParsingStrategy {
 
     private int mLineColor = 0;
-    public TravelStepBusParser(Context c)
+    public TravelStepDrivingParser(Context c)
     {
-        mLineColor = c.getResources().getColor(R.color.travel_step_bus);
+        mLineColor = c.getResources().getColor(R.color.travel_step_driving);
     }
     //Must return whether the string passed is valid according to this strategy
     public boolean isValidString(TravelResponseInfo.TravelStep step)
     {
-        return step.getDirectionType() == DirectionEngine.DirectionType.TRANSIT
-                && step.getDescription().contains("Bus");
+        return step.getDirectionType() == DirectionEngine.DirectionType.DRIVING;
     }
 
     //If possible, extracts the tag from the string
     //Returns empty string if no tag has been found
-    public String getTag(TravelResponseInfo.TravelStep step)
+    public String getTag(TravelResponseInfo.TravelStep str)
     {
         return "";
     }
 
-    public int getColor(TravelResponseInfo.TravelStep step)
+    public int getColor(TravelResponseInfo.TravelStep str)
     {
         return mLineColor;
     }

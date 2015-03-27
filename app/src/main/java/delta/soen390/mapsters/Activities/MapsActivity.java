@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -27,7 +28,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
-import delta.soen390.mapsters.Buildings.BuildingPolygon;
+import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarEventNotification;
@@ -35,6 +36,9 @@ import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.ProtoSearchBox;
 import delta.soen390.mapsters.Controller.SplitPane;
+import delta.soen390.mapsters.Fragments.SearchBarFragment;
+import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
+import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
@@ -111,6 +115,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
 
 
+        String msg = PreferenceManager.getDefaultSharedPreferences(this).getString("campus_list","NOO");
 
     }
 
@@ -176,8 +181,11 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         //Initialize the Building Polygons
         BuildingPolygonManager.getInstance().loadResources(googleMap, splitPane, getApplicationContext());
 
+        //Make sure that the building overlays are active at application startup
+        BuildingPolygonManager.getInstance().activateBuildingOverlays();
+
         //Initialize the Direction Engine
-        mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap);
+        mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap, mLocationService);
 
         googleMap.setOnMapLongClickListener(this);
         googleMap.setOnMapClickListener(this);
@@ -203,8 +211,12 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         if(mMarker != null) {
             mMarker.remove();
         }
-//        splitPane.setStartingLocation(new LatLng(mLocationService.getLastLocation().getLatitude(), mLocationService.getLastLocation().getLongitude()));
-        setStartingLocation(null);
+
+        //Set the initial location to the last polled user location
+        Location lastLocation = mLocationService.getLastLocation();
+        if(mDirectionEngine != null) {
+            mDirectionEngine.setInitialLocation(null);
+        }
         return false;
     }
 
@@ -222,7 +234,11 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                 "Your starting location!"));
 
         // Set starting location.
-       setStartingLocation(point);
+       if(mDirectionEngine != null)
+       {
+           mDirectionEngine.setInitialLocation(GoogleMapstersUtils.toDirectionsLatLng(point));
+       }
+
     }
 
     @Override
@@ -252,15 +268,17 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         onMapClick(latlng);
         SelectBuildingByBuildingCode(mCurrentBuilding.getBuildingCode(),17);
 
-    }
-
-
-
+  
     @Override
     public void onMapClick(LatLng latLng) {
-        BuildingPolygonManager.getInstance().clickPolygon(latLng);
-        mCurrentBuilding=BuildingPolygonManager.getInstance().getCurrentBuildingInfo();
-        mImm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+
+        PolygonOverlay overlay = PolygonOverlayManager.getInstance().getClickedPolygon(latLng);
+        if(overlay != null) {
+            overlay.focus();
+        }
+            
+            //set current buildind
+            mImm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
 
@@ -270,90 +288,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
 
 
-    public void getDirections(){
-        Log.i("Direction Button", "Clicked!");
-        Location lastLocation = mLocationService.getLastLocation();
-        if (lastLocation == null) {
-            Log.i("last direction", "null");
-            return;
-        } else {
-            Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
-        }
 
-        //TODO toast notify user of connectivity problem
-        if(mDirectionEngine == null) {
-            return;
-        }
-
-
-        LatLng currentBuildingCoordinates = BuildingPolygonManager.getInstance().getCurrentBuildingInfo().getCoordinates();
-        if(currentBuildingCoordinates == null)
-            return;
-
-        if(mCurrentDirectionPath != null){
-            mCurrentDirectionPath.hideDirectionPath();
-        }
-
-        if(mStartingLocation == null) {
-            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
-                    new com.google.maps.model.LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),
-                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
-        } else {
-            // Else, starting location is set (by placing marker on map), use the choosen location coordinates instead.
-            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
-                    GoogleMapstersUtils.toDirectionsLatLng(mStartingLocation),
-                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates));
-        }
-
-        mCurrentDirectionPath.showDirectionPath();
-
-    }
-    public void getDirections(TravelMode mode){
-        Log.i("Direction Button", "Clicked!");
-        Location lastLocation = mLocationService.getLastLocation();
-        if (lastLocation == null) {
-            Log.i("last direction", "null");
-            return;
-        } else {
-            Log.i("Current Coords", mLocationService.getLastLocation().getLatitude() + " " + mLocationService.getLastLocation().getLongitude());
-        }
-
-        //TODO toast notify user of connectivity problem
-        if(mDirectionEngine == null) {
-            return;
-        }
-
-
-        LatLng currentBuildingCoordinates = BuildingPolygonManager.getInstance().getCurrentBuildingInfo().getCoordinates();
-        if(currentBuildingCoordinates == null)
-            return;
-
-        if(mCurrentDirectionPath != null){
-            mCurrentDirectionPath.hideDirectionPath();
-        }
-
-        if(mStartingLocation == null) {
-            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
-                    new com.google.maps.model.LatLng(lastLocation.getLatitude(), lastLocation.getLongitude()),
-                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates),mode);
-        } else {
-            // Else, starting location is set (by placing marker on map), use the choosen location coordinates instead.
-            mCurrentDirectionPath = mDirectionEngine.GenerateDirectionPath(
-                    GoogleMapstersUtils.toDirectionsLatLng(mStartingLocation),
-                    GoogleMapstersUtils.toDirectionsLatLng(currentBuildingCoordinates),mode);
-        }
-
-        mCurrentDirectionPath.showDirectionPath();
-
-    }
-
-    public void setStartingLocation(LatLng startingLocation) {
-        // Note: should be able to set it null to clear it
-        mStartingLocation = startingLocation;
-        if(startingLocation != null)
-            Log.i("Set starting location!", startingLocation.toString());
-
-    }
 
 
     public DirectionEngine getDirectionEngine()
@@ -378,7 +313,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                     requestLowerPanel();
                     initializeSlidingPane();
                     if(mCurrentDirectionPath != null) {
-                        mCurrentDirectionPath.hideDirectionPath();
+                        //mCurrentDirectionPath.hideDirectionPath();
                         mCurrentDirectionPath = null;
                     }
                     mSlidingUpPanelLayout.setTouchEnabled(false);
