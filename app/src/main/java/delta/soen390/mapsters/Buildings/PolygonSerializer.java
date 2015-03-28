@@ -9,15 +9,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
+
 /**
  * Created by Niofire on 2/15/2015.
  */
 public class PolygonSerializer {
 
     private GoogleMap mGoogleMap;
+    private MapsActivity mActivity;
+    public PolygonSerializer(MapsActivity activity) {
+        mActivity = activity;
 
-    public PolygonSerializer(GoogleMap googleMap) {
-        mGoogleMap = googleMap;
     }
 
     public BuildingPolygonOverlay createPolygon(JSONObject object) {
@@ -65,23 +68,12 @@ public class PolygonSerializer {
 
         BuildingInfo buildingInfo = new BuildingInfo(buildingCode, buildingName, campus, buildingImageUrl,
                                     coordinates, boundingCoordinates, services, departments,address,info,parking,access,bikeRack);
-        BuildingPolygonOverlay overlay = new BuildingPolygonOverlay(mGoogleMap, buildingInfo);
+        BuildingPolygonOverlay overlay = new BuildingPolygonOverlay(mActivity, buildingInfo);
         if(overlay.isValidOverlay())
         {
             return overlay;
         }
         return null;
-    }
-
-    public BuildingPolygonOverlay createPolygon(String jsonString) {
-        JSONObject jsonObject;
-        try {
-            jsonObject = new JSONObject(jsonString);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return createPolygon(jsonObject);
     }
 
     private ArrayList<LatLng> extractBoundaryCoordinates(JSONObject object) {

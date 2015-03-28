@@ -5,9 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
-import android.widget.AutoCompleteTextView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.view.WindowManager;
 
 import delta.soen390.mapsters.Fragments.BuildingDFragment;
 import delta.soen390.mapsters.Fragments.DepartmentDFragment;
@@ -16,8 +14,6 @@ import delta.soen390.mapsters.R;
 
 public class DirectoryActivity extends FragmentActivity {
 
-    ListView fruitView;
-    private AutoCompleteTextView actv;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +23,6 @@ public class DirectoryActivity extends FragmentActivity {
         if (extras != null)
         {
             myParam = extras.getInt("Directory");//values map to navigationdrawer.java
-            Toast.makeText(this,Integer.toString(myParam),Toast.LENGTH_SHORT).show();
         }
 
 
@@ -44,13 +39,9 @@ public class DirectoryActivity extends FragmentActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.m_container, directories[myParam])
                 .commit();
+        //prevent keyboard from popping up
+    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
-
-
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

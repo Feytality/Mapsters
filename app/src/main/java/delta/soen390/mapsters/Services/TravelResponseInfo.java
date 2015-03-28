@@ -64,13 +64,20 @@ public class TravelResponseInfo {
 
     public void setShuttleTravel()
     {
+        ArrayList<LatLng> shuttlePoints = new ArrayList<>();
         for(TravelStep step : mTravelSteps)
         {
             if(step.getDirectionType() == DirectionEngine.DirectionType.DRIVING)
             {
-                step.mDirectionType = DirectionEngine.DirectionType.SHUTTLE;
+                EncodedPolyline polyline = step.getEncodedPolyLine();
+                shuttlePoints.addAll(polyline.decodePath());
             }
         }
+
+        mTravelSteps.clear();
+        EncodedPolyline polyline = new EncodedPolyline(shuttlePoints);
+        mTravelSteps.add(new TravelStep("Concordia's Shuttle", DirectionEngine.DirectionType.SHUTTLE,polyline));
+
     }
 
     public TravelResponseInfo(long startTime, long arrivalTime, EncodedPolyline encodedPolyline, DirectionsStep[] directionsSteps) {

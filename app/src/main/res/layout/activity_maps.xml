@@ -25,7 +25,6 @@
             android:layout_height="match_parent">
 
             <!--Map Fragment -->
-
             <ViewSwitcher
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -55,35 +54,49 @@
                 android:weightSum="1">
 
                 <ImageButton
-                    android:layout_width="66dp"
-                    android:layout_height="28dp"
-                    android:background="@drawable/ic_drawer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_action_dehaze"
                     android:backgroundTint="@color/concordia_main_color"
                     android:id="@+id/btn_nav_drawer"
                     android:clickable="false"
-                    android:layout_weight="1.17"
                     android:scaleType="fitXY"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="15dp" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="5dp" />
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="257dp"
-                    android:layout_height="wrap_content">
-
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toRightOf="@+id/tableRow"
+    android:layout_toLeftOf="@+id/locate_me"
+    android:layout_toStartOf="@+id/locate_me"
+    android:layout_marginTop="5dp"
+    android:background="@color/concordia_grey_alpha">
                     <AutoCompleteTextView
                         android:layout_width="fill_parent"
                         android:layout_height="52dp"
-                        android:name="delta.soen390.mapsters.Fragments.SearchBarFragment"
                         android:id="@+id/global_search"
-                        tools:layout="@layout/search_bar_fragment"
                         android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/tableRow"
-                        android:layout_toLeftOf="@+id/locate_me"
-                        android:layout_toStartOf="@+id/locate_me"
                         android:hint="Search"
-                        android:layout_marginTop="5dp"
-                        android:background="@color/concordia_grey_alpha" />
+                        android:layout_centerVertical="true"
+
+                         />
+
+                    <Button
+                        android:id="@+id/clr_btn"
+                        android:layout_width="30dip"
+                        android:layout_height="30dip"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/ic_action_clear"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dip" />
+</RelativeLayout>
 
                     <Switch
                         android:layout_width="wrap_content"
@@ -105,11 +118,12 @@
                     style="@style/FloatBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_menu_compass"
+                    android:src="@drawable/ic_action_gps_fixed"
                     android:id="@+id/locate_me"
                     android:layout_alignRight="@+id/mapSwitcher"
                     android:minWidth="56dp"
-                    android:layout_marginTop="20dp" />
+                    android:layout_marginTop="20dp"
+                    android:adjustViewBounds="false" />
 
             </LinearLayout>
 

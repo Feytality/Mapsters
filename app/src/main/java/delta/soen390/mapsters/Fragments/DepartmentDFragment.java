@@ -10,21 +10,24 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.Collections;
 import java.util.List;
 
-import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
-import delta.soen390.mapsters.ListAdapter;
+import delta.soen390.mapsters.Activities.MapsActivity;
+import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
+import delta.soen390.mapsters.Buildings.PolygonDirectory;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Utils.ListAdapter;
 
 
 
 public class DepartmentDFragment extends Fragment {
     ListView listingView;
     private AutoCompleteTextView text;
+    private PolygonDirectory mPolygonDirectory;
     View view;
     public DepartmentDFragment() {
         // Required empty public constructor
@@ -44,7 +47,8 @@ public class DepartmentDFragment extends Fragment {
         listingView.setFastScrollEnabled(true);
 
 
-        List<String> listingList = BuildingPolygonManager.getInstance().getAllDepartments();
+        mPolygonDirectory = MapsActivity.sPolygonDirectory;
+        List<String> listingList = mPolygonDirectory.getAllDepartments();
         Collections.sort(listingList);
 
         listingView.setAdapter(new ListAdapter(getActivity().getApplicationContext(),//listView elements styler
@@ -59,7 +63,8 @@ public class DepartmentDFragment extends Fragment {
                                     int position, long arg3) {
 
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingInfoByDepartment(parent.getItemAtPosition(position).toString()).getCoordinates().toString();
+                BuildingPolygonOverlay overlay = mPolygonDirectory.getBuildingByDepartment(parent.getItemAtPosition(position).toString());
+                String result = overlay.getBuildingInfo().getBuildingCode();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
@@ -98,7 +103,8 @@ public class DepartmentDFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingInfoByDepartment(parent.getItemAtPosition(position).toString()).getCoordinates().toString();
+                BuildingPolygonOverlay overlay = mPolygonDirectory.getBuildingByDepartment(parent.getItemAtPosition(position).toString());
+                String result = overlay.getBuildingInfo().getBuildingCode();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
@@ -106,7 +112,7 @@ public class DepartmentDFragment extends Fragment {
 
         });
 
-        ImageButton btn = (ImageButton) view.findViewById(R.id.clr_button);
+        Button btn = (Button) view.findViewById(R.id.clr_btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

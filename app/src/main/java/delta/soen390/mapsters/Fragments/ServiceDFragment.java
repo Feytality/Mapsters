@@ -4,27 +4,32 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
-import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
-import delta.soen390.mapsters.ListAdapter;
+import delta.soen390.mapsters.Activities.MapsActivity;
+import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
+import delta.soen390.mapsters.Buildings.PolygonDirectory;
+import delta.soen390.mapsters.Utils.ListAdapter;
 import delta.soen390.mapsters.R;
 
 
 public class ServiceDFragment extends Fragment {
     ListView listingView;
     private AutoCompleteTextView text;
-    View view;
+    private PolygonDirectory mPolygonDirectory;
+    private View view;
     public ServiceDFragment() {
         // Required empty public constructor
     }
@@ -43,7 +48,9 @@ public class ServiceDFragment extends Fragment {
         listingView.setFastScrollEnabled(true);
 
 
-        List<String> listingList = BuildingPolygonManager.getInstance().getAllServices();
+        mPolygonDirectory = MapsActivity.sPolygonDirectory;
+        ArrayList<String> listingList = mPolygonDirectory.getAllServices();
+
         Collections.sort(listingList);
 
         listingView.setAdapter(new ListAdapter(getActivity().getApplicationContext(),
@@ -57,7 +64,10 @@ public class ServiceDFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View arg1,
                                     int position, long arg3) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingInfoByService(parent.getItemAtPosition(position).toString()).getCoordinates().toString();
+                Log.e("************", parent.getItemAtPosition(position).toString());
+                BuildingPolygonOverlay overlay = mPolygonDirectory.getBuildingByService(parent.getItemAtPosition(position).toString());
+
+                String result = overlay.getBuildingInfo().getBuildingCode();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
@@ -94,7 +104,8 @@ public class ServiceDFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingInfoByService(parent.getItemAtPosition(position).toString()).getCoordinates().toString();
+                BuildingPolygonOverlay overlay = mPolygonDirectory.getBuildingByService(parent.getItemAtPosition(position).toString());
+                String result = overlay.getBuildingInfo().getBuildingCode();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
@@ -102,7 +113,7 @@ public class ServiceDFragment extends Fragment {
 
         });
 
-        ImageButton btn = (ImageButton) view.findViewById(R.id.clr_button);
+        Button btn = (Button) view.findViewById(R.id.clr_btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

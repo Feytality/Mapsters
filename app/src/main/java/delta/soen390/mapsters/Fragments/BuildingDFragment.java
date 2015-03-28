@@ -10,20 +10,23 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.Collections;
 import java.util.List;
 
-import delta.soen390.mapsters.Buildings.BuildingPolygonManager;
-import delta.soen390.mapsters.ListAdapter;
+import delta.soen390.mapsters.Activities.MapsActivity;
+import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
+import delta.soen390.mapsters.Buildings.PolygonDirectory;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Utils.ListAdapter;
 
 
 public class BuildingDFragment extends Fragment {
     ListView listingView;
     private AutoCompleteTextView text;
+    private PolygonDirectory mPolygonDirectory;
     View view;
     public BuildingDFragment() {
         // Required empty public constructor
@@ -41,17 +44,24 @@ public class BuildingDFragment extends Fragment {
         view= inflater.inflate(R.layout.fragment_directories, container, false);
         listingView = (ListView) view.findViewById(android.R.id.list);
         listingView.setFastScrollEnabled(true);
-        List<String> listingList = BuildingPolygonManager.getInstance().getAllBuildings();
+        mPolygonDirectory = MapsActivity.sPolygonDirectory;
+
+        List<String> listingList = mPolygonDirectory.getAllBuildingCodes();
         Collections.sort(listingList);
 //set up list view beneath
         listingView.setAdapter(new ListAdapter(getActivity().getApplicationContext(),
                 R.layout.my_list_item_style, listingList));
+
+
+
+
         listingView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View arg1,
                                     int position, long arg3) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingInfoByKeyword(parent.getItemAtPosition(position).toString()).getCoordinates().toString();
+                BuildingPolygonOverlay overlay = mPolygonDirectory.getBuildingByCode(parent.getItemAtPosition(position).toString());
+                String result = overlay.getBuildingInfo().getBuildingCode();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
@@ -64,30 +74,12 @@ public class BuildingDFragment extends Fragment {
         ArrayAdapter adapter = new ListAdapter(getActivity().getApplicationContext(),R.layout.my_list_item_style,listingList);
         text.setAdapter(adapter);
 
-
-
-
-
-
-
-        text.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (text.getText().toString().contains("Search")) {
-                    text.setText("");
-
-                }
-            }
-        });
-
-
         text.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent returnIntent = new Intent();
-                String result = BuildingPolygonManager.getInstance().getBuildingPolygonByBuildingCode(parent.getItemAtPosition(position).toString()).getBuildingInfo().getCoordinates().toString();
+                String result = mPolygonDirectory.getBuildingByCode(parent.getItemAtPosition(position).toString()).getBuildingInfo().getBuildingCode();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();
@@ -95,7 +87,7 @@ public class BuildingDFragment extends Fragment {
 
         });
 
-        ImageButton btn = (ImageButton) view.findViewById(R.id.clr_button);
+        Button btn = (Button) view.findViewById(R.id.clr_btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,15 +95,8 @@ public class BuildingDFragment extends Fragment {
             }
         });
 
+
         return view;
-    }
-
-
-    public List<String> setAllSearch(){
-        List<String> listingList = BuildingPolygonManager.getInstance().getAllBuildings();
-        listingList.addAll(BuildingPolygonManager.getInstance().getAllDepartments());
-        listingList.addAll(BuildingPolygonManager.getInstance().getAllServices());
-        return listingList;
     }
 
 }

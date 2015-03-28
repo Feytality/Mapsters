@@ -2,7 +2,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="5dp">
-
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/relativeLayout">
     <AutoCompleteTextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -11,18 +14,18 @@
         android:hint="Search"
          />
 
-    <ImageButton
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="48dp"
-        android:background="?android:attr/selectableItemBackground"
-        android:layout_height="48dp"
-        android:src="@drawable/cancel"
-        android:id="@+id/clr_button"
-        android:layout_alignParentTop="true"
+    <Button
+        android:id="@+id/clr_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:scaleType="fitXY"
-        android:layout_above="@android:id/list" />
+        android:background="@drawable/ic_action_clear"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dip"/>
+</RelativeLayout>
+
+
+
 
     <ListView
         android:id="@android:id/list"
@@ -30,7 +33,7 @@
         android:layout_height="fill_parent"
         android:scrollbarStyle="outsideOverlay"
         android:paddingRight="5dp"
-        android:layout_below="@+id/directory_search">
+        android:layout_below="@+id/relativeLayout">
     </ListView>
 
 </RelativeLayout>
