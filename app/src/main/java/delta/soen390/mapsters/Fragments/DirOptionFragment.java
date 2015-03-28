@@ -39,12 +39,13 @@ public class DirOptionFragment extends Fragment {
 
     }
 
-    private void addTab(String tabId, DirectionEngine.DirectionType directionType)
+    private void addTab(String tabId, DirectionEngine.DirectionType directionType,int drawableId)
     {
         //MapsActivity activity = (MapsActivity)getActivity();
         Bundle args = new Bundle();
         args.putInt("DirectionType", directionType.ordinal());
-        mTabHost.addTab(mTabHost.newTabSpec(tabId).setIndicator(tabId), DirectionStepsFragment.class, args);
+        mTabHost.addTab(mTabHost.newTabSpec(tabId).setIndicator("",getResources().getDrawable(drawableId)), DirectionStepsFragment.class, args);
+
     }
 
     @Override
@@ -63,8 +64,9 @@ public class DirOptionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dir_option, mTabHost);
         mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
+
         //Always here
-        addTab(isTransit, DirectionEngine.DirectionType.TRANSIT);
+        addTab(isTransit, DirectionEngine.DirectionType.TRANSIT,R.drawable.ic_action_directions_subway);
 
         MapsActivity activity = ((MapsActivity)getActivity());
         mDirectionEngine = activity.getDirectionEngine();
@@ -74,13 +76,13 @@ public class DirOptionFragment extends Fragment {
 
         //update the tab
         if (defaults.contains(isShuttle)){
-            addTab(isShuttle, DirectionEngine.DirectionType.SHUTTLE);
+            addTab(isShuttle, DirectionEngine.DirectionType.SHUTTLE,R.drawable.ic_action_directions_bus);
         } if (defaults.contains(isDriving)){
-            addTab(isDriving, DirectionEngine.DirectionType.DRIVING);
+            addTab(isDriving, DirectionEngine.DirectionType.DRIVING,R.drawable.ic_action_directions_car);
         } if (defaults.contains(isWalking)){
-            addTab(isWalking, DirectionEngine.DirectionType.WALKING);
+            addTab(isWalking, DirectionEngine.DirectionType.WALKING,R.drawable.ic_action_directions_walk);
         } if (defaults.contains(isCycling)) {
-            addTab(isCycling, DirectionEngine.DirectionType.BICYCLE);
+            addTab(isCycling, DirectionEngine.DirectionType.BICYCLE,R.drawable.ic_action_directions_bike);
         }
 
             //Listerner BAY - refactor

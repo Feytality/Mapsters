@@ -239,9 +239,6 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                 String result=data.getStringExtra("result");
                 keywordResult(result);
 
-//                LatLng latlng= mCampusSwitchUI.getmCampusViewSwitcher().parseCoordinate(result);
-//                onMapClick(latlng);
-//                Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
             }
             if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this,"whyyyyy",Toast.LENGTH_SHORT).show();            }
@@ -253,6 +250,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         if(overlay == null)
             return;
         mCamera.moveToTarget(overlay.getBuildingInfo().getCoordinates(),17);
+        onMapClick(overlay.getBuildingInfo().getCoordinates());
+
     }
   
     @Override

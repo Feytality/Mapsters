@@ -2,9 +2,7 @@ package delta.soen390.mapsters.Controller;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.View;
@@ -74,14 +72,10 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         mDrawerLayout.closeDrawer(Gravity.LEFT);
-        String msg="";
-        FragmentManager fragmentManager;
         Intent intent;
-        Bundle bundle;
         switch(position) {
             default:
             case 0://Schedule
-                msg = "Show schedule";
                 mContext.startActivity (new Intent(Intent.ACTION_VIEW, Uri.parse("content://com.android.calendar/time/")));
                 break;
             case 1://Buildings
@@ -100,14 +94,10 @@ public class NavigationDrawer implements AdapterView.OnItemClickListener {
                 mContext.startActivityForResult(intent,1);
                 break;
             case 4://Settings
-                msg = "Show settings activity/fragment";
                 mContext.startActivity(new Intent(mContext, SettingsActivity.class));
                 break;
             case 5://Help
-                msg = "Show settings activity/fragment";
 
-//                SlidingUpPanelLayout p = (SlidingUpPanelLayout) mContext.findViewById(R.id.sliding_layout);
-//                p.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
                 new HelpToolTip(mContext,R.id.direction_button,0);
                 break;
         }

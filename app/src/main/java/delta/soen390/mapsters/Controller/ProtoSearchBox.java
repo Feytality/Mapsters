@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 
 import java.util.Collections;
 import java.util.List;
@@ -65,16 +66,14 @@ public class ProtoSearchBox {
 
         });
 
-//        ImageButton btn = (ImageButton) mContext.findViewById(R.id.clr_button);
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                textView.setText("");
-//            }
-//        });
+        Button btn = (Button) mContext.findViewById(R.id.clr_btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
-
+                mTextView.setText("");
+            }
+        });
 
 
 

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.Collections;
@@ -19,8 +19,8 @@ import java.util.List;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
-import delta.soen390.mapsters.Utils.ListAdapter;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Utils.ListAdapter;
 
 
 
@@ -112,7 +112,7 @@ public class DepartmentDFragment extends Fragment {
 
         });
 
-        ImageButton btn = (ImageButton) view.findViewById(R.id.clr_button);
+        Button btn = (Button) view.findViewById(R.id.clr_btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

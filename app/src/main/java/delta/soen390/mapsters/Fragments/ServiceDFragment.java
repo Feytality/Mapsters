@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -112,7 +113,7 @@ public class ServiceDFragment extends Fragment {
 
         });
 
-        ImageButton btn = (ImageButton) view.findViewById(R.id.clr_button);
+        Button btn = (Button) view.findViewById(R.id.clr_btn);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
