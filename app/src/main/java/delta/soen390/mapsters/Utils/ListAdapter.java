@@ -1,4 +1,4 @@
-package delta.soen390.mapsters;
+package delta.soen390.mapsters.Utils;
 
 import android.content.Context;
 import android.util.Log;

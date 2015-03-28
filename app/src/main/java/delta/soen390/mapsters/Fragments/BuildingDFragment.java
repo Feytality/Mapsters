@@ -19,7 +19,7 @@ import java.util.List;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
-import delta.soen390.mapsters.ListAdapter;
+import delta.soen390.mapsters.Utils.ListAdapter;
 import delta.soen390.mapsters.R;
 
 
@@ -97,7 +97,7 @@ public class BuildingDFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent returnIntent = new Intent();
-                String result = mPolygonDirectory.getBuildingByCode(parent.getItemAtPosition(position).toString()).getBuildingInfo().getCoordinates().toString();
+                String result = mPolygonDirectory.getBuildingByCode(parent.getItemAtPosition(position).toString()).getBuildingInfo().getBuildingCode();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);
                 getActivity().finish();

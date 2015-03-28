@@ -57,7 +57,7 @@ public class ProtoSearchBox {
                 BuildingPolygonOverlay overlay=polygonDirectory.getBuildingByKeyword(parent.getItemAtPosition(position).toString());
                 if (overlay==null)
                     return;
-                String result = overlay.getBuildingInfo().getCoordinates().toString();
+                String result = overlay.getBuildingInfo().getBuildingCode();
                mContext.keywordResult(result);
                 InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mTextView.getWindowToken(), 0);

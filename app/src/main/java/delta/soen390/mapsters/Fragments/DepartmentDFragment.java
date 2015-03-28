@@ -19,7 +19,7 @@ import java.util.List;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
-import delta.soen390.mapsters.ListAdapter;
+import delta.soen390.mapsters.Utils.ListAdapter;
 import delta.soen390.mapsters.R;
 
 

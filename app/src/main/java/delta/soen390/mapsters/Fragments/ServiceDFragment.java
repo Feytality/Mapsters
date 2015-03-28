@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import java.util.Collections;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
-import delta.soen390.mapsters.ListAdapter;
+import delta.soen390.mapsters.Utils.ListAdapter;
 import delta.soen390.mapsters.R;
 
 
@@ -62,7 +63,9 @@ public class ServiceDFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View arg1,
                                     int position, long arg3) {
                 Intent returnIntent = new Intent();
+                Log.e("************", parent.getItemAtPosition(position).toString());
                 BuildingPolygonOverlay overlay = mPolygonDirectory.getBuildingByService(parent.getItemAtPosition(position).toString());
+
                 String result = overlay.getBuildingInfo().getBuildingCode();
                 returnIntent.putExtra("result",result);
                 getActivity().setResult(Activity.RESULT_OK, returnIntent);

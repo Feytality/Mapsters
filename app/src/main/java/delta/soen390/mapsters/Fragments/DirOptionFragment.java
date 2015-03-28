@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import delta.soen390.mapsters.Activities.DirectionStepsFragment;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;

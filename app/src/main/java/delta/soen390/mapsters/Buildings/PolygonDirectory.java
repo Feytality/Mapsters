@@ -153,10 +153,12 @@ public class PolygonDirectory {
             for(BuildingPolygonOverlay overlay : mBuildingOverlays.values())
             {
                 ArrayList<String[]> departments = overlay.getBuildingInfo().getDepartments();
-                if(departments.contains(department)) {
+                for (String[] departmentRecord: departments)
+                if(departmentRecord[0].contains(department))
                     return overlay;
-                }
+
             }
+
 
         }
         return null;
@@ -174,7 +176,8 @@ public class PolygonDirectory {
             for(BuildingPolygonOverlay overlay : mBuildingOverlays.values())
             {
                 ArrayList<String[]> services = overlay.getBuildingInfo().getServices();
-                if(services.contains(service)) {
+                for (String[] serviceRecord: services)
+                              if(serviceRecord[0].contains(service)) {
                     return overlay;
                 }
             }
