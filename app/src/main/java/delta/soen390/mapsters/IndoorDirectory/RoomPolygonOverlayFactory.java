@@ -63,6 +63,8 @@ public class RoomPolygonOverlayFactory implements IPolygonOverlayFactory {
                 private boolean isDescription = false;
                 private boolean isBoundingCoordinates = false;
 
+                private StringBuilder boundingCoordinatesStringBuilding = new StringBuilder();
+
                 public void startElement(String uri, String localName,String qName,
                                          Attributes attributes) throws SAXException {
                     if(qName.equals(startingElementDescriptor))
@@ -70,15 +72,40 @@ public class RoomPolygonOverlayFactory implements IPolygonOverlayFactory {
                         loadingData.add(new LoadingData());
                     }
                     isName = qName.equals(nameDescriber);
-
                     isDescription = qName.equals(descriptionDescriber);
                     isBoundingCoordinates = qName.endsWith(boundingCoordinateDescriber);
+
+                    //Bebin a new string builder in order to extract all of the boundary coordinates
+                    if(isBoundingCoordinates)
+                    {
+                        boundingCoordinatesStringBuilding = new StringBuilder();
+                    }
 
                 }
 
                 public void endElement(String uri, String localName,
                                        String qName) throws SAXException {
 
+                    if(loadingData.size() == 0) {
+                        return;
+                    }
+                    LoadingData data = loadingData.get(loadingData.size() - 1);
+
+
+                    //Create the boundary coordinates from the recuperated string
+                    if(isBoundingCoordinates)
+                    {
+                        //Get coordinate array
+                        String[] coordinateStringArray = boundingCoordinatesStringBuilding.toString().split(" |,");
+                        data.BoundingCoordinates = new ArrayList<>();
+                        for (int i = 0; i < coordinateStringArray.length; i += 3) {
+                            double lat = Double.parseDouble(coordinateStringArray[i]);
+                            double lng = Double.parseDouble(coordinateStringArray[i + 1]);
+
+                            data.BoundingCoordinates.add(new LatLng(lng, lat));
+                        }
+                        isBoundingCoordinates = false;
+                    }
                 }
 
                 public void characters(char ch[], int start, int length) throws SAXException {
@@ -90,21 +117,14 @@ public class RoomPolygonOverlayFactory implements IPolygonOverlayFactory {
 
                     if(isName)
                     {
+
                         data.Name = qName;
                         isName =false;
                     }
                     else if(isBoundingCoordinates)
                     {
-                        //Get coordinate array
-                        String[] coordinateStringArray = qName.split(" |,");
-                        data.BoundingCoordinates = new ArrayList<>();
-                        for (int i = 0; i < coordinateStringArray.length; i += 3) {
-                            double lat = Double.parseDouble(coordinateStringArray[i]);
-                            double lng = Double.parseDouble(coordinateStringArray[i + 1]);
+                        this.boundingCoordinatesStringBuilding.append(new String(ch,start,length));
 
-                            data.BoundingCoordinates.add(new LatLng(lng, lat));
-                        }
-                        isBoundingCoordinates = false;
                     }
                     else if(isDescription)
                     {
