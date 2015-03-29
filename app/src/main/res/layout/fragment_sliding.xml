@@ -6,17 +6,17 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/imageView3"
-        android:layout_below="@+id/linearLayout"
-        android:src="@drawable/concordiabgmark"/>
+        android:src="@drawable/concordiabgmark"
+        android:layout_below="@+id/relativeLayout2" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/linearLayout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout2">
+        android:id="@+id/linearLayout2"
+        android:layout_below="@+id/relativeLayout2">
         <ScrollView
             android:layout_width="230dp"
             android:layout_height="wrap_content"
@@ -141,14 +141,34 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout2"
+        android:background="@color/concordia_gold">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView5"
+            android:background="@drawable/ic_action_con_u_emboss"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:cropToPadding="false"
+            android:layout_marginTop="10dp" />
+
+        <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:dividerPadding="0dp"
-        android:paddingLeft="30dp"
-        android:background="@color/concordia_main_color"
-        android:id="@+id/linearLayout">
+            android:background="@color/concordia_main_color"
+        android:id="@+id/linearLayout"
+            android:layout_toRightOf="@+id/imageView5"
+            android:layout_toEndOf="@+id/imageView5"
+            android:showDividers="middle"
+            android:paddingLeft="5dp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -161,18 +181,18 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/building_code"
                 android:layout_gravity="center_horizontal|left|top"
-                android:padding="5dp"
                 android:textColor="@color/background_material_light"
-                android:gravity="center|center_vertical|center_horizontal" />
+                android:gravity="center|center_vertical|center_horizontal"
+                android:paddingTop="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/campus"
+                android:textColor="@color/background_material_light"
                 android:layout_gravity="right"
-                android:padding="5dp"
-                android:textColor="@color/background_material_light" />
+                android:padding="5dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -185,21 +205,26 @@
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_weight="0.99">
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/building_name"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/concordia_gold_light"
-                android:focusable="true" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:singleLine="true"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:id="@+id/building_name"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/concordia_gold_light"
+                    android:focusable="true"
+                    android:paddingRight="5dp" />
             </me.grantland.widget.AutofitLayout>
 
         </LinearLayout>
 
 
-    </LinearLayout>
+    </LinearLayout></RelativeLayout>
+
+
+
+
 
     <ImageView
         android:layout_width="wrap_content"
