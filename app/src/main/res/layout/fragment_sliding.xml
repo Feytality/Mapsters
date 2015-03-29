@@ -44,8 +44,8 @@
 
                     <ImageButton
                         style="@style/FlatBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
                         android:src="@android:drawable/ic_menu_view"
                         android:id="@+id/indoors_btn"
                         android:layout_gravity="right|bottom" />
@@ -112,27 +112,29 @@
                     android:layout_height="50dp"
                     style="?android:attr/borderlessButtonStyle"
                     android:id="@+id/info_img"
-                    android:background="@drawable/info_pin" />
+                    android:background="@drawable/ic_action_speech140"
+                    android:layout_weight=".25" />
 
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@drawable/parking_pin"
+                    android:background="@drawable/ic_action_car_parking"
                     android:id="@+id/parking_img"
                     style="?android:attr/borderlessButtonStyle"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight=".25" />
 
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@drawable/accessibility_pin"
+                    android:background="@drawable/ic_action_hospital31"
                     style="?android:attr/borderlessButtonStyle"
                     android:id="@+id/accessibility_img" />
 
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@drawable/bikerack_pin"
+                    android:background="@drawable/ic_action_bike8"
                     style="?android:attr/borderlessButtonStyle"
                     android:id="@+id/bikerack_img" />
             </LinearLayout>

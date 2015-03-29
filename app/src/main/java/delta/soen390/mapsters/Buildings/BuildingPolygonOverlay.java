@@ -38,8 +38,8 @@ public class BuildingPolygonOverlay extends PolygonOverlay {
 
     public void loadResources(Context c)
     {
-        setFocusColor(c.getResources().getColor(R.color.concordia_dark));
-        setUnfocusedColor(c.getResources().getColor(R.color.concordia_light));
+        setUnfocusedColor(c.getResources().getColor(R.color.concordia_dark));
+        setFocusColor(c.getResources().getColor(R.color.concordia_light));
     }
 
 	private void initializePolygon()

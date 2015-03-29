@@ -69,6 +69,8 @@ public class PolygonDirectory {
             overlay.setBorderWidth(borderWidth);
             mBuildingOverlays.put(overlay.getBuildingInfo().getBuildingCode(),overlay);
         }
+
+        mPolygonManager.setActiveOverlays(mBuildingOverlays.values());
         return true;
     }
 
@@ -106,9 +108,11 @@ public class PolygonDirectory {
                 ArrayList<RoomPolygonOverlay> roomOverlays = factory.generatePolygonOverlay(filePath);
 
                 BuildingPolygonOverlay buildingOverlay = mBuildingOverlays.get(buildingCode);
-                BuildingFloor floor = new BuildingFloor(polygonManager, roomOverlays,buildingOverlay.getCenterPoint());
+                BuildingFloor floor = new BuildingFloor(polygonManager,activity.getGoogleMapCamera(), roomOverlays,buildingOverlay.getCenterPoint());
 
                 if(buildingOverlay != null){
+                    //Floor should not be active by default
+                    floor.deactivate();
                     buildingOverlay.getBuildingInfo().addFloor(floorLevel,floor);
                 }
             }

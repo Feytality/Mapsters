@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
+import delta.soen390.mapsters.Utils.GoogleMapCamera;
 
 /**
  * Created by Mathieu on 3/22/2015.
@@ -17,19 +18,23 @@ public class BuildingFloor {
     private HashMap<String,RoomPolygonOverlay> mRooms = new HashMap<>();
 
     private LatLng mCoordinates;
+    private float mZoomLevel = 20.0f;
     private int mFloorLevel = 0;
     private float mOrientationOffset = 0;
     private PolygonOverlayManager mPolygonManager;
+    private GoogleMapCamera mMapCamera;
 
 
-    public BuildingFloor(PolygonOverlayManager manager,ArrayList<RoomPolygonOverlay> overlays, LatLng floorCoordinate)
+    public BuildingFloor(PolygonOverlayManager manager,GoogleMapCamera camera,ArrayList<RoomPolygonOverlay> overlays, LatLng floorCoordinate)
     {
         mCoordinates = floorCoordinate;
-
+        mPolygonManager = manager;
         for(RoomPolygonOverlay overlay : overlays)
         {
             mRooms.put(overlay.getName(),overlay);
         }
+        mMapCamera = camera;
+
     }
 
     public void activateFloorOverlays() {
@@ -38,6 +43,34 @@ public class BuildingFloor {
     public RoomPolygonOverlay getRoomOverlay(String roomName)
     {
         return mRooms.get(roomName);
+    }
+
+    //Focusing a floor will activate all of the floor overlays with the unfocused field
+    public void activate()
+    {
+        mPolygonManager.setActiveOverlays(mRooms.values());
+
+        //unfocus all rooms in the floor
+        for(RoomPolygonOverlay overlay : mRooms.values())
+        {
+            overlay.unfocus();
+        }
+    }
+
+    //Center the camera over the room
+    public void focus()
+    {
+        //Set camera to room offset
+        mMapCamera.animateToTarget(mCoordinates,mZoomLevel,500);
+    }
+
+    public void deactivate()
+    {
+        for(RoomPolygonOverlay overlay : mRooms.values())
+        {
+            overlay.deactivate();
+            overlay.unfocus();
+        }
     }
 
     public void setOrientationOffset(float offset)
