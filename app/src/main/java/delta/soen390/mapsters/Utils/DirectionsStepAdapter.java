@@ -1,6 +1,5 @@
 package delta.soen390.mapsters.Utils;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +50,7 @@ public class DirectionsStepAdapter extends RecyclerView.Adapter<DirectionsStepAd
     public DirectionsStepViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.steps_card, viewGroup, false);
+                inflate(R.layout.direction_cards_fragment, viewGroup, false);
 
         return new DirectionsStepViewHolder(itemView);
     }
