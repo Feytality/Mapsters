@@ -65,7 +65,6 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     // For current location, ask if theres another way to get map
     private GoogleMap mGoogleMap;
     private Marker mMarker;
-    private DirectionEngine.DirectionPath mCurrentDirectionPath;
 
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
 
@@ -262,8 +261,12 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             //Check if a building was clicked
             if(overlay.getClass() == BuildingPolygonOverlay.class)
             {
-                BuildingInfo info = ((BuildingPolygonOverlay)overlay).getBuildingInfo();
-                splitPane.updateContent(info);
+                if(mDirectionEngine.isDirectionPathEmpty()) {
+                    BuildingInfo info = ((BuildingPolygonOverlay) overlay).getBuildingInfo();
+                    splitPane.updateContent(info);
+                } else {
+                    //Do not want to update content because the user is in the wrong context. must clear directions first using back button.
+                }
             }
             overlay.focus();
         }
@@ -298,9 +301,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             case KeyEvent.KEYCODE_BACK:
                     requestLowerPanel();
                     initializeSlidingPane();
-                    if(mCurrentDirectionPath != null) {
-                        //mCurrentDirectionPath.hideDirectionPath();
-                        mCurrentDirectionPath = null;
+                    if(!mDirectionEngine.isDirectionPathEmpty()) {
+                        mDirectionEngine.clearEngineState();
                     }
                     mSlidingUpPanelLayout.setTouchEnabled(false);
                 return true;
@@ -313,10 +315,6 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         SlidingUpPanelLayout panel = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         if (panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
             panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-    }
-
-    public DirectionEngine.DirectionPath getCurrentDirectionPath() {
-        return mCurrentDirectionPath;
     }
 
     public GoogleMapCamera getGoogleMapCamera() { return mCamera;}

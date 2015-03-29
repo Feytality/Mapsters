@@ -150,36 +150,35 @@ public class SplitPane {
         mContext.findViewById(R.id.sliding_container).startAnimation(translation);
 
 
-
-        if (mContext.getCurrentDirectionPath() == null) {
-            if (mDirectionButton != null) {
-                mDirectionButton.setVisibility(View.VISIBLE);
-            }
+        if (mDirectionButton != null) {
             mDirectionButton.setVisibility(View.VISIBLE);
-            SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout) mContext.findViewById(R.id.sliding_layout);
-            slidingUpPanelLayout.setTouchEnabled(true);
+        }
+        mDirectionButton.setVisibility(View.VISIBLE);
+        SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout) mContext.findViewById(R.id.sliding_layout);
+        slidingUpPanelLayout.setTouchEnabled(true);
 
-            //reconnect with views, if lost when swapping fragments
-            mBuildingName = (TextView) mContext.findViewById(R.id.building_name);
+        //reconnect with views, if lost when swapping fragments
+        mBuildingName = (TextView) mContext.findViewById(R.id.building_name);
+        if(mBuildingName != null) {
             mBuildingCode = (TextView) mContext.findViewById(R.id.building_code);
             mCampus = (TextView) mContext.findViewById(R.id.campus);
             mBuildingServices = (TextView) mContext.findViewById(R.id.building_services);
             mBuildingPictureView = (ImageView) mContext.findViewById(R.id.building_image);
-            mBuildingAddress = (TextView)mContext.findViewById(R.id.address_txt);
+            mBuildingAddress = (TextView) mContext.findViewById(R.id.address_txt);
             mParking = (ImageView) mContext.findViewById(R.id.parking_img);
             mInfo = (ImageView) mContext.findViewById(R.id.info_img);
             mAccess = (ImageView) mContext.findViewById(R.id.accessibility_img);
             mBike = (ImageView) mContext.findViewById(R.id.bikerack_img);
-            if (!buildingInfo.hasParking())
+            if (!buildingInfo.hasParking() && mParking != null)
                 mParking.setVisibility(View.GONE);
 
-            if (!buildingInfo.hasInfo())
+            if (!buildingInfo.hasInfo() && mInfo != null)
                 mInfo.setVisibility(View.GONE);
 
-            if (!buildingInfo.hasAccessibility())
+            if (!buildingInfo.hasAccessibility() && mAccess != null)
                 mAccess.setVisibility(View.GONE);
 
-            if (!buildingInfo.hasBikeRack())
+            if (!buildingInfo.hasBikeRack() && mBike != null)
                 mBike.setVisibility(View.GONE);
             //set em
             mCurrentBuilding = buildingInfo;
