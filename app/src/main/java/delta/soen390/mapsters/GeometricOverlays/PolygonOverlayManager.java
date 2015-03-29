@@ -9,6 +9,7 @@ import java.util.Map;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
+import delta.soen390.mapsters.IndoorDirectory.RoomPolygonOverlay;
 
 /**
  * Created by Mathieu on 3/22/2015.
@@ -19,7 +20,7 @@ public class PolygonOverlayManager {
     private PolygonOverlay mCurrentlyFocusedOverlay = null;
     private ArrayList<BuildingPolygonOverlay> mBuildingPolygons = new ArrayList<BuildingPolygonOverlay>();
     private PolygonDirectory mDirectory;
-
+    private boolean isIndoorsView = false;
     public PolygonOverlayManager()
     {
         mDirectory = new PolygonDirectory();
@@ -43,7 +44,7 @@ public class PolygonOverlayManager {
 
         for(PolygonOverlay overlay : mCurrentlyActiveOverlays)
         {
-            overlay.setVisibility(true);
+            overlay.activate();
         }
     }
 
@@ -51,6 +52,9 @@ public class PolygonOverlayManager {
     {
         unfocusOverlay();
         mCurrentlyFocusedOverlay = overlay;
+
+        //check if indoors view
+
     }
 
     //Remove all focus effects of the BuildingPolygon
@@ -72,9 +76,11 @@ public class PolygonOverlayManager {
         for(PolygonOverlay overlay : mCurrentlyActiveOverlays)
         {
             //Turn overlay visibility off
-            overlay.setVisibility(false);
+            overlay.deactivate();
         }
     }
+
+
 
     public PolygonOverlay getClickedPolygon(LatLng point) {
 

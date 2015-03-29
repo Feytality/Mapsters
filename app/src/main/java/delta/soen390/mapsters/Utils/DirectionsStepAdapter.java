@@ -1,6 +1,7 @@
 package delta.soen390.mapsters.Utils;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ public class DirectionsStepAdapter extends RecyclerView.Adapter<DirectionsStepAd
     @Override
     public void onBindViewHolder(DirectionsStepViewHolder directionsStepViewHolder, int i) {
         DirectionStep ds = mStepsList.get(i);
-        directionsStepViewHolder.vSteps.setText(ds.getSteps().toString());
+        directionsStepViewHolder.vSteps.setText(Html.fromHtml(ds.getSteps().get(0)));
         directionsStepViewHolder.vStepTitle.setText(ds.getStep());
         directionsStepViewHolder.vSteps.setOnClickListener(new View.OnClickListener() {
             @Override

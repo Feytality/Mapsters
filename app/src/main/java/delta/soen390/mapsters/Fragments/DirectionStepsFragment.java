@@ -59,7 +59,7 @@ public class DirectionStepsFragment extends Fragment {
         {
             travelSteps = new ArrayList<>();
         }
-        DirectionsStepAdapter ca = new DirectionsStepAdapter(createTravelSteps(travelSteps),mapsActivity);
+        DirectionsStepAdapter ca = new DirectionsStepAdapter(createTravelSteps(travelSteps), mapsActivity);
         recList.setAdapter(ca);
         return view;
     }

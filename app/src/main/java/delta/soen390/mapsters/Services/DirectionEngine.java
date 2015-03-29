@@ -44,7 +44,7 @@ public class DirectionEngine {
     private GoogleMap mMap;
     private GeoApiContext mGeoContext;
     private Context mAppContext;
-    public ArrayList<DirectionPath> mDirectionPaths = new ArrayList<DirectionPath>();
+    private ArrayList<DirectionPath> mDirectionPaths = new ArrayList<DirectionPath>();
     private LatLng mInitialLocation = null, mFinalLocation = null;
     private LocationService mLocationService;
 
@@ -183,6 +183,10 @@ public class DirectionEngine {
                 path.hide();
             }
         }
+    }
+
+    public boolean isDirectionPathEmpty() {
+        return mDirectionPaths.isEmpty();
     }
 
 

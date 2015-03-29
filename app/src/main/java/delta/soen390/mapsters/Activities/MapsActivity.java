@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.IndoorBuilding;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,6 +37,7 @@ import delta.soen390.mapsters.Controller.ProtoSearchBox;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
+import delta.soen390.mapsters.IndoorDirectory.BuildingFloor;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
@@ -183,9 +186,35 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mPolygonOverlayManager.loadResources(this);
         mPolygonOverlayManager.getPolygonDirectory().activateBuildingOverlays();
 
-        sPolygonDirectory= mPolygonOverlayManager.getPolygonDirectory();
+        if(sPolygonDirectory  == null) {
+            sPolygonDirectory = mPolygonOverlayManager.getPolygonDirectory();
+        }
+
+        //Show the H8 floor
+       // BuildingPolygonOverlay overlay =   sPolygonDirectory.getBuildingByCode("H");
+       // BuildingFloor floor = overlay.getBuildingInfo().getFloorAt("8");
+        //floor.activate();
+        //floor.focus();
+
+
         //Select a building
         ProtoSearchBox pt = new ProtoSearchBox(this);
+
+        //focus building
+        googleMap.setOnIndoorStateChangeListener(new GoogleMap.OnIndoorStateChangeListener()
+        {
+
+            @Override
+            public void onIndoorBuildingFocused() {
+
+            }
+
+            @Override
+            public void onIndoorLevelActivated(IndoorBuilding indoorBuilding) {
+
+                Log.i("LEVEL", ""+ indoorBuilding.getLevels().get(indoorBuilding.getActiveLevelIndex()).getName());
+            }
+        });
     }
 
 
@@ -262,8 +291,12 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             //Check if a building was clicked
             if(overlay.getClass() == BuildingPolygonOverlay.class)
             {
-                BuildingInfo info = ((BuildingPolygonOverlay)overlay).getBuildingInfo();
-                splitPane.updateContent(info);
+                if(mDirectionEngine.isDirectionPathEmpty()) {
+                    BuildingInfo info = ((BuildingPolygonOverlay) overlay).getBuildingInfo();
+                    splitPane.updateContent(info);
+                } else {
+                    //Do not want to update content because the user is in the wrong context. must clear directions first using back button.
+                }
             }
             overlay.focus();
         }
@@ -298,9 +331,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             case KeyEvent.KEYCODE_BACK:
                     requestLowerPanel();
                     initializeSlidingPane();
-                    if(mCurrentDirectionPath != null) {
-                        //mCurrentDirectionPath.hideDirectionPath();
-                        mCurrentDirectionPath = null;
+                    if(!mDirectionEngine.isDirectionPathEmpty()) {
+                        mDirectionEngine.clearEngineState();
                     }
                     mSlidingUpPanelLayout.setTouchEnabled(false);
                 return true;

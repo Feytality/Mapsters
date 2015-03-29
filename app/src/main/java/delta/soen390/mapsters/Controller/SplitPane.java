@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Fragments.DirOptionFragment;
-import delta.soen390.mapsters.Fragments.IndoorModeFragment;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
@@ -63,7 +62,7 @@ public class SplitPane {
     private ImageView mAccess;
     private TextView mBuildingAddress;
 
-    private ImageButton mIndoorsDirectoryButton;
+    private View mIndoorsDirectoryButton;
 
     public SplitPane(View slideView, float anchorPoint, LocationService locationService, MapsActivity context) {
         mContext = context;
@@ -77,7 +76,6 @@ public class SplitPane {
         initializeBuildingInformationDisplay();
         initializeDirectionButton();
         initializeIndoorsDirectoryButton();
-
     }
 
     private void initializeDirectionButton()
@@ -125,7 +123,8 @@ public class SplitPane {
 
     private void initializeIndoorsDirectoryButton()
     {
-        mIndoorsDirectoryButton =(ImageButton) mContent.findViewById(R.id.indoors_btn);
+        mIndoorsDirectoryButton = mContext.findViewById(R.id.indoors_btn);
+
         if(mIndoorsDirectoryButton == null) {
             return;
         }
@@ -133,80 +132,39 @@ public class SplitPane {
         mIndoorsDirectoryButton.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                        //DirOptionFragment is the view component of the direction pane
-                        IndoorModeFragment indoorModeFragment = new IndoorModeFragment();
-                        FragmentManager fragmentManager = mContext.getSupportFragmentManager();
-                        fragmentManager.beginTransaction().addToBackStack("info")
-                                .replace(R.id.sliding_container, indoorModeFragment)
-                                .commit();
+                       //Todo
+                        //indoorViewManager shit
                     }}
         );
     }
 
     public void updateContent(BuildingInfo buildingInfo) {
+        // Creates animation for split pane.
+        createTranslateAnimation();
 
-        mContext.findViewById(R.id.sliding_container).clearAnimation();
-        TranslateAnimation translation;
-        translation = new TranslateAnimation(0f, 0F, 50f, 0f);
-        translation.setStartOffset(0);
-        translation.setDuration(500);
-        translation.setFillAfter(true);
-        translation.setInterpolator(new BounceInterpolator());
-        mContext.findViewById(R.id.sliding_container).startAnimation(translation);
-
-
-
-        if (mContext.getCurrentDirectionPath() == null) {
-            if (mDirectionButton != null) {
-                mDirectionButton.setVisibility(View.VISIBLE);
-            }
+        if (mDirectionButton != null) {
             mDirectionButton.setVisibility(View.VISIBLE);
-            SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout) mContext.findViewById(R.id.sliding_layout);
-            slidingUpPanelLayout.setTouchEnabled(true);
+        }
 
-            //reconnect with views, if lost when swapping fragments
-            mBuildingName = (TextView) mContext.findViewById(R.id.building_name);
-            mBuildingCode = (TextView) mContext.findViewById(R.id.building_code);
-            mCampus = (TextView) mContext.findViewById(R.id.campus);
-            mBuildingServices = (TextView) mContext.findViewById(R.id.building_services);
-            mBuildingPictureView = (ImageView) mContext.findViewById(R.id.building_image);
-            mBuildingAddress = (TextView)mContext.findViewById(R.id.address_txt);
-            mParking = (ImageView) mContext.findViewById(R.id.parking_img);
-            mInfo = (ImageView) mContext.findViewById(R.id.info_img);
-            mAccess = (ImageView) mContext.findViewById(R.id.accessibility_img);
-            mBike = (ImageView) mContext.findViewById(R.id.bikerack_img);
-            mParking.setVisibility(View.VISIBLE);
-            mInfo.setVisibility(View.VISIBLE);
-            mAccess.setVisibility(View.VISIBLE);
-            mBike.setVisibility(View.VISIBLE);
-            if (!buildingInfo.hasParking())
-                mParking.setVisibility(View.GONE);
+        mDirectionButton.setVisibility(View.VISIBLE);
+        SlidingUpPanelLayout slidingUpPanelLayout = (SlidingUpPanelLayout) mContext.findViewById(R.id.sliding_layout);
+        slidingUpPanelLayout.setTouchEnabled(true);
 
-            if (!buildingInfo.hasInfo())
-                mInfo.setVisibility(View.GONE);
+        //reconnect with views, if lost when swapping fragments
+        mBuildingName = (TextView) mContext.findViewById(R.id.building_name);
 
-            if (!buildingInfo.hasAccessibility())
-                mAccess.setVisibility(View.GONE);
-
-            if (!buildingInfo.hasBikeRack())
-                mBike.setVisibility(View.GONE);
-            //set em
-            mCurrentBuilding = buildingInfo;
-            mBuildingName.setText(buildingInfo.getBuildingName());
-            mBuildingCode.setText(buildingInfo.getBuildingCode());
-            mCampus.setText(buildingInfo.getCampus().toString());
-            mBuildingAddress.setText(buildingInfo.getAddress());
-            clearViews();
-            // Create text views for the services and departments
-            displayBuildingInfo(mCurrentBuilding.getServices(), "Services");
-            displayBuildingInfo(mCurrentBuilding.getDepartments(), "Departments");
+        if(mBuildingName != null) {
+            // Populate textual building information
+            populateBuildingInformation(buildingInfo);
+            // Populate iconic building information
+            populateBuildingIcons(buildingInfo);
 
             ImageLoader img = ImageLoader.getInstance();
             img.init(ImageLoaderConfiguration.createDefault(mContext.getApplicationContext()));
             ImageLoader.getInstance().displayImage(buildingInfo.getImageUrl(), mBuildingPictureView);
         }
-
     }
+
     private int getDisplayHeight() {
         DisplayMetrics metrics = new DisplayMetrics();
         mContext.getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -294,6 +252,65 @@ public class SplitPane {
                 row.setVisibility(View.GONE);
             }
         }
+    }
+
+    private void populateBuildingInformation(BuildingInfo buildingInfo) {
+        mBuildingCode = (TextView) mContext.findViewById(R.id.building_code);
+        mCampus = (TextView) mContext.findViewById(R.id.campus);
+        mBuildingServices = (TextView) mContext.findViewById(R.id.building_services);
+        mBuildingPictureView = (ImageView) mContext.findViewById(R.id.building_image);
+        mBuildingAddress = (TextView) mContext.findViewById(R.id.address_txt);
+
+        //set em
+        mCurrentBuilding = buildingInfo;
+        mBuildingName.setText(buildingInfo.getBuildingName());
+        mBuildingCode.setText(buildingInfo.getBuildingCode());
+        mCampus.setText(buildingInfo.getCampus().toString());
+        mBuildingAddress.setText(buildingInfo.getAddress());
+
+        clearViews();
+
+        // Create text views for the services and departments
+        displayBuildingInfo(mCurrentBuilding.getServices(), "Services");
+        displayBuildingInfo(mCurrentBuilding.getDepartments(), "Departments");
+    }
+
+    private void populateBuildingIcons(BuildingInfo buildingInfo) {
+        mParking = (ImageView) mContext.findViewById(R.id.parking_img);
+        mInfo = (ImageView) mContext.findViewById(R.id.info_img);
+        mAccess = (ImageView) mContext.findViewById(R.id.accessibility_img);
+        mBike = (ImageView) mContext.findViewById(R.id.bikerack_img);
+
+        if (!buildingInfo.hasParking() && mParking != null)
+            mParking.setVisibility(View.GONE);
+        else
+            mParking.setVisibility(View.VISIBLE);
+
+        if (!buildingInfo.hasInfo() && mInfo != null)
+            mInfo.setVisibility(View.GONE);
+        else
+            mInfo.setVisibility(View.VISIBLE);
+
+        if (!buildingInfo.hasAccessibility() && mAccess != null)
+            mAccess.setVisibility(View.GONE);
+        else
+            mAccess.setVisibility(View.VISIBLE);
+
+        if (!buildingInfo.hasBikeRack() && mBike != null)
+            mBike.setVisibility(View.GONE);
+        else
+            mBike.setVisibility(View.VISIBLE);
+    }
+
+    private void createTranslateAnimation() {
+        mContext.findViewById(R.id.sliding_container).clearAnimation();
+        TranslateAnimation translation;
+        translation = new TranslateAnimation(0f, 0F, 50f, 0f);
+        translation.setStartOffset(0);
+        translation.setDuration(500);
+        translation.setFillAfter(true);
+        translation.setInterpolator(new BounceInterpolator());
+        mContext.findViewById(R.id.sliding_container).startAnimation(translation);
     }
 
 }

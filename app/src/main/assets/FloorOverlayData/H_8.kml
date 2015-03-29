@@ -525,7 +525,7 @@
 			<name>Women's Bathroom</name>
 			<ExtendedData>
 			</ExtendedData>
-			<description><![CDATA[Service]]></description>
+			<description><![CDATA[Facility]]></description>
 			<Polygon>
 				<outerBoundaryIs>
 					<LinearRing>
@@ -554,7 +554,7 @@
 			<name>Staircase</name>
 			<ExtendedData>
 			</ExtendedData>
-			<description><![CDATA[Service]]></description>
+			<description><![CDATA[Entry]]></description>
 			<Polygon>
 				<outerBoundaryIs>
 					<LinearRing>
@@ -639,7 +639,7 @@
 			<name>Staircase</name>
 			<ExtendedData>
 			</ExtendedData>
-			<description><![CDATA[Service]]></description>
+			<description><![CDATA[Entry]]></description>
 			<Polygon>
 				<outerBoundaryIs>
 					<LinearRing>
@@ -752,7 +752,7 @@
 			<name>Staircase</name>
 			<ExtendedData>
 			</ExtendedData>
-			<description><![CDATA[Service]]></description>
+			<description><![CDATA[Entry]]></description>
 			<Polygon>
 				<outerBoundaryIs>
 					<LinearRing>
@@ -767,7 +767,7 @@
 			<name>Elevator</name>
 			<ExtendedData>
 			</ExtendedData>
-			<description><![CDATA[Service]]></description>
+			<description><![CDATA[Entry]]></description>
 			<Polygon>
 				<outerBoundaryIs>
 					<LinearRing>
@@ -782,7 +782,7 @@
 			<name>Escalator</name>
 			<ExtendedData>
 			</ExtendedData>
-			<description><![CDATA[Service]]></description>
+			<description><![CDATA[Entry]]></description>
 			<Polygon>
 				<outerBoundaryIs>
 					<LinearRing>
@@ -811,7 +811,7 @@
 			<name>Men's Bathroom</name>
 			<ExtendedData>
 			</ExtendedData>
-			<description><![CDATA[Service]]></description>
+			<description><![CDATA[Facility]]></description>
 			<Polygon>
 				<outerBoundaryIs>
 					<LinearRing>
@@ -826,7 +826,7 @@
 			<name>Women's Bathroom</name>
 			<ExtendedData>
 			</ExtendedData>
-			<description><![CDATA[Service]]></description>
+			<description><![CDATA[Facility]]></description>
 			<Polygon>
 				<outerBoundaryIs>
 					<LinearRing>
@@ -841,7 +841,7 @@
 			<name>Staircase</name>
 			<ExtendedData>
 			</ExtendedData>
-			<description><![CDATA[Service]]></description>
+			<description><![CDATA[Entry]]></description>
 			<Polygon>
 				<outerBoundaryIs>
 					<LinearRing>
@@ -856,7 +856,7 @@
 			<name>Elevator</name>
 			<ExtendedData>
 			</ExtendedData>
-			<description><![CDATA[Service]]></description>
+			<description><![CDATA[Entry]]></description>
 			<Polygon>
 				<outerBoundaryIs>
 					<LinearRing>
