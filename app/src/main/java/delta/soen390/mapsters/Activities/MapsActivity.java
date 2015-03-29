@@ -232,10 +232,14 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
         final String isSGW = getString(R.string.is_sgw);
         final String isLoyola = getString(R.string.is_loyola);
+        BuildingPolygonOverlay overlay;
         if(campusDefault.contains(isSGW)){
-            onMapClick(sPolygonDirectory.getBuildingByCode("H").getCenterPoint());
+            overlay = sPolygonDirectory.getBuildingByCode("H");
+            onMapClick(overlay.getCenterPoint());
+            mCamera.moveToTarget(overlay.getBuildingInfo().getCoordinates(),17);
         } else if (campusDefault.contains(isLoyola)) {
-            onMapClick(sPolygonDirectory.getBuildingByCode("CC").getCenterPoint());
+            overlay = sPolygonDirectory.getBuildingByCode("CC");
+            onMapClick(overlay.getCenterPoint());
         }
     }
 
