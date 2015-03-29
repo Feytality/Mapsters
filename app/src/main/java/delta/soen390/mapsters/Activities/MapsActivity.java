@@ -311,8 +311,14 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
     public void requestLowerPanel() {
         SlidingUpPanelLayout panel = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        if (panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
             panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+    }
+
+
+    public void requestLockPanel() {
+        SlidingUpPanelLayout panel = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+            panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            panel.setTouchEnabled(false);
     }
 
     public DirectionEngine.DirectionPath getCurrentDirectionPath() {

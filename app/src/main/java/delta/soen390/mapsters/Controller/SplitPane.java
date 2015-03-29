@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Fragments.DirOptionFragment;
+import delta.soen390.mapsters.Fragments.IndoorModeFragment;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
@@ -62,7 +63,7 @@ public class SplitPane {
     private ImageView mAccess;
     private TextView mBuildingAddress;
 
-    private View mIndoorsDirectoryButton;
+    private ImageButton mIndoorsDirectoryButton;
 
     public SplitPane(View slideView, float anchorPoint, LocationService locationService, MapsActivity context) {
         mContext = context;
@@ -76,6 +77,7 @@ public class SplitPane {
         initializeBuildingInformationDisplay();
         initializeDirectionButton();
         initializeIndoorsDirectoryButton();
+
     }
 
     private void initializeDirectionButton()
@@ -123,8 +125,7 @@ public class SplitPane {
 
     private void initializeIndoorsDirectoryButton()
     {
-        mIndoorsDirectoryButton = mContext.findViewById(R.id.indoors_btn);
-
+        mIndoorsDirectoryButton =(ImageButton) mContent.findViewById(R.id.indoors_btn);
         if(mIndoorsDirectoryButton == null) {
             return;
         }
@@ -132,8 +133,12 @@ public class SplitPane {
         mIndoorsDirectoryButton.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                       //Todo
-                        //indoorViewManager shit
+                        //DirOptionFragment is the view component of the direction pane
+                        IndoorModeFragment indoorModeFragment = new IndoorModeFragment();
+                        FragmentManager fragmentManager = mContext.getSupportFragmentManager();
+                        fragmentManager.beginTransaction().addToBackStack("info")
+                                .replace(R.id.sliding_container, indoorModeFragment)
+                                .commit();
                     }}
         );
     }
@@ -170,6 +175,10 @@ public class SplitPane {
             mInfo = (ImageView) mContext.findViewById(R.id.info_img);
             mAccess = (ImageView) mContext.findViewById(R.id.accessibility_img);
             mBike = (ImageView) mContext.findViewById(R.id.bikerack_img);
+            mParking.setVisibility(View.VISIBLE);
+            mInfo.setVisibility(View.VISIBLE);
+            mAccess.setVisibility(View.VISIBLE);
+            mBike.setVisibility(View.VISIBLE);
             if (!buildingInfo.hasParking())
                 mParking.setVisibility(View.GONE);
 
