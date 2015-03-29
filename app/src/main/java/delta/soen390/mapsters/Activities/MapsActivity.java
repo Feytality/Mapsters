@@ -2,9 +2,11 @@ package delta.soen390.mapsters.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
@@ -24,6 +26,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
@@ -33,6 +38,7 @@ import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.ProtoSearchBox;
 import delta.soen390.mapsters.Controller.SplitPane;
+import delta.soen390.mapsters.Data.Campus;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
 import delta.soen390.mapsters.R;
@@ -107,8 +113,9 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);
         mDrawer.addButton();
-    }
 
+
+    }
 
 
     public void initializeSlidingPane(){
@@ -182,13 +189,28 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mPolygonOverlayManager.loadResources(this);
         mPolygonOverlayManager.getPolygonDirectory().activateBuildingOverlays();
 
-        sPolygonDirectory= mPolygonOverlayManager.getPolygonDirectory();
+        sPolygonDirectory = mPolygonOverlayManager.getPolygonDirectory();
+
+        // For now only checks preferred default map
+        checkPreferences();
+
         //Select a building
         ProtoSearchBox pt = new ProtoSearchBox(this);
     }
 
+    private void checkPreferences() {
+        // Get preferred map start
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String campusDefault = prefs.getString("campus_list", getString(R.string.is_loyola));
 
-
+        final String isSGW = getString(R.string.is_sgw);
+        final String isLoyola = getString(R.string.is_loyola);
+        if(campusDefault.contains(isSGW)){
+            onMapClick(sPolygonDirectory.getBuildingByCode("H").getCenterPoint());
+        } else if (campusDefault.contains(isLoyola)) {
+            onMapClick(sPolygonDirectory.getBuildingByCode("CC").getCenterPoint());
+        }
+    }
 
     @Override
     public boolean onMyLocationButtonClick() {
