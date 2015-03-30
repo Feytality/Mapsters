@@ -220,6 +220,15 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                 Log.i("LEVEL", ""+ indoorBuilding.getLevels().get(indoorBuilding.getActiveLevelIndex()).getName());
             }
         });
+
+        findViewById(R.id.locate_me).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Location currentLocation = mLocationService.getLastLocation();
+                if(currentLocation != null)
+                    mCamera.moveToTarget(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 17);
+            }
+        });
     }
 
 
@@ -398,7 +407,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         findViewById(R.id.locate_me).setVisibility(View.INVISIBLE);
     }
 
-        public  void outdoorConfiguration(){
+    public  void outdoorConfiguration(){
             findViewById(R.id.search_combo).setVisibility(View.VISIBLE);
             findViewById(R.id.locate_me).setVisibility(View.VISIBLE);
     }
