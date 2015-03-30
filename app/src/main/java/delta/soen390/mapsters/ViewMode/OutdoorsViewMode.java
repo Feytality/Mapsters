@@ -15,9 +15,11 @@ import delta.soen390.mapsters.Utils.GoogleMapCamera;
 public class OutdoorsViewMode extends  ViewMode {
 
     private float mMinimumZoomLevelTreshold = 17f;
+    PolygonDirectory mDirectory;
     public OutdoorsViewMode(PolygonDirectory directory)
     {
-        mOverlays = directory.getBuildingOverlays();
+        mDirectory = directory;
+        mOverlays = mDirectory.getBuildingOverlays();
     }
 
     @Override
@@ -30,6 +32,9 @@ public class OutdoorsViewMode extends  ViewMode {
         {
             camera.animateToTarget(camera.getCurrentPosition(),mMinimumZoomLevelTreshold,1000);
         }
+
+        mDirectory.activateBuildingOverlays();
+
     }
 
     @Override

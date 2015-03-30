@@ -26,6 +26,7 @@ public class IndoorsViewMode extends  ViewMode {
         float zoomLevel = mFloor.getZoomLevel();
         camera.lockCamera();
         camera.animateToTarget(targetLocation,zoomLevel,2000);
+        mFloor.activateFloorOverlays();
 
     }
 

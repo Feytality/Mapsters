@@ -217,19 +217,19 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     }
 
 
-    private void initializeOverlays()
-    {
-    //Initialize the Building Polygons
+    private void initializeOverlays() {
+        //Initialize the Building Polygons
         mPolygonOverlayManager = new PolygonOverlayManager();
         mPolygonOverlayManager.loadResources(this);
         mPolygonOverlayManager.getPolygonDirectory().activateBuildingOverlays();
 
-        if(sPolygonDirectory  == null) {
+        if (sPolygonDirectory == null) {
             sPolygonDirectory = mPolygonOverlayManager.getPolygonDirectory();
         }
 
         //Set the view mode to outdoors since default view is of the current campus
-        mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
+        mViewModeController.setViewMode(new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
+    }
 
     private void checkPreferences() {
         // Get preferred map start
@@ -363,6 +363,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                     if(!mDirectionEngine.isDirectionPathEmpty()) {
                         mDirectionEngine.clearEngineState();
                     }
+                mPolygonOverlayManager.unfocusOverlay();
                 mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
                     mSlidingUpPanelLayout.setTouchEnabled(false);
                 return true;
