@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 /**
  * Created by Mathieu on 2/20/2015.

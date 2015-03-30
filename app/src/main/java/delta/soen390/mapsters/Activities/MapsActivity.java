@@ -1,7 +1,5 @@
 package delta.soen390.mapsters.Activities;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,13 +9,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
@@ -27,7 +23,6 @@ import com.google.android.gms.maps.model.IndoorBuilding;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.api.client.util.DateTime;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -36,7 +31,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
-import delta.soen390.mapsters.Calendar.CalendarEvent;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
@@ -52,7 +46,6 @@ import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.Utils.GoogleMapCamera;
 import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
-import delta.soen390.mapsters.Utils.ImageMarkerFactory;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 import delta.soen390.mapsters.ViewMode.IndoorsViewMode;
 import delta.soen390.mapsters.ViewMode.OutdoorsViewMode;
@@ -118,8 +111,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mSlidingUpPanelLayout.setTouchEnabled(false);
 
         //Initialize the CalendarEventManager
-        mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
-        mCalendarEventManager.updateEventQueue();
+//        mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
+//        mCalendarEventManager.updateEventQueue();
 
         //mCalendarEventManager = new CalendarEventManager(this.getApplicationContext()); todo fix the alarms
         CalendarNotification calendarNotification = new CalendarNotification(this.getApplicationContext());
@@ -317,17 +310,17 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1) {
-            if(resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
 
-                String result=data.getStringExtra("result");
+                String result = data.getStringExtra("result");
                 findBuilding(result);
 
             }
             if (resultCode == RESULT_CANCELED) {
-              
-        }
-    }//onActivityResult
 
+            }
+        }//onActivityResul
+    }
     public void findBuilding(String result) {
         BuildingPolygonOverlay overlay = mPolygonOverlayManager.getPolygonDirectory().getBuildingByCode(result);
         if(overlay == null)
@@ -436,5 +429,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     public PolygonOverlayManager getPolygonOverlayManager() { return mPolygonOverlayManager; }
 
     public ViewModeController getViewModeController() { return mViewModeController;}
+     public EffectManager getEffectManager(){return mEffectManager;}
+
 }
 
