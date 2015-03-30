@@ -37,6 +37,14 @@
             android:scaleType="fitCenter"
             android:tint="#ffffffff" />
 
+        <ToggleButton
+            style="@style/Widget.Button.Toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/toggleButton"
+            android:layout_weight=".25" />
+
         <ImageButton
             style="@style/FlatBtn"
             android:layout_width="wrap_content"
