@@ -1,5 +1,6 @@
 package delta.soen390.mapsters.Fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import java.util.Collection;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Effects.EffectManager;
 import delta.soen390.mapsters.Effects.MarkerEffect;
+import delta.soen390.mapsters.Effects.MonochromeOverlayEffect;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.ViewMode.ViewModeController;
@@ -50,12 +52,20 @@ mapsActivity.requestLockPanel();
 
                 if(!isActive)
                 {
-                    //controller.activateHighlight("Entry", new HighlightEffect(255,0,0,150));
+                    Collection<? extends PolygonOverlay> overlays = controller.getCurrentlyActiveByAttribute("Entry");
+                    for(PolygonOverlay overlay :overlays)
+                    {
+                        mEffectManager.addEffect(overlay,new MonochromeOverlayEffect(overlay, Color.argb(150,200,0,0)));
+                    }
 
                 }
                 else
                 {
-                    //controller.clearHighlightWithAttribute("Entry");
+                    Collection<? extends PolygonOverlay> overlays = controller.getCurrentlyActiveByAttribute("Entry");
+                    for(PolygonOverlay overlay :overlays)
+                    {
+                        mEffectManager.removeEffect(overlay);
+                    }
                 }
                 isActive = !isActive;
             }
@@ -69,11 +79,20 @@ mapsActivity.requestLockPanel();
                 ViewModeController controller = mapsActivity.getViewModeController();
                 if(!isActive)
                 {
-                    //controller.activateHighlight("Facility", new HighlightEffect(255,255,0,150));
+                    Collection<? extends PolygonOverlay> overlays = controller.getCurrentlyActiveByAttribute("Facility");
+                    for(PolygonOverlay overlay :overlays)
+                    {
+                        mEffectManager.addEffect(overlay,new MonochromeOverlayEffect(overlay, Color.argb(150,255,255,0)));
+                    }
+
                 }
                 else
                 {
-                    //controller.clearHighlightWithAttribute("Facility");
+                    Collection<? extends PolygonOverlay> overlays = controller.getCurrentlyActiveByAttribute("Facility");
+                    for(PolygonOverlay overlay :overlays)
+                    {
+                        mEffectManager.removeEffect(overlay);
+                    }
                 }
                 isActive = !isActive;
 
