@@ -44,6 +44,7 @@ import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.Utils.GoogleMapCamera;
 import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
+import delta.soen390.mapsters.Utils.ImageMarkerFactory;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
 import delta.soen390.mapsters.ViewMode.IndoorsViewMode;
 import delta.soen390.mapsters.ViewMode.OutdoorsViewMode;
@@ -166,11 +167,9 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap.setLocationSource(this);
-        googleMap.setMyLocationEnabled(true);
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setBuildingsEnabled(false);
-
-       initializeMap(googleMap);
+        initializeMap(googleMap);
     }
 
     private void initializeMap(GoogleMap googleMap) {
@@ -317,6 +316,9 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             return;
         mCamera.moveToTarget(overlay.getBuildingInfo().getCoordinates(),17);
         onMapClick(overlay.getBuildingInfo().getCoordinates());
+        ImageMarkerFactory markerFactory = new ImageMarkerFactory(mGoogleMap,overlay.getBuildingInfo().getCoordinates(), R.drawable.fountain_marker);
+        markerFactory.placeMarker();
+
 
     }
   
