@@ -70,6 +70,10 @@ public class BuildingInfo {
         return mFloors.values().iterator().next();
     }
 
+    public HashMap<String,BuildingFloor> getFloors(){
+        return mFloors;
+    }
+
     public String getBuildingCode() {
         return mBuildingCode;
     }

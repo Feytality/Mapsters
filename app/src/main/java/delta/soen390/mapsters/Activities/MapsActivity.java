@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -218,7 +217,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             @Override
             public void onClick(View v) {
                 Location currentLocation = mLocationService.getLastLocation();
-                if(currentLocation != null)
+                if (currentLocation != null)
                     mCamera.moveToTarget(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 17);
             }
         });
@@ -250,7 +249,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         if(campusDefault.contains(isSGW)){
             overlay = sPolygonDirectory.getBuildingByCode("H");
             onMapClick(overlay.getCenterPoint());
-            mCamera.moveToTarget(overlay.getBuildingInfo().getCoordinates(),17);
+            mCamera.moveToTarget(overlay.getBuildingInfo().getCoordinates(), 17);
             mCampusSwitchUI.toggleCampusSwitch();
         } else if (campusDefault.contains(isLoyola)) {
             overlay = sPolygonDirectory.getBuildingByCode("CC");
@@ -304,7 +303,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             if(resultCode == RESULT_OK){
 
                 String result=data.getStringExtra("result");
-                keywordResult(result);
+                findBuilding(result);
 
             }
             if (resultCode == RESULT_CANCELED) {
@@ -312,7 +311,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         }
     }//onActivityResult
 
-    public void keywordResult(String result) {
+    public void findBuilding(String result) {
         BuildingPolygonOverlay overlay = mPolygonOverlayManager.getPolygonDirectory().getBuildingByCode(result);
         if(overlay == null)
             return;

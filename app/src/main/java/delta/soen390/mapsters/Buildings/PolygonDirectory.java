@@ -32,6 +32,8 @@ public class PolygonDirectory {
     private PolygonOverlayManager mPolygonManager;
     private float   borderWidth     = 4.0f;
 
+
+
     public PolygonDirectory()
     {
 
@@ -217,8 +219,34 @@ public class PolygonDirectory {
         return null;
     }
 
+    public BuildingPolygonOverlay getBuildingByRoom(String room){
+        if (room != null && !room.equals("")) {
+            for(String code : mBuildingCodes)
+            {
+                BuildingPolygonOverlay building =getBuildingByCode(code);
+                if(building!=null){
+                    HashMap<String,BuildingFloor> floors=building.getBuildingInfo().getFloors();
+                    if (floors!=null){
+                        for(BuildingFloor floor: floors.values() ) {
+                            for(RoomPolygonOverlay roomPolygonOverlay : floor.getRoomPolygonOverlays()){
+                                if (roomPolygonOverlay.getName().equals(room)){
+                                    return building;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+
+    }
+
     public BuildingPolygonOverlay getBuildingByKeyword(String keyword)
     {
+
+
         BuildingPolygonOverlay overlay = getBuildingByCode(keyword);
         if(overlay != null)
             return overlay;
@@ -226,8 +254,10 @@ public class PolygonDirectory {
         if(overlay!=null)
             return overlay;
         overlay= getBuildingByService(keyword);
+        if(overlay!=null)
+            return overlay;
+        overlay=  getBuildingByRoom(keyword);
         return overlay;
-
     }
 
     public final ArrayList<String> getAllServices()
@@ -249,6 +279,7 @@ public class PolygonDirectory {
         str.addAll(getAllDepartments());
         str.addAll(getAllServices());
         str.addAll(getAllBuildingCodes());
+        str.addAll(getAllRoomNames());
         return str;
     }
 

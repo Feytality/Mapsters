@@ -59,7 +59,7 @@ public class ProtoSearchBox {
                 if (overlay==null)
                     return;
                 String result = overlay.getBuildingInfo().getBuildingCode();
-               mContext.keywordResult(result);
+               mContext.findBuilding(result);
                 InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mTextView.getWindowToken(), 0);
             }
