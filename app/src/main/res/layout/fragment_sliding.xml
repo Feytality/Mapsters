@@ -10,136 +10,156 @@
         android:layout_below="@+id/relativeLayout2" />
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/linearLayout2"
         android:layout_below="@+id/relativeLayout2">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/concordia_main_color">
+
+                <ImageView
+                    android:src="@drawable/loy"
+                    android:layout_width="228dp"
+                    android:layout_height="228dp"
+                    android:id="@+id/building_image"
+                    android:layout_gravity="center_vertical|top"
+                    android:visibility="visible"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp" />
+
+                <ImageButton
+                    style="@style/FlatBtn"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:src="@android:drawable/ic_menu_view"
+                    android:id="@+id/indoors_btn"
+                    android:layout_gravity="right|bottom" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Services"
+                    android:id="@+id/building_services"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/address_txt"
+                    android:layout_gravity="center_horizontal"
+                    android:textAlignment="center" />
+
+                <ImageButton style="@style/FloatBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/direction_button"
+                    android:src="@android:drawable/ic_menu_directions"
+                    android:layout_alignWithParentIfMissing="false"
+                    android:layout_alignParentRight="false"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="false"
+                    android:layout_gravity="center_horizontal" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:id="@+id/info_img"
+                            android:background="@drawable/ic_action_speech140" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:background="@drawable/ic_action_car_parking"
+                            android:id="@+id/parking_img"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_gravity="center_horizontal" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:background="@drawable/ic_action_hospital31"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:id="@+id/accessibility_img" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:background="@drawable/ic_action_bike8"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:id="@+id/bikerack_img" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
         <ScrollView
-            android:layout_width="230dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:id="@+id/building_info">
-
-                <FrameLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:background="@color/concordia_main_color">
-
-                    <ImageView
-                        android:src="@drawable/loy"
-                        android:layout_width="228dp"
-                        android:layout_height="228dp"
-                        android:id="@+id/building_image"
-                        android:layout_gravity="center_vertical|top"
-                        android:visibility="visible"
-                        android:paddingRight="5dp"
-                        android:paddingBottom="5dp" />
-
-                    <ImageButton
-                        style="@style/FlatBtn"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:src="@android:drawable/ic_menu_view"
-                        android:id="@+id/indoors_btn"
-                        android:layout_gravity="right|bottom" />
-                </FrameLayout>
+                android:id="@+id/services_info"
+                android:textAlignment="center">
 
 
             </LinearLayout>
-        </ScrollView>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Services"
-                android:id="@+id/building_services"
-                android:layout_gravity="center_horizontal"
-                android:visibility="gone" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/address_txt"
-                android:layout_gravity="center_horizontal" />
-
-            <ImageButton style="@style/FloatBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/direction_button"
-                android:src="@android:drawable/ic_menu_directions"
-                android:layout_alignWithParentIfMissing="false"
-                android:layout_alignParentRight="false"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="false"
-                android:layout_gravity="center_horizontal" />
-
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal">
+                android:layout_height="fill_parent"
+                android:id="@+id/departments_info"
+                android:textAlignment="center">
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
-
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:id="@+id/info_img"
-                    android:background="@drawable/ic_action_speech140"
-                    android:layout_weight=".25" />
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/ic_action_car_parking"
-                    android:id="@+id/parking_img"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_weight=".25" />
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/ic_action_hospital31"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:id="@+id/accessibility_img" />
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/ic_action_bike8"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:id="@+id/bikerack_img" />
             </LinearLayout>
-
-        </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 

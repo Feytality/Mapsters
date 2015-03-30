@@ -1,12 +1,15 @@
 package delta.soen390.mapsters.Controller;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.TranslateAnimation;
@@ -87,7 +90,7 @@ public class SplitPane {
                 new View.OnClickListener() {
                     public void onClick(View v) {
                         DirectionEngine directionEngine = mContext.getDirectionEngine();
-
+                        Log.e("*************", getDisplayWidth()+"");
                         //Engine has not been set up, no directions available
                         if(directionEngine == null) {
                             return;
@@ -109,14 +112,20 @@ public class SplitPane {
         );
     }
 
-    private void initializeBuildingInformationDisplay()
-    {
+    private void initializeBuildingInformationDisplay() {
         mBuildingName = (TextView) mContent.findViewById(R.id.building_name);
         mBuildingCode = (TextView) mContent.findViewById(R.id.building_code);
         mCampus = (TextView) mContent.findViewById(R.id.campus);
         mBuildingServices = (TextView) mContent.findViewById(R.id.building_services);
         mBuildingPictureView = (ImageView) mContent.findViewById(R.id.building_image);
         mDirectionButton = (ImageButton) mContent.findViewById(R.id.direction_button);
+
+        View view_instance = (View)mContent.findViewById(R.id.services_info);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(getDisplayWidth()/2, LinearLayout.LayoutParams.WRAP_CONTENT);
+        view_instance.setLayoutParams(lp);
+        view_instance = (View)mContent.findViewById(R.id.departments_info);
+        view_instance.setLayoutParams(lp);
+
     }
 
     private void initializeIndoorsDirectoryButton()
@@ -143,7 +152,7 @@ public class SplitPane {
                             return;
                         }
                         //set the view to indoors!
-                        mContext.getViewModeController().setViewMode(new IndoorsViewMode(mCurrentBuilding.getDefaultFloor(),mContext));
+                        mContext.getViewModeController().setViewMode(new IndoorsViewMode(mCurrentBuilding.getDefaultFloor()));
                         mContext.requestLowerPanel();
                     }}
         );
@@ -176,22 +185,22 @@ public class SplitPane {
         }
     }
 
-    private int getDisplayHeight() {
+    private int getDisplayWidth() {
         DisplayMetrics metrics = new DisplayMetrics();
         mContext.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        return metrics.widthPixels;
+        return (int)metrics.widthPixels;
     }
 
 
-    private void displayBuildingInfo(ArrayList<String[]> info, String title) {
+    private void displayBuildingInfo(ArrayList<String[]> info, String title,int viewId) {
         if(info.size() > 0) {
             // Get the building pane layout so that we can add text views to it.
-            LinearLayout buildingPane = (LinearLayout) mContext.findViewById(R.id.building_info);
+            LinearLayout buildingPane = (LinearLayout) mContext.findViewById(viewId);
 
             // Create title text view and add it to the pane
             TextView titleRow = new TextView(mContext);
             titleRow.setText(title);
-            titleRow.setTextAppearance(mContext, android.R.style.TextAppearance_Small);
+            titleRow.setTextAppearance(mContext, android.R.style.TextAppearance_Large);
             titleRow.setTextColor(mContext.getResources().getColor(R.color.concordia_main_color));
             buildingPane.addView(titleRow);
             mCurrentPaneText.add(titleRow);
@@ -282,8 +291,8 @@ public class SplitPane {
         clearViews();
 
         // Create text views for the services and departments
-        displayBuildingInfo(mCurrentBuilding.getServices(), "Services");
-        displayBuildingInfo(mCurrentBuilding.getDepartments(), "Departments");
+        displayBuildingInfo(mCurrentBuilding.getServices(), "Services",R.id.services_info);
+        displayBuildingInfo(mCurrentBuilding.getDepartments(), "Departments",R.id.departments_info);
     }
 
     private void populateBuildingIcons(BuildingInfo buildingInfo) {
@@ -325,6 +334,22 @@ public class SplitPane {
         translation.setFillAfter(true);
         translation.setInterpolator(new BounceInterpolator());
         mContext.findViewById(R.id.sliding_container).startAnimation(translation);
+    }
+
+    private void scaleImage(){
+        ImageView imageView = (ImageView)mContext.findViewById(R.id.imageView);
+        Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), 1);
+
+        int imageWidth = bitmap.getWidth();
+        int imageHeight = bitmap.getHeight();
+
+        int newWidth = getDisplayWidth(); //this method should return the width of device screen.
+        float scaleFactor = (float)newWidth/(float)imageWidth;
+        int newHeight = (int)(imageHeight * scaleFactor);
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+        imageView.setImageBitmap(bitmap);
+
     }
 
 }
