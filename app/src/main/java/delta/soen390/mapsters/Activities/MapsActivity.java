@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -223,12 +224,12 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mPolygonOverlayManager.loadResources(this);
         mPolygonOverlayManager.getPolygonDirectory().activateBuildingOverlays();
 
-        if (sPolygonDirectory == null) {
+        if(sPolygonDirectory  == null) {
             sPolygonDirectory = mPolygonOverlayManager.getPolygonDirectory();
         }
 
         //Set the view mode to outdoors since default view is of the current campus
-        mViewModeController.setViewMode(new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
+        mViewModeController.setViewMode(new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory(),this));
     }
 
     private void checkPreferences() {
@@ -364,7 +365,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                         mDirectionEngine.clearEngineState();
                     }
                 mPolygonOverlayManager.unfocusOverlay();
-                mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
+                mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory(),this));
                     mSlidingUpPanelLayout.setTouchEnabled(false);
                 return true;
 
@@ -384,6 +385,16 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         SlidingUpPanelLayout panel = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
             panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             panel.setTouchEnabled(false);
+    }
+
+    public  void indoorConfiguration(){
+        findViewById(R.id.search_combo).setVisibility(View.INVISIBLE);
+        findViewById(R.id.locate_me).setVisibility(View.INVISIBLE);
+    }
+
+        public  void outdoorConfiguration(){
+            findViewById(R.id.search_combo).setVisibility(View.VISIBLE);
+            findViewById(R.id.locate_me).setVisibility(View.VISIBLE);
     }
 
 

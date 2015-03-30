@@ -2,6 +2,7 @@ package delta.soen390.mapsters.ViewMode;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.IndoorDirectory.BuildingFloor;
 import delta.soen390.mapsters.Utils.GoogleMapCamera;
 
@@ -10,11 +11,14 @@ import delta.soen390.mapsters.Utils.GoogleMapCamera;
  */
 public class IndoorsViewMode extends  ViewMode {
 
+    private final MapsActivity mActivity;
     private BuildingFloor mFloor;
     private GoogleMapCamera mGoogleCamera;
-    public IndoorsViewMode(BuildingFloor floor)
+    public IndoorsViewMode(BuildingFloor floor, MapsActivity mapsActivity)
     {
         mFloor = floor;
+        mActivity = mapsActivity;
+
     }
     @Override
     public void setup(GoogleMapCamera camera) {
@@ -22,6 +26,8 @@ public class IndoorsViewMode extends  ViewMode {
         if(mFloor == null) {
             return;
         }
+
+mActivity.indoorConfiguration();
         LatLng targetLocation = mFloor.getCoordinates();
         float zoomLevel = mFloor.getZoomLevel();
         camera.lockCamera();
@@ -32,6 +38,6 @@ public class IndoorsViewMode extends  ViewMode {
 
     @Override
     public void cleanup(GoogleMapCamera camera) {
-
+        mActivity.outdoorConfiguration();
     }
 }
