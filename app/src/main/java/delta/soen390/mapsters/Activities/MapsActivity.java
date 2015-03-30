@@ -31,7 +31,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
-import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
@@ -64,7 +63,6 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     private static final String TAG = "DemoActivity";
     private GoogleMapCamera mCamera;
     // For calendar and notifications
-    private CalendarEventManager mCalendarEventManager;
     private PolygonOverlayManager mPolygonOverlayManager;
     private DirectionEngine mDirectionEngine;
 
@@ -179,7 +177,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         googleMap.setLocationSource(this);
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setBuildingsEnabled(false);
-
+        googleMap.getUiSettings().setCompassEnabled(false);
        initializeMap(googleMap);
     }
 

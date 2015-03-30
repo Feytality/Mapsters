@@ -25,6 +25,14 @@
         <item name="android:layout_margin">5dp</item>
         <item name="android:translationZ">1dp</item>
         <item name="android:background">@drawable/primary_roundv21</item>
+    </style>
+
+    <style name="Widget.Button.Toggle" parent="android:Widget">
+        <item name="android:src">@drawable/ic_action_classrooms</item>
+        <item name="android:textOn">--</item>
+        <item name="android:textOff">OFF</item>
+        <item name="android:disabledAlpha">?android:attr/disabledAlpha</item>
+        <item name="android:background">@drawable/primary_roundv21</item>
 
     </style>
 
