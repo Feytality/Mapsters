@@ -17,11 +17,11 @@ public abstract class ViewMode {
     public  Collection<? extends PolygonOverlay> getOverlayWithAttribute(String attribute)
     {
         ArrayList<PolygonOverlay> attributeList = new ArrayList<PolygonOverlay>();
-        for(PolygonOverlay overlay : mOverlays)
-        {
-            if(overlay.containsAttribute(attribute))
-            {
-                attributeList.add(overlay);
+        if(mOverlays != null) {
+            for (PolygonOverlay overlay : mOverlays) {
+                if (overlay.containsAttribute(attribute)) {
+                    attributeList.add(overlay);
+                }
             }
         }
         return attributeList;

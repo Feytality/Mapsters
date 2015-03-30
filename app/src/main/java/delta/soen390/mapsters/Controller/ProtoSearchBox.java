@@ -15,8 +15,14 @@ import java.util.List;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
+import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
+import delta.soen390.mapsters.IndoorDirectory.BuildingFloor;
+import delta.soen390.mapsters.IndoorDirectory.RoomPolygonOverlay;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.Utils.GoogleMapCamera;
+import delta.soen390.mapsters.ViewMode.IndoorsViewMode;
+import delta.soen390.mapsters.ViewMode.ViewModeController;
 
 /**
  * Created by Cat on 3/25/2015.
@@ -26,7 +32,7 @@ public class ProtoSearchBox {
     private  MapsActivity mContext;
     private AutoCompleteTextView mTextView;
     private PolygonOverlayManager mPolygonManager;
-    public ProtoSearchBox(MapsActivity context){
+    public ProtoSearchBox(final MapsActivity context){
         mContext = context;
         mPolygonManager = context.getPolygonOverlayManager();
         List<String> listingList = mPolygonManager.getPolygonDirectory().getAllDirectoryInfo();
@@ -55,16 +61,27 @@ public class ProtoSearchBox {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent returnIntent = new Intent();
                 PolygonDirectory polygonDirectory = mPolygonManager.getPolygonDirectory();
-                BuildingPolygonOverlay overlay=polygonDirectory.getBuildingByKeyword(parent.getItemAtPosition(position).toString());
-                if (overlay==null)
-                    return;
-                String result = overlay.getBuildingInfo().getBuildingCode();
-               mContext.findBuilding(result);
-                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(mTextView.getWindowToken(), 0);
+                String resultKeyword = parent.getItemAtPosition(position).toString();
+
+                //Check if result is a room number
+                PolygonOverlay overlay;
+
+                //Check if the passed result is a room number
+                if((overlay = polygonDirectory.getRoomByCode(resultKeyword))!= null)
+                {
+                    launchIndoorViewMode((RoomPolygonOverlay)overlay);
+                }
+                //Check if the passed result is a building keyword
+                else if((overlay = polygonDirectory.getBuildingByKeyword(resultKeyword))!= null)
+                {
+                    focusBuilding((BuildingPolygonOverlay)overlay);
+                }
+
             }
 
         });
+
+
 
         Button btn = (Button) mContext.findViewById(R.id.clr_btn);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -78,8 +95,28 @@ public class ProtoSearchBox {
 
 
 
+    }
+    private void focusBuilding(BuildingPolygonOverlay overlay)
+    {
+        GoogleMapCamera camera = mContext.getGoogleMapCamera();
+        camera.moveToTarget(overlay.getBuildingInfo().getCoordinates(),17);
+        mContext.onMapClick(overlay.getBuildingInfo().getCoordinates());
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mTextView.getWindowToken(), 0);
+    }
+
+    private void launchIndoorViewMode(RoomPolygonOverlay overlay)
+    {
+        if(overlay == null)
+            return;
+
+        BuildingFloor floor = overlay.getFloor();
+        mContext.getViewModeController().setViewMode(new IndoorsViewMode(floor));
+        overlay.focus();
+
 
     }
+
 
 
 

@@ -83,6 +83,7 @@ public class PolygonDirectory {
         return mBuildingOverlays.values();
     }
 
+
     private boolean loadFloorData(MapsActivity activity)
     {
         String resourceDirectory = mContext.getResources().getString(R.string.data_directory_floor_overlay);
@@ -176,6 +177,7 @@ public class PolygonDirectory {
     {
         return mRoomOverlays.get(roomCode);
     }
+
     public Collection<String> getAllRoomNames()
     {
         return mRoomOverlays.keySet();
@@ -190,10 +192,7 @@ public class PolygonDirectory {
                 for (String[] departmentRecord: departments)
                 if(departmentRecord[0].contains(department))
                     return overlay;
-
             }
-
-
         }
         return null;
     }
@@ -204,6 +203,27 @@ public class PolygonDirectory {
         mPolygonManager.setActiveOverlays(mBuildingOverlays.values());
     }
 
+    public BuildingFloor getBuildingFloorByRoomName(String roomName)
+    {
+        BuildingPolygonOverlay buildingOverlay = getBuildingByRoom(roomName);
+        if(buildingOverlay == null)
+            return null;
+
+        BuildingInfo info = buildingOverlay.getBuildingInfo();
+
+        Collection<BuildingFloor> floors = info.getFloors();
+        for(BuildingFloor f: floors)
+        {
+            RoomPolygonOverlay overlay  = f.getRoomOverlay(roomName);
+            if(overlay != null)
+            {
+                return f;
+            }
+        }
+        return null;
+
+
+    }
     public BuildingPolygonOverlay getBuildingByService(String service)
     {
         if (service != null && !service.equals("")) {
@@ -219,34 +239,22 @@ public class PolygonDirectory {
         return null;
     }
 
-    public BuildingPolygonOverlay getBuildingByRoom(String room){
-        if (room != null && !room.equals("")) {
-            for(String code : mBuildingCodes)
-            {
-                BuildingPolygonOverlay building =getBuildingByCode(code);
-                if(building!=null){
-                    HashMap<String,BuildingFloor> floors=building.getBuildingInfo().getFloors();
-                    if (floors!=null){
-                        for(BuildingFloor floor: floors.values() ) {
-                            for(RoomPolygonOverlay roomPolygonOverlay : floor.getRoomPolygonOverlays()){
-                                if (roomPolygonOverlay.getName().equals(room)){
-                                    return building;
-                                }
-                            }
+    public BuildingPolygonOverlay getBuildingByRoom(String room) {
 
-                        }
-                    }
-                }
+        if (room != null && !room.equals("")) {
+            RoomPolygonOverlay overlay = mRoomOverlays.get(room);
+
+            if (overlay == null) {
+                return null;
             }
+            String buildingCode  =overlay.getFloor().getParentBuilding().getBuildingCode();
+            return getBuildingByCode(buildingCode);
         }
         return null;
-
     }
 
     public BuildingPolygonOverlay getBuildingByKeyword(String keyword)
     {
-
-
         BuildingPolygonOverlay overlay = getBuildingByCode(keyword);
         if(overlay != null)
             return overlay;
