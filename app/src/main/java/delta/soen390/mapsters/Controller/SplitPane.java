@@ -31,6 +31,8 @@ import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
+import delta.soen390.mapsters.ViewMode.IndoorsViewMode;
+import delta.soen390.mapsters.ViewMode.ViewModeController;
 
 
 public class SplitPane {
@@ -54,9 +56,6 @@ public class SplitPane {
 
     //Directions UI
     private ImageButton mDirectionButton;
-    private DirectionEngine mDirectionEngine;
-    private DirectionEngine.DirectionPath mCurrentDirectionPath;
-    private LatLng mStartingLocation;
     private TextView mTextInfo;
     private ImageView mParking;
     private ImageView mInfo;
@@ -138,6 +137,16 @@ public class SplitPane {
                         fragmentManager.beginTransaction().addToBackStack("info")
                                 .replace(R.id.sliding_container, indoorModeFragment)
                                 .commit();
+                        //Get the currently focused building
+
+                       //When clicked, notify a new indoorsview and notifiy the ViewModeController
+                        if(mCurrentBuilding == null)
+                        {
+                            return;
+                        }
+                        //set the view to indoors!
+                        mContext.getViewModeController().setViewMode(new IndoorsViewMode(mCurrentBuilding.getDefaultFloor()));
+                        mContext.requestLowerPanel();
                     }}
         );
     }
