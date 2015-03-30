@@ -86,7 +86,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         super.onNewIntent(intent);
 
         Log.i("Intent", "the extra is:" + intent.getStringExtra("buildingCode"));
-        keywordResult(intent.getStringExtra("buildingCode"));
+        findBuilding(intent.getStringExtra("buildingCode"));
     }
 
     @Override
