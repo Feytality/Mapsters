@@ -1,3 +1,4 @@
+/*
 package delta.soen390.mapsters.Calendar;
 
 import android.app.AlarmManager;
@@ -19,10 +20,12 @@ import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Utils.TimeUtil;
 
+*/
 /**
  * Creates a notification for every single calendar event imported from the users Google calendar.
  * Created by Felicia on 2015-02-22.
- */
+ *//*
+
 public class CalendarEventNotification {
 
     private Context mContext;
@@ -47,11 +50,13 @@ public class CalendarEventNotification {
         mCalendarEventManager = new CalendarEventManager(mContext);
     }
 
-    /**
+    */
+/**
      * Hooks up the very next notification that is in the user's event queue.
-     */
+     *//*
+
     public void handleNotifications() {
-        Intent alarmIntent = new Intent(mContext, CalendarEventReceiver.class);
+        Intent alarmIntent = new Intent(mContext, CalendarNotificationService.class);
 
         // Create alarm manager to enable notification to fire at later time.
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(mContext.ALARM_SERVICE);
@@ -80,55 +85,5 @@ public class CalendarEventNotification {
             System.out.println("Could not add a notification, there was no time to set.");
         }
     }
-
-    // TODO
-    public void handleDirectionClick() {
-        final Button button = (Button) mMapsActivity.findViewById(R.id.get_directions_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // TODO hook up directions here using the location from CalendarEvent
-            }
-        });
-    }
-
-    public void createNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
-
-        Intent i = new Intent(mContext, MapsActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 0, i,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
-
-        // Sets the small icon for the ticker
-        builder.setSmallIcon(R.drawable.ic_launcher);
-
-        // Cancel the notification when clicked
-        builder.setAutoCancel(true);
-
-        // Build the notification
-        Notification notification = builder.build();
-
-        // Inflate the notification layout as RemoteViews
-        RemoteViews contentView = new RemoteViews(mContext.getPackageName(), R.layout.notification);
-
-        // For now just show when the notification was create.
-        final String text = mContext.getResources().getString(R.string.collapsed, mCalendarEvent.getEventName());
-        contentView.setTextViewText(R.id.textView, text);
-
-        notification.contentView = contentView;
-
-        // Show expanded view of notification
-        if (Build.VERSION.SDK_INT >= 16) {
-            RemoteViews expandedView =
-                    new RemoteViews(mContext.getPackageName(), R.layout.notification_expanded);
-            final String text2 = mContext.getResources().getString(R.string.collapsed, mCalendarEvent.getEventName());
-            expandedView.setTextViewText(R.id.textView, text2);
-            notification.bigContentView = expandedView;
-        }
-
-        // To show the notification
-        NotificationManager nm = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
-        nm.notify(0, notification);
-    }
 }
+*/

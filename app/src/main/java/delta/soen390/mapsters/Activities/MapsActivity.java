@@ -1,5 +1,7 @@
 package delta.soen390.mapsters.Activities;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,6 +11,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -35,7 +38,7 @@ import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
 import delta.soen390.mapsters.Calendar.CalendarEvent;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
-import delta.soen390.mapsters.Calendar.CalendarEventNotification;
+import delta.soen390.mapsters.Calendar.CalendarNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.ProtoSearchBox;
@@ -66,7 +69,6 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     private GoogleMapCamera mCamera;
     // For calendar and notifications
     private CalendarEventManager mCalendarEventManager;
-    private CalendarEventNotification mCalendarEventNotification;
     private PolygonOverlayManager mPolygonOverlayManager;
     private DirectionEngine mDirectionEngine;
 
@@ -78,6 +80,14 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     private Marker mMarker;
 
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Log.i("Intent", "the extra is:" + intent.getStringExtra("buildingCode"));
+        findBuilding(intent.getStringExtra("buildingCode"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,17 +113,10 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mSlidingUpPanelLayout.setTouchEnabled(false);
 
         //Initialize the CalendarEventManager
-        mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
-        mCalendarEventManager.updateEventQueue();
 
-        // Uncomment to test notifications.
-         mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this,
-         new CalendarEvent("H", "H431", "SOEN 390", new DateTime(1425333436), new DateTime(1425333436), new DateTime(1425333436)));
-          mCalendarEventNotification.createNotification();
-
-        //Initialize notifications
-        mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this);
-        mCalendarEventNotification.handleNotifications();
+        //mCalendarEventManager = new CalendarEventManager(this.getApplicationContext()); todo fix the alarms
+        CalendarNotification calendarNotification = new CalendarNotification(this.getApplicationContext());
+        calendarNotification.sendTest();
 
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);

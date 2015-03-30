@@ -3,9 +3,9 @@ package delta.soen390.mapsters.Calendar;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.CalendarContract;
-import com.google.api.client.util.DateTime;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import delta.soen390.mapsters.Utils.TimeUtil;
 
@@ -98,11 +98,11 @@ public class CalendarEventSerializer {
             }
         }
 
-        DateTime startDt    = TimeUtil.millisToDateTime(startDateTime);
-        DateTime endDt      = TimeUtil.millisToDateTime(endDateTime);
-        DateTime beforeDt       = TimeUtil.millisToDateTime(beforeEventEventNotification);
+        Date startDt    = new Date(Long.parseLong(startDateTime));
+       // Date endDt      = new Date(Long.parseLong(endDateTime));//todo fix the parsing and add better checks
+        Date beforeDt       = new Date(Long.parseLong(beforeEventEventNotification));
 
-        return new CalendarEvent(buildingCode, fullLocation, title, startDt, endDt, beforeDt);
+        return new CalendarEvent(buildingCode, fullLocation, title, startDt, beforeDt);
     }
 
 
