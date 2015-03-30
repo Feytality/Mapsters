@@ -3,6 +3,7 @@ package delta.soen390.mapsters.Buildings;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import delta.soen390.mapsters.Data.Campus;
@@ -70,8 +71,8 @@ public class BuildingInfo {
         return mFloors.values().iterator().next();
     }
 
-    public HashMap<String,BuildingFloor> getFloors(){
-        return mFloors;
+    public Collection<BuildingFloor> getFloors(){
+        return mFloors.values();
     }
 
     public String getBuildingCode() {

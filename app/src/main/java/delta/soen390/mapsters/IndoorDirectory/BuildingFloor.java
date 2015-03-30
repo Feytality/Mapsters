@@ -34,6 +34,7 @@ public class BuildingFloor {
         mPolygonManager = manager;
         for(RoomPolygonOverlay overlay : overlays)
         {
+            overlay.setFloor(this);
             mRooms.add(overlay);
         }
     }
