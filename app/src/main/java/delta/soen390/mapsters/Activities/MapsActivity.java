@@ -111,8 +111,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mSlidingUpPanelLayout.setTouchEnabled(false);
 
         //Initialize the CalendarEventManager
-//        mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
-//        mCalendarEventManager.updateEventQueue();
+       // mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
+        //CalendarEventManager.updateEventQueue();
 
         //mCalendarEventManager = new CalendarEventManager(this.getApplicationContext()); todo fix the alarms
         CalendarNotification calendarNotification = new CalendarNotification(this.getApplicationContext());
