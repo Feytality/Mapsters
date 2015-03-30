@@ -60,7 +60,14 @@ public class BuildingInfo {
     {
         return mFloors.get(floorLevel);
     }
-
+    public BuildingFloor getDefaultFloor() {
+        if(mFloors.size() == 0)
+        {
+            return null;
+        }
+        //Returns the first building
+        return mFloors.values().iterator().next();
+    }
 
     public String getBuildingCode() {
         return mBuildingCode;
@@ -68,11 +75,11 @@ public class BuildingInfo {
     public String getAddress() {
         return mAddress;
     }
- public boolean hasInfo(){return mInfo;}
- public boolean hasAccessibility(){return mAccess;}
- public boolean hasParking(){return mParking;}
-    public boolean hasBikeRack(){return mBikeRack
-            ;}
+    public boolean hasInfo(){return mInfo;}
+    public boolean hasAccessibility(){return mAccess;}
+    public boolean hasParking(){return mParking;}
+
+    public boolean hasBikeRack(){ return mBikeRack;}
     public String getBuildingName() {
         return mBuildingName;
     }

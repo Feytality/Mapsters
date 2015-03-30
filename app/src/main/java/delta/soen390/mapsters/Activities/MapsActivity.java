@@ -44,6 +44,8 @@ import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.Utils.GoogleMapCamera;
 import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
+import delta.soen390.mapsters.ViewMode.OutdoorsViewMode;
+import delta.soen390.mapsters.ViewMode.ViewModeController;
 
 public class MapsActivity extends FragmentActivity implements SlidingFragment.OnDataPass, OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource,
         GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener{
@@ -63,6 +65,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     private PolygonOverlayManager mPolygonOverlayManager;
     private DirectionEngine mDirectionEngine;
 
+    private ViewModeController mViewModeController;
     public static PolygonDirectory sPolygonDirectory;
 
     // For current location, ask if theres another way to get map
@@ -175,19 +178,16 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         googleMap.setOnMapClickListener(this);
         mGoogleMap = googleMap;
 
+        mCamera = new GoogleMapCamera(mGoogleMap);
+        mViewModeController = new ViewModeController(mCamera);
+
         //Initialize the Direction Engine
         mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap, mLocationService);
 
-        mCamera = new GoogleMapCamera(mGoogleMap);
 
-        //Initialize the Building Polygons
-        mPolygonOverlayManager = new PolygonOverlayManager();
-        mPolygonOverlayManager.loadResources(this);
-        mPolygonOverlayManager.getPolygonDirectory().activateBuildingOverlays();
+        initializeOverlays();
 
-        if(sPolygonDirectory  == null) {
-            sPolygonDirectory = mPolygonOverlayManager.getPolygonDirectory();
-        }
+
 
         //Show the H8 floor
        // BuildingPolygonOverlay overlay =   sPolygonDirectory.getBuildingByCode("H");
@@ -216,8 +216,20 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         });
     }
 
+    private void initializeOverlays()
+    {
+    //Initialize the Building Polygons
+        mPolygonOverlayManager = new PolygonOverlayManager();
+        mPolygonOverlayManager.loadResources(this);
+        mPolygonOverlayManager.getPolygonDirectory().activateBuildingOverlays();
 
+        if(sPolygonDirectory  == null) {
+            sPolygonDirectory = mPolygonOverlayManager.getPolygonDirectory();
+        }
 
+        //Set the view mode to outdoors since default view is of the current campus
+        mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
+    }
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -333,8 +345,10 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                     if(!mDirectionEngine.isDirectionPathEmpty()) {
                         mDirectionEngine.clearEngineState();
                     }
+                mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
                     mSlidingUpPanelLayout.setTouchEnabled(false);
                 return true;
+
         }
         this.onBackPressed();
         return super.onKeyDown(keyCode, event);
@@ -351,5 +365,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     public GoogleMap getGoogleMap() { return mGoogleMap;}
 
     public PolygonOverlayManager getPolygonOverlayManager() { return mPolygonOverlayManager; }
+
+    public ViewModeController getViewModeController() { return mViewModeController;}
 }
 
