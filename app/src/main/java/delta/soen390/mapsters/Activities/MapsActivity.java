@@ -45,6 +45,7 @@ import delta.soen390.mapsters.Controller.ProtoSearchBox;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
+import delta.soen390.mapsters.IndoorDirectory.RoomPolygonOverlay;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
@@ -341,10 +342,15 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                     //Do not want to update content because the user is in the wrong context. must clear directions first using back button.
                 }
             }
+            else if(overlay.getClass() == RoomPolygonOverlay.class)
+            {
+                //don't focus rooms
+                return;
+            }
             overlay.focus();
         }
             
-            //set current buildind
+            //set current building
             mImm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
