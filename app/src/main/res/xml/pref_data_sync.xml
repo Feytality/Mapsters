@@ -1,8 +1,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference android:title="@string/pref_title_sync_now">
-        <intent android:action="android.intent.action.SYNC" />
-    </Preference>
+
 
     <CheckBoxPreference android:key="message_pref"
         android:title="@string/pref_title_new_class_notifications"

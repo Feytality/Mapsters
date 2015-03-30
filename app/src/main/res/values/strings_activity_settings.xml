@@ -26,19 +26,19 @@
 
     <string name="pref_title_transit_options">Transit Preferences</string>
     <string-array name="pref_transit_list_titles">
-        <item>Walk</item>
-        <item>Bicycle</item>
-        <item>Bus</item>
+        <item>Walking</item>
+        <item>Bicycling</item>
+        <item>Transit</item>
         <item>Shuttle</item>
-        <item>Car</item>
+        <item>Driving</item>
 
     </string-array>
     <string-array name="pref_transit_list_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
+        <item>Walking</item>
+        <item>Bicycling</item>
+        <item>Transit</item>
+        <item>Shuttle</item>
+        <item>Driving</item>
 
     </string-array>
 
