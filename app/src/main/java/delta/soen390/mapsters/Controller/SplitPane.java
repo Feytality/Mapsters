@@ -125,6 +125,23 @@ public class SplitPane {
         view_instance.setLayoutParams(lp);
         view_instance = (View)mContent.findViewById(R.id.departments_info);
         view_instance.setLayoutParams(lp);
+        view_instance = (View)mContent.findViewById(R.id.image_frame);
+        lp = new LinearLayout.LayoutParams(getDisplayWidth()/2, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.width=(int)(getDisplayWidth()*0.60);
+        lp.height=(int)(getDisplayWidth()*0.60);
+        view_instance.setLayoutParams(lp);
+        lp = new LinearLayout.LayoutParams(getDisplayWidth()/2, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        lp.width=(int)(getDisplayWidth()*0.17);
+        lp.height=(int)(getDisplayWidth()*0.17);
+
+        view_instance = (View)mContent.findViewById(R.id.info_img);
+        view_instance.setLayoutParams(lp);  view_instance = (View)mContent.findViewById(R.id.bikerack_img);
+        view_instance.setLayoutParams(lp);  view_instance = (View)mContent.findViewById(R.id.parking_img);
+        view_instance.setLayoutParams(lp);  view_instance = (View)mContent.findViewById(R.id.accessibility_img);
+        view_instance.setLayoutParams(lp);
+
+
 
     }
 
