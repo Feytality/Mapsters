@@ -18,7 +18,7 @@ public class CalendarNotification extends NotificationService{
 
     public void sendTest(){
         NotificationCompat.Builder builder = this.getBuilder();
-        builder.setContentTitle("Hello There").setContentText("Take you to a room").setSmallIcon(R.drawable.ic_launcher);
+        builder.setContentTitle("Upcoming Class!").setContentText("SOEN 390 - Lecture from 4:15 to 5:55").setSmallIcon(R.drawable.ic_launcher);
 
         Intent intent = new Intent(mContext, MapsActivity.class);
         intent.putExtra("buildingCode","H");

@@ -39,6 +39,7 @@ import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
+import delta.soen390.mapsters.Calendar.CalendarNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.ProtoSearchBox;
@@ -114,7 +115,10 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mSlidingUpPanelLayout.setTouchEnabled(false);
 
         //Initialize the CalendarEventManager
-        mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
+
+        //mCalendarEventManager = new CalendarEventManager(this.getApplicationContext()); todo fix the alarms
+        CalendarNotification calendarNotification = new CalendarNotification(this.getApplicationContext());
+        calendarNotification.sendTest();
 
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);
