@@ -2,13 +2,16 @@ package delta.soen390.mapsters.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +29,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
@@ -35,6 +41,7 @@ import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.ProtoSearchBox;
 import delta.soen390.mapsters.Controller.SplitPane;
+import delta.soen390.mapsters.Data.Campus;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
 import delta.soen390.mapsters.IndoorDirectory.BuildingFloor;
@@ -44,6 +51,9 @@ import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.Utils.GoogleMapCamera;
 import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
+import delta.soen390.mapsters.ViewMode.IndoorsViewMode;
+import delta.soen390.mapsters.ViewMode.OutdoorsViewMode;
+import delta.soen390.mapsters.ViewMode.ViewModeController;
 
 public class MapsActivity extends FragmentActivity implements SlidingFragment.OnDataPass, OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, LocationSource,
         GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener{
@@ -63,12 +73,12 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     private PolygonOverlayManager mPolygonOverlayManager;
     private DirectionEngine mDirectionEngine;
 
+    private ViewModeController mViewModeController;
     public static PolygonDirectory sPolygonDirectory;
 
     // For current location, ask if theres another way to get map
     private GoogleMap mGoogleMap;
     private Marker mMarker;
-    private DirectionEngine.DirectionPath mCurrentDirectionPath;
 
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
 
@@ -176,26 +186,17 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         googleMap.setOnMapClickListener(this);
         mGoogleMap = googleMap;
 
+        mCamera = new GoogleMapCamera(mGoogleMap);
+        mViewModeController = new ViewModeController(this);
+
         //Initialize the Direction Engine
         mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap, mLocationService);
 
-        mCamera = new GoogleMapCamera(mGoogleMap);
 
-        //Initialize the Building Polygons
-        mPolygonOverlayManager = new PolygonOverlayManager();
-        mPolygonOverlayManager.loadResources(this);
-        mPolygonOverlayManager.getPolygonDirectory().activateBuildingOverlays();
+        initializeOverlays();
 
-        if(sPolygonDirectory  == null) {
-            sPolygonDirectory = mPolygonOverlayManager.getPolygonDirectory();
-        }
-
-        //Show the H8 floor
-       // BuildingPolygonOverlay overlay =   sPolygonDirectory.getBuildingByCode("H");
-       // BuildingFloor floor = overlay.getBuildingInfo().getFloorAt("8");
-        //floor.activate();
-        //floor.focus();
-
+        // For now only checks preferred default map
+        checkPreferences();
 
         //Select a building
         ProtoSearchBox pt = new ProtoSearchBox(this);
@@ -206,19 +207,59 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
             @Override
             public void onIndoorBuildingFocused() {
-
+                mViewModeController.setViewMode(new IndoorsViewMode());
             }
 
             @Override
             public void onIndoorLevelActivated(IndoorBuilding indoorBuilding) {
 
-                Log.i("LEVEL", ""+ indoorBuilding.getLevels().get(indoorBuilding.getActiveLevelIndex()).getName());
+                String floorLevelName = indoorBuilding.getLevels().get(indoorBuilding.getActiveLevelIndex()).getName();
+                mViewModeController.setViewMode(new IndoorsViewMode(floorLevelName));
+            }
+        });
+
+        findViewById(R.id.locate_me).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Location currentLocation = mLocationService.getLastLocation();
+                if(currentLocation != null)
+                    mCamera.moveToTarget(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 17);
             }
         });
     }
 
 
+    private void initializeOverlays() {
+        //Initialize the Building Polygons
+        mPolygonOverlayManager = new PolygonOverlayManager();
+        mPolygonOverlayManager.loadResources(this);
+        mPolygonOverlayManager.getPolygonDirectory().activateBuildingOverlays();
 
+        if(sPolygonDirectory  == null) {
+            sPolygonDirectory = mPolygonOverlayManager.getPolygonDirectory();
+        }
+
+        //Set the view mode to outdoors since default view is of the current campus
+        mViewModeController.setViewMode(new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
+    }
+
+    private void checkPreferences() {
+        // Get preferred map start
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String campusDefault = prefs.getString("campus_list", getString(R.string.is_loyola));
+
+        final String isSGW = getString(R.string.is_sgw);
+        final String isLoyola = getString(R.string.is_loyola);
+        BuildingPolygonOverlay overlay;
+        if(campusDefault.contains(isSGW)){
+            overlay = sPolygonDirectory.getBuildingByCode("H");
+            onMapClick(overlay.getCenterPoint());
+            mCamera.moveToTarget(overlay.getBuildingInfo().getCoordinates(),17);
+        } else if (campusDefault.contains(isLoyola)) {
+            overlay = sPolygonDirectory.getBuildingByCode("CC");
+            onMapClick(overlay.getCenterPoint());
+        }
+    }
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -294,6 +335,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                 if(mDirectionEngine.isDirectionPathEmpty()) {
                     BuildingInfo info = ((BuildingPolygonOverlay) overlay).getBuildingInfo();
                     splitPane.updateContent(info);
+
                 } else {
                     //Do not want to update content because the user is in the wrong context. must clear directions first using back button.
                 }
@@ -334,8 +376,11 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                     if(!mDirectionEngine.isDirectionPathEmpty()) {
                         mDirectionEngine.clearEngineState();
                     }
+                mPolygonOverlayManager.unfocusOverlay();
+                mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
                     mSlidingUpPanelLayout.setTouchEnabled(false);
                 return true;
+
         }
         this.onBackPressed();
         return super.onKeyDown(keyCode, event);
@@ -343,6 +388,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
     public void requestLowerPanel() {
         SlidingUpPanelLayout panel = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        if (panel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED)
             panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
 
@@ -353,14 +399,23 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             panel.setTouchEnabled(false);
     }
 
-    public DirectionEngine.DirectionPath getCurrentDirectionPath() {
-        return mCurrentDirectionPath;
+    public  void indoorConfiguration(){
+        findViewById(R.id.search_combo).setVisibility(View.INVISIBLE);
+        findViewById(R.id.locate_me).setVisibility(View.INVISIBLE);
     }
+
+    public  void outdoorConfiguration(){
+            findViewById(R.id.search_combo).setVisibility(View.VISIBLE);
+            findViewById(R.id.locate_me).setVisibility(View.VISIBLE);
+    }
+
 
     public GoogleMapCamera getGoogleMapCamera() { return mCamera;}
 
     public GoogleMap getGoogleMap() { return mGoogleMap;}
 
     public PolygonOverlayManager getPolygonOverlayManager() { return mPolygonOverlayManager; }
+
+    public ViewModeController getViewModeController() { return mViewModeController;}
 }
 

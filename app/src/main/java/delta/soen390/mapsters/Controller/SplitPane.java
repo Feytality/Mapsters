@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -26,10 +25,12 @@ import java.util.ArrayList;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Fragments.DirOptionFragment;
+import delta.soen390.mapsters.Fragments.IndoorModeFragment;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
+import delta.soen390.mapsters.ViewMode.IndoorsViewMode;
 
 
 public class SplitPane {
@@ -53,16 +54,13 @@ public class SplitPane {
 
     //Directions UI
     private ImageButton mDirectionButton;
-    private DirectionEngine mDirectionEngine;
-    private DirectionEngine.DirectionPath mCurrentDirectionPath;
-    private LatLng mStartingLocation;
     private TextView mTextInfo;
     private ImageView mParking;
     private ImageView mInfo;
     private ImageView mAccess;
     private TextView mBuildingAddress;
 
-    private View mIndoorsDirectoryButton;
+    private ImageButton mIndoorsDirectoryButton;
 
     public SplitPane(View slideView, float anchorPoint, LocationService locationService, MapsActivity context) {
         mContext = context;
@@ -123,7 +121,7 @@ public class SplitPane {
 
     private void initializeIndoorsDirectoryButton()
     {
-        mIndoorsDirectoryButton = mContext.findViewById(R.id.indoors_btn);
+        mIndoorsDirectoryButton = (ImageButton)mContent.findViewById(R.id.indoors_btn);
 
         if(mIndoorsDirectoryButton == null) {
             return;
@@ -132,8 +130,21 @@ public class SplitPane {
         mIndoorsDirectoryButton.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
-                       //Todo
-                        //indoorViewManager shit
+                        IndoorModeFragment indoorModeFragment = new IndoorModeFragment();
+                        FragmentManager fragmentManager = mContext.getSupportFragmentManager();
+                        fragmentManager.beginTransaction().addToBackStack("info")
+                                .replace(R.id.sliding_container, indoorModeFragment)
+                                .commit();
+                        //Get the currently focused building
+
+                       //When clicked, notify a new indoorsview and notifiy the ViewModeController
+                        if(mCurrentBuilding == null)
+                        {
+                            return;
+                        }
+                        //set the view to indoors!
+                        mContext.getViewModeController().setViewMode(new IndoorsViewMode(mCurrentBuilding.getDefaultFloor()));
+                        mContext.requestLowerPanel();
                     }}
         );
     }
@@ -280,7 +291,10 @@ public class SplitPane {
         mInfo = (ImageView) mContext.findViewById(R.id.info_img);
         mAccess = (ImageView) mContext.findViewById(R.id.accessibility_img);
         mBike = (ImageView) mContext.findViewById(R.id.bikerack_img);
-
+        mParking = (ImageView) mContext.findViewById(R.id.parking_img);
+        mInfo = (ImageView) mContext.findViewById(R.id.info_img);
+        mAccess = (ImageView) mContext.findViewById(R.id.accessibility_img);
+        mBike = (ImageView) mContext.findViewById(R.id.bikerack_img);
         if (!buildingInfo.hasParking() && mParking != null)
             mParking.setVisibility(View.GONE);
         else

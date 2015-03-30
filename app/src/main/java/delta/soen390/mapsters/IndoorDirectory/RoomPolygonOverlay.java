@@ -11,13 +11,11 @@ import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 public class RoomPolygonOverlay extends PolygonOverlay {
 
     private String mName = "";
-    private String mDescription = "";
 
-    public RoomPolygonOverlay(MapsActivity activity ,String name, String description )
+    public RoomPolygonOverlay(MapsActivity activity ,String name )
     {
         super(activity);
         mName = name;
-        mDescription = description;
     }
 
     public RoomPolygonOverlay(MapsActivity activity)
@@ -30,9 +28,5 @@ public class RoomPolygonOverlay extends PolygonOverlay {
         return mName;
     }
 
-    public String getDescription()
-    {
-        return mDescription;
-    }
 
 }

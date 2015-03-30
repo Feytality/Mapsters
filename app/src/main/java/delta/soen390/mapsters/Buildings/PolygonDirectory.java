@@ -7,6 +7,7 @@ import com.google.android.gms.maps.GoogleMap;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
@@ -74,6 +75,11 @@ public class PolygonDirectory {
         return true;
     }
 
+    public Collection<BuildingPolygonOverlay> getBuildingOverlays()
+    {
+        return mBuildingOverlays.values();
+    }
+
     private boolean loadFloorData(MapsActivity activity)
     {
         String resourceDirectory = mContext.getResources().getString(R.string.data_directory_floor_overlay);
@@ -108,7 +114,7 @@ public class PolygonDirectory {
                 ArrayList<RoomPolygonOverlay> roomOverlays = factory.generatePolygonOverlay(filePath);
 
                 BuildingPolygonOverlay buildingOverlay = mBuildingOverlays.get(buildingCode);
-                BuildingFloor floor = new BuildingFloor(polygonManager,activity.getGoogleMapCamera(), roomOverlays,buildingOverlay.getCenterPoint());
+                BuildingFloor floor = new BuildingFloor(polygonManager, roomOverlays,buildingOverlay.getCenterPoint(),floorLevel);
 
                 if(buildingOverlay != null){
                     //Floor should not be active by default
