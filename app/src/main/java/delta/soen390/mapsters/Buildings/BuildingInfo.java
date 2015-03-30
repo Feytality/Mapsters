@@ -53,6 +53,7 @@ public class BuildingInfo {
 
     public void addFloor(String level, BuildingFloor floor)
     {
+        floor.setParentBuilding(this);
         mFloors.put(level,floor);
     }
 

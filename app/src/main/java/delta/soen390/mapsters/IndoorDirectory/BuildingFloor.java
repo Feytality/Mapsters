@@ -21,6 +21,9 @@ public class BuildingFloor {
     private float mZoomLevel = 20.0f;
     private int mFloorLevel = 0;
     private float mOrientationOffset = 0;
+
+    private BuildingInfo mBuildingInfo;
+
     private PolygonOverlayManager mPolygonManager;
 
 
@@ -53,7 +56,15 @@ public class BuildingFloor {
             overlay.unfocus();
         }
     }
+    public void setParentBuilding(BuildingInfo info)
+    {
+        mBuildingInfo = info;
+    }
 
+    public BuildingInfo getParentBuilding()
+    {
+        return mBuildingInfo;
+    }
     public float getZoomLevel() {
         return mZoomLevel;
     }

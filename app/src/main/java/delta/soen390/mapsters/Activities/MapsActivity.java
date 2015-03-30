@@ -212,6 +212,11 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             @Override
             public void onIndoorLevelActivated(IndoorBuilding indoorBuilding) {
 
+                String floorLevelName = indoorBuilding.getLevels().get(indoorBuilding.getActiveLevelIndex()).getName();
+
+                //Get the floor
+                //Get the current floor
+
                 Log.i("LEVEL", ""+ indoorBuilding.getLevels().get(indoorBuilding.getActiveLevelIndex()).getName());
             }
         });
