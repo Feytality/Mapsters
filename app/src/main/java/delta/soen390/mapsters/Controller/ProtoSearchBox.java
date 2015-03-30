@@ -2,6 +2,7 @@ package delta.soen390.mapsters.Controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -15,6 +16,7 @@ import java.util.List;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
+import delta.soen390.mapsters.Fragments.IndoorModeFragment;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
 import delta.soen390.mapsters.IndoorDirectory.BuildingFloor;
@@ -109,6 +111,12 @@ public class ProtoSearchBox {
     {
         if(overlay == null)
             return;
+
+        IndoorModeFragment indoorModeFragment = new IndoorModeFragment();
+        FragmentManager fragmentManager = mContext.getSupportFragmentManager();
+        fragmentManager.beginTransaction().addToBackStack("info")
+                .replace(R.id.sliding_container, indoorModeFragment)
+                .commit();
 
         BuildingFloor floor = overlay.getFloor();
         mContext.getViewModeController().setViewMode(new IndoorsViewMode(floor));

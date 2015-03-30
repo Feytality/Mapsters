@@ -1,6 +1,7 @@
 package delta.soen390.mapsters.Calendar;
 
-import com.google.api.client.util.DateTime;
+
+import java.util.Date;
 
 /**
  *  The purpose of this class is to represent a calendar event object.
@@ -19,20 +20,20 @@ public class CalendarEvent {
     private String mName;
 
     //the start date and time of the event
-    private DateTime mStartTime;
+    private Date mStartTime;
 
     //The end date and time of the event
-    private DateTime mEndTime;
+    private Date mEndTime;
 
-    private DateTime mBeforeEventNotification;
+    private Date mBeforeEventNotification;
 
-    public CalendarEvent(String buildingCode, String fullLocation, String name, DateTime startTime,
-                        DateTime endTime, DateTime beforeEventNotification) {
+    public CalendarEvent(String buildingCode, String fullLocation, String name, Date startTime,
+                         Date beforeEventNotification) {
         mBuildingCode   = buildingCode;
         mFullLocation   = fullLocation;
         mName           = name;
         mStartTime      = startTime;
-        mEndTime        = endTime;
+        //mEndTime        = endTime;
         mBeforeEventNotification = beforeEventNotification;
     }
 
@@ -48,15 +49,15 @@ public class CalendarEvent {
         return mName;
     }
 
-    public DateTime getStartTime() {
+    public Date getStartTime() {
         return mStartTime;
     }
 
-    public DateTime getEndTime() {
+    public Date getEndTime() {
         return mEndTime;
     }
 
-    public DateTime getBeforeEventNotification() {
+    public Date getBeforeEventNotification() {
         return mBeforeEventNotification;
     }
 }

@@ -1,3 +1,4 @@
+/*
 package delta.soen390.mapsters.Calendar;
 
 import android.app.Notification;
@@ -17,9 +18,11 @@ import java.util.GregorianCalendar;
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.R;
 
+*/
 /**
  * Created by Felicia on 2015-02-27.
- */
+ *//*
+
 public class CalendarEventReceiver extends BroadcastReceiver {
 
     private Context mContext;
@@ -33,11 +36,6 @@ public class CalendarEventReceiver extends BroadcastReceiver {
         Calendar now = GregorianCalendar.getInstance();
         int dayOfWeek = now.get(Calendar.DATE);
         if(dayOfWeek != 1 && dayOfWeek != 7) {
-            Notification eventNotification = buildNotification();
-            NotificationManager nm = (NotificationManager) mContext.getSystemService(mContext.NOTIFICATION_SERVICE);
-
-            if(nm != null) {
-                nm.notify(0, eventNotification);
 
                 // Pop the added notification from the event queue
                 mCalendarEventManager.popNextEvent();
@@ -47,51 +45,6 @@ public class CalendarEventReceiver extends BroadcastReceiver {
                 // Could not hook up notification.
             }
         }
-    }
 
-    /**
-     * Builds the way the notification will look.
-     *
-     * @return
-     */
-    private Notification buildNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
-
-        Intent i = new Intent(mContext, mContext.getClass());
-        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
-        stackBuilder.addParentStack(MapsActivity.class);
-        stackBuilder.addNextIntent(i);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(resultPendingIntent);
-
-        // Sets the small icon for the ticker
-        builder.setSmallIcon(R.drawable.ic_launcher);
-
-        // Cancel the notification when clicked
-        builder.setAutoCancel(true);
-
-        // Build the notification
-        Notification notification = builder.build();
-
-        // Inflate the notification layout as RemoteViews
-        RemoteViews contentView = new RemoteViews(mContext.getPackageName(), R.layout.notification);
-
-        // For now just show when the notification was create.
-        String collapsedText = mContext.getResources().getString(R.string.collapsed, "Soen384");
-        contentView.setTextViewText(R.id.textView, collapsedText);
-
-        notification.contentView = contentView;
-
-        // Show expanded view of notification
-        if (Build.VERSION.SDK_INT >= 16) {
-            RemoteViews expandedView =
-                    new RemoteViews(mContext.getPackageName(), R.layout.notification_expanded);
-            String expandedText = mContext.getResources().getString(R.string.expanded, "Soen384");
-            expandedView.setTextViewText(R.id.expandedTextView, expandedText);
-            notification.bigContentView = expandedView;
-        }
-
-        return notification;
-    }
 }
+*/
