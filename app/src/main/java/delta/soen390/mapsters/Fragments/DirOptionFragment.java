@@ -75,15 +75,35 @@ public class DirOptionFragment extends Fragment {
         mDirectionEngine.showDirectionPath(DirectionEngine.DirectionType.TRANSIT);
 
         //update the tab
+        int tabNum=1;
         if (defaults.contains(isShuttle)){
             addTab(isShuttle, DirectionEngine.DirectionType.SHUTTLE,R.drawable.ic_action_directions_bus);
+
+            if(prefs.getString("transit_list",isTransit).equals(isShuttle)){
+                mTabHost.setCurrentTab(tabNum);
+            }
+            tabNum++;
         } if (defaults.contains(isDriving)){
             addTab(isDriving, DirectionEngine.DirectionType.DRIVING,R.drawable.ic_action_directions_car);
+            if(prefs.getString("transit_list",isTransit).equals(isDriving)){
+                mTabHost.setCurrentTab(tabNum);
+            }
+            tabNum++;
         } if (defaults.contains(isWalking)){
             addTab(isWalking, DirectionEngine.DirectionType.WALKING,R.drawable.ic_action_directions_walk);
+            if(prefs.getString("transit_list",isTransit).equals(isWalking)){
+                mTabHost.setCurrentTab(tabNum);
+            }
+            tabNum++;
         } if (defaults.contains(isCycling)) {
             addTab(isCycling, DirectionEngine.DirectionType.BICYCLE,R.drawable.ic_action_directions_bike);
+            if(prefs.getString("transit_list",isTransit).equals(isCycling)){
+                mTabHost.setCurrentTab(tabNum);
+            }
+            tabNum++;
         }
+
+
 
             //Listerner BAY - refactor
 
@@ -91,35 +111,26 @@ public class DirOptionFragment extends Fragment {
                 @Override
                 public void onTabChanged(String tabId) {
 
-                    Toast.makeText(getActivity().getApplicationContext(),tabId,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), tabId, Toast.LENGTH_SHORT).show();
 
-                    if(mDirectionEngine == null) {
-                        MapsActivity activity = ((MapsActivity)getActivity());
+                    if (mDirectionEngine == null) {
+                        MapsActivity activity = ((MapsActivity) getActivity());
                         mDirectionEngine = activity.getDirectionEngine();
-                        if(mDirectionEngine == null) {
+                        if (mDirectionEngine == null) {
                             return;
                         }
                     }
 
                     DirectionEngine.DirectionType directionType = DirectionEngine.DirectionType.TRANSIT;
-                    if(tabId.equals(isCycling))
-                    {
+                    if (tabId.equals(isCycling)) {
                         directionType = DirectionEngine.DirectionType.BICYCLE;
-                    }
-                    else if(tabId.equals(isTransit))
-                    {
+                    } else if (tabId.equals(isTransit)) {
                         directionType = DirectionEngine.DirectionType.TRANSIT;
-                    }
-                    else if(tabId.equals(isShuttle))
-                    {
+                    } else if (tabId.equals(isShuttle)) {
                         directionType = DirectionEngine.DirectionType.SHUTTLE;
-                    }
-                    else if(tabId.equals(isWalking))
-                    {
+                    } else if (tabId.equals(isWalking)) {
                         directionType = DirectionEngine.DirectionType.WALKING;
-                    }
-                    else if(tabId.equals(isDriving))
-                    {
+                    } else if (tabId.equals(isDriving)) {
                         directionType = DirectionEngine.DirectionType.DRIVING;
                     }
 

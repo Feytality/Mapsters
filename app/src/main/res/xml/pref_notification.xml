@@ -3,7 +3,7 @@
     <ListPreference
         android:key="campus_list"
         android:title="@string/pref_title_add_friends_to_messages"
-        android:defaultValue="0"
+        android:defaultValue="SGW"
         android:entries="@array/pref_example_list_titles"
         android:entryValues="@array/pref_example_list_values"
         android:negativeButtonText="@null"
@@ -12,7 +12,7 @@
     <ListPreference
     android:key="transit_list"
     android:title="@string/pref_title_transit_options"
-    android:defaultValue="1"
+    android:defaultValue="Transit"
     android:entries="@array/pref_transit_list_titles"
     android:entryValues="@array/pref_transit_list_values"
     android:negativeButtonText="@null"

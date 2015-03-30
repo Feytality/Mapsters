@@ -1,7 +1,8 @@
 package delta.soen390.mapsters.ViewComponents;
 
 import android.app.Activity;
-import android.support.v4.app.FragmentActivity;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -29,7 +30,7 @@ public class CampusSwitchUI {
         mCampusSwitch = (Switch) mActivity.findViewById(R.id.campusSwitch);
 
         if (mCampusSwitch != null) {
-		
+
 		
             mCampusSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			
@@ -46,6 +47,7 @@ public class CampusSwitchUI {
                 }
             }
 			);
+
         }
         mFActivity = null;
         mView = null;
@@ -64,6 +66,13 @@ public class CampusSwitchUI {
         mCampusSwitch.setChecked(!mCampusSwitch.isChecked());
     }
 
+    public void verifySettings(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        if(prefs.getString("campus_list","SGW").equals("SGW")){
+            mCampusSwitch.setChecked(true);
 
+        }
+
+    }
 
 }
