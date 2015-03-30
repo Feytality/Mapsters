@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.IndoorBuilding;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.api.client.util.DateTime;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -31,6 +32,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
+import delta.soen390.mapsters.Calendar.CalendarEvent;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarEventNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
@@ -104,9 +106,9 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mCalendarEventManager.updateEventQueue();
 
         // Uncomment to test notifications.
-        // mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this,
-        // new CalendarEvent("H", "H431", "SOEN 390", new DateTime(1425333436), new DateTime(1425333436), new DateTime(1425333436)));
-        //  mCalendarEventNotification.createNotification();
+         mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this,
+         new CalendarEvent("H", "H431", "SOEN 390", new DateTime(1425333436), new DateTime(1425333436), new DateTime(1425333436)));
+          mCalendarEventNotification.createNotification();
 
         //Initialize notifications
         mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this);
@@ -166,7 +168,6 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     @Override
     public void onMapReady(GoogleMap googleMap) {
         googleMap.setLocationSource(this);
-        googleMap.setMyLocationEnabled(true);
         googleMap.setOnMyLocationButtonClickListener(this);
         googleMap.setBuildingsEnabled(false);
 
