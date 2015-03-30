@@ -255,6 +255,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             overlay = sPolygonDirectory.getBuildingByCode("H");
             onMapClick(overlay.getCenterPoint());
             mCamera.moveToTarget(overlay.getBuildingInfo().getCoordinates(),17);
+            mCampusSwitchUI.toggleCampusSwitch();
         } else if (campusDefault.contains(isLoyola)) {
             overlay = sPolygonDirectory.getBuildingByCode("CC");
             onMapClick(overlay.getCenterPoint());
