@@ -15,7 +15,7 @@ import delta.soen390.mapsters.Utils.GoogleMapCamera;
  */
 public class BuildingFloor {
 
-    private HashMap<String,RoomPolygonOverlay> mRooms = new HashMap<>();
+    private ArrayList<RoomPolygonOverlay> mRooms = new ArrayList<>();
 
     private LatLng mCoordinates;
     private float mZoomLevel = 19.25f;
@@ -34,25 +34,36 @@ public class BuildingFloor {
         mPolygonManager = manager;
         for(RoomPolygonOverlay overlay : overlays)
         {
-            mRooms.put(overlay.getName(),overlay);
+            mRooms.add(overlay);
         }
     }
 
     public void activateFloorOverlays() {
-        mPolygonManager.setActiveOverlays(mRooms.values());
+        mPolygonManager.setActiveOverlays(mRooms);
     }
     public RoomPolygonOverlay getRoomOverlay(String roomName)
     {
-        return mRooms.get(roomName);
+        for(RoomPolygonOverlay overlay : mRooms)
+        {
+            if(overlay.getName().equals(roomName))
+            {
+                return overlay;
+            }
+        }
+        return null;
     }
 
+    public Collection<RoomPolygonOverlay> getRoomPolygonOverlays()
+    {
+        return mRooms;
+    }
     //Focusing a floor will activate all of the floor overlays with the unfocused field
     public void activate()
     {
-        mPolygonManager.setActiveOverlays(mRooms.values());
+        mPolygonManager.setActiveOverlays(mRooms);
 
         //unfocus all rooms in the floor
-        for(RoomPolygonOverlay overlay : mRooms.values())
+        for(RoomPolygonOverlay overlay : mRooms)
         {
             overlay.unfocus();
         }
@@ -71,7 +82,7 @@ public class BuildingFloor {
     }
     public void deactivate()
     {
-        for(RoomPolygonOverlay overlay : mRooms.values())
+        for(RoomPolygonOverlay overlay : mRooms)
         {
             overlay.deactivate();
             overlay.unfocus();
