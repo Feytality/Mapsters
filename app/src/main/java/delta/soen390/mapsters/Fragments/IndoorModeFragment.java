@@ -1,5 +1,6 @@
 package delta.soen390.mapsters.Fragments;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.widget.ImageButton;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.R;
+import delta.soen390.mapsters.ViewMode.HighlightEffect;
+import delta.soen390.mapsters.ViewMode.ViewModeController;
 
 
 public class IndoorModeFragment extends Fragment {
@@ -29,15 +32,47 @@ public class IndoorModeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
          view = inflater.inflate(R.layout.fragment_indoor_mode, container, false);
-        MapsActivity mapsActivity = (MapsActivity) getActivity();
+        final MapsActivity mapsActivity = (MapsActivity) getActivity();
 mapsActivity.requestLockPanel();
 
-        ImageButton btn = (ImageButton) view.findViewById(R.id.show_services_btn);
-        btn.setOnClickListener(new View.OnClickListener() {
 
+        ImageButton entryBtn = (ImageButton) view.findViewById(R.id.show_entry_points);
+        entryBtn.setOnClickListener(new View.OnClickListener() {
+            private boolean isActive = false;
             @Override
             public void onClick(View v) {
-                Log.e("*************", getClass().toString());
+                ViewModeController controller = mapsActivity.getViewModeController();
+
+                if(!isActive)
+                {
+                    controller.activateHighlight("Entry", new HighlightEffect(255,0,0,150));
+
+                }
+                else
+                {
+                    controller.clearHighlightWithAttribute("Entry");
+                }
+                isActive = !isActive;
+            }
+        });
+
+        ImageButton bathroomBtn = (ImageButton) view.findViewById(R.id.show_bathrooms);
+        bathroomBtn.setOnClickListener(new View.OnClickListener() {
+            private boolean isActive = false;
+            @Override
+            public void onClick(View v) {
+                ViewModeController controller = mapsActivity.getViewModeController();
+                if(!isActive)
+                {
+                    controller.activateHighlight("Facility", new HighlightEffect(255,255,0,150));
+                }
+                else
+                {
+                    controller.clearHighlightWithAttribute("Facility");
+                }
+                isActive = !isActive;
+
+
             }
         });
 

@@ -30,7 +30,6 @@ public class ViewModeController {
             mCurrentViewMode.cleanup(mActivity);
         }
 
-
         //Setup the new view mode.
         mode.setup(mActivity,mCurrentViewMode);
         mCurrentViewMode = mode;
@@ -42,6 +41,7 @@ public class ViewModeController {
         {
             return;
         }
+
         Collection<? extends PolygonOverlay> overlays = mCurrentViewMode.getOverlayWithAttribute(attribute);
 
         for(PolygonOverlay overlay : overlays)
@@ -71,7 +71,7 @@ public class ViewModeController {
         for(PolygonOverlay highlights : mCurrentlyActiveHighlights)
         {
             highlights.unfocus();
-            mCurrentlyActiveHighlights.remove(highlights);
         }
+        mCurrentlyActiveHighlights.clear();
     }
 }
