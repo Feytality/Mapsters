@@ -143,7 +143,7 @@ public class SplitPane {
                             return;
                         }
                         //set the view to indoors!
-                        mContext.getViewModeController().setViewMode(new IndoorsViewMode(mCurrentBuilding.getDefaultFloor(),mContext));
+                        mContext.getViewModeController().setViewMode(new IndoorsViewMode(mCurrentBuilding.getDefaultFloor()));
                         mContext.requestLowerPanel();
                     }}
         );

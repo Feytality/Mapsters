@@ -18,9 +18,8 @@ public class PolygonOverlayManager {
 
     private Collection<? extends PolygonOverlay> mCurrentlyActiveOverlays = null;
     private PolygonOverlay mCurrentlyFocusedOverlay = null;
-    private ArrayList<BuildingPolygonOverlay> mBuildingPolygons = new ArrayList<BuildingPolygonOverlay>();
     private PolygonDirectory mDirectory;
-    private boolean isIndoorsView = false;
+
     public PolygonOverlayManager()
     {
         mDirectory = new PolygonDirectory();
