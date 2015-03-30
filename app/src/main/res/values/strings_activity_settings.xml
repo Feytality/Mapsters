@@ -20,8 +20,8 @@
         <item>Loyola</item>
     </string-array>
     <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
+        <item>SGW</item>
+        <item>Loyola</item>
     </string-array>
 
     <string name="pref_title_transit_options">Transit Preferences</string>
