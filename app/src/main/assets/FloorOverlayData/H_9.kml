@@ -1061,6 +1061,21 @@
 				</outerBoundaryIs>
 			</Polygon>
 		</Placemark>
+		<Placemark>
+        			<styleUrl>#poly-000000-1-76</styleUrl>
+        			<name>Water fountain</name>
+        			<ExtendedData>
+        			</ExtendedData>
+        			<description><![CDATA[Fountain]]></description>
+        			<Polygon>
+        				<outerBoundaryIs>
+        					<LinearRing>
+        						<tessellate>1</tessellate>
+        						<coordinates>-73.5788284,45.4970934,0.0 -73.5788445,45.49707560000001,0.0 -73.5788338,45.49707130000001,0.0 -73.578815,45.4970892,0.0 -73.5788284,45.4970934,0.0</coordinates>
+        					</LinearRing>
+        				</outerBoundaryIs>
+        			</Polygon>
+        		</Placemark>
 		<Style id='poly-000000-1-76'>
 			<LineStyle>
 				<color>ff000000</color>

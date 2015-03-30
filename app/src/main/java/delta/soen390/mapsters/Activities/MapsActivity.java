@@ -1,7 +1,5 @@
 package delta.soen390.mapsters.Activities;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,13 +9,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
@@ -27,7 +23,6 @@ import com.google.android.gms.maps.model.IndoorBuilding;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.api.client.util.DateTime;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -36,13 +31,13 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
-import delta.soen390.mapsters.Calendar.CalendarEvent;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
 import delta.soen390.mapsters.Calendar.CalendarNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.ProtoSearchBox;
 import delta.soen390.mapsters.Controller.SplitPane;
+import delta.soen390.mapsters.Effects.EffectManager;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
 import delta.soen390.mapsters.IndoorDirectory.RoomPolygonOverlay;
@@ -72,6 +67,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     private CalendarEventManager mCalendarEventManager;
     private PolygonOverlayManager mPolygonOverlayManager;
     private DirectionEngine mDirectionEngine;
+
+    private EffectManager mEffectManager;
 
     private ViewModeController mViewModeController;
     public static PolygonDirectory sPolygonDirectory;
@@ -114,14 +111,21 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mSlidingUpPanelLayout.setTouchEnabled(false);
 
         //Initialize the CalendarEventManager
+       // mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
+        //CalendarEventManager.updateEventQueue();
 
         //mCalendarEventManager = new CalendarEventManager(this.getApplicationContext()); todo fix the alarms
         CalendarNotification calendarNotification = new CalendarNotification(this.getApplicationContext());
         calendarNotification.sendTest();
 
+        
+
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);
         mDrawer.addButton();
+
+        //EffectManager Initialization
+        mEffectManager = new EffectManager();
 //        mCampusSwitchUI.verifySettings();
     }
 
@@ -306,23 +310,24 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1) {
-            if(resultCode == RESULT_OK){
+            if (resultCode == RESULT_OK) {
 
-                String result=data.getStringExtra("result");
+                String result = data.getStringExtra("result");
                 findBuilding(result);
 
             }
             if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this,"whyyyyy",Toast.LENGTH_SHORT).show();            }
-        }
-    }//onActivityResult
 
+            }
+        }//onActivityResul
+    }
     public void findBuilding(String result) {
         BuildingPolygonOverlay overlay = mPolygonOverlayManager.getPolygonDirectory().getBuildingByCode(result);
         if(overlay == null)
             return;
         mCamera.moveToTarget(overlay.getBuildingInfo().getCoordinates(),17);
         onMapClick(overlay.getBuildingInfo().getCoordinates());
+      
 
     }
   
@@ -350,7 +355,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             overlay.focus();
         }
             
-            //set current building
+            //set current buildind
             mImm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
     }
 
@@ -424,5 +429,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     public PolygonOverlayManager getPolygonOverlayManager() { return mPolygonOverlayManager; }
 
     public ViewModeController getViewModeController() { return mViewModeController;}
+     public EffectManager getEffectManager(){return mEffectManager;}
+
 }
 

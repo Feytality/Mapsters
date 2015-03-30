@@ -75,11 +75,7 @@
             android:exported="true"
             android:label="@string/title_activity_buildings" >
         </activity>
-        <activity
-            android:name=".Activities.LaunchActivity"
-            android:exported="true"
-            android:label="@string/title_activity_launch" >
-        </activity>
+
     </application>
 
 </manifest>
