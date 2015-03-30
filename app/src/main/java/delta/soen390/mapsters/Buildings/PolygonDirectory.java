@@ -24,6 +24,7 @@ import delta.soen390.mapsters.Utils.FileUtility;
  */
 public class PolygonDirectory {
     private HashMap<String,BuildingPolygonOverlay> mBuildingOverlays;
+    private HashMap<String,RoomPolygonOverlay> mRoomOverlays;
     private ArrayList<String> mDepartmentList;
     private ArrayList<String> mServiceList;
     private ArrayList<String> mBuildingCodes;
@@ -83,7 +84,7 @@ public class PolygonDirectory {
     private boolean loadFloorData(MapsActivity activity)
     {
         String resourceDirectory = mContext.getResources().getString(R.string.data_directory_floor_overlay);
-
+        mRoomOverlays = new HashMap<>();
         //Get a list of all the files present in that directory
         String[] fileList = FileUtility.getFileInDirectory(mContext, resourceDirectory);
 
@@ -114,10 +115,22 @@ public class PolygonDirectory {
                 ArrayList<RoomPolygonOverlay> roomOverlays = factory.generatePolygonOverlay(filePath);
 
                 BuildingPolygonOverlay buildingOverlay = mBuildingOverlays.get(buildingCode);
-                BuildingFloor floor = new BuildingFloor(polygonManager, roomOverlays,buildingOverlay.getCenterPoint());
+                BuildingFloor floor = new BuildingFloor(polygonManager, roomOverlays,buildingOverlay.getCenterPoint(),floorLevel);
 
                 if(buildingOverlay != null){
                     //Floor should not be active by default
+
+                    //load in all overlays inside the hashmap
+                    Collection<RoomPolygonOverlay> overlays = floor.getRoomPolygonOverlays();
+                    for(RoomPolygonOverlay overlay : overlays)
+                    {
+                        //if the overlay doesn't have any attributes,
+                        //it means it's a classroom!
+                        if(!overlay.hasAttributes())
+                        {
+                            mRoomOverlays.put(overlay.getName(),overlay);
+                        }
+                    }
                     floor.deactivate();
                     buildingOverlay.getBuildingInfo().addFloor(floorLevel,floor);
                 }
@@ -155,6 +168,15 @@ public class PolygonDirectory {
     public BuildingPolygonOverlay getBuildingByCode(String buildingCode)
     {
         return mBuildingOverlays.get(buildingCode);
+    }
+
+    public RoomPolygonOverlay getRoomByCode(String roomCode)
+    {
+        return mRoomOverlays.get(roomCode);
+    }
+    public Collection<String> getAllRoomNames()
+    {
+        return mRoomOverlays.keySet();
     }
 
     public BuildingPolygonOverlay getBuildingByDepartment(String department)

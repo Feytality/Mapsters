@@ -46,6 +46,7 @@ import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.Utils.GoogleMapCamera;
 import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 import delta.soen390.mapsters.ViewComponents.CampusSwitchUI;
+import delta.soen390.mapsters.ViewMode.IndoorsViewMode;
 import delta.soen390.mapsters.ViewMode.OutdoorsViewMode;
 import delta.soen390.mapsters.ViewMode.ViewModeController;
 
@@ -182,7 +183,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mGoogleMap = googleMap;
 
         mCamera = new GoogleMapCamera(mGoogleMap);
-        mViewModeController = new ViewModeController(mCamera,this);
+        mViewModeController = new ViewModeController(this);
 
         //Initialize the Direction Engine
         mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap, mLocationService);
@@ -202,18 +203,23 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
             @Override
             public void onIndoorBuildingFocused() {
-
+                mViewModeController.setViewMode(new IndoorsViewMode());
             }
 
             @Override
             public void onIndoorLevelActivated(IndoorBuilding indoorBuilding) {
 
                 String floorLevelName = indoorBuilding.getLevels().get(indoorBuilding.getActiveLevelIndex()).getName();
+                mViewModeController.setViewMode(new IndoorsViewMode(floorLevelName));
+            }
+        });
 
-                //Get the floor
-                //Get the current floor
-
-                Log.i("LEVEL", ""+ indoorBuilding.getLevels().get(indoorBuilding.getActiveLevelIndex()).getName());
+        findViewById(R.id.locate_me).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Location currentLocation = mLocationService.getLastLocation();
+                if(currentLocation != null)
+                    mCamera.moveToTarget(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), 17);
             }
         });
     }
@@ -245,6 +251,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             overlay = sPolygonDirectory.getBuildingByCode("H");
             onMapClick(overlay.getCenterPoint());
             mCamera.moveToTarget(overlay.getBuildingInfo().getCoordinates(),17);
+            mCampusSwitchUI.toggleCampusSwitch();
         } else if (campusDefault.contains(isLoyola)) {
             overlay = sPolygonDirectory.getBuildingByCode("CC");
             onMapClick(overlay.getCenterPoint());
@@ -394,7 +401,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         findViewById(R.id.locate_me).setVisibility(View.INVISIBLE);
     }
 
-        public  void outdoorConfiguration(){
+    public  void outdoorConfiguration(){
             findViewById(R.id.search_combo).setVisibility(View.VISIBLE);
             findViewById(R.id.locate_me).setVisibility(View.VISIBLE);
     }

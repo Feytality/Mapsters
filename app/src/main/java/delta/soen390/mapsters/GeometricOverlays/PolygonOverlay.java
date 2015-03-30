@@ -48,20 +48,19 @@ public class PolygonOverlay {
 
         double totalLatitude = 0,totalLongitude = 0;
         //Load in the vertices!
-        for(LatLng point : boundingPoints)
+        for(int i = 0; i < boundingPoints.size(); ++i)
         {
-            totalLatitude += point.latitude;
-            totalLongitude += point.longitude;
+            LatLng point = boundingPoints.get(i);
+            if(i != boundingPoints.size() - 1)
+            {
+                totalLatitude += point.latitude;
+                totalLongitude += point.longitude;
+            }
             polygonOptions.add(point);
         }
 
-        mCenterPoint = new LatLng(totalLatitude/boundingPoints.size(),totalLongitude/boundingPoints.size());
-        //
-
-        //add first vertex at the end in order to create a complete polygon loop
-        if(boundingPoints.size() > 0) {
-            polygonOptions.add(boundingPoints.get(0));
-        }
+        int numberOfValues = boundingPoints.size() - 1;
+        mCenterPoint = new LatLng(totalLatitude/numberOfValues,totalLongitude/numberOfValues);
 
 
         mBoundingBox2D = new BoundingBox2D(boundingPoints);
@@ -153,6 +152,11 @@ public class PolygonOverlay {
                 mAttributeList.remove(str);
             }
         }
+    }
+
+    public boolean hasAttributes()
+    {
+        return !mAttributeList.isEmpty();
     }
 
     public boolean containsAttribute(String attribute)
