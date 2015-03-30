@@ -329,6 +329,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                 if(mDirectionEngine.isDirectionPathEmpty()) {
                     BuildingInfo info = ((BuildingPolygonOverlay) overlay).getBuildingInfo();
                     splitPane.updateContent(info);
+
                 } else {
                     //Do not want to update content because the user is in the wrong context. must clear directions first using back button.
                 }

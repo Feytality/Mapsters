@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>2LB</name>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Orientation Room</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Utility]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5783973,45.4967216,0.0 -73.5784449,45.49667039999999,0.0 -73.5783429,45.4966243,0.0 -73.57829060000002,45.4966803,0.0 -73.5783503,45.49670799999999,0.0 -73.57835570000002,45.4967024,0.0 -73.5783973,45.4967216,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Men's Bathroom</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Facility]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5782759,45.4966991,0.0 -73.5782591,45.4967155,0.0 -73.5782417,45.49670750000001,0.0 -73.5782135,45.49673810000001,0.0 -73.5782497,45.4967555,0.0 -73.5782967,45.4967094,0.0 -73.5782759,45.4966991,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Women's Bathroom</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Facility]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5782363,45.4966793,0.0 -73.5782189,45.49667039999999,0.0 -73.578174,45.4967183,0.0 -73.5782135,45.49673810000001,0.0 -73.5782417,45.49670750000001,0.0 -73.5782196,45.49669719999999,0.0 -73.5782363,45.4966793,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Electronic Orientation Room</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Utility]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5785139,45.4967936,0.0 -73.5783852,45.4967325,0.0 -73.57837580000002,45.4967419,0.0 -73.5783617,45.496735300000005,0.0 -73.5783161,45.4967818,0.0 -73.5783235,45.496786,0.0 -73.5783141,45.4967973,0.0 -73.5784462,45.4968603,0.0 -73.5785139,45.4967936,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Course Reserve Room</name>
+			<ExtendedData>
+			</ExtendedData>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5783047,45.4967931,0.0 -73.5782383,45.4968622,0.0 -73.5783429,45.4969111,0.0 -73.5783785,45.4968725,0.0 -73.5784154,45.4968904,0.0 -73.5784462,45.4968603,0.0 -73.5783047,45.4967931,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Staircase</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Entry]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5777066,45.4966074,0.0 -73.577659,45.4966591,0.0 -73.577716,45.4966854,0.0 -73.5777649,45.4966347,0.0 -73.5777066,45.4966074,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Women's Bathroom</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Facility]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5775738,45.4968899,0.0 -73.5775276,45.4968669,0.0 -73.5774692,45.4969313,0.0 -73.5775155,45.496952900000004,0.0 -73.5775738,45.4968899,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Government Documents Collection</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Information]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5777703,45.4968288,0.0 -73.5776288,45.49675880000001,0.0 -73.577539,45.4968518,0.0 -73.5776825,45.4969214,0.0 -73.5777703,45.4968288,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Study Area</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Study]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5775068,45.4967973,0.0 -73.5774243,45.4967569,0.0 -73.5773009,45.49688330000001,0.0 -73.5774484,45.496952900000004,0.0 -73.5774712,45.496927,0.0 -73.5774357,45.4969125,0.0 -73.5775027,45.4968438,0.0 -73.5774752,45.4968297,0.0 -73.5775068,45.4967973,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Study Rooms</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Study]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5775691,45.496732,0.0 -73.577488,45.4966916,0.0 -73.5774243,45.4967569,0.0 -73.5775068,45.4967973,0.0 -73.5775691,45.496732,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Staircase</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Entry]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.578296,45.4968899,0.0 -73.5782383,45.4968622,0.0 -73.5781887,45.4969125,0.0 -73.5782484,45.4969402,0.0 -73.578296,45.4968899,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Men's Bathroom</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Facility]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5779835,45.4970934,0.0 -73.5779567,45.4971188,0.0 -73.5779339,45.49710850000001,0.0 -73.5779071,45.4971362,0.0 -73.5779587,45.49715919999999,0.0 -73.578011,45.4971056,0.0 -73.5779835,45.4970934,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Staircase</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Entry]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.578172,45.4966135,0.0 -73.5781176,45.4965886,0.0 -73.5780486,45.4966601,0.0 -73.5781042,45.49668500000001,0.0 -73.578172,45.4966135,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Elevator</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Entry]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5779762,45.4966305,0.0 -73.5779098,45.4965985,0.0 -73.5778897,45.49662010000001,0.0 -73.577956,45.4966521,0.0 -73.5779762,45.4966305,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Elevator</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Entry]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.57813710000002,45.496701,0.0 -73.5781116,45.4967273,0.0 -73.5781445,45.4967433,0.0 -73.5781699,45.49671829999999,0.0 -73.5781652,45.496716,0.0 -73.5781559,45.4967207,0.0 -73.5781404,45.4967151,0.0 -73.5781451,45.4967052,0.0 -73.57813710000002,45.496701,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Study Hall</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Study]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5779446,45.4963715,0.0 -73.5777515,45.4962793,0.0 -73.5775249,45.4965125,0.0 -73.5777133,45.496600400000005,0.0 -73.5777723,45.4965369,0.0 -73.5776295,45.49646740000001,0.0 -73.5777006,45.496394,0.0 -73.5778514,45.4964659,0.0 -73.5779446,45.4963715,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Group Study Rooms</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Study]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5775678,45.4969787,0.0 -73.5774692,45.4969313,0.0 -73.5774484,45.496952900000004,0.0 -73.577547,45.4970008,0.0 -73.5775678,45.4969787,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Study Hall</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Study]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.57761870000002,45.4970008,0.0 -73.5776281,45.4969914,0.0 -73.5776436,45.496999,0.0 -73.5776033,45.497039400000006,0.0 -73.5777576,45.4971141,0.0 -73.57779710000001,45.49707320000001,0.0 -73.5778166,45.4970817,0.0 -73.5778092,45.497089700000004,0.0 -73.5778259,45.4970981,0.0 -73.5778508,45.4970727,0.0 -73.57783530000002,45.4970657,0.0 -73.5778286,45.4970709,0.0 -73.5776369,45.496979700000004,0.0 -73.5776422,45.4969745,0.0 -73.5776241,45.4969656,0.0 -73.5775993,45.4969914,0.0 -73.57761870000002,45.4970008,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Indexes</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Information]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5780901,45.496983,0.0 -73.5780231,45.4969482,0.0 -73.5779326,45.4970413,0.0 -73.5780023,45.49707320000001,0.0 -73.5780901,45.496983,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Reference Collection</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Information]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5780177,45.4969543,0.0 -73.5778179,45.4968589,0.0 -73.5777716,45.4969054,0.0 -73.577722,45.496881900000005,0.0 -73.5776825,45.4969214,0.0 -73.5779326,45.4970413,0.0 -73.5780177,45.4969543,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Maps and Atlases</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Information]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5778179,45.4968589,0.0 -73.5777663,45.49683350000001,0.0 -73.577722,45.496881900000005,0.0 -73.5777716,45.4969054,0.0 -73.5778179,45.4968589,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Study Area</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Study]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5778615,45.49702860000001,0.0 -73.5776811,45.4969416,0.0 -73.5776603,45.4969637,0.0 -73.5778407,45.4970502,0.0 -73.5778615,45.49702860000001,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Standards</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Information]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5780634,45.4970112,0.0 -73.5780023,45.49707320000001,0.0 -73.5780244,45.497083999999994,0.0 -73.5780854,45.4970215,0.0 -73.5780634,45.4970112,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<styleUrl>#poly-000000-1-76</styleUrl>
+			<name>Self Checkout</name>
+			<ExtendedData>
+			</ExtendedData>
+			<description><![CDATA[Service]]></description>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-73.5779869,45.4965731,0.0 -73.5779969,45.4965628,0.0 -73.5779192,45.4965266,0.0 -73.5779051,45.496541199999996,0.0 -73.5779896,45.4965816,0.0 -73.5779943,45.49657690000001,0.0 -73.5779869,45.4965731,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Style id='poly-000000-1-76'>
+			<LineStyle>
+				<color>ff000000</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>4C000000</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+	</Document>
+</kml>
