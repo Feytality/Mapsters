@@ -146,8 +146,9 @@ public class RoomPolygonOverlayFactory implements IPolygonOverlayFactory {
         for(LoadingData data : loadingData)
         {
             RoomPolygonOverlay overlay = new RoomPolygonOverlay(mapsActivity,data.Name);
-            overlay.addAttribute(data.Description);
-
+            if(data.Description != null) {
+                overlay.addAttribute(data.Description);
+            }
             if(overlay.createPolygon(data.BoundingCoordinates))
             {
                 //TODO pass this as parameter

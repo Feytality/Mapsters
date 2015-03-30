@@ -154,6 +154,11 @@ public class PolygonOverlay {
         }
     }
 
+    public boolean hasAttributes()
+    {
+        return !mAttributeList.isEmpty();
+    }
+
     public boolean containsAttribute(String attribute)
     {
         for(String str : mAttributeList)
