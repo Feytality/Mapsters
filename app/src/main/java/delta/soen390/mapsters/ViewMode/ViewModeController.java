@@ -1,7 +1,5 @@
 package delta.soen390.mapsters.ViewMode;
 
-import com.google.android.gms.maps.GoogleMap;
-
 import java.util.ArrayList;
 import java.util.Collection;
 

@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,9 +29,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
@@ -40,10 +38,8 @@ import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.ProtoSearchBox;
 import delta.soen390.mapsters.Controller.SplitPane;
-import delta.soen390.mapsters.Data.Campus;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
-import delta.soen390.mapsters.IndoorDirectory.BuildingFloor;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
@@ -217,19 +213,19 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     }
 
 
-    private void initializeOverlays()
-    {
-    //Initialize the Building Polygons
+    private void initializeOverlays() {
+        //Initialize the Building Polygons
         mPolygonOverlayManager = new PolygonOverlayManager();
         mPolygonOverlayManager.loadResources(this);
         mPolygonOverlayManager.getPolygonDirectory().activateBuildingOverlays();
 
-        if(sPolygonDirectory  == null) {
+        if (sPolygonDirectory == null) {
             sPolygonDirectory = mPolygonOverlayManager.getPolygonDirectory();
         }
 
         //Set the view mode to outdoors since default view is of the current campus
-        mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
+        mViewModeController.setViewMode(new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory(),this));
+    }
 
     private void checkPreferences() {
         // Get preferred map start
@@ -363,7 +359,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                     if(!mDirectionEngine.isDirectionPathEmpty()) {
                         mDirectionEngine.clearEngineState();
                     }
-                mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
+                mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory(),this));
                     mSlidingUpPanelLayout.setTouchEnabled(false);
                 return true;
 
@@ -383,6 +379,16 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         SlidingUpPanelLayout panel = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
             panel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             panel.setTouchEnabled(false);
+    }
+
+    public  void indoorConfiguration(){
+        findViewById(R.id.search_combo).setVisibility(View.INVISIBLE);
+        findViewById(R.id.locate_me).setVisibility(View.INVISIBLE);
+    }
+
+        public  void outdoorConfiguration(){
+            findViewById(R.id.search_combo).setVisibility(View.VISIBLE);
+            findViewById(R.id.locate_me).setVisibility(View.VISIBLE);
     }
 
 

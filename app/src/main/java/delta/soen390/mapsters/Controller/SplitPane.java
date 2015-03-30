@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -32,7 +31,6 @@ import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 import delta.soen390.mapsters.ViewMode.IndoorsViewMode;
-import delta.soen390.mapsters.ViewMode.ViewModeController;
 
 
 public class SplitPane {
@@ -145,7 +143,7 @@ public class SplitPane {
                             return;
                         }
                         //set the view to indoors!
-                        mContext.getViewModeController().setViewMode(new IndoorsViewMode(mCurrentBuilding.getDefaultFloor()));
+                        mContext.getViewModeController().setViewMode(new IndoorsViewMode(mCurrentBuilding.getDefaultFloor(),mContext));
                         mContext.requestLowerPanel();
                     }}
         );
