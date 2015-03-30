@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="delta.soen390.mapsters.Fragments.IndoorModeFragment"
+    android:background="@color/concordia_gold">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView6"
+        android:background="@drawable/ic_action_con_u_emboss"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:cropToPadding="false"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/concordia_main_color"
+        android:layout_toRightOf="@+id/imageView6"
+        android:layout_toEndOf="@+id/imageView6"
+        android:weightSum="1">
+
+        <ImageButton
+            style="@style/FlatBtn"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/show_services_btn"
+            android:layout_weight=".25"
+            android:src="@drawable/ic_action_fountain5"
+            android:scaleType="fitCenter"
+            android:tint="#ffffffff" />
+
+        <ImageButton
+            style="@style/FlatBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton2"
+            android:layout_weight=".25"
+            android:src="@drawable/ic_action_entry"
+            android:scaleType="fitCenter"
+            android:tint="#ffffffff" />
+
+        <ImageButton
+            style="@style/FlatBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageButton3"
+            android:layout_weight=".25"
+            android:src="@drawable/ic_action_bathrooms"
+            android:scaleType="fitCenter"
+            android:tint="#ffffffff" />
+
+    </LinearLayout>
+</RelativeLayout>

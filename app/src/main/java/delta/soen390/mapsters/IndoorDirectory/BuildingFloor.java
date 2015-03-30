@@ -21,11 +21,13 @@ public class BuildingFloor {
     private float mZoomLevel = 20.0f;
     private int mFloorLevel = 0;
     private float mOrientationOffset = 0;
+
+    private BuildingInfo mBuildingInfo;
+
     private PolygonOverlayManager mPolygonManager;
-    private GoogleMapCamera mMapCamera;
 
 
-    public BuildingFloor(PolygonOverlayManager manager,GoogleMapCamera camera,ArrayList<RoomPolygonOverlay> overlays, LatLng floorCoordinate)
+    public BuildingFloor(PolygonOverlayManager manager,ArrayList<RoomPolygonOverlay> overlays, LatLng floorCoordinate)
     {
         mCoordinates = floorCoordinate;
         mPolygonManager = manager;
@@ -33,8 +35,6 @@ public class BuildingFloor {
         {
             mRooms.put(overlay.getName(),overlay);
         }
-        mMapCamera = camera;
-
     }
 
     public void activateFloorOverlays() {
@@ -56,14 +56,18 @@ public class BuildingFloor {
             overlay.unfocus();
         }
     }
-
-    //Center the camera over the room
-    public void focus()
+    public void setParentBuilding(BuildingInfo info)
     {
-        //Set camera to room offset
-        mMapCamera.animateToTarget(mCoordinates,mZoomLevel,500);
+        mBuildingInfo = info;
     }
 
+    public BuildingInfo getParentBuilding()
+    {
+        return mBuildingInfo;
+    }
+    public float getZoomLevel() {
+        return mZoomLevel;
+    }
     public void deactivate()
     {
         for(RoomPolygonOverlay overlay : mRooms.values())

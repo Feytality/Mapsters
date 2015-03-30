@@ -3,7 +3,9 @@ package delta.soen390.mapsters.ViewMode;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
+import delta.soen390.mapsters.Utils.GoogleMapCamera;
 
 /**
  * Created by Mathieu on 3/29/2015.
@@ -12,7 +14,14 @@ public class ViewModeController {
 
     private ViewMode mCurrentViewMode;
     private Collection<PolygonOverlay> mCurrentlyActiveHighlights = new ArrayList<PolygonOverlay>();
+    private GoogleMapCamera mMapCamera;
 
+    private final MapsActivity mActivity;
+    public ViewModeController(GoogleMapCamera camera, MapsActivity activity)
+    {
+        mMapCamera = camera;
+        mActivity = activity;
+    }
     public void setViewMode(ViewMode mode)
     {
         //clear all highlights
@@ -20,13 +29,13 @@ public class ViewModeController {
 
         if(mCurrentViewMode != null)
         {
-            mCurrentViewMode.cleanup();
+            mCurrentViewMode.cleanup(mMapCamera,mActivity);
         }
 
 
         //Setup the new view mode.
         mCurrentViewMode = mode;
-        mCurrentViewMode.setup();
+        mCurrentViewMode.setup(mMapCamera,mActivity);
     }
 
     public void activateHighlight(String attribute, HighlightEffect effect)
