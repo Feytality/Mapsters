@@ -114,7 +114,7 @@ public class PolygonDirectory {
                 ArrayList<RoomPolygonOverlay> roomOverlays = factory.generatePolygonOverlay(filePath);
 
                 BuildingPolygonOverlay buildingOverlay = mBuildingOverlays.get(buildingCode);
-                BuildingFloor floor = new BuildingFloor(polygonManager, roomOverlays,buildingOverlay.getCenterPoint());
+                BuildingFloor floor = new BuildingFloor(polygonManager, roomOverlays,buildingOverlay.getCenterPoint(),floorLevel);
 
                 if(buildingOverlay != null){
                     //Floor should not be active by default

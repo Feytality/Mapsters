@@ -14,12 +14,10 @@ public class ViewModeController {
 
     private ViewMode mCurrentViewMode;
     private Collection<PolygonOverlay> mCurrentlyActiveHighlights = new ArrayList<PolygonOverlay>();
-    private GoogleMapCamera mMapCamera;
 
     private final MapsActivity mActivity;
-    public ViewModeController(GoogleMapCamera camera, MapsActivity activity)
+    public ViewModeController( MapsActivity activity)
     {
-        mMapCamera = camera;
         mActivity = activity;
     }
     public void setViewMode(ViewMode mode)
@@ -29,13 +27,13 @@ public class ViewModeController {
 
         if(mCurrentViewMode != null)
         {
-            mCurrentViewMode.cleanup(mMapCamera,mActivity);
+            mCurrentViewMode.cleanup(mActivity);
         }
 
 
         //Setup the new view mode.
+        mode.setup(mActivity,mCurrentViewMode);
         mCurrentViewMode = mode;
-        mCurrentViewMode.setup(mMapCamera,mActivity);
     }
 
     public void activateHighlight(String attribute, HighlightEffect effect)

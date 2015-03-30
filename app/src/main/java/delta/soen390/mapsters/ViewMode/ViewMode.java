@@ -27,9 +27,9 @@ public abstract class ViewMode {
         return attributeList;
     }
 
-    public abstract void setup(GoogleMapCamera camera, MapsActivity activity);
+    public abstract void setup(MapsActivity activity, ViewMode previousViewMode);
 
-    public abstract void cleanup(GoogleMapCamera camera,MapsActivity activity);
+    public abstract void cleanup(MapsActivity activity);
 
 
 

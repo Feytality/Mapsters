@@ -18,17 +18,18 @@ public class BuildingFloor {
     private HashMap<String,RoomPolygonOverlay> mRooms = new HashMap<>();
 
     private LatLng mCoordinates;
-    private float mZoomLevel = 20.0f;
-    private int mFloorLevel = 0;
+    private float mZoomLevel = 19.25f;
     private float mOrientationOffset = 0;
 
     private BuildingInfo mBuildingInfo;
 
     private PolygonOverlayManager mPolygonManager;
+    private String mFloorName = "";
 
 
-    public BuildingFloor(PolygonOverlayManager manager,ArrayList<RoomPolygonOverlay> overlays, LatLng floorCoordinate)
+    public BuildingFloor(PolygonOverlayManager manager,ArrayList<RoomPolygonOverlay> overlays, LatLng floorCoordinate, String floorName)
     {
+        mFloorName = floorName;
         mCoordinates = floorCoordinate;
         mPolygonManager = manager;
         for(RoomPolygonOverlay overlay : overlays)
@@ -77,6 +78,9 @@ public class BuildingFloor {
         }
     }
 
+    public String getFloorName(){
+        return mFloorName;
+    }
     public void setOrientationOffset(float offset)
     {
         mOrientationOffset = offset;
