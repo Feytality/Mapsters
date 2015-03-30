@@ -39,8 +39,6 @@ import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
 import delta.soen390.mapsters.Calendar.CalendarEventManager;
-import delta.soen390.mapsters.Calendar.CalendarEventNotification;
-import delta.soen390.mapsters.Calendar.CalendarNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.ProtoSearchBox;
@@ -72,7 +70,6 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     private GoogleMapCamera mCamera;
     // For calendar and notifications
     private CalendarEventManager mCalendarEventManager;
-    private CalendarEventNotification mCalendarEventNotification;
     private PolygonOverlayManager mPolygonOverlayManager;
     private DirectionEngine mDirectionEngine;
 
@@ -84,6 +81,14 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     private Marker mMarker;
 
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Log.i("Intent", "the extra is:" + intent.getStringExtra("buildingCode"));
+        keywordResult(intent.getStringExtra("buildingCode"));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,22 +115,6 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
         //Initialize the CalendarEventManager
         mCalendarEventManager = new CalendarEventManager(this.getApplicationContext());
-        mCalendarEventManager.updateEventQueue();
-
-        CalendarNotification calendarNotification = new CalendarNotification(this.getApplicationContext());
-        calendarNotification.sendTest();
-
-
-
-
-        // Uncomment to test notifications.
-        // mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this,
-        // new CalendarEvent("H", "H431", "SOEN 390", new DateTime(1425333436), new DateTime(1425333436), new DateTime(1425333436)));
-        //  mCalendarEventNotification.createNotification();
-
-        //Initialize notifications
-        //mCalendarEventNotification = new CalendarEventNotification(this.getApplicationContext(), this);
-        //mCalendarEventNotification.handleNotifications();
 
         //Initialize Navigation Drawer
         mDrawer = new NavigationDrawer(this);

@@ -1,6 +1,11 @@
 package delta.soen390.mapsters.Calendar;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -10,67 +15,31 @@ import java.util.LinkedList;
 public class CalendarEventManager {
     private CalendarEventSerializer mSerializer;
 
-    private LinkedList<CalendarEvent> mCalendarEventQueue;
-
     private int mQueueSize = 5;
+    private AlarmManager mAlarmManager;
+    private Context mContext;
+
 
     public CalendarEventManager(Context context) {
-        mCalendarEventQueue = new LinkedList<>();
+        mContext = context;
         mSerializer = new CalendarEventSerializer(context);
-    }
-
-    public void updateEventQueue() {
-        mCalendarEventQueue.clear();
         ArrayList<CalendarEvent> calendarEvents = mSerializer.getUpcomingEvents(mQueueSize);
-        if(calendarEvents == null) {
-            return;
-        }
-        mCalendarEventQueue.addAll(calendarEvents);
+        mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        processEvents(calendarEvents);
     }
 
-    public void setQueueSize(int queueSize) {
-        if(mQueueSize == queueSize) {
-            return;
-        }
-        if (mQueueSize > 0) {
-            mQueueSize = queueSize;
-            updateEventQueue();
+    public void processEvents(ArrayList<CalendarEvent> events){
+        for (CalendarEvent e : events) {
+            setAlarm(e);
         }
     }
 
-    public int getQueueSize()
-    {
-        return mCalendarEventQueue.size();
-    }
+    public void setAlarm(CalendarEvent event) {
+        Intent intent = new Intent(mContext,CalendarNotificationService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(mContext, 0, intent, 0);
 
-    public CalendarEvent getNextEvent() {
-        if(mCalendarEventQueue.size() > 0) {
-            return mCalendarEventQueue.getFirst();
-        } else {
-            return null;
-        }
-    }
+        mAlarmManager.set(AlarmManager.RTC,event.getStartTime().getTime(),pendingIntent);
 
-    public LinkedList<CalendarEvent> getCalendarEventQueue() {
-        return mCalendarEventQueue;
-    }
-
-    /**
-     * Removes the next event in the event queue (meaning the notification for the event has shown)
-     */
-    public void popNextEvent() {
-        if(mCalendarEventQueue != null){
-            if(!mCalendarEventQueue.isEmpty()) {
-                mCalendarEventQueue.removeFirst();
-            } else {
-                // Can't pop from empty list.
-            }
-        } else{
-            // can't pop from a null list.
-        }
-    }
-
-    public void resyncEvents() {
-        // TODO
+        Log.i("alarm-setting","set this alarm "+ event.getStartTime().toLocaleString() + " " + event.getEventName());
     }
 }
