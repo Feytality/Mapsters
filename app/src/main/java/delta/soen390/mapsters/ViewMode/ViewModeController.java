@@ -3,6 +3,7 @@ package delta.soen390.mapsters.ViewMode;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.Utils.GoogleMapCamera;
 
@@ -15,9 +16,11 @@ public class ViewModeController {
     private Collection<PolygonOverlay> mCurrentlyActiveHighlights = new ArrayList<PolygonOverlay>();
     private GoogleMapCamera mMapCamera;
 
-    public ViewModeController(GoogleMapCamera camera)
+    private final MapsActivity mActivity;
+    public ViewModeController(GoogleMapCamera camera, MapsActivity activity)
     {
         mMapCamera = camera;
+        mActivity = activity;
     }
     public void setViewMode(ViewMode mode)
     {
@@ -26,13 +29,13 @@ public class ViewModeController {
 
         if(mCurrentViewMode != null)
         {
-            mCurrentViewMode.cleanup(mMapCamera);
+            mCurrentViewMode.cleanup(mMapCamera,mActivity);
         }
 
 
         //Setup the new view mode.
         mCurrentViewMode = mode;
-        mCurrentViewMode.setup(mMapCamera);
+        mCurrentViewMode.setup(mMapCamera,mActivity);
     }
 
     public void activateHighlight(String attribute, HighlightEffect effect)

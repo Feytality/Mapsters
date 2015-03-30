@@ -11,21 +11,19 @@ import delta.soen390.mapsters.Utils.GoogleMapCamera;
  */
 public class OutdoorsViewMode extends  ViewMode {
 
-    private final MapsActivity mActivity;
     private float mMinimumZoomLevelTreshold = 17f;
     PolygonDirectory mDirectory;
-    public OutdoorsViewMode(PolygonDirectory directory , MapsActivity mapsActivity)
+    public OutdoorsViewMode(PolygonDirectory directory)
     {
-        mActivity = mapsActivity;
         mDirectory = directory;
         mOverlays = mDirectory.getBuildingOverlays();
     }
 
     @Override
-    public void setup(GoogleMapCamera camera) {
+    public void setup(GoogleMapCamera camera,MapsActivity activity) {
         camera.unlockCamera();
         camera.allowIndoorsDisplay(false);
-        mActivity.outdoorConfiguration();
+        activity.outdoorConfiguration();
         //Check the camera zoom level
         if(camera.getCurrentZoomLevel() > mMinimumZoomLevelTreshold)
         {
@@ -37,7 +35,8 @@ public class OutdoorsViewMode extends  ViewMode {
     }
 
     @Override
-    public void cleanup(GoogleMapCamera camera) {
-       camera.allowIndoorsDisplay(true); mActivity.indoorConfiguration();
+    public void cleanup(GoogleMapCamera camera,MapsActivity activity) {
+       camera.allowIndoorsDisplay(true);
+       activity.indoorConfiguration();
     }
 }

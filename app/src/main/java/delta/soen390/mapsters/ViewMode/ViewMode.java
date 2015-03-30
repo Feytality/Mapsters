@@ -3,6 +3,7 @@ package delta.soen390.mapsters.ViewMode;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.Utils.GoogleMapCamera;
 
@@ -26,9 +27,9 @@ public abstract class ViewMode {
         return attributeList;
     }
 
-    public abstract void setup(GoogleMapCamera camera);
+    public abstract void setup(GoogleMapCamera camera, MapsActivity activity);
 
-    public abstract void cleanup(GoogleMapCamera camera);
+    public abstract void cleanup(GoogleMapCamera camera,MapsActivity activity);
 
 
 

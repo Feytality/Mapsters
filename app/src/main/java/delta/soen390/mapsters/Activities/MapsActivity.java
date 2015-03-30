@@ -186,7 +186,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mGoogleMap = googleMap;
 
         mCamera = new GoogleMapCamera(mGoogleMap);
-        mViewModeController = new ViewModeController(mCamera);
+        mViewModeController = new ViewModeController(mCamera,this);
 
         //Initialize the Direction Engine
         mDirectionEngine = new DirectionEngine(getApplicationContext(),googleMap, mLocationService);
@@ -234,7 +234,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         }
 
         //Set the view mode to outdoors since default view is of the current campus
-        mViewModeController.setViewMode(new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory(),this));
+        mViewModeController.setViewMode(new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
     }
 
     private void checkPreferences() {
@@ -370,7 +370,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                         mDirectionEngine.clearEngineState();
                     }
                 mPolygonOverlayManager.unfocusOverlay();
-                mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory(),this));
+                mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
                     mSlidingUpPanelLayout.setTouchEnabled(false);
                 return true;
 

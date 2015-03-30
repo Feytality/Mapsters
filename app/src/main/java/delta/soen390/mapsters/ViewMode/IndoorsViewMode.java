@@ -11,23 +11,21 @@ import delta.soen390.mapsters.Utils.GoogleMapCamera;
  */
 public class IndoorsViewMode extends  ViewMode {
 
-    private final MapsActivity mActivity;
     private BuildingFloor mFloor;
     private GoogleMapCamera mGoogleCamera;
-    public IndoorsViewMode(BuildingFloor floor, MapsActivity mapsActivity)
+    public IndoorsViewMode(BuildingFloor floor)
     {
         mFloor = floor;
-        mActivity = mapsActivity;
 
     }
     @Override
-    public void setup(GoogleMapCamera camera) {
+    public void setup(GoogleMapCamera camera,MapsActivity activity) {
 
         if(mFloor == null) {
             return;
         }
 
-mActivity.indoorConfiguration();
+        activity.indoorConfiguration();
         LatLng targetLocation = mFloor.getCoordinates();
         float zoomLevel = mFloor.getZoomLevel();
         camera.lockCamera();
@@ -37,7 +35,7 @@ mActivity.indoorConfiguration();
     }
 
     @Override
-    public void cleanup(GoogleMapCamera camera) {
-        mActivity.outdoorConfiguration();
+    public void cleanup(GoogleMapCamera camera, MapsActivity activity) {
+        activity.outdoorConfiguration();
     }
 }
