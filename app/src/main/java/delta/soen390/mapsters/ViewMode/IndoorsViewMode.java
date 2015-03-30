@@ -73,6 +73,7 @@ public class IndoorsViewMode extends  ViewMode {
         camera.lockCamera();
         camera.animateToTarget(targetLocation,zoomLevel,33.75f,2000);
         mFloor.activateFloorOverlays();
+        mOverlays = mFloor.getRoomPolygonOverlays();
     }
 
     private void updateGoogleMapFloor(GoogleMap map, BuildingFloor floor)
