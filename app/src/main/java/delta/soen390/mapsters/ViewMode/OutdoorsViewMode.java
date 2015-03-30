@@ -27,6 +27,7 @@ public class OutdoorsViewMode extends  ViewMode {
         camera.allowIndoorsDisplay(false);
         activity.outdoorConfiguration();
         //Check the camera zoom level
+
         if(camera.getCurrentZoomLevel() > mMinimumZoomLevelTreshold)
         {
             camera.animateToTarget(camera.getCurrentPosition(),mMinimumZoomLevelTreshold,camera.getDefaultBearing(), 1000);
@@ -39,7 +40,6 @@ public class OutdoorsViewMode extends  ViewMode {
     @Override
     public void cleanup(MapsActivity activity) {
         GoogleMapCamera camera = activity.getGoogleMapCamera();
-       camera.allowIndoorsDisplay(true);
-       activity.indoorConfiguration();
+        camera.allowIndoorsDisplay(true);
     }
 }
