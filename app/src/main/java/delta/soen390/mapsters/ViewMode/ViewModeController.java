@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
+import delta.soen390.mapsters.Effects.EffectManager;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
-import delta.soen390.mapsters.Utils.GoogleMapCamera;
 
 /**
  * Created by Mathieu on 3/29/2015.
@@ -19,11 +19,11 @@ public class ViewModeController {
     public ViewModeController( MapsActivity activity)
     {
         mActivity = activity;
+        mEffectManager = mActivity.getEffectManager();
     }
+    private EffectManager mEffectManager;
     public void setViewMode(ViewMode mode)
     {
-        //clear all highlights
-        clearAllHighlights();
 
         if(mCurrentViewMode != null)
         {
@@ -35,43 +35,10 @@ public class ViewModeController {
         mCurrentViewMode = mode;
     }
 
-    public void activateHighlight(String attribute, HighlightEffect effect)
-    {
-        if(mCurrentViewMode == null)
-        {
-            return;
-        }
 
+    public Collection<? extends PolygonOverlay> getCurrentlyActiveByAttribute(String attribute){
         Collection<? extends PolygonOverlay> overlays = mCurrentViewMode.getOverlayWithAttribute(attribute);
-
-        for(PolygonOverlay overlay : overlays)
-        {
-            overlay.highlight(effect.updateEffect());
-
-            if(!mCurrentlyActiveHighlights.contains(overlay))
-            {
-                mCurrentlyActiveHighlights.add(overlay);
-            }
-        }
+        return overlays;
     }
 
-    public void clearHighlightWithAttribute(String attribute)
-    {
-        for(PolygonOverlay highlights : mCurrentlyActiveHighlights)
-        {
-            if(highlights.containsAttribute(attribute))
-            {
-                highlights.unfocus();
-            }
-        }
-    }
-
-    public void clearAllHighlights()
-    {
-        for(PolygonOverlay highlights : mCurrentlyActiveHighlights)
-        {
-            highlights.unfocus();
-        }
-        mCurrentlyActiveHighlights.clear();
-    }
 }

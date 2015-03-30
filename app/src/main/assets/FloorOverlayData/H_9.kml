@@ -1066,7 +1066,7 @@
         			<name>Water fountain</name>
         			<ExtendedData>
         			</ExtendedData>
-        			<description><![CDATA[Water fountain]]></description>
+        			<description><![CDATA[Fountain]]></description>
         			<Polygon>
         				<outerBoundaryIs>
         					<LinearRing>

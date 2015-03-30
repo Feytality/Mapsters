@@ -1,11 +1,11 @@
-package delta.soen390.mapsters.ViewMode;
+package delta.soen390.mapsters.Effects;
 
 import android.graphics.Color;
 
 /**
  * Created by Mathieu on 3/29/2015.
  */
-public class HighlightEffect {
+public class HighlightEffect  {
 
     private Integer mStartingColor = null, mEndColor = null;
     private float mPeriod = 1000;
