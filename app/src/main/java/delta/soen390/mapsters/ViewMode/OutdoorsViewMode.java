@@ -2,6 +2,8 @@ package delta.soen390.mapsters.ViewMode;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
+import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
+import delta.soen390.mapsters.IndoorDirectory.BuildingFloor;
 import delta.soen390.mapsters.Utils.GoogleMapCamera;
 
 /**
@@ -11,10 +13,12 @@ public class OutdoorsViewMode extends  ViewMode {
 
     private final MapsActivity mActivity;
     private float mMinimumZoomLevelTreshold = 17f;
+    PolygonDirectory mDirectory;
     public OutdoorsViewMode(PolygonDirectory directory , MapsActivity mapsActivity)
     {
         mActivity = mapsActivity;
-        mOverlays = directory.getBuildingOverlays();
+        mDirectory = directory;
+        mOverlays = mDirectory.getBuildingOverlays();
     }
 
     @Override
@@ -27,6 +31,9 @@ public class OutdoorsViewMode extends  ViewMode {
         {
             camera.animateToTarget(camera.getCurrentPosition(),mMinimumZoomLevelTreshold,1000);
         }
+
+        mDirectory.activateBuildingOverlays();
+
     }
 
     @Override

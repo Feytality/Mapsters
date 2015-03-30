@@ -29,6 +29,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
@@ -38,8 +41,10 @@ import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
 import delta.soen390.mapsters.Controller.ProtoSearchBox;
 import delta.soen390.mapsters.Controller.SplitPane;
+import delta.soen390.mapsters.Data.Campus;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlayManager;
+import delta.soen390.mapsters.IndoorDirectory.BuildingFloor;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
@@ -219,7 +224,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         mPolygonOverlayManager.loadResources(this);
         mPolygonOverlayManager.getPolygonDirectory().activateBuildingOverlays();
 
-        if (sPolygonDirectory == null) {
+        if(sPolygonDirectory  == null) {
             sPolygonDirectory = mPolygonOverlayManager.getPolygonDirectory();
         }
 
@@ -359,6 +364,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                     if(!mDirectionEngine.isDirectionPathEmpty()) {
                         mDirectionEngine.clearEngineState();
                     }
+                mPolygonOverlayManager.unfocusOverlay();
                 mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory(),this));
                     mSlidingUpPanelLayout.setTouchEnabled(false);
                 return true;

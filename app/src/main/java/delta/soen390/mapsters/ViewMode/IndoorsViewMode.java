@@ -32,6 +32,7 @@ mActivity.indoorConfiguration();
         float zoomLevel = mFloor.getZoomLevel();
         camera.lockCamera();
         camera.animateToTarget(targetLocation,zoomLevel,2000);
+        mFloor.activateFloorOverlays();
 
     }
 
