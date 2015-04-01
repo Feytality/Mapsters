@@ -28,6 +28,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.Collection;
+
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
@@ -386,6 +388,8 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
                     if(!mDirectionEngine.isDirectionPathEmpty()) {
                         mDirectionEngine.clearEngineState();
                     }
+                //clear all effects on currently selected polygons
+
                 mPolygonOverlayManager.unfocusOverlay();
                 mViewModeController.setViewMode( new OutdoorsViewMode(mPolygonOverlayManager.getPolygonDirectory()));
                     mSlidingUpPanelLayout.setTouchEnabled(false);
