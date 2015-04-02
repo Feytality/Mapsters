@@ -65,17 +65,22 @@ public class IndoorsViewMode extends  ViewMode {
             BuildingInfo info = previousView.mFloor.getParentBuilding();
             mFloor = info.getFloorAt(mFloorCode);
 
+            if(mFloor == null)
+                return;
+            //camera.moveToTarget(mFloor.getCenterPoint(),mFloor.getZoomLevel(),33.75f);
+
+        }
+        else {
+            if(mFloor == null)
+                return;
+            camera.animateToTarget(mFloor.getCenterPoint(),mFloor.getZoomLevel(),33.75f,1500);
         }
 
-        if(mFloor == null) {
-            return;
-        }
 
         activity.indoorConfiguration();
-        LatLng targetLocation = mFloor.getCoordinates();
-        float zoomLevel = mFloor.getZoomLevel();
         camera.lockCamera();
-        camera.animateToTarget(targetLocation,zoomLevel,33.75f,2000);
+
+
         mFloor.activateFloorOverlays();
         mOverlays = mFloor.getRoomPolygonOverlays();
     }

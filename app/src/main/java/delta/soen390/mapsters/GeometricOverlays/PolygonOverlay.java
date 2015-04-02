@@ -1,19 +1,14 @@
 package delta.soen390.mapsters.GeometricOverlays;
 
-import android.graphics.Color;
-import android.util.Log;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import delta.soen390.mapsters.Activities.MapsActivity;
-import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Utils.GoogleMapCamera;
 
 /**
@@ -29,6 +24,8 @@ public class PolygonOverlay {
     private int mFocusedColor;
     private int mUnfocusedColor;
 
+    private LatLng mSouthWest, mNorthEast;
+
     private LatLng mCenterPoint;
     protected PolygonOverlayManager mPolygonManager;
     protected GoogleMapCamera mMapCamera;
@@ -39,28 +36,48 @@ public class PolygonOverlay {
         mMapCamera = activity.getGoogleMapCamera();
     }
 
-
+    //Create the Polygon Options which will be used to instantiate the actual google map Polygon UI element
     public boolean createPolygon(ArrayList<LatLng> boundingPoints)
     {
-//Create the Polygon Options which will be used to instantiate the actual google map Polygon UI element
+
 
         PolygonOptions polygonOptions = new PolygonOptions();
 
-        double totalLatitude = 0,totalLongitude = 0;
+        //Null guard + make sure there's at least one element in the bounding points
+        if(boundingPoints == null)
+            return false;
+        if(boundingPoints.isEmpty())
+            return false;
+
+        LatLng initialPoint = boundingPoints.get(0);
+
+        double minLat = initialPoint.latitude,minLng = initialPoint.longitude,
+                maxLat = initialPoint.latitude,maxLng = initialPoint.longitude;
+
+
         //Load in the vertices!
         for(int i = 0; i < boundingPoints.size(); ++i)
         {
+
             LatLng point = boundingPoints.get(i);
-            if(i != boundingPoints.size() - 1)
-            {
-                totalLatitude += point.latitude;
-                totalLongitude += point.longitude;
-            }
+
+            //find the most southwest point
+            minLat = Math.min(minLat,point.latitude);
+            minLng = Math.min(minLng,point.longitude);
+
+            //find the most northeast point
+            maxLat = Math.max(maxLat,point.latitude);
+            maxLng = Math.max(maxLng,point.longitude);
+
             polygonOptions.add(point);
         }
 
-        int numberOfValues = boundingPoints.size() - 1;
-        mCenterPoint = new LatLng(totalLatitude/numberOfValues,totalLongitude/numberOfValues);
+        mNorthEast = new LatLng(maxLat,maxLng);
+        mSouthWest = new LatLng(minLat,minLng);
+
+        mCenterPoint = new LatLng(
+                (mNorthEast.latitude + mSouthWest.latitude) / 2,
+                (mNorthEast.longitude + mSouthWest.longitude) / 2);
 
 
         mBoundingBox2D = new BoundingBox2D(boundingPoints);
@@ -125,18 +142,23 @@ public class PolygonOverlay {
         mPolygon.setVisible(false);
     }
 
-    public void highlight(int color)
-    {
-        mPolygon.setFillColor(color);
-    }
-    public void unhighlight()
-    {
-        mPolygon.setFillColor(mUnfocusedColor);
-    }
     public void focus()
     {
         mPolygonManager.focusOverlay(this);
         setFillColor(mFocusedColor);
+        LatLngBounds bounds;
+
+    }
+
+
+    public LatLng getSouthWest()
+    {
+        return mSouthWest;
+    }
+
+    public LatLng getNorthEast()
+    {
+        return mNorthEast;
     }
 
     public void addAttribute(String attribute)

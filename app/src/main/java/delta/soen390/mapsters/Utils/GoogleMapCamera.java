@@ -1,10 +1,18 @@
 package delta.soen390.mapsters.Utils;
 
+import android.content.Context;
+import android.util.Log;
+import android.view.Display;
+import android.view.WindowManager;
+
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 /**
  * Created by Mathieu on 3/25/2015.
@@ -28,6 +36,12 @@ public class GoogleMapCamera {
     public void moveToTarget(LatLng position,float zoomLevel)
     {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position,zoomLevel));
+    }
+
+    public void moveToTarget(LatLng currentTarget, float zoomLevel, float bearing)
+    {
+        CameraPosition position = CameraPosition.builder().target(currentTarget).zoom(zoomLevel).bearing(bearing).build();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
     }
     public void allowIndoorsDisplay(boolean value)
     {
@@ -101,4 +115,5 @@ public class GoogleMapCamera {
             }
         });
     }
+
 }

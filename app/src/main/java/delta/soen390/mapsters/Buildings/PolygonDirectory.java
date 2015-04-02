@@ -1,8 +1,13 @@
 package delta.soen390.mapsters.Buildings;
 
 import android.content.Context;
+import android.graphics.Point;
+import android.webkit.WebSettings;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.CameraPosition;
 
 import org.json.JSONObject;
 
@@ -18,6 +23,7 @@ import delta.soen390.mapsters.IndoorDirectory.RoomPolygonOverlay;
 import delta.soen390.mapsters.IndoorDirectory.RoomPolygonOverlayFactory;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Utils.FileUtility;
+import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 
 /**
  * Created by Mathieu on 3/26/2015.
@@ -94,6 +100,10 @@ public class PolygonDirectory {
         RoomPolygonOverlayFactory factory = new RoomPolygonOverlayFactory(activity);
 
         PolygonOverlayManager polygonManager = activity.getPolygonOverlayManager();
+        Point size = new Point();
+        activity.getWindowManager().getDefaultDisplay().getSize(size);
+        final int screenWidth = size.x;
+        final int screenHeight = size.y;
         //for every file, get the building code + floor number
         for(String fileName : fileList)
         {
@@ -118,7 +128,12 @@ public class PolygonDirectory {
                 ArrayList<RoomPolygonOverlay> roomOverlays = factory.generatePolygonOverlay(filePath);
 
                 BuildingPolygonOverlay buildingOverlay = mBuildingOverlays.get(buildingCode);
-                BuildingFloor floor = new BuildingFloor(polygonManager, roomOverlays,buildingOverlay.getCenterPoint(),floorLevel);
+                BuildingFloor floor = new BuildingFloor(polygonManager, roomOverlays,floorLevel);
+
+                //Set the adaptive zoom level of the floor
+                floor.setZoomLevel(GoogleMapstersUtils.getBoundsZoomLevel(
+                        floor.getNorthEast(),floor.getSouthWest(),
+                        screenWidth,screenHeight));
 
                 if(buildingOverlay != null){
                     //Floor should not be active by default

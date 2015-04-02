@@ -1,6 +1,7 @@
 package delta.soen390.mapsters.IndoorDirectory;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,26 +18,57 @@ public class BuildingFloor {
 
     private ArrayList<RoomPolygonOverlay> mRooms = new ArrayList<>();
 
-    private LatLng mCoordinates;
+    private LatLng mCenterPoint;
     private float mZoomLevel = 19.25f;
     private float mOrientationOffset = 0;
-
     private BuildingInfo mBuildingInfo;
-
+    private LatLng mSouthWest;
+    private LatLng mNorthEast;
     private PolygonOverlayManager mPolygonManager;
     private String mFloorName = "";
 
 
-    public BuildingFloor(PolygonOverlayManager manager,ArrayList<RoomPolygonOverlay> overlays, LatLng floorCoordinate, String floorName)
+    public BuildingFloor(PolygonOverlayManager manager,ArrayList<RoomPolygonOverlay> overlays, String floorName)
     {
         mFloorName = floorName;
-        mCoordinates = floorCoordinate;
         mPolygonManager = manager;
+
+        if(overlays.isEmpty())
+            return;
+        LatLng startingCoordinate = overlays.get(0).getCenterPoint();
+        double minLat  = startingCoordinate.latitude, minLng = startingCoordinate.longitude,
+                maxLat = startingCoordinate.latitude, maxLng = startingCoordinate.longitude;
+
         for(RoomPolygonOverlay overlay : overlays)
         {
+
+            LatLng southWest = overlay.getSouthWest();
+            LatLng northEast = overlay.getNorthEast();
+
+            //find the most southwest point
+            minLat = Math.min(minLat,southWest.latitude);
+            minLng = Math.min(minLng,southWest.longitude);
+
+            //find the most northeast point
+            maxLat = Math.max(maxLat,northEast.latitude);
+            maxLng = Math.max(maxLng,northEast.longitude);
+
             overlay.setFloor(this);
             mRooms.add(overlay);
+
         }
+
+        mSouthWest = new LatLng(minLat,minLng);
+        mNorthEast = new LatLng(maxLat,maxLng);
+
+        mCenterPoint = new LatLng(
+                (mNorthEast.latitude + mSouthWest.latitude) / 2,
+                (mNorthEast.longitude + mSouthWest.longitude) / 2);
+
+    }
+    public void setZoomLevel(float zoomLevel)
+    {
+        mZoomLevel = zoomLevel;
     }
 
     public void activateFloorOverlays() {
@@ -99,6 +131,8 @@ public class BuildingFloor {
     }
     public float getOrientationOffset() { return mOrientationOffset;}
 
-    public LatLng getCoordinates() { return mCoordinates; }
+    public LatLng getCenterPoint() { return mCenterPoint; }
+    public LatLng getSouthWest() { return mSouthWest;}
+    public LatLng getNorthEast() { return mNorthEast;}
 
 }
