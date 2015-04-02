@@ -90,7 +90,7 @@ public class SettingsActivity extends PreferenceActivity {
         // to reflect the new value, per the Android Design guidelines.
        bindPreferenceSummaryToValue(findPreference("campus_list"));
        bindPreferenceSummaryToValue(findPreference("transit_list"));
-       bindPreferenceSummaryToValue(findPreference("route_list"));
+    //   bindPreferenceSummaryToValue(findPreference("route_list"));
 //      bindPreferenceSummaryToValue(findPreference("message_pref"));
 //       bindPreferenceSummaryToValue(findPreference("vibrate_pref"));
 //       bindPreferenceSummaryToValue(findPreference("ringtone_pref"));

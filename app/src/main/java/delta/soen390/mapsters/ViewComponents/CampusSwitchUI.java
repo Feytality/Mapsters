@@ -40,9 +40,9 @@ public class CampusSwitchUI {
                     mCampusViewSwitcher.SwitchView();
 
                     if (isChecked) {
-                        Toast.makeText(mActivity.getApplicationContext(), "Show SGW Map", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity.getApplicationContext(), "This is SGW Campus", Toast.LENGTH_SHORT).show();
 					} else {
-                        Toast.makeText(mActivity.getApplicationContext(), "Show Loyola Map", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity.getApplicationContext(), "This is Loyola Campus", Toast.LENGTH_SHORT).show();
 					}
                 }
             }

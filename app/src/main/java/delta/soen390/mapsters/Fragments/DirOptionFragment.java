@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
-import android.widget.Toast;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -111,7 +110,6 @@ public class DirOptionFragment extends Fragment {
                 @Override
                 public void onTabChanged(String tabId) {
 
-                    Toast.makeText(getActivity().getApplicationContext(), tabId, Toast.LENGTH_SHORT).show();
 
                     if (mDirectionEngine == null) {
                         MapsActivity activity = ((MapsActivity) getActivity());

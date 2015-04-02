@@ -159,6 +159,19 @@ public class SplitPane {
         mIndoorsDirectoryButton.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
+
+
+                        if(mCurrentBuilding == null)
+                        {
+                            return;
+                        }
+
+                        if(!mCurrentBuilding.getBuildingCode().equals("H")&& !mCurrentBuilding.getBuildingCode().equals("LB"))
+                        {
+                            return;
+                        }
+
+
                         IndoorModeFragment indoorModeFragment = new IndoorModeFragment();
                         FragmentManager fragmentManager = mContext.getSupportFragmentManager();
                         fragmentManager.beginTransaction().addToBackStack("info")
@@ -167,10 +180,7 @@ public class SplitPane {
                         //Get the currently focused building
 
                        //When clicked, notify a new indoorsview and notifiy the ViewModeController
-                        if(mCurrentBuilding == null)
-                        {
-                            return;
-                        }
+
                         //set the view to indoors!
                         mContext.getViewModeController().setViewMode(new IndoorsViewMode(mCurrentBuilding.getDefaultFloor()));
                         mContext.requestLowerPanel();
@@ -243,6 +253,8 @@ public class SplitPane {
                         destUrl = mDefaultUrl;
                     }
                 }
+
+
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     infoRow.setMovementMethod(LinkMovementMethod.getInstance());
