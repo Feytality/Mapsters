@@ -130,10 +130,18 @@ public class PolygonDirectory {
                 BuildingPolygonOverlay buildingOverlay = mBuildingOverlays.get(buildingCode);
                 BuildingFloor floor = new BuildingFloor(polygonManager, roomOverlays,floorLevel);
 
-                //Set the adaptive zoom level of the floor
-                floor.setZoomLevel(GoogleMapstersUtils.getBoundsZoomLevel(
-                        floor.getNorthEast(),floor.getSouthWest(),
-                        screenWidth,screenHeight));
+                float zoomLevel = 19.20f;
+                //HARDCODED VALUES OF ZOOM LEVEL
+                if(buildingCode == "H")
+                {
+                    zoomLevel = 19.20f;
+                }
+                else if( buildingCode.equals("LB"))
+                {
+                    zoomLevel = 18.7f;
+                }
+
+                floor.setZoomLevel(zoomLevel);
 
                 if(buildingOverlay != null){
                     //Floor should not be active by default

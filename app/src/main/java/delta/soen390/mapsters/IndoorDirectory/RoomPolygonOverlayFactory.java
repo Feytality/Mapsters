@@ -48,8 +48,6 @@ public class RoomPolygonOverlayFactory implements IPolygonOverlayFactory {
         final String startingElementDescriptor = mapsActivity.getResources().getString(R.string.overlay_room_starting_element);
 
         final ArrayList<LoadingData> loadingData = new ArrayList<LoadingData>();
-
-
         try {
 
 
@@ -74,7 +72,6 @@ public class RoomPolygonOverlayFactory implements IPolygonOverlayFactory {
                     isName = qName.equals(nameDescriber);
                     isDescription = qName.equals(descriptionDescriber);
                     isBoundingCoordinates = qName.endsWith(boundingCoordinateDescriber);
-
                     //Bebin a new string builder in order to extract all of the boundary coordinates
                     if(isBoundingCoordinates)
                     {

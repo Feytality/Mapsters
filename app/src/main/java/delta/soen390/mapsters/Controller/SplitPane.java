@@ -33,6 +33,7 @@ import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Services.DirectionEngine;
 import delta.soen390.mapsters.Services.LocationService;
 import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
+import delta.soen390.mapsters.ViewMode.DirectionViewMode;
 import delta.soen390.mapsters.ViewMode.IndoorsViewMode;
 
 
@@ -108,6 +109,8 @@ public class SplitPane {
                         fragmentManager.beginTransaction().addToBackStack("info")
                                 .replace(R.id.sliding_container, dirOptionFragment)
                                 .commit();
+                        //Set the view mode to directions
+                        mContext.getViewModeController().setViewMode(new DirectionViewMode());
                     }}
         );
     }

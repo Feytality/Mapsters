@@ -19,7 +19,7 @@ public class BuildingFloor {
     private ArrayList<RoomPolygonOverlay> mRooms = new ArrayList<>();
 
     private LatLng mCenterPoint;
-    private float mZoomLevel = 19.25f;
+    private float mZoomLevel = 19.2f;
     private float mOrientationOffset = 0;
     private BuildingInfo mBuildingInfo;
     private LatLng mSouthWest;

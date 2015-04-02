@@ -28,8 +28,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.util.Collection;
-
 import delta.soen390.mapsters.Buildings.BuildingInfo;
 import delta.soen390.mapsters.Buildings.BuildingPolygonOverlay;
 import delta.soen390.mapsters.Buildings.PolygonDirectory;
@@ -415,13 +413,33 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     }
 
     public  void indoorConfiguration(){
-        findViewById(R.id.search_combo).setVisibility(View.INVISIBLE);
+        setSearchComboVisible(false);
         findViewById(R.id.locate_me).setVisibility(View.INVISIBLE);
     }
 
     public  void outdoorConfiguration(){
-            findViewById(R.id.search_combo).setVisibility(View.VISIBLE);
+        setSearchComboVisible(true);
             findViewById(R.id.locate_me).setVisibility(View.VISIBLE);
+    }
+
+    public void setSearchComboVisible(boolean value)
+    {
+        setUiElementVisible(R.id.search_combo,value);
+    }
+
+    public void setLocationButtonVisible(boolean value)
+    {
+        setUiElementVisible(R.id.locate_me,value);
+    }
+
+    private void setUiElementVisible(int viewId, boolean value)
+    {
+        int visibilityValue = View.VISIBLE;
+        if(!value)
+        {
+            visibilityValue = View.INVISIBLE;
+        }
+        findViewById(viewId).setVisibility(visibilityValue);
     }
 
 
