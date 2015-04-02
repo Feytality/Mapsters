@@ -7,9 +7,13 @@ import com.google.android.gms.maps.model.IndoorBuilding;
 import com.google.android.gms.maps.model.IndoorLevel;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Collection;
+
 import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.Buildings.BuildingInfo;
+import delta.soen390.mapsters.Effects.EffectManager;
 import delta.soen390.mapsters.IndoorDirectory.BuildingFloor;
+import delta.soen390.mapsters.IndoorDirectory.RoomPolygonOverlay;
 import delta.soen390.mapsters.Utils.GoogleMapCamera;
 
 /**
@@ -78,7 +82,6 @@ public class IndoorsViewMode extends  ViewMode {
 
     private void updateGoogleMapFloor(GoogleMap map, BuildingFloor floor)
     {
-
         IndoorBuilding building = map.getFocusedBuilding();
         if(building != null) {
             for (IndoorLevel level : building.getLevels()) {
@@ -93,5 +96,15 @@ public class IndoorsViewMode extends  ViewMode {
     @Override
     public void cleanup(MapsActivity activity) {
         activity.outdoorConfiguration();
+
+        if(mFloor == null)
+            return;
+        Collection<RoomPolygonOverlay> roomOverlays = mFloor.getRoomPolygonOverlays();
+
+        EffectManager effectManager = activity.getEffectManager();
+        for(RoomPolygonOverlay overlay : roomOverlays)
+        {
+            effectManager.removeEffect(overlay);
+        }
     }
 }

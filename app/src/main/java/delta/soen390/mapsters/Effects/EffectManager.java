@@ -1,6 +1,7 @@
 package delta.soen390.mapsters.Effects;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -13,6 +14,11 @@ public class EffectManager {
     public EffectManager()
     {
 
+    }
+
+    public Collection<IEffect> getEffects(Object reference)
+    {
+        return mEffectMap.get(reference);
     }
 
     public void addEffect(Object reference, IEffect effect)
