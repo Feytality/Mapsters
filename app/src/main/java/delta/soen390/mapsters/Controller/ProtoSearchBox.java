@@ -24,7 +24,6 @@ import delta.soen390.mapsters.IndoorDirectory.RoomPolygonOverlay;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Utils.GoogleMapCamera;
 import delta.soen390.mapsters.ViewMode.IndoorsViewMode;
-import delta.soen390.mapsters.ViewMode.ViewModeController;
 
 /**
  * Created by Cat on 3/25/2015.
@@ -121,6 +120,8 @@ public class ProtoSearchBox {
         BuildingFloor floor = overlay.getFloor();
         mContext.getViewModeController().setViewMode(new IndoorsViewMode(floor));
         overlay.focus();
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mTextView.getWindowToken(), 0);
 
 
     }

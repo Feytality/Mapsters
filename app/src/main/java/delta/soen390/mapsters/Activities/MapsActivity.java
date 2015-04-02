@@ -178,6 +178,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     public void onMapReady(GoogleMap googleMap) {
         googleMap.setLocationSource(this);
         googleMap.setOnMyLocationButtonClickListener(this);
+        googleMap.setMyLocationEnabled(true);
         googleMap.setBuildingsEnabled(false);
         googleMap.getUiSettings().setCompassEnabled(false);
        initializeMap(googleMap);
