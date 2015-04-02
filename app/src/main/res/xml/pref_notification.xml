@@ -18,13 +18,13 @@
     android:negativeButtonText="@null"
     android:positiveButtonText="@null" />
 
-    <ListPreference
-        android:key="route_list"
-        android:title="@string/pref_title_route_options"
-        android:defaultValue="1"
-        android:entries="@array/pref_route_list_titles"
-        android:entryValues="@array/pref_route_list_values"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null" />
+    <!--<ListPreference-->
+        <!--android:key="route_list"-->
+        <!--android:title="@string/pref_title_route_options"-->
+        <!--android:defaultValue="1"-->
+        <!--android:entries="@array/pref_route_list_titles"-->
+        <!--android:entryValues="@array/pref_route_list_values"-->
+        <!--android:negativeButtonText="@null"-->
+        <!--android:positiveButtonText="@null" />-->
 
 </PreferenceScreen>

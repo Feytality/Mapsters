@@ -326,6 +326,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             return;
         mCamera.moveToTarget(overlay.getBuildingInfo().getCoordinates(),17);
         onMapClick(overlay.getBuildingInfo().getCoordinates());
+
       
 
     }
@@ -424,12 +425,12 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
 
     public void setSearchComboVisible(boolean value)
     {
-        setUiElementVisible(R.id.search_combo,value);
+        setUiElementVisible(R.id.search_combo, value);
     }
 
     public void setLocationButtonVisible(boolean value)
     {
-        setUiElementVisible(R.id.locate_me,value);
+        setUiElementVisible(R.id.locate_me, value);
     }
 
     private void setUiElementVisible(int viewId, boolean value)

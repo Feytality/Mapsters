@@ -2,12 +2,8 @@ package delta.soen390.mapsters.Buildings;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.webkit.WebSettings;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.CameraPosition;
 
 import org.json.JSONObject;
 
@@ -23,7 +19,6 @@ import delta.soen390.mapsters.IndoorDirectory.RoomPolygonOverlay;
 import delta.soen390.mapsters.IndoorDirectory.RoomPolygonOverlayFactory;
 import delta.soen390.mapsters.R;
 import delta.soen390.mapsters.Utils.FileUtility;
-import delta.soen390.mapsters.Utils.GoogleMapstersUtils;
 
 /**
  * Created by Mathieu on 3/26/2015.
@@ -132,13 +127,13 @@ public class PolygonDirectory {
 
                 float zoomLevel = 19.20f;
                 //HARDCODED VALUES OF ZOOM LEVEL
-                if(buildingCode == "H")
+                if(buildingCode.equals("H"))
                 {
-                    zoomLevel = 19.20f;
+                    zoomLevel = 19.10f;
                 }
                 else if( buildingCode.equals("LB"))
                 {
-                    zoomLevel = 18.7f;
+                    zoomLevel = 18.75f;
                 }
 
                 floor.setZoomLevel(zoomLevel);
