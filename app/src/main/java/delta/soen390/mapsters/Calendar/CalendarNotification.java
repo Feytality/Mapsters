@@ -19,7 +19,7 @@ public class CalendarNotification extends NotificationService{
     public void sendTest(){
         NotificationCompat.Builder builder = this.getBuilder();
         builder.setContentTitle("Upcoming Class!").
-                setContentText("SOEN 390 - Lecture from 4:15 to 5:55").
+                setContentText("SOEN 390 - Lecture from 10:30 to 11:55").
                 setSmallIcon(R.drawable.ic_stat_con_u_emboss).setColor(mContext.getResources().getColor(R.color.concordia_main_color));
 
         Intent intent = new Intent(mContext, MapsActivity.class);
