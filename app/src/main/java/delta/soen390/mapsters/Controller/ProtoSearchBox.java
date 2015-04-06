@@ -3,12 +3,15 @@ package delta.soen390.mapsters.Controller;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.List;
@@ -55,6 +58,32 @@ public class ProtoSearchBox {
             }
         });
 
+        mTextView.setOnEditorActionListener(new AutoCompleteTextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId== EditorInfo.IME_ACTION_SEARCH){
+                    //Check if result is a room number
+
+                    PolygonDirectory polygonDirectory = mPolygonManager.getPolygonDirectory();
+                    String resultKeyword = mTextView.getText().toString();
+                    PolygonOverlay overlay;
+
+                    //Check if the passed result is a room number
+                    if((overlay = polygonDirectory.getRoomByCode(resultKeyword))!= null)
+                    {
+                        launchIndoorViewMode((RoomPolygonOverlay)overlay);
+                    }
+                    //Check if the passed result is a building keyword
+                    else if((overlay = polygonDirectory.getBuildingByKeyword(resultKeyword))!= null)
+                    {
+                        focusBuilding((BuildingPolygonOverlay)overlay);
+                    }
+                    hideKeyboard();
+
+                }
+                return false;
+            }
+        });
 
         mTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -120,13 +149,19 @@ public class ProtoSearchBox {
         BuildingFloor floor = overlay.getFloor();
         mContext.getViewModeController().setViewMode(new IndoorsViewMode(floor));
         overlay.focus();
-        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mTextView.getWindowToken(), 0);
+
+        hideKeyboard();
 
 
     }
 
 
+
+
+    private void hideKeyboard(){
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mTextView.getWindowToken(), 0);
+    }
 
 
 }

@@ -312,7 +312,9 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
             if (resultCode == RESULT_OK) {
 
                 String result = data.getStringExtra("result");
+
                 findBuilding(result);
+
 
             }
             if (resultCode == RESULT_CANCELED) {
@@ -382,6 +384,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch(keyCode){
+
             case KeyEvent.KEYCODE_BACK:
                     requestLowerPanel();
                     initializeSlidingPane();

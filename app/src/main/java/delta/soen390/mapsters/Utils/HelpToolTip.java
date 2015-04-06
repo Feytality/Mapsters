@@ -12,13 +12,14 @@ import com.github.amlcurran.showcaseview.targets.Target;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import delta.soen390.mapsters.Activities.MapsActivity;
 import delta.soen390.mapsters.R;
 
 /**
  * Created by Cat on 3/22/2015.
  */
 public class HelpToolTip implements View.OnClickListener{
-    private final Activity mActivity;
+    private final MapsActivity mActivity;
     private Target expose;
     private ShowcaseView showcaseView;
     private int step;
@@ -26,7 +27,7 @@ public class HelpToolTip implements View.OnClickListener{
 
     public HelpToolTip(Activity activity,int viewId,int startStep){
         step=startStep;
-        mActivity = activity;
+        mActivity = (MapsActivity)activity;
 
         showcaseView = new ShowcaseView.Builder(activity)
                 .setTarget(Target.NONE)
@@ -35,7 +36,10 @@ public class HelpToolTip implements View.OnClickListener{
                 .setContentTitle("Welcome")
                 .setContentText("Here is some basic info")
                 .build();
+
         showcaseView.setButtonText("Lets Start!");
+        showcaseView.setBlocksTouches(false);
+
         RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -52,7 +56,7 @@ public class HelpToolTip implements View.OnClickListener{
 
     public HelpToolTip(Activity activity,int viewId){
         expose = new ViewTarget(viewId,activity);
-        mActivity = activity;
+        mActivity = (MapsActivity)activity;
 
         showcaseView = new ShowcaseView.Builder(activity)
                 .setTarget(expose)
@@ -71,6 +75,7 @@ public class HelpToolTip implements View.OnClickListener{
         switch (step){
             case 0:
                 drawerLayout.closeDrawer(Gravity.LEFT);
+
                 expose = new ViewTarget(mActivity.findViewById(R.id.btn_nav_drawer));
                 showcaseView.setShowcase(expose,true);
                 showcaseView.setContentTitle(mActivity.getString(R.string.tut_title0));
