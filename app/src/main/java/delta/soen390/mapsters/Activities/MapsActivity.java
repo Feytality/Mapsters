@@ -34,7 +34,7 @@ import delta.soen390.mapsters.Buildings.PolygonDirectory;
 import delta.soen390.mapsters.Calendar.CalendarNotification;
 import delta.soen390.mapsters.Controller.CampusViewSwitcher;
 import delta.soen390.mapsters.Controller.NavigationDrawer;
-import delta.soen390.mapsters.Controller.ProtoSearchBox;
+import delta.soen390.mapsters.Controller.SearchBox;
 import delta.soen390.mapsters.Controller.SplitPane;
 import delta.soen390.mapsters.Effects.EffectManager;
 import delta.soen390.mapsters.GeometricOverlays.PolygonOverlay;
@@ -203,7 +203,7 @@ public class MapsActivity extends FragmentActivity implements SlidingFragment.On
         checkPreferences();
 
         //Select a building
-        ProtoSearchBox pt = new ProtoSearchBox(this);
+        SearchBox pt = new SearchBox(this);
 
         //focus building
         googleMap.setOnIndoorStateChangeListener(new GoogleMap.OnIndoorStateChangeListener()

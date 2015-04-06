@@ -31,12 +31,12 @@ import delta.soen390.mapsters.ViewMode.IndoorsViewMode;
 /**
  * Created by Cat on 3/25/2015.
  */
-public class ProtoSearchBox {
+public class SearchBox {
 
     private  MapsActivity mContext;
     private AutoCompleteTextView mTextView;
     private PolygonOverlayManager mPolygonManager;
-    public ProtoSearchBox(final MapsActivity context){
+    public SearchBox(final MapsActivity context){
         mContext = context;
         mPolygonManager = context.getPolygonOverlayManager();
         List<String> listingList = mPolygonManager.getPolygonDirectory().getAllDirectoryInfo();
